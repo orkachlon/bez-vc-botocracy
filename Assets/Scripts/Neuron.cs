@@ -13,12 +13,12 @@ public class Neuron : MonoBehaviour {
     public NeuronType Type { get; }
 
     private void Update() {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0) {
-            Rotate(true);
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0) {
-            Rotate(false);
-        }
+        // if (Input.GetAxis("Mouse ScrollWheel") > 0) {
+        //     Rotate(true);
+        // }
+        // if (Input.GetAxis("Mouse ScrollWheel") < 0) {
+        //     Rotate(false);
+        // }
     }
 
     public void Rotate(bool directionRight) {

@@ -49,4 +49,6 @@ public abstract class Grid : MonoBehaviour {
     }
 
     public abstract void CreateGrid();
+
+    public abstract Tile GetNearestTile(Vector3 position);
 }

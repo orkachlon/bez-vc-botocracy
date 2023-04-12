@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class HexGrid : Grid {
@@ -57,5 +58,10 @@ public class HexGrid : Grid {
                 prevTile = j < width - 1 ? tile : _tiles[new Vector2(i, 0)];
             }
         }
+    }
+
+    public override Tile GetNearestTile(Vector3 position) {
+        // todo: add nullchecks
+        return _tiles.Where(t => t.Value.IsInsideTile(position)).ToList()[0].Value;
     }
 }

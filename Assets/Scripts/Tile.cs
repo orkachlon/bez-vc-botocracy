@@ -6,10 +6,12 @@ public abstract class Tile : MonoBehaviour {
     public static Action<Tile> OnTileDragEvent;
     public static Action<Vector3> OnTileMouseDownEvent;
     public static Action<Tile> OnTileClickedEvent;
+    public static Action<Tile> OnTileMouseEnterEvent;
 
     [SerializeField] private float mouseClickThreshold;
     
     private float _mouseDownTime;
+    private Collider2D _tileCollider;
 
     protected Neuron Occupant = null;
     protected SpriteRenderer SpriteRenderer;
@@ -20,6 +22,7 @@ public abstract class Tile : MonoBehaviour {
 
     protected virtual void Awake() {
         SpriteRenderer = GetComponent<SpriteRenderer>();
+        _tileCollider = GetComponent<Collider2D>();
         Radius = SpriteRenderer.size.y / 2;
         Width = SpriteRenderer.size.x;
         TileColor = Color.white;
@@ -28,6 +31,7 @@ public abstract class Tile : MonoBehaviour {
     private void OnMouseEnter() {
         // todo: fix highlighting
         SpriteRenderer.color = Color.blue;
+        OnTileMouseEnterEvent?.Invoke(this);
     }
 
     private void OnMouseExit() {
@@ -65,5 +69,9 @@ public abstract class Tile : MonoBehaviour {
     
     public bool IsEmpty() {
         return Occupant == null;
+    }
+
+    public bool IsInsideTile(Vector3 point) {
+        return _tileCollider.OverlapPoint(point);
     }
 }

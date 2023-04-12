@@ -1,7 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class SquareGrid : Grid {
-    
+
+    private Dictionary<Tuple<int, int>, Tile> _tiles;
+
     protected override void Start() {
         base.Start();
         Type = GridType.Square;
@@ -26,7 +31,14 @@ public class SquareGrid : Grid {
                 }
 
                 tile.Init();
+
+                _tiles[new Tuple<int, int>(i, j)] = tile;
             }
         }
+    }
+
+    public override Tile GetNearestTile(Vector3 position) {
+        // todo: add nullchecks
+        return _tiles.Where(t => t.Value.IsInsideTile(position)).ToList()[0].Value;
     }
 }
