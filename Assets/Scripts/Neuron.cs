@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Random = System.Random;
 
 public class Neuron : MonoBehaviour {
 
@@ -12,13 +13,13 @@ public class Neuron : MonoBehaviour {
 
     public NeuronType Type { get; }
 
+    private SpriteRenderer _neuronSprite;
+
+    private void Awake() {
+        _neuronSprite = GetComponent<SpriteRenderer>();
+    }
+
     private void Update() {
-        // if (Input.GetAxis("Mouse ScrollWheel") > 0) {
-        //     Rotate(true);
-        // }
-        // if (Input.GetAxis("Mouse ScrollWheel") < 0) {
-        //     Rotate(false);
-        // }
     }
 
     public void Rotate(bool directionRight) {
@@ -30,5 +31,13 @@ public class Neuron : MonoBehaviour {
         }
         // rotate left
         transform.Rotate(Vector3.back, -angle);
+    }
+
+    public void Hide() {
+        _neuronSprite.enabled = false;
+    }
+
+    public void Show() {
+        _neuronSprite.enabled = true;
     }
 }

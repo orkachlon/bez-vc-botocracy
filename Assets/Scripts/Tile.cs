@@ -29,8 +29,9 @@ public abstract class Tile : MonoBehaviour {
     }
 
     private void OnMouseEnter() {
-        // todo: fix highlighting
-        SpriteRenderer.color = Color.blue;
+        if (!IsEmpty()) {
+            SpriteRenderer.color = Color.red;
+        }
         OnTileMouseEnterEvent?.Invoke(this);
     }
 
@@ -53,18 +54,20 @@ public abstract class Tile : MonoBehaviour {
             // not a click
             return;
         }
-
-        if (IsEmpty()) {
-            Occupant = Instantiate(NeuronManager.Instance.GetNextNeuron(), transform.position, Quaternion.identity, transform);
-        }
-        else {
-            Debug.Log("Tile is occupied!");
-        }
         OnTileClickedEvent?.Invoke(this);
     }
 
     public void Init() {
         SpriteRenderer.color = TileColor;
+    }
+
+    public void PlaceNeuron(Neuron neuron) {
+        if (IsEmpty()) {
+            Occupant = neuron;
+            Occupant.transform.parent = transform;
+        } else {
+            Debug.Log("Tile is occupied!");
+        }
     }
     
     public bool IsEmpty() {
