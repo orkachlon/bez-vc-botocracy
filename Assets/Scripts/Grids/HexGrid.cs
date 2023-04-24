@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Managers;
+using TMPro;
+using Traits;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
+using Utils;
 using Tile = Tiles.Tile;
 
 namespace Grids {
@@ -12,11 +15,15 @@ namespace Grids {
 
         [SerializeField] private List<Color> tileColors;
         [SerializeField] private int gridRadius = 4;
+        [Header("Labels")]
+        [SerializeField] private float labelOffsetFromGrid;
 
+        [SerializeField] private TextMeshPro labelPrefab;
+        
         private Tile _startingTile;
         private Dictionary<Vector2, Tile> _tiles;
         private Dictionary<int, List<Tile>> _tilesByRadius;
-        private Dictionary<int, List<Tile>> _tilesByEdge;
+        private Dictionary<ETraitType, List<Tile>> _tilesByTrait;
 
         protected void Start() {
             Type = GridType.Hex;
@@ -38,15 +45,34 @@ namespace Grids {
             }
         }
 
+        public override int CountNeurons(ETraitType trait) {
+            return _tilesByTrait[trait].Count(t => !t.IsEmpty());
+        }
+
         #region GridCreation
 
         public override void CreateGrid() {
             _tiles = new Dictionary<Vector2, Tile>();
             _tilesByRadius = new Dictionary<int, List<Tile>>();
-            _tilesByEdge = new Dictionary<int, List<Tile>>();
+            _tilesByTrait = new Dictionary<ETraitType, List<Tile>>();
             // CreateRectangularGrid();
             CreateHexagonalGrid();
+            PlaceLabels();
+            NeuronManager.Instance.PlaceFirstNeuron(_startingTile);
             OnGridCreated();
+        }
+
+        private void PlaceLabels() {
+            var angle = 30;
+            foreach (var trait in EnumUtil.GetValues<ETraitType>()) {
+                var direction = Quaternion.AngleAxis(angle, Vector3.back) * Vector3.up;
+                var rotation = Quaternion.LookRotation(Vector3.forward, Mathf.Abs(angle) > 90 ? -direction.normalized : direction.normalized);
+                var labelPos = origin.position + direction *
+                    (gridRadius * _tilesByTrait[trait][0].Width * 0.75f + labelOffsetFromGrid);
+                var label = Instantiate(labelPrefab, labelPos, rotation, transform);
+                label.text = trait.ToString();
+                angle -= 60;
+            }
         }
 
         private void CreateHexagonalGrid() {
@@ -118,11 +144,12 @@ namespace Grids {
                 _tilesByRadius[radius].Add(tile);
             }
 
-            if (_tilesByEdge.ContainsKey(edge)) {
-                _tilesByEdge[edge].Add(tile);
+            var trait = EnumUtil.GetValues<ETraitType>().ToList()[edge % 6];
+            if (_tilesByTrait.ContainsKey(trait)) {
+                _tilesByTrait[trait].Add(tile);
             }
             else {
-                _tilesByEdge[edge] = new List<Tile>() {tile};
+                _tilesByTrait[trait] = new List<Tile>() {tile};
             }
             
             return tile;

@@ -133,6 +133,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 476210249489798309, guid: 56fb9268e059e4149be4439238035a56, type: 3}
   m_PrefabInstance: {fileID: 476210249403872669}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &495327935
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 495327937}
+  - component: {fileID: 495327936}
+  m_Layer: 0
+  m_Name: NeuronQueue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &495327936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495327935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f21e32656fa49eca3b79892c271ad00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  neuronSpacing: 0.5
+--- !u!4 &495327937
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495327935}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.4, y: -4.11, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,7 +296,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &927296031
 GameObject:
@@ -285,7 +330,7 @@ Transform:
   - {fileID: 647378601}
   - {fileID: 296610568}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1704050844
 GameObject:
@@ -369,6 +414,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: nextNeurons
+      value: 
+      objectReference: {fileID: 495327936}
     - target: {fileID: 476210249489798315, guid: 56fb9268e059e4149be4439238035a56, type: 3}
       propertyPath: m_Name
       value: NeuronManager
@@ -596,6 +645,14 @@ PrefabInstance:
     - target: {fileID: 7599386416052125125, guid: 8974b4c32582243438ea7070ca8c42b0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599386416052125126, guid: 8974b4c32582243438ea7070ca8c42b0, type: 3}
+      propertyPath: labelPrefab
+      value: 
+      objectReference: {fileID: 7285863797265178555, guid: 9431a3f1db7ecff4bbb8f9f35eaa26a3, type: 3}
+    - target: {fileID: 7599386416052125126, guid: 8974b4c32582243438ea7070ca8c42b0, type: 3}
+      propertyPath: labelOffsetFromGrid
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7599386416052125127, guid: 8974b4c32582243438ea7070ca8c42b0, type: 3}
       propertyPath: m_Name

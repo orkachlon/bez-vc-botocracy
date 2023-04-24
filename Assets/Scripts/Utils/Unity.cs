@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Utils {
-    public class Utils : MonoBehaviour {
+    public class Unity : MonoBehaviour {
 
         private Camera _mainCam;
 
-        private static Utils _instance;
+        private static Unity _instance;
 
         private void Awake() {
             if (_instance != null && _instance != this) {
@@ -24,6 +27,12 @@ namespace Utils {
 
         public static void SetCursorVisibility(bool isVisible) {
             Cursor.visible = isVisible;
+        }
+        
+    }
+    public static class EnumUtil {
+        public static IEnumerable<T> GetValues<T>() {
+            return Enum.GetValues(typeof(T)).Cast<T>();
         }
     }
 }

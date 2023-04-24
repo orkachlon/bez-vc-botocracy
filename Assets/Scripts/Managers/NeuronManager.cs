@@ -4,19 +4,18 @@ using Neurons;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Grid = Grids.Grid;
 using Random = UnityEngine.Random;
 
 namespace Managers {
     public class NeuronManager : MonoBehaviour {
 
         [SerializeField] private List<Neuron> neurons;
-
-        private Dictionary<Neuron.NeuronType, Neuron> _typeToPrefab;
-
+        [SerializeField] private NeuronQueue nextNeurons;
+        
         public static NeuronManager Instance { get; private set; }
 
-        private Queue<Neuron> _nextNeurons;
-
+        private Dictionary<Neuron.NeuronType, Neuron> _typeToPrefab;
         private Neuron _currentNeuron;
 
         private void Awake() {
@@ -26,19 +25,28 @@ namespace Managers {
             else {
                 Instance = this;
             }
+            
+            _typeToPrefab = neurons.ToDictionary(n => n.Type);
+            for (var i = 0; i < 10; i++) {
+                nextNeurons.Enqueue(Instantiate(GetRandomNeuronPrefab(), nextNeurons.transform.position, Quaternion.identity, nextNeurons.transform));
+            }
+
             Tile.OnTileClickedEvent += PlaceNeuron;
             Tile.OnTileMouseOverEvent += SnapNeuronToTile;
+            Tile.OnTileMouseExitEvent += HideCurrentNeuron;
+            Grid.GridDisabled += HideCurrentNeuron;
         }
 
         private void Start() {
             Assert.IsNotNull(neurons);
-            _typeToPrefab = neurons.ToDictionary(n => n.Type);
-            _currentNeuron = Instantiate(GetRandomNeuronPrefab(), Vector3.zero, Quaternion.identity, transform);
+            _currentNeuron = nextNeurons.Dequeue();
         }
 
         private void OnDestroy() {
             Tile.OnTileClickedEvent -= PlaceNeuron;
             Tile.OnTileMouseEnterEvent -= SnapNeuronToTile;
+            Tile.OnTileMouseExitEvent -= HideCurrentNeuron;
+            Grid.GridDisabled -= HideCurrentNeuron;
         }
 
         private void Update() {
@@ -53,9 +61,24 @@ namespace Managers {
         private void PlaceNeuron(Tile tile) {
             var placingSuccessful = tile.PlaceNeuron(_currentNeuron);
             if (placingSuccessful) {
+                _currentNeuron.Show();
                 // hold next neuron
-                _currentNeuron = Instantiate(GetRandomNeuronPrefab(), Utils.Utils.GetMousePos(), Quaternion.identity, transform);
+                _currentNeuron = nextNeurons.Dequeue();
             }
+        }
+
+        private void HideCurrentNeuron(Tile tile) {
+            if (_currentNeuron == null) {
+                return;
+            }
+            _currentNeuron.Hide();
+        }
+        
+        private void HideCurrentNeuron() {
+            if (_currentNeuron == null) {
+                return;
+            }
+            _currentNeuron.Hide();
         }
 
         private void SnapNeuronToTile(Tile tile) {
@@ -66,6 +89,11 @@ namespace Managers {
             else {
                 _currentNeuron.Hide();
             }
+        }
+
+        public void PlaceFirstNeuron(Tile tile) {
+            tile.PlaceNeuron(Instantiate(GetRandomNeuronPrefab(), tile.transform.position, Quaternion.identity,
+                tile.transform));
         }
 
         private Neuron GetRandomNeuronPrefab() {

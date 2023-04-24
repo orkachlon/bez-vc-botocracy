@@ -1,6 +1,7 @@
 ﻿using System;
 using Managers;
 using Tiles;
+using Traits;
 using UnityEngine;
 
 namespace Grids {
@@ -14,12 +15,26 @@ namespace Grids {
         private Vector3 _mouseOffsetForDrag;
 
         public static event Action GridInitDone;
+        public static event Action GridDisabled;
+        public static event Action GridEnabled;
         
         public static Grid Instance { get; private set; }
     
         public GridType Type { get; protected set; }
-        
-        public bool InteractionDisabled { get; protected set; }
+
+        private bool _interactionDisabled;
+        public bool InteractionDisabled {
+            get => _interactionDisabled;
+            protected set {
+                _interactionDisabled = value;
+                if (_interactionDisabled) {
+                    GridDisabled?.Invoke();
+                }
+                else {
+                    GridEnabled?.Invoke();
+                }
+            }
+        }
 
         public enum GridType {
             Square,
@@ -76,6 +91,10 @@ namespace Grids {
 
         protected void OnGridCreated() {
             GridInitDone?.Invoke();
+        }
+
+        public virtual int CountNeurons(ETraitType trait) {
+            return -1;
         }
 
         public abstract void DisableGridInteractions();

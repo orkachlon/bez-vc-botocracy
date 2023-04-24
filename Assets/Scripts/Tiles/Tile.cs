@@ -10,6 +10,7 @@ namespace Tiles {
         public static event Action<Tile> OnTileClickedEvent;
         public static event Action<Tile> OnTileMouseEnterEvent;
         public static event Action<Tile> OnTileMouseOverEvent;
+        public static event Action<Tile> OnTileMouseExitEvent;
 
         [SerializeField] private float mouseClickThreshold;
 
@@ -45,7 +46,7 @@ namespace Tiles {
 
         public void Disable() {
             InteractionDisabled = true;
-            Utils.Utils.SetCursorVisibility(true);
+            Utils.Unity.SetCursorVisibility(true);
         }
 
         public void Enable() {
@@ -66,7 +67,7 @@ namespace Tiles {
             if (InteractionDisabled) {
                 return;
             }
-            Utils.Utils.SetCursorVisibility(false);
+            Utils.Unity.SetCursorVisibility(false);
             if (!IsEmpty()) {
                 TileRenderer.color = _tileOccupiedColor;
             }
@@ -75,18 +76,20 @@ namespace Tiles {
         }
 
         private void OnMouseExit() {
-            Utils.Utils.SetCursorVisibility(true);
+            Utils.Unity.SetCursorVisibility(true);
             if (InteractionDisabled) {
                 return;
             }
             TileRenderer.color = TileBaseColor;
+            OnTileMouseExitEvent?.Invoke(this);
         }
 
         private void OnMouseDrag() {
             if (InteractionDisabled) {
                 return;
             }
-            OnTileDragEvent?.Invoke(this);
+            // dragging the grid is irrelevant in current version
+            // OnTileDragEvent?.Invoke(this);
         }
 
         private void OnMouseDown() {
@@ -94,7 +97,7 @@ namespace Tiles {
                 return;
             }
             _mouseDownTime = Time.time;
-            OnTileMouseDownEvent?.Invoke(Utils.Utils.GetMousePos());
+            OnTileMouseDownEvent?.Invoke(Utils.Unity.GetMousePos());
         }
 
         private void OnMouseUpAsButton() {

@@ -1,6 +1,8 @@
 ﻿using System;
 using Tiles;
+using Traits;
 using UnityEngine;
+using Utils;
 using Grid = Grids.Grid;
 
 namespace Managers {
@@ -34,6 +36,9 @@ namespace Managers {
                     break;
                 case GameState.Win:
                     print("You win!");
+                    foreach (var trait in EnumUtil.GetValues<ETraitType>()) {
+                        Debug.Log($"{trait} -> {Grid.Instance.CountNeurons(trait)}");
+                    }
                     break;
                 case GameState.Lose:
                     break;
