@@ -12,6 +12,7 @@ namespace Grids {
         protected override void Start() {
             base.Start();
             Type = GridType.Square;
+            _tiles = new Dictionary<Tuple<int, int>, Tile>();
             // CreateGrid();
         }
 

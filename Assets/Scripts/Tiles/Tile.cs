@@ -18,13 +18,13 @@ namespace Tiles {
         private readonly Color _tileOccupiedColor = new(.9f, .32f, .33f, 1);
 
         protected Neuron Occupant = null;
-        protected SpriteRenderer SpriteRenderer;
+        protected SpriteRenderer TileRenderer;
 
         private Color _baseColor;
         public Color TileColor {
             get => _baseColor;
             set { _baseColor = value;
-                SpriteRenderer.color = value;
+                TileRenderer.color = value;
             }
         }
 
@@ -32,30 +32,30 @@ namespace Tiles {
         public float Width { get; private set; }
 
         protected virtual void Awake() {
-            SpriteRenderer = GetComponent<SpriteRenderer>();
+            TileRenderer = GetComponent<SpriteRenderer>();
             _tileCollider = GetComponent<Collider2D>();
-            Radius = SpriteRenderer.size.y / 2;
-            Width = SpriteRenderer.size.x;
+            Radius = TileRenderer.sprite.bounds.extents.y;
+            Width = TileRenderer.sprite.bounds.extents.x * 2;
             TileColor = Color.white;
         }
 
         private void OnMouseEnter() {
             // if (!IsEmpty()) {
-            //     SpriteRenderer.color = Color.red;
+            //     TileRenderer.color = Color.red;
             // }
             // OnTileMouseEnterEvent?.Invoke(this);
         }
 
         private void OnMouseOver() {
             if (!IsEmpty()) {
-                SpriteRenderer.color = _tileOccupiedColor;
+                TileRenderer.color = _tileOccupiedColor;
             }
             OnTileMouseOverEvent?.Invoke(this);
 
         }
 
         private void OnMouseExit() {
-            SpriteRenderer.color = TileColor;
+            TileRenderer.color = TileColor;
         }
 
         private void OnMouseDrag() {
@@ -64,7 +64,7 @@ namespace Tiles {
 
         private void OnMouseDown() {
             _mouseDownTime = Time.time;
-            OnTileMouseDownEvent?.Invoke(Utils.GetMousePos());
+            OnTileMouseDownEvent?.Invoke(Utils.Utils.GetMousePos());
         }
 
         private void OnMouseUpAsButton() {
@@ -76,7 +76,7 @@ namespace Tiles {
         }
 
         public void Init() {
-            SpriteRenderer.color = TileColor;
+            TileRenderer.color = TileColor;
         }
 
         public bool PlaceNeuron(Neuron neuron) {

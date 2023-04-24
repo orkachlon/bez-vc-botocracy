@@ -55,7 +55,7 @@ namespace Managers {
             var placingSuccessful = tile.PlaceNeuron(_currentNeuron);
             if (placingSuccessful) {
                 // hold next neuron
-                _currentNeuron = Instantiate(GetRandomNeuronPrefab(), Utils.GetMousePos(), Quaternion.identity, transform);
+                _currentNeuron = Instantiate(GetRandomNeuronPrefab(), Utils.Utils.GetMousePos(), Quaternion.identity, transform);
             }
         }
 
