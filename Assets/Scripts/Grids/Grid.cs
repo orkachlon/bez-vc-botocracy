@@ -6,7 +6,7 @@ namespace Grids {
     
         [SerializeField] protected int width;
         [SerializeField] protected int height;
-        [SerializeField] protected Vector3 origin = Vector3.zero;
+        [SerializeField] protected Transform origin;
         [SerializeField] protected Tile tilePrefab;
 
         private Vector3 _mouseOffsetForDrag;
