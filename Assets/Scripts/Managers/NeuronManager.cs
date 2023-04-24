@@ -18,7 +18,7 @@ namespace Managers {
         private Queue<Neuron> _nextNeurons;
 
         private Neuron _currentNeuron;
-    
+
         private void Awake() {
             if (Instance != null && Instance != this) {
                 Destroy(this);
@@ -26,15 +26,14 @@ namespace Managers {
             else {
                 Instance = this;
             }
+            Tile.OnTileClickedEvent += PlaceNeuron;
+            Tile.OnTileMouseOverEvent += SnapNeuronToTile;
         }
 
         private void Start() {
             Assert.IsNotNull(neurons);
             _typeToPrefab = neurons.ToDictionary(n => n.Type);
             _currentNeuron = Instantiate(GetRandomNeuronPrefab(), Vector3.zero, Quaternion.identity, transform);
-            Cursor.visible = false;
-            Tile.OnTileClickedEvent += PlaceNeuron;
-            Tile.OnTileMouseOverEvent += SnapNeuronToTile;
         }
 
         private void OnDestroy() {

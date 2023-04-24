@@ -5,14 +5,14 @@ using UnityEngine;
 namespace Tiles {
     public abstract class Tile : MonoBehaviour {
 
-        public static Action<Tile> OnTileDragEvent;
-        public static Action<Vector3> OnTileMouseDownEvent;
-        public static Action<Tile> OnTileClickedEvent;
-        public static Action<Tile> OnTileMouseEnterEvent;
-        public static Action<Tile> OnTileMouseOverEvent;
+        public static event Action<Tile> OnTileDragEvent;
+        public static event Action<Vector3> OnTileMouseDownEvent;
+        public static event Action<Tile> OnTileClickedEvent;
+        public static event Action<Tile> OnTileMouseEnterEvent;
+        public static event Action<Tile> OnTileMouseOverEvent;
 
         [SerializeField] private float mouseClickThreshold;
-    
+
         private float _mouseDownTime;
         private Collider2D _tileCollider;
         private readonly Color _tileOccupiedColor = new(.9f, .32f, .33f, 1);
@@ -21,7 +21,7 @@ namespace Tiles {
         protected SpriteRenderer TileRenderer;
 
         private Color _baseColor;
-        public Color TileColor {
+        public Color TileBaseColor {
             get => _baseColor;
             set { _baseColor = value;
                 TileRenderer.color = value;
@@ -31,15 +31,31 @@ namespace Tiles {
         public float Radius { get; private set; }
         public float Width { get; private set; }
 
+        public bool InteractionDisabled { get; private set; }
+
         protected virtual void Awake() {
             TileRenderer = GetComponent<SpriteRenderer>();
             _tileCollider = GetComponent<Collider2D>();
             Radius = TileRenderer.sprite.bounds.extents.y;
             Width = TileRenderer.sprite.bounds.extents.x * 2;
-            TileColor = Color.white;
+            TileBaseColor = Color.white;
         }
 
+        #region MouseInteraction
+
+        public void Disable() {
+            InteractionDisabled = true;
+            Utils.Utils.SetCursorVisibility(true);
+        }
+
+        public void Enable() {
+            InteractionDisabled = false;
+        }
+        
         private void OnMouseEnter() {
+            if (InteractionDisabled) {
+                return;
+            }
             // if (!IsEmpty()) {
             //     TileRenderer.color = Color.red;
             // }
@@ -47,6 +63,10 @@ namespace Tiles {
         }
 
         private void OnMouseOver() {
+            if (InteractionDisabled) {
+                return;
+            }
+            Utils.Utils.SetCursorVisibility(false);
             if (!IsEmpty()) {
                 TileRenderer.color = _tileOccupiedColor;
             }
@@ -55,28 +75,42 @@ namespace Tiles {
         }
 
         private void OnMouseExit() {
-            TileRenderer.color = TileColor;
+            Utils.Utils.SetCursorVisibility(true);
+            if (InteractionDisabled) {
+                return;
+            }
+            TileRenderer.color = TileBaseColor;
         }
 
         private void OnMouseDrag() {
+            if (InteractionDisabled) {
+                return;
+            }
             OnTileDragEvent?.Invoke(this);
         }
 
         private void OnMouseDown() {
+            if (InteractionDisabled) {
+                return;
+            }
             _mouseDownTime = Time.time;
             OnTileMouseDownEvent?.Invoke(Utils.Utils.GetMousePos());
         }
 
         private void OnMouseUpAsButton() {
+            if (InteractionDisabled) {
+                return;
+            }
             if (Time.time - _mouseDownTime > mouseClickThreshold) {
                 // not a click
                 return;
             }
             OnTileClickedEvent?.Invoke(this);
         }
+        #endregion
 
         public void Init() {
-            TileRenderer.color = TileColor;
+            TileRenderer.color = TileBaseColor;
         }
 
         public bool PlaceNeuron(Neuron neuron) {
@@ -93,10 +127,6 @@ namespace Tiles {
     
         public bool IsEmpty() {
             return Occupant == null;
-        }
-
-        public bool IsInsideTile(Vector3 point) {
-            return _tileCollider.OverlapPoint(point);
         }
     }
 }

@@ -14,15 +14,16 @@ namespace Utils {
             else {
                 _instance = this;
             }
-        }
-
-        private void Start() {
             _mainCam = Camera.main;
         }
 
         public static Vector3 GetMousePos(float z = 0) {
             var projectedMousePos = _instance._mainCam.ScreenToWorldPoint(Input.mousePosition);
             return new Vector3(projectedMousePos.x, projectedMousePos.y, z);
+        }
+
+        public static void SetCursorVisibility(bool isVisible) {
+            Cursor.visible = isVisible;
         }
     }
 }

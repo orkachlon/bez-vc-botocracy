@@ -15,5 +15,10 @@ namespace GameEvents {
             _reward = reward;
             _calculationDict = calculationDict;
         }
+
+        public void Hide() {
+            sprite.enabled = false;
+            description.enabled = false;
+        }
     }
 }

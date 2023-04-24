@@ -1,4 +1,6 @@
-﻿using Tiles;
+﻿using System;
+using Managers;
+using Tiles;
 using UnityEngine;
 
 namespace Grids {
@@ -10,10 +12,14 @@ namespace Grids {
         [SerializeField] protected Tile tilePrefab;
 
         private Vector3 _mouseOffsetForDrag;
-    
+
+        public static event Action GridInitDone;
+        
         public static Grid Instance { get; private set; }
     
         public GridType Type { get; protected set; }
+        
+        public bool InteractionDisabled { get; protected set; }
 
         public enum GridType {
             Square,
@@ -27,18 +33,35 @@ namespace Grids {
             else {
                 Instance = this;
             }
-        }
-
-        protected virtual void Start() {
             Tile.OnTileDragEvent += DragGrid;
             Tile.OnTileMouseDownEvent += SetMouseOffsetForDrag;
+            GameManager.OnGameStateChanged += HandleGameStateChanged;
         }
-    
+        
         protected virtual void OnDestroy() {
             Tile.OnTileDragEvent -= DragGrid;
             Tile.OnTileMouseDownEvent -= SetMouseOffsetForDrag;
+            GameManager.OnGameStateChanged -= HandleGameStateChanged;
         }
-
+        
+        private void HandleGameStateChanged(GameManager.GameState state) {
+            switch (state) {
+                case GameManager.GameState.InitGrid:
+                    CreateGrid();
+                    break;
+                case GameManager.GameState.PlayerTurn:
+                    EnableGridInteractions();
+                    break;
+                case GameManager.GameState.EventTurn:
+                case GameManager.GameState.Win:
+                case GameManager.GameState.Lose:
+                    DisableGridInteractions();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+        
         private void SetMouseOffsetForDrag(Vector3 offset) {
             var currPosition = transform.position;
             _mouseOffsetForDrag = currPosition - new Vector3(offset.x, offset.y, currPosition.z);
@@ -51,6 +74,11 @@ namespace Grids {
 
         public abstract void CreateGrid();
 
-        public abstract Tile GetNearestTile(Vector3 position);
+        protected void OnGridCreated() {
+            GridInitDone?.Invoke();
+        }
+
+        public abstract void DisableGridInteractions();
+        public abstract void EnableGridInteractions();
     }
 }

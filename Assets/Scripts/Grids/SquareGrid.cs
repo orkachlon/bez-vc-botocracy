@@ -9,11 +9,9 @@ namespace Grids {
 
         private Dictionary<Tuple<int, int>, Tile> _tiles;
 
-        protected override void Start() {
-            base.Start();
+        protected void Start() {
             Type = GridType.Square;
             _tiles = new Dictionary<Tuple<int, int>, Tile>();
-            // CreateGrid();
         }
 
         public override void CreateGrid() {
@@ -30,7 +28,7 @@ namespace Grids {
                     tile.name = $"{i}, {j}";
 
                     if ((i + j) % 2 == 1) {
-                        tile.TileColor = Color.black;
+                        tile.TileBaseColor = Color.black;
                     }
 
                     tile.Init();
@@ -38,11 +36,15 @@ namespace Grids {
                     _tiles[new Tuple<int, int>(i, j)] = tile;
                 }
             }
+            OnGridCreated();
         }
 
-        public override Tile GetNearestTile(Vector3 position) {
-            // todo: add nullchecks
-            return _tiles.Where(t => t.Value.IsInsideTile(position)).ToList()[0].Value;
+        public override void DisableGridInteractions() {
+            throw new NotImplementedException();
+        }
+
+        public override void EnableGridInteractions() {
+            throw new NotImplementedException();
         }
     }
 }

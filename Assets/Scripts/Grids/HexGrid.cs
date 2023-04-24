@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
@@ -16,20 +18,37 @@ namespace Grids {
         private Dictionary<int, List<Tile>> _tilesByRadius;
         private Dictionary<int, List<Tile>> _tilesByEdge;
 
-        protected override void Start() {
-            base.Start();
+        protected void Start() {
             Type = GridType.Hex;
             // CreateGrid();
         }
-    
+
+
+        public override void DisableGridInteractions() {
+            InteractionDisabled = true;
+            foreach (var tile in _tiles.Values) {
+                tile.Disable();
+            }
+        }
+
+        public override void EnableGridInteractions() {
+            InteractionDisabled = false;
+            foreach (var tile in _tiles.Values) {
+                tile.Enable();
+            }
+        }
+
+        #region GridCreation
+
         public override void CreateGrid() {
             _tiles = new Dictionary<Vector2, Tile>();
             _tilesByRadius = new Dictionary<int, List<Tile>>();
             _tilesByEdge = new Dictionary<int, List<Tile>>();
             // CreateRectangularGrid();
             CreateHexagonalGrid();
+            OnGridCreated();
         }
-        
+
         private void CreateHexagonalGrid() {
             var tile = InstantiateStartingTile();
             var prevTile = tile;
@@ -77,7 +96,7 @@ namespace Grids {
         private Tile InstantiateStartingTile() {
             _startingTile = Instantiate(tilePrefab, origin.position, Quaternion.identity, transform);
             _startingTile.name = "0, 0";
-            _startingTile.TileColor = tileColors[2];
+            _startingTile.TileBaseColor = tileColors[2];
             return _startingTile;
         }
 
@@ -88,7 +107,7 @@ namespace Grids {
             var tile = Instantiate(tilePrefab, position, Quaternion.identity, transform);
             var edge = Mathf.CeilToInt((float) tileIndex / radius);
             tile.name = $"{tileIndex}, {radius}";
-            tile.TileColor = tileColors[edge % 2];
+            tile.TileBaseColor = tileColors[edge % 2];
             
             // add to data structures
             _tiles[new Vector2(tileIndex, radius)] = tile;
@@ -120,7 +139,7 @@ namespace Grids {
                 -halfWidth,
                 (1.5f - height) * tile.Radius, 0);
             tile.name = "0, 0";
-            tile.TileColor = tileColors[0];
+            tile.TileBaseColor = tileColors[0];
             _tiles[new Vector2(0, 0)] = tile;
 
             var prevTile = tile;
@@ -142,7 +161,7 @@ namespace Grids {
                     tile = Instantiate(tilePrefab, tilePos, Quaternion.identity, transform);
                     tile.name = $"{i}, {j}";
 
-                    tile.TileColor = tileColors[(i + j) % tileColors.Count];
+                    tile.TileBaseColor = tileColors[(i + j) % tileColors.Count];
 
                     // manage internals
                     _tiles[new Vector2(i, j)] = tile;
@@ -151,9 +170,6 @@ namespace Grids {
             }
         }
 
-        public override Tile GetNearestTile(Vector3 position) {
-            // todo: add nullchecks
-            return _tiles.Where(t => t.Value.IsInsideTile(position)).ToList()[0].Value;
-        }
+        #endregion
     }
 }

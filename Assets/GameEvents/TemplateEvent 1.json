@@ -1,0 +1,30 @@
+﻿{
+  "description": "This is a template event 1",
+  "statEffects": {
+    "money": {
+      "empathy": 0,
+      "righteousness": 0,
+      "charisma": 0,
+      "perception": 0,
+      "optimism": 0,
+      "intelligence": 0
+    },
+    "health": {
+      "empathy": 0,
+      "righteousness": 0,
+      "charisma": 0,
+      "perception": 0,
+      "optimism": 0,
+      "intelligence": 0
+    },
+    "military": {
+      "empathy": 0,
+      "righteousness": 0,
+      "charisma": 0,
+      "perception": 0,
+      "optimism": 0,
+      "intelligence": 0
+    }
+  },
+  "reward": 0
+}
