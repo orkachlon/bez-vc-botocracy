@@ -8,7 +8,7 @@ using Utils;
 using Newtonsoft.Json;
 
 namespace Managers {
-    public class GameEventManager : MonoBehaviour {
+    public class GameEventManager : MonoBehaviour, IGameStateResponder {
 
         [SerializeField] private GameEvent eventPrefab;
         [SerializeField] private Transform eventsPosition;
@@ -17,8 +17,9 @@ namespace Managers {
         [SerializeField] private List<TextAsset> eventData;
 
         public static GameEventManager Instance;
-        public static event Action EventDone;
-        public static event Action NoMoreEvents;
+        public static event Action OnNextEvent;
+        public static event Action OnNoMoreEvents;
+        public static event Action OnEventEvaluated;
 
         private Queue<TextAsset> _eventQueue;
         private GameEvent _currentEvent;
@@ -32,11 +33,11 @@ namespace Managers {
             }
             _eventQueue = new Queue<TextAsset>();
             EnqueueEvents(eventData);
-            GameManager.OnGameStateChanged += NextEvent;
+            GameManager.OnGameStateChanged += HandleGameStateChanged;
         }
 
         private void OnDestroy() {
-            GameManager.OnGameStateChanged -= NextEvent;
+            GameManager.OnGameStateChanged -= HandleGameStateChanged;
         }
 
         public void EnqueueEvents(IEnumerable<TextAsset> eventsToAdd) {
@@ -45,13 +46,41 @@ namespace Managers {
             }
         }
 
-        public void NextEvent(GameManager.GameState state) {
-            if (!GameManager.GameState.EventTurn.Equals(state)) {
-                return;
+        public void HandleGameStateChanged(GameManager.GameState state) {
+            switch (state) {
+                case GameManager.GameState.EventTurn:
+                    NextEvent();
+                    break;
+                case GameManager.GameState.EventEvaluation:
+                    EvaluateCurrentEvent();
+                    break;
+                case GameManager.GameState.Win:
+                case GameManager.GameState.Lose:
+                    // maybe display something
+                    break;
+                case GameManager.GameState.InitGrid:
+                case GameManager.GameState.PlayerTurn:
+                case GameManager.GameState.StatEvaluation:
+                    // ignore these
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
+        }
+
+        public bool HasEvents() {
+            return _eventQueue.Count > 0;
+        }
+
+        private void EvaluateCurrentEvent() {
+            _currentEvent.Evaluate();
+            OnEventEvaluated?.Invoke();
+        }
+
+        private void NextEvent() {
             if (_eventQueue.Count == 0) {
                 Debug.Log("No more events in queue!");
-                NoMoreEvents?.Invoke();
+                OnNoMoreEvents?.Invoke();
                 return;
             }
             var eventText = _eventQueue.Dequeue().text;
@@ -66,7 +95,7 @@ namespace Managers {
             }
             _currentEvent = Instantiate(eventPrefab, eventsPosition.position, Quaternion.identity, transform);
             _currentEvent.InitData(data.description, data.reward, data.statEffects);
-            EventDone?.Invoke();
+            OnNextEvent?.Invoke();
         }
     }
 

@@ -1,29 +1,29 @@
 ﻿{
-  "description": "This is a template event 4",
+  "description": "Baghalan has invaded your country!",
   "statEffects": {
-    "money": {
-      "empathy": 0,
-      "righteousness": 0,
-      "charisma": 0,
-      "perception": 0,
-      "optimism": 0,
-      "intelligence": 0
+    "economy": {
+      "empathy": -0.4,
+      "righteousness": -0.2,
+      "charisma": 0.2,
+      "perception": 0.3,
+      "optimism": 0.2,
+      "intelligence": 0.3
     },
     "health": {
-      "empathy": 0,
-      "righteousness": 0,
+      "empathy": 0.4,
+      "righteousness": -0.3,
       "charisma": 0,
       "perception": 0,
-      "optimism": 0,
+      "optimism": 0.2,
       "intelligence": 0
     },
-    "military": {
-      "empathy": 0,
-      "righteousness": 0,
+    "defense": {
+      "empathy": -0.1,
+      "righteousness": 0.5,
       "charisma": 0,
       "perception": 0,
-      "optimism": 0,
-      "intelligence": 0
+      "optimism": 0.1,
+      "intelligence": 0.2
     }
   },
   "reward": 0

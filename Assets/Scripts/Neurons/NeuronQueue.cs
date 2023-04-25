@@ -25,6 +25,9 @@ namespace Neurons {
         }
         
         public Neuron Dequeue() {
+            if (_neurons.Count == 0) {
+                return null;
+            }
             foreach (var neuron in _neurons) {
                 neuron.transform.position += Vector3.left * neuronSpacing;
             }

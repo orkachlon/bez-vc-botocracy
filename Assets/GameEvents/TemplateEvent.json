@@ -1,7 +1,7 @@
 ﻿{
   "description": "Neighboring country Baghalan bought missiles worth $1M",
   "statEffects": {
-    "money": {
+    "economy": {
       "empathy": 0,
       "righteousness": 0,
       "charisma": 0,
@@ -17,7 +17,7 @@
       "optimism": 0,
       "intelligence": 0
     },
-    "military": {
+    "defense": {
       "empathy": 0,
       "righteousness": 0,
       "charisma": 0,

@@ -5,7 +5,7 @@ using Traits;
 using UnityEngine;
 
 namespace Grids {
-    public abstract class Grid : MonoBehaviour {
+    public abstract class Grid : MonoBehaviour, IGameStateResponder {
     
         [SerializeField] protected int width;
         [SerializeField] protected int height;
@@ -58,8 +58,8 @@ namespace Grids {
             Tile.OnTileMouseDownEvent -= SetMouseOffsetForDrag;
             GameManager.OnGameStateChanged -= HandleGameStateChanged;
         }
-        
-        private void HandleGameStateChanged(GameManager.GameState state) {
+
+        public void HandleGameStateChanged(GameManager.GameState state) {
             switch (state) {
                 case GameManager.GameState.InitGrid:
                     CreateGrid();
@@ -67,9 +67,11 @@ namespace Grids {
                 case GameManager.GameState.PlayerTurn:
                     EnableGridInteractions();
                     break;
+                case GameManager.GameState.EventEvaluation:
                 case GameManager.GameState.EventTurn:
                 case GameManager.GameState.Win:
                 case GameManager.GameState.Lose:
+                case GameManager.GameState.StatEvaluation:
                     DisableGridInteractions();
                     break;
                 default:
@@ -94,6 +96,10 @@ namespace Grids {
         }
 
         public virtual int CountNeurons(ETraitType trait) {
+            return -1;
+        }
+        
+        public virtual float CountNeuronsNormalized(ETraitType trait) {
             return -1;
         }
 

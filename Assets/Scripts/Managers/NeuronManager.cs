@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Neurons;
 using Tiles;
@@ -14,6 +15,7 @@ namespace Managers {
         [SerializeField] private NeuronQueue nextNeurons;
         
         public static NeuronManager Instance { get; private set; }
+        public static event Action OnNeuronPlaced;
 
         private Dictionary<Neuron.NeuronType, Neuron> _typeToPrefab;
         private Neuron _currentNeuron;
@@ -27,9 +29,6 @@ namespace Managers {
             }
             
             _typeToPrefab = neurons.ToDictionary(n => n.Type);
-            for (var i = 0; i < 10; i++) {
-                nextNeurons.Enqueue(Instantiate(GetRandomNeuronPrefab(), nextNeurons.transform.position, Quaternion.identity, nextNeurons.transform));
-            }
 
             Tile.OnTileClickedEvent += PlaceNeuron;
             Tile.OnTileMouseOverEvent += SnapNeuronToTile;
@@ -39,6 +38,9 @@ namespace Managers {
 
         private void Start() {
             Assert.IsNotNull(neurons);
+            for (var i = 0; i < 10; i++) {
+                nextNeurons.Enqueue(Instantiate(GetRandomNeuronPrefab(), nextNeurons.transform.position, Quaternion.identity, nextNeurons.transform));
+            }
             _currentNeuron = nextNeurons.Dequeue();
         }
 
@@ -65,6 +67,7 @@ namespace Managers {
                 // hold next neuron
                 _currentNeuron = nextNeurons.Dequeue();
             }
+            OnNeuronPlaced?.Invoke();
         }
 
         private void HideCurrentNeuron(Tile tile) {

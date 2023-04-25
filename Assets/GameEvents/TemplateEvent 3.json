@@ -1,7 +1,7 @@
 ﻿{
   "description": "This is a template event 3",
   "statEffects": {
-    "money": {
+    "economy": {
       "empathy": 0,
       "righteousness": 0,
       "charisma": 0,
@@ -17,7 +17,7 @@
       "optimism": 0,
       "intelligence": 0
     },
-    "military": {
+    "defense": {
       "empathy": 0,
       "righteousness": 0,
       "charisma": 0,
