@@ -9,7 +9,7 @@ using Grid = Grids.Grid;
 using Random = UnityEngine.Random;
 
 namespace Managers {
-    public class NeuronManager : MonoBehaviour {
+    public class NeuronManager : MonoBehaviour, IGameStateResponder {
 
         [SerializeField] private List<Neuron> neurons;
         [SerializeField] private NeuronQueue nextNeurons;
@@ -101,6 +101,26 @@ namespace Managers {
 
         private Neuron GetRandomNeuronPrefab() {
             return _typeToPrefab.Values.ToList()[Random.Range(0, _typeToPrefab.Count)];
+        }
+
+        public void HandleGameStateChanged(GameManager.GameState state) {
+            switch (state) {
+                case GameManager.GameState.InitGrid:
+                case GameManager.GameState.EventTurn:
+                    break;
+                case GameManager.GameState.PlayerTurn:
+                    break;
+                case GameManager.GameState.EventEvaluation:
+                    break;
+                case GameManager.GameState.StatEvaluation:
+                    break;
+                case GameManager.GameState.Win:
+                    break;
+                case GameManager.GameState.Lose:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
         }
     }
 }

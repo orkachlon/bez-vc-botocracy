@@ -40,6 +40,13 @@ namespace Managers {
             else {
                 Instance = this;
             }
+
+            GameManager.OnGameStateChanged += HandleGameStateChanged;
+        }
+
+        private void OnDestroy() {
+            GameManager.OnGameStateChanged -= HandleGameStateChanged;
+
         }
 
         public void Contribute(EStatType stat, float amount) {
@@ -58,9 +65,9 @@ namespace Managers {
             }
         }
 
-        private bool IsStatOutOfBounds() {
-            return economy.IsInBounds(statLoLimit, statHiLimit) && defense.IsInBounds(statLoLimit, statHiLimit) &&
-                   health.IsInBounds(statLoLimit, statHiLimit);
+        public bool IsStatOutOfBounds() {
+            return !economy.IsInBounds(statLoLimit, statHiLimit) || !defense.IsInBounds(statLoLimit, statHiLimit) ||
+                   !health.IsInBounds(statLoLimit, statHiLimit);
         }
 
         private void CheckForGameLossByStats() {

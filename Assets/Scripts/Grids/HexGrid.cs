@@ -27,7 +27,6 @@ namespace Grids {
 
         protected void Start() {
             Type = GridType.Hex;
-            // CreateGrid();
         }
 
 
@@ -36,6 +35,7 @@ namespace Grids {
             foreach (var tile in _tiles.Values) {
                 tile.Disable();
             }
+            _startingTile.Disable();
         }
 
         public override void EnableGridInteractions() {
@@ -43,6 +43,7 @@ namespace Grids {
             foreach (var tile in _tiles.Values) {
                 tile.Enable();
             }
+            _startingTile.Enable();
         }
 
         public override int CountNeurons(ETraitType trait) {
