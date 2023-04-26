@@ -4,13 +4,13 @@ using UnityEngine;
 namespace GameStats {
     public class Stat : MonoBehaviour, IStat {
         
-        private float _value;
+        [SerializeField] private float value;
         public float Value {
-            get => _value;
+            get => value;
             set {
-                _value = value;
+                this.value = value;
                 var scale = statFill.transform.localScale;
-                statFill.transform.localScale = new Vector3(scale.x, Mathf.Clamp01(_value), scale.z);
+                statFill.transform.localScale = new Vector3(scale.x, Mathf.Clamp01(this.value), scale.z);
             }
         }
 
@@ -18,7 +18,7 @@ namespace GameStats {
 
 
         private void Awake() {
-            Value = 1;
+            Value = value;
         }
 
         public bool IsInBounds(float lo, float hi) {

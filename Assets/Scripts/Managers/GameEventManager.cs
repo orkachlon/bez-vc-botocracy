@@ -33,11 +33,11 @@ namespace Managers {
             }
             _eventQueue = new Queue<TextAsset>();
             EnqueueEvents(eventData);
-            GameManager.OnGameStateChanged += HandleGameStateChanged;
+            GameManager.OnAfterGameStateChanged += HandleAfterGameStateChanged;
         }
 
         private void OnDestroy() {
-            GameManager.OnGameStateChanged -= HandleGameStateChanged;
+            GameManager.OnAfterGameStateChanged -= HandleAfterGameStateChanged;
         }
 
         public void EnqueueEvents(IEnumerable<TextAsset> eventsToAdd) {
@@ -46,7 +46,7 @@ namespace Managers {
             }
         }
 
-        public void HandleGameStateChanged(GameManager.GameState state) {
+        public void HandleAfterGameStateChanged(GameManager.GameState state) {
             switch (state) {
                 case GameManager.GameState.EventTurn:
                     NextEvent();

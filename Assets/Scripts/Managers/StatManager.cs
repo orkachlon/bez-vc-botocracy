@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using GameStats;
 using UnityEngine;
 
 namespace Managers {
-    public class StatManager : MonoBehaviour, IGameStateResponder {
+    public class StatManager : MonoBehaviour, IGameStateResponder, IEnumerable<Stat> {
 
         [SerializeField] private float statLoLimit = 0;
         [SerializeField] private float statHiLimit = 1;
@@ -41,11 +43,11 @@ namespace Managers {
                 Instance = this;
             }
 
-            GameManager.OnGameStateChanged += HandleGameStateChanged;
+            GameManager.OnAfterGameStateChanged += HandleAfterGameStateChanged;
         }
 
         private void OnDestroy() {
-            GameManager.OnGameStateChanged -= HandleGameStateChanged;
+            GameManager.OnAfterGameStateChanged -= HandleAfterGameStateChanged;
 
         }
 
@@ -78,7 +80,7 @@ namespace Managers {
             OnStatsEvaluated?.Invoke(false);
         }
 
-        public void HandleGameStateChanged(GameManager.GameState state) {
+        public void HandleAfterGameStateChanged(GameManager.GameState state) {
             switch (state) {
                 case GameManager.GameState.StatEvaluation:
                     CheckForGameLossByStats();
@@ -94,6 +96,14 @@ namespace Managers {
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
+        }
+
+        public IEnumerator<Stat> GetEnumerator() {
+            return new List<Stat>() {health, defense, economy}.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
         }
     }
 }

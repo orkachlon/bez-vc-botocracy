@@ -1,5 +1,5 @@
 ﻿using System;
-using Tiles;
+using System.Linq;
 using Traits;
 using UnityEngine;
 using Utils;
@@ -10,16 +10,19 @@ namespace Managers {
 
         private GameState _currentState;
 
-        public static event Action<GameState> OnGameStateChanged;
+        public static event Action<GameState> OnBeforeGameStateChanged;
+        public static event Action<GameState> OnAfterGameStateChanged;
         
         private void Awake() {
+            // game state loop:
+            // initGrid > eventTurn > playerTurn > eventEvaluation > statEvaluation > eventTurn > playerTurn ...
             // todo should these be methods and unsubscribe on destroy?
             Grid.GridInitDone += () => ChangeState(GameState.EventTurn);
             GameEventManager.OnNextEvent += () => ChangeState(GameState.PlayerTurn);
             NeuronManager.OnNeuronPlaced += () => ChangeState(GameState.EventEvaluation);
             GameEventManager.OnEventEvaluated += () => ChangeState(GameState.StatEvaluation);
             GameEventManager.OnNoMoreEvents += () => ChangeState(GameState.StatEvaluation);
-            StatManager.OnStatsEvaluated += isGameLost => ChangeState(isGameLost ? GameState.Lose : GameEventManager.Instance.HasEvents() ? GameState.PlayerTurn : GameState.Win);
+            StatManager.OnStatsEvaluated += isGameLost => ChangeState(isGameLost ? GameState.Lose : GameEventManager.Instance.HasEvents() ? GameState.EventTurn : GameState.Win);
         }
 
         private void Start() {
@@ -28,6 +31,7 @@ namespace Managers {
 
         private void ChangeState(GameState newState) {
             _currentState = newState;
+            OnBeforeGameStateChanged?.Invoke(newState);
             
             switch (newState) {
                 case GameState.InitGrid:
@@ -42,20 +46,26 @@ namespace Managers {
                     break;
                 case GameState.Win:
                     print("You win!");
-                    foreach (var trait in EnumUtil.GetValues<ETraitType>()) {
-                        Debug.Log($"{trait} -> {Grid.Instance.CountNeurons(trait)}");
-                    }
+                    PrintStats();
                     break;
                 case GameState.Lose:
                     print("You lose!");
-                    foreach (var trait in EnumUtil.GetValues<ETraitType>()) {
-                        Debug.Log($"{trait} -> {Grid.Instance.CountNeurons(trait)}");
-                    }
+                    PrintStats();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
             }
-            OnGameStateChanged?.Invoke(_currentState);
+            OnAfterGameStateChanged?.Invoke(_currentState);
+        }
+
+        private static void PrintStats() {
+            var msg = string.Join("\n",
+                EnumUtil.GetValues<ETraitType>()
+                    .Select(trait => $"{trait} -> {Grid.Instance.CountNeurons(trait)}"));
+            Debug.Log(msg);
+
+            msg = string.Join("\n", StatManager.Instance.Select(stat => $"{stat} -> {stat.Value}"));
+            Debug.Log(msg);
         }
 
         public enum GameState {

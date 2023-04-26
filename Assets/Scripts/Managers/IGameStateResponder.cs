@@ -1,5 +1,6 @@
 ﻿namespace Managers {
     public interface IGameStateResponder {
-        void HandleGameStateChanged(GameManager.GameState state);
+        // void HandleBeforeGameStateChanged(GameManager.GameState state);
+        void HandleAfterGameStateChanged(GameManager.GameState state);
     }
 }

@@ -50,16 +50,16 @@ namespace Grids {
             }
             Tile.OnTileDragEvent += DragGrid;
             Tile.OnTileMouseDownEvent += SetMouseOffsetForDrag;
-            GameManager.OnGameStateChanged += HandleGameStateChanged;
+            GameManager.OnAfterGameStateChanged += HandleAfterGameStateChanged;
         }
         
         protected virtual void OnDestroy() {
             Tile.OnTileDragEvent -= DragGrid;
             Tile.OnTileMouseDownEvent -= SetMouseOffsetForDrag;
-            GameManager.OnGameStateChanged -= HandleGameStateChanged;
+            GameManager.OnAfterGameStateChanged -= HandleAfterGameStateChanged;
         }
 
-        public void HandleGameStateChanged(GameManager.GameState state) {
+        public void HandleAfterGameStateChanged(GameManager.GameState state) {
             switch (state) {
                 case GameManager.GameState.InitGrid:
                     CreateGrid();

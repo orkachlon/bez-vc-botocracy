@@ -9,7 +9,7 @@ using Grid = Grids.Grid;
 using Random = UnityEngine.Random;
 
 namespace Managers {
-    public class NeuronManager : MonoBehaviour, IGameStateResponder {
+    public class NeuronManager : MonoBehaviour {
 
         [SerializeField] private List<Neuron> neurons;
         [SerializeField] private NeuronQueue nextNeurons;
