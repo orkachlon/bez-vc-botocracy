@@ -2,28 +2,28 @@
   "description": "Baghalan has invaded your country!",
   "statEffects": {
     "economy": {
-      "empathy": -0.4,
-      "righteousness": -0.2,
-      "charisma": 0.2,
-      "perception": 0.3,
-      "optimism": 0.2,
-      "intelligence": 0.3
+      "empathy": -1,
+      "righteousness": -1,
+      "charisma": 1,
+      "perception": 1,
+      "optimism": 1,
+      "intelligence": 1
     },
     "health": {
-      "empathy": 0.4,
-      "righteousness": -0.3,
+      "empathy": 1,
+      "righteousness": -1,
       "charisma": 0,
       "perception": 0,
-      "optimism": 0.2,
+      "optimism": 1,
       "intelligence": 0
     },
     "defense": {
-      "empathy": -0.1,
-      "righteousness": 0.5,
+      "empathy": -1,
+      "righteousness": 1,
       "charisma": 0,
       "perception": 0,
-      "optimism": 0.1,
-      "intelligence": 0.2
+      "optimism": 1,
+      "intelligence": 1
     }
   },
   "reward": 0

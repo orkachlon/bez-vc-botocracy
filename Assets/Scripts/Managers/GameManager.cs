@@ -46,26 +46,16 @@ namespace Managers {
                     break;
                 case GameState.Win:
                     print("You win!");
-                    PrintStats();
+                    StatManager.Instance.PrintStats();
                     break;
                 case GameState.Lose:
                     print("You lose!");
-                    PrintStats();
+                    StatManager.Instance.PrintStats();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
             }
             OnAfterGameStateChanged?.Invoke(_currentState);
-        }
-
-        private static void PrintStats() {
-            var msg = string.Join("\n",
-                EnumUtil.GetValues<ETraitType>()
-                    .Select(trait => $"{trait} -> {Grid.Instance.CountNeurons(trait)}"));
-            Debug.Log(msg);
-
-            msg = string.Join("\n", StatManager.Instance.Select(stat => $"{stat} -> {stat.Value}"));
-            Debug.Log(msg);
         }
 
         public enum GameState {

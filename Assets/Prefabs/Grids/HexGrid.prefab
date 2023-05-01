@@ -53,3 +53,5 @@ MonoBehaviour:
   - {r: 0.23584908, g: 0.20618252, b: 0.20618252, a: 1}
   - {r: 0, g: 0, b: 0, a: 1}
   gridRadius: 8
+  labelOffsetFromGrid: 0.5
+  labelPrefab: {fileID: 7285863797265178555, guid: 9431a3f1db7ecff4bbb8f9f35eaa26a3, type: 3}

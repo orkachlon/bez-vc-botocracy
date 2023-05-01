@@ -50,8 +50,16 @@ namespace Grids {
             return _tilesByTrait[trait].Count(t => !t.IsEmpty());
         }
 
+        public override int MaxNeuronsPerTrait() {
+            return _tilesByTrait[0].Count;
+        }
+
         public override float CountNeuronsNormalized(ETraitType trait) {
             return (float) _tilesByTrait[trait].Count(t => !t.IsEmpty()) / _tilesByTrait[trait].Count;
+        }
+
+        public override int CountNeurons() {
+            return _tiles.Values.Count(t => !t.IsEmpty());
         }
 
         #region GridCreation

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using GameStats;
 using UnityEngine;
 
@@ -22,15 +23,15 @@ namespace Managers {
         [SerializeField] private Stat defense;
 
         public float Defense {
-            get => health.Value;
-            private set => health.Value = value;
+            get => defense.Value;
+            private set => defense.Value = value;
         }
 
         [SerializeField] private Stat economy;
 
         public float Economy {
-            get => health.Value;
-            private set => health.Value = value;
+            get => economy.Value;
+            private set => economy.Value = value;
         }
 
         public static StatManager Instance;
@@ -98,6 +99,11 @@ namespace Managers {
             }
         }
 
+        public void PrintStats() {
+            Debug.Log(string.Join("\n", Instance.Select(stat => $"{stat} -> {stat.Value}")));
+        }
+
+        #region IEnumerable
         public IEnumerator<Stat> GetEnumerator() {
             return new List<Stat>() {health, defense, economy}.GetEnumerator();
         }
@@ -105,5 +111,6 @@ namespace Managers {
         IEnumerator IEnumerable.GetEnumerator() {
             return GetEnumerator();
         }
+        #endregion
     }
 }

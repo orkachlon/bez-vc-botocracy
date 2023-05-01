@@ -21,6 +21,7 @@ namespace Grids {
         public static Grid Instance { get; private set; }
     
         public GridType Type { get; protected set; }
+        // public int Count { get; protected set; }
 
         private bool _interactionDisabled;
         public bool InteractionDisabled {
@@ -100,6 +101,14 @@ namespace Grids {
         }
         
         public virtual float CountNeuronsNormalized(ETraitType trait) {
+            return -1;
+        }
+
+        public virtual int MaxNeuronsPerTrait() {
+            return -1;
+        }
+
+        public virtual int CountNeurons() {
             return -1;
         }
 

@@ -31,6 +31,7 @@ namespace Managers {
             else {
                 Instance = this;
             }
+            UnityEditor.AssetDatabase.Refresh();
             _eventQueue = new Queue<TextAsset>();
             EnqueueEvents(eventData);
             GameManager.OnAfterGameStateChanged += HandleAfterGameStateChanged;
@@ -89,12 +90,13 @@ namespace Managers {
             }
 
             var data = JsonConvert.DeserializeObject<GameEventData>(eventText);
-            if (_currentEvent != null) {
-                _currentEvent.Hide(); 
-                Destroy(_currentEvent);
-            }
+            var lastEvent = _currentEvent;
             _currentEvent = Instantiate(eventPrefab, eventsPosition.position, Quaternion.identity, transform);
             _currentEvent.InitData(data.description, data.reward, data.statEffects);
+            if (lastEvent != null) {
+                // _currentEvent.Hide(); 
+                Destroy(lastEvent.gameObject);
+            }
             OnNextEvent?.Invoke();
         }
     }
