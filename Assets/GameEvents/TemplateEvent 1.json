@@ -1,5 +1,5 @@
 ﻿{
-  "description": "This is a template event 1",
+  "description": "An asteroid headed towards earth has been detected.",
   "statEffects": {
     "economy": {
       "empathy": 0,
@@ -26,5 +26,5 @@
       "intelligence": 0
     }
   },
-  "reward": 0
+  "reward": 1
 }

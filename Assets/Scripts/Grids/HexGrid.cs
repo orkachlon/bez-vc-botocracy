@@ -59,7 +59,8 @@ namespace Grids {
         }
 
         public override int CountNeurons() {
-            return _tiles.Values.Count(t => !t.IsEmpty());
+            // first neuron is placed automatically
+            return 1 + _tiles.Values.Count(t => !t.IsEmpty());
         }
 
         #region GridCreation

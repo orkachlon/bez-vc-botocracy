@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Managers;
 using TMPro;
 using Traits;
@@ -32,6 +31,10 @@ namespace GameEvents {
 
         // maybe this function should return a dict<Stat, contributionAmount> instead of calling the StatManager itself
         public void Evaluate() {
+            // shouldn't happen because we always have the first neuron
+            if (Grid.Instance.CountNeurons() == 0) {
+                return;
+            }
             foreach (var stat in _calculationDict.Keys) {
                 // sum(traitWeight * curve(numNeuronsPerTrait / neuronsOnGrid)) / numTraits
                 var neuronEvaluation = _calculationDict[stat].Keys.Sum(trait => _calculationDict[stat][trait] * neuronEvaluationWeight.Evaluate((float) Grid.Instance.CountNeurons(trait) / Grid.Instance.CountNeurons()));

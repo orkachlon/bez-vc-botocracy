@@ -15,7 +15,7 @@ namespace Managers {
         
         private void Awake() {
             // game state loop:
-            // initGrid > eventTurn > playerTurn > eventEvaluation > statEvaluation > eventTurn > playerTurn ...
+            // initGrid > eventTurn > playerTurn > eventEvaluation > statEvaluation > outcome > eventTurn > playerTurn ...
             // todo should these be methods and unsubscribe on destroy?
             Grid.GridInitDone += () => ChangeState(GameState.EventTurn);
             GameEventManager.OnNextEvent += () => ChangeState(GameState.PlayerTurn);

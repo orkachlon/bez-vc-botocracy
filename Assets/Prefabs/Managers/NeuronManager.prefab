@@ -50,3 +50,4 @@ MonoBehaviour:
   - {fileID: 229912322292709747, guid: 952707820aefefd47b625c04fa534d40, type: 3}
   - {fileID: 8207274381696116227, guid: 3094cdf1846123c4a80818ed6f132c4d, type: 3}
   - {fileID: 1315218879198522140, guid: 40d4eebb4cb17194d872d9c5303cce0d, type: 3}
+  nextNeurons: {fileID: 0}

@@ -62,11 +62,12 @@ namespace Managers {
 
         private void PlaceNeuron(Tile tile) {
             var placingSuccessful = tile.PlaceNeuron(_currentNeuron);
-            if (placingSuccessful) {
-                _currentNeuron.Show();
-                // hold next neuron
-                _currentNeuron = nextNeurons.Dequeue();
+            if (!placingSuccessful) {
+                return;
             }
+
+            _currentNeuron.Show();
+            _currentNeuron = nextNeurons.Dequeue();
             OnNeuronPlaced?.Invoke();
         }
 
