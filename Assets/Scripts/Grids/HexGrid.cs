@@ -29,8 +29,13 @@ namespace Grids {
             Type = GridType.Hex;
         }
 
+        public override IEnumerable<Tile> GetNeighbors(Tile tile) {
+            throw new NotImplementedException();
+        }
 
-        public override void DisableGridInteractions() {
+        #region GridInteraction
+
+        protected override void DisableGridInteractions() {
             InteractionDisabled = true;
             foreach (var tile in _tiles.Values) {
                 tile.Disable();
@@ -38,13 +43,17 @@ namespace Grids {
             _startingTile.Disable();
         }
 
-        public override void EnableGridInteractions() {
+        protected override void EnableGridInteractions() {
             InteractionDisabled = false;
             foreach (var tile in _tiles.Values) {
                 tile.Enable();
             }
             _startingTile.Enable();
         }
+
+        #endregion
+
+        #region NeuronCounting
 
         public override int CountNeurons(ETraitType trait) {
             return _tilesByTrait[trait].Count(t => !t.IsEmpty());
@@ -62,6 +71,8 @@ namespace Grids {
             // first neuron is placed automatically
             return 1 + _tiles.Values.Count(t => !t.IsEmpty());
         }
+
+        #endregion
 
         #region GridCreation
 

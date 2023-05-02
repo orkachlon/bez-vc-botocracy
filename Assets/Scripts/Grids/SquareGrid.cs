@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Tiles;
+using Traits;
 using UnityEngine;
 
 namespace Grids {
@@ -39,12 +40,36 @@ namespace Grids {
             OnGridCreated();
         }
 
-        public override void DisableGridInteractions() {
+        #region NotImplemeted
+
+        public override int CountNeurons(ETraitType trait) {
             throw new NotImplementedException();
         }
 
-        public override void EnableGridInteractions() {
+        public override float CountNeuronsNormalized(ETraitType trait) {
             throw new NotImplementedException();
         }
+
+        public override int MaxNeuronsPerTrait() {
+            throw new NotImplementedException();
+        }
+
+        public override int CountNeurons() {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<Tile> GetNeighbors(Tile tile) {
+            throw new NotImplementedException();
+        }
+
+        protected override void DisableGridInteractions() {
+            throw new NotImplementedException();
+        }
+
+        protected override void EnableGridInteractions() {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

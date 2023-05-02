@@ -2,7 +2,7 @@
 using Grid = Grids.Grid;
 
 namespace Neurons {
-    public abstract class Neuron : MonoBehaviour {
+    public abstract class Neuron : MonoBehaviour, INeuron {
 
         public enum NeuronType {
             Undefined,
@@ -11,7 +11,13 @@ namespace Neurons {
             Tri,
             Corner,
             WideCorner,
-            Hex
+            Hex,
+            One,
+            Two,
+            Three,
+            Four,
+            Five,
+            Six
         }
 
         public virtual NeuronType Type => NeuronType.Undefined;
@@ -40,5 +46,7 @@ namespace Neurons {
         public void Show() {
             NeuronSprite.enabled = true;
         }
+
+        public abstract int AllowedNeighbors();
     }
 }

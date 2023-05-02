@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Neurons;
 using UnityEngine;
 
@@ -130,6 +131,10 @@ namespace Tiles {
     
         public bool IsEmpty() {
             return Occupant == null;
+        }
+
+        public IEnumerable<Tile> GetNeighbors() {
+            return new[] { this };
         }
     }
 }

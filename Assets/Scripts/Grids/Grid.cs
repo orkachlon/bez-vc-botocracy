@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Managers;
 using Tiles;
 using Traits;
 using UnityEngine;
 
 namespace Grids {
-    public abstract class Grid : MonoBehaviour, IGameStateResponder {
+    public abstract class Grid : MonoBehaviour, IGrid, IGameStateResponder {
     
         [SerializeField] protected int width;
         [SerializeField] protected int height;
@@ -96,23 +97,17 @@ namespace Grids {
             GridInitDone?.Invoke();
         }
 
-        public virtual int CountNeurons(ETraitType trait) {
-            return -1;
-        }
-        
-        public virtual float CountNeuronsNormalized(ETraitType trait) {
-            return -1;
-        }
+        public abstract int CountNeurons(ETraitType trait);
 
-        public virtual int MaxNeuronsPerTrait() {
-            return -1;
-        }
+        public abstract float CountNeuronsNormalized(ETraitType trait);
 
-        public virtual int CountNeurons() {
-            return -1;
-        }
+        public abstract int MaxNeuronsPerTrait();
 
-        public abstract void DisableGridInteractions();
-        public abstract void EnableGridInteractions();
+        public abstract int CountNeurons();
+
+        public abstract IEnumerable<Tile> GetNeighbors(Tile tile);
+
+        protected abstract void DisableGridInteractions();
+        protected abstract void EnableGridInteractions();
     }
 }

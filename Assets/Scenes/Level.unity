@@ -623,6 +623,34 @@ PrefabInstance:
       propertyPath: nextNeurons
       value: 
       objectReference: {fileID: 495327936}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: neurons.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: neurons.Array.data[0]
+      value: 
+      objectReference: {fileID: 7261374299092009127, guid: 801b4930c5e84c141a2d60c17a4e0760, type: 3}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: neurons.Array.data[1]
+      value: 
+      objectReference: {fileID: 8049224235209821516, guid: 397f4545ce871084ea5a6d9a79dd2360, type: 3}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: neurons.Array.data[2]
+      value: 
+      objectReference: {fileID: 5363377912430397069, guid: 61550df5ab8433944a0d471aff86f8be, type: 3}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: neurons.Array.data[3]
+      value: 
+      objectReference: {fileID: 8050440971659133919, guid: 7d9714a2ef592df48a93cc46df3a3b1a, type: 3}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: neurons.Array.data[4]
+      value: 
+      objectReference: {fileID: 7489620633757094248, guid: a2da33692da6bc647a1726ca97e5819a, type: 3}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: neurons.Array.data[5]
+      value: 
+      objectReference: {fileID: 2029629586840395657, guid: bc0fb64834592fe41933dd46ec1033cb, type: 3}
     - target: {fileID: 476210249489798315, guid: 56fb9268e059e4149be4439238035a56, type: 3}
       propertyPath: m_Name
       value: NeuronManager
