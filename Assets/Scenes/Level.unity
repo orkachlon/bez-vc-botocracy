@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neuronSpacing: 0.5
+  neuronsToShow: 5
 --- !u!4 &495327937
 Transform:
   m_ObjectHideFlags: 0
@@ -733,6 +734,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 927296032}
     m_Modifications:
+    - target: {fileID: 2883184648831337472, guid: 0672931386439804ab244e309a06f42f, type: 3}
+      propertyPath: eventTextAssets.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2883184648831337472, guid: 0672931386439804ab244e309a06f42f, type: 3}
+      propertyPath: eventTextAssets.Array.data[0]
+      value: 
+      objectReference: {fileID: 4900000, guid: aef98f2abb8c1fd4abeefa3366a87129, type: 3}
+    - target: {fileID: 2883184648831337472, guid: 0672931386439804ab244e309a06f42f, type: 3}
+      propertyPath: eventTextAssets.Array.data[1]
+      value: 
+      objectReference: {fileID: 4900000, guid: 48f652735505e06499f7574ab6ffcd36, type: 3}
+    - target: {fileID: 2883184648831337472, guid: 0672931386439804ab244e309a06f42f, type: 3}
+      propertyPath: eventTextAssets.Array.data[2]
+      value: 
+      objectReference: {fileID: 4900000, guid: ba8e70491f387054b9b0cbd4efd8d9e6, type: 3}
+    - target: {fileID: 2883184648831337472, guid: 0672931386439804ab244e309a06f42f, type: 3}
+      propertyPath: eventTextAssets.Array.data[3]
+      value: 
+      objectReference: {fileID: 4900000, guid: 97b103fdd89ac02468db5b3c2f84b73d, type: 3}
     - target: {fileID: 2883184648831337473, guid: 0672931386439804ab244e309a06f42f, type: 3}
       propertyPath: m_RootOrder
       value: 1
