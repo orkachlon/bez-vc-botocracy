@@ -11,7 +11,7 @@ namespace Managers {
         [SerializeField] private float statLoLimit = 0;
         [SerializeField] private float statHiLimit = 1;
 
-        public static event Action<bool> OnStatsEvaluated;
+        public static event Action<bool> OnStatTurn;
         
         [SerializeField] private Stat health;
 
@@ -75,15 +75,15 @@ namespace Managers {
 
         private void CheckForGameLossByStats() {
             if (IsStatOutOfBounds()) {
-                OnStatsEvaluated?.Invoke(true);
+                OnStatTurn?.Invoke(true);
                 return;
             }
-            OnStatsEvaluated?.Invoke(false);
+            OnStatTurn?.Invoke(false);
         }
 
         public void HandleAfterGameStateChanged(GameManager.GameState state) {
             switch (state) {
-                case GameManager.GameState.StatEvaluation:
+                case GameManager.GameState.StatTurn:
                     CheckForGameLossByStats();
                     break;
                 case GameManager.GameState.InitGrid:

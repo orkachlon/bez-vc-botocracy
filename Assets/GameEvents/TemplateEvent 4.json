@@ -26,5 +26,6 @@
       "intelligence": 1
     }
   },
-  "reward": 0
+  "reward": 0,
+  "turnsToEvaluation": 5
 }

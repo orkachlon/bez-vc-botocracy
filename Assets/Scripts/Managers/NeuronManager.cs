@@ -103,6 +103,8 @@ namespace Managers {
         private Neuron GetRandomNeuronPrefab() {
             return _typeToPrefab.Values.ToList()[Random.Range(0, _typeToPrefab.Count)];
         }
+        
+        
 
         public void HandleGameStateChanged(GameManager.GameState state) {
             switch (state) {
@@ -113,7 +115,7 @@ namespace Managers {
                     break;
                 case GameManager.GameState.EventEvaluation:
                     break;
-                case GameManager.GameState.StatEvaluation:
+                case GameManager.GameState.StatTurn:
                     break;
                 case GameManager.GameState.Win:
                     break;

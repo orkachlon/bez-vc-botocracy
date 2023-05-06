@@ -16,13 +16,14 @@ namespace Managers {
         private void Awake() {
             // game state loop:
             // initGrid > eventTurn > playerTurn > eventEvaluation > statEvaluation > outcome > eventTurn > playerTurn ...
+            // initGrid > playerTurn > eventTurn( > evaluation > outcome) > statTurn > playerTurn ...
             // todo should these be methods and unsubscribe on destroy?
-            Grid.GridInitDone += () => ChangeState(GameState.EventTurn);
-            GameEventManager.OnNextEvent += () => ChangeState(GameState.PlayerTurn);
-            NeuronManager.OnNeuronPlaced += () => ChangeState(GameState.EventEvaluation);
-            GameEventManager.OnEventEvaluated += () => ChangeState(GameState.StatEvaluation);
-            GameEventManager.OnNoMoreEvents += () => ChangeState(GameState.StatEvaluation);
-            StatManager.OnStatsEvaluated += isGameLost => ChangeState(isGameLost ? GameState.Lose : GameEventManager.Instance.HasEvents() ? GameState.EventTurn : GameState.Win);
+            Grid.GridInitDone += () => ChangeState(GameState.PlayerTurn);
+            NeuronManager.OnNeuronPlaced += () => ChangeState(GameState.EventTurn);
+            GameEventManager.OnEventTurn += () => ChangeState(GameState.StatTurn);
+            // GameEventManager.OnEventEvaluated += () => ChangeState(GameState.StatTurn);
+            GameEventManager.OnNoMoreEvents += () => ChangeState(GameState.StatTurn);
+            StatManager.OnStatTurn += isGameLost => ChangeState(isGameLost ? GameState.Lose : GameEventManager.Instance.HasEvents() ? GameState.PlayerTurn : GameState.Win);
         }
 
         private void Start() {
@@ -42,7 +43,7 @@ namespace Managers {
                     break;
                 case GameState.EventEvaluation:
                     break;
-                case GameState.StatEvaluation:
+                case GameState.StatTurn:
                     break;
                 case GameState.Win:
                     print("You win!");
@@ -63,7 +64,7 @@ namespace Managers {
             EventTurn,
             PlayerTurn,
             EventEvaluation,
-            StatEvaluation,
+            StatTurn,
             Win,
             Lose
         }

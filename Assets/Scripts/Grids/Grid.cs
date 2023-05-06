@@ -73,7 +73,7 @@ namespace Grids {
                 case GameManager.GameState.EventTurn:
                 case GameManager.GameState.Win:
                 case GameManager.GameState.Lose:
-                case GameManager.GameState.StatEvaluation:
+                case GameManager.GameState.StatTurn:
                     DisableGridInteractions();
                     break;
                 default:
