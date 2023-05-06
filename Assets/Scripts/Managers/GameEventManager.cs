@@ -72,12 +72,6 @@ namespace Managers {
         }
 
         private void EventTurn() {
-            if (_eventQueue.Count == 0 && _currentEvent.Evaluated) {
-                Debug.Log("No more events in queue!");
-                OnNoMoreEvents?.Invoke();
-                return;
-            }
-
             // first event
             if (_currentEvent == null) {
                 NextEvent();
@@ -109,6 +103,11 @@ namespace Managers {
         }
 
         private void NextEvent() {
+            if (_eventQueue.Count == 0 && _currentEvent.Evaluated) {
+                Debug.Log("No more events in queue!");
+                OnNoMoreEvents?.Invoke();
+                return;
+            }
             var eventData = ReadEventFromJson();
 
             var lastEvent = _currentEvent;

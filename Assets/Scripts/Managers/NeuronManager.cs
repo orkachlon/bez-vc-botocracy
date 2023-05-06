@@ -38,9 +38,7 @@ namespace Managers {
 
         private void Start() {
             Assert.IsNotNull(neurons);
-            for (var i = 0; i < 10; i++) {
-                nextNeurons.Enqueue(Instantiate(GetRandomNeuronPrefab(), nextNeurons.transform.position, Quaternion.identity, nextNeurons.transform));
-            }
+            RewardNeurons(10);
             _currentNeuron = nextNeurons.Dequeue();
         }
 
@@ -52,12 +50,12 @@ namespace Managers {
         }
 
         private void Update() {
-            if (Input.GetAxis("Mouse ScrollWheel") < 0) {
-                _currentNeuron.Rotate(true);
-            }
-            if (Input.GetAxis("Mouse ScrollWheel") > 0) {
-                _currentNeuron.Rotate(false);
-            }
+            // if (Input.GetAxis("Mouse ScrollWheel") < 0) {
+            //     _currentNeuron.Rotate(true);
+            // }
+            // if (Input.GetAxis("Mouse ScrollWheel") > 0) {
+            //     _currentNeuron.Rotate(false);
+            // }
         }
 
         private void PlaceNeuron(Tile tile) {
@@ -100,11 +98,13 @@ namespace Managers {
                 tile.transform));
         }
 
-        private Neuron GetRandomNeuronPrefab() {
+        public Neuron GetRandomNeuronPrefab() {
             return _typeToPrefab.Values.ToList()[Random.Range(0, _typeToPrefab.Count)];
         }
-        
-        
+
+        public void RewardNeurons(int numOfNeurons) {
+            nextNeurons.Enqueue(numOfNeurons);
+        }
 
         public void HandleGameStateChanged(GameManager.GameState state) {
             switch (state) {

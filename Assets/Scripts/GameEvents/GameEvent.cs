@@ -65,6 +65,7 @@ namespace GameEvents {
                 var neuronEvaluation = _calculationDict[stat].Keys.Sum(trait => _calculationDict[stat][trait] * neuronEvaluationWeight.Evaluate((float) Grid.Instance.CountNeurons(trait) / Grid.Instance.CountNeurons()));
                 var numTraits = EnumUtil.GetValues<ETraitType>().Count();
                 StatManager.Instance.Contribute(stat, neuronEvaluation / numTraits);
+                NeuronManager.Instance.RewardNeurons(_reward);
             }
 
             Evaluated = true;
