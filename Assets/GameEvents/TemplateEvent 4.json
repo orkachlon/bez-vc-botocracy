@@ -1,5 +1,5 @@
 ﻿{
-  "description": "Baghalan has invaded your country!",
+  "description": "Your country has been invaded!",
   "statEffects": {
     "economy": {
       "empathy": -1,
