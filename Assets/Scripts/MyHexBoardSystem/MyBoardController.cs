@@ -1,17 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using ExternBoardSystem.BoardSystem;
+using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace MyHexBoardSystem {
-    public class MyHexGrid : MonoBehaviour {
+    public class MyBoardController : MonoBehaviour {
 
         [SerializeField] private Tilemap tilemap;
 
         private readonly HashSet<Hex> _tiles = new();
+        
+        public IMyBoard Board { get; private set; }
+        public IBoardManipulation BoardManipulation { get; private set; }
 
+        public event Action<IMyBoard> OnCreateBoard;
+        
         private void Awake() {
+            CollectExistingTiles();
+        }
+
+        private void CollectExistingTiles() {
             tilemap.CompressBounds();
 
             var area = tilemap.cellBounds;
@@ -24,6 +36,12 @@ namespace MyHexBoardSystem {
             print(_tiles.Count);
         }
 
+        private void CreateBoard() {
+            Board = new MyBoard(this,
+                tilemap.orientation == Tilemap.Orientation.XY ? Orientation.PointyTop : Orientation.FlatTop);
+            BoardManipulation = new MyBoardManipulationOddR(Board);
+        }
+
 #if UNITY_EDITOR
         private void OnDrawGizmos() {
             foreach (var cell in _tiles
@@ -33,5 +51,14 @@ namespace MyHexBoardSystem {
             }
         }
 #endif
+        
+        public void DispatchCreateBoard(IMyBoard board)
+        {
+            OnCreateBoard?.Invoke(board);
+        }
+
+        public Hex[] GetHexPoints() {
+            return _tiles.ToArray();
+        }
     }
 }
