@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: EvenHex
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 2747690628134850419, guid: a6f1d59c3bd2fd44abda8117a6eb085e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 63d1a60cdfc36f3419cd3c67674a290a, type: 3}
+  m_Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   m_Transform:
     e00: 1
     e01: 0
