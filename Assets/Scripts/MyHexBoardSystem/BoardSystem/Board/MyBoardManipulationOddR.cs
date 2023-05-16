@@ -5,7 +5,7 @@ using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Tools.Extensions;
 using UnityEngine;
 
-namespace MyHexBoardSystem
+namespace MyHexBoardSystem.BoardSystem.Board
 {
     /// <summary>
     ///     The way to manipulate a board in the Odd-Row layout.

@@ -3,7 +3,7 @@ using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.BoardSystem.Position;
 
-namespace MyHexBoardSystem {
+namespace MyHexBoardSystem.BoardSystem.Board {
     public class MyBoard : IMyBoard {
         public MyBoardController Controller { get; }
         public Orientation Orientation { get; }

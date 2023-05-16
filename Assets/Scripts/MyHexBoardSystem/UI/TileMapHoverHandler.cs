@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace MyHexBoardSystem {
+namespace MyHexBoardSystem.UI {
     [RequireComponent(typeof(Tilemap))]
     public class TileMapHoverHandler : MonoBehaviour {
         private Camera Camera { get; set; }

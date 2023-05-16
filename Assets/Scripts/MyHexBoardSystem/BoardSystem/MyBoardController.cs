@@ -4,10 +4,11 @@ using System.Linq;
 using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
+using MyHexBoardSystem.BoardSystem.Board;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace MyHexBoardSystem {
+namespace MyHexBoardSystem.BoardSystem {
     public class MyBoardController : MonoBehaviour {
 
         [SerializeField] private Tilemap tilemap;

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
-namespace MyHexBoardSystem {
+namespace MyHexBoardSystem.UI {
     [RequireComponent(typeof(Tilemap)), RequireComponent(typeof(TilemapCollider2D))]
     public class TileMapInputHandler : MonoBehaviour, IPointerClickHandler {
         private Camera Camera { get; set; }

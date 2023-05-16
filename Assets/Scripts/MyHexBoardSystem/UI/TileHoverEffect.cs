@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace MyHexBoardSystem {
+namespace MyHexBoardSystem.UI {
     public class TileHoverEffect : MonoBehaviour, IHoverEffect {
 
         private GameObject _hoverEffect;

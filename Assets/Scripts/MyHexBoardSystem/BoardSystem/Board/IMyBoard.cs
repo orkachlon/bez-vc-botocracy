@@ -2,7 +2,7 @@
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.BoardSystem.Position;
 
-namespace MyHexBoardSystem {
+namespace MyHexBoardSystem.BoardSystem.Board {
     public interface IMyBoard {
         MyBoardController Controller { get; }
         Orientation Orientation { get; }
