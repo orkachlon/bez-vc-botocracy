@@ -14,9 +14,9 @@ namespace ExternBoardSystem.Ui.Menu
         [SerializeField] private ItemData banana;
         [SerializeField] private ItemData grape;
         
-        [Header("Creatures"), SerializeField] private CreatureData jellyfish;
-        [SerializeField] private CreatureData octopus;
-        [SerializeField] private CreatureData turtle;
+        [Header("Creatures"), SerializeField] private CreatureElementData jellyfish;
+        [SerializeField] private CreatureElementData octopus;
+        [SerializeField] private CreatureElementData turtle;
 
         [Header("Menu Buttons"), SerializeField] private Button jellyfishButton;
         [SerializeField] private Button appleButton;

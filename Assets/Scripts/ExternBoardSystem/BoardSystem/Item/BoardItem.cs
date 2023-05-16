@@ -8,6 +8,6 @@ namespace ExternBoardSystem.BoardSystem.Item
         {
         }
 
-        public ItemData Data => DataProvider as ItemData;
+        public ItemData ElementData => DataProvider as ItemData;
     }
 }

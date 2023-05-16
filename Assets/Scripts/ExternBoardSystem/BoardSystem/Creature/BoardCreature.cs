@@ -4,10 +4,10 @@ namespace ExternBoardSystem.BoardSystem.Creature
 {
     public class BoardCreature : BoardElement
     {
-        public BoardCreature(CreatureData data) : base(data)
+        public BoardCreature(CreatureElementData elementData) : base(elementData)
         {
         }
 
-        public CreatureData Data => DataProvider as CreatureData;
+        public CreatureElementData ElementData => DataProvider as CreatureElementData;
     }
 }

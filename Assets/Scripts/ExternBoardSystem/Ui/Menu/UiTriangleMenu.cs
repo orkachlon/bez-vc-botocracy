@@ -25,7 +25,7 @@ namespace ExternBoardSystem.Ui.Menu
         private void OnConfirm()
         {
             dataShape.size = (int) size.value;
-            boardController.SetBoarDataAndCreate(dataShape);
+            // boardController.SetBoarDataAndCreate(dataShape);
         }
     }
 }

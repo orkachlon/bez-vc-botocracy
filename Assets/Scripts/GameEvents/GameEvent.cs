@@ -20,7 +20,7 @@ namespace GameEvents {
         private StatToTraitWeights _calculationDict;
 
         public void InitData(string eventDescription, int reward, int turnsToEvaluation, StatToTraitWeights calculationDict) {
-            // set data
+            // set elementData
             TurnsToEvaluation = turnsToEvaluation;
             _reward = reward;
             _calculationDict = calculationDict;

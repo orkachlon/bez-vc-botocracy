@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ExternBoardSystem.BoardSystem.Creature
 {
     [CreateAssetMenu]
-    public class CreatureData : ScriptableObject, IDataProvider
+    public class CreatureElementData : ScriptableObject, IElementDataProvider
     {
         [SerializeField] private Sprite artwork;
         [SerializeField] private GameObject model;

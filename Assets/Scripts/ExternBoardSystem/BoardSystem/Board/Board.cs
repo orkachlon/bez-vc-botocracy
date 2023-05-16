@@ -5,25 +5,21 @@ namespace ExternBoardSystem.BoardSystem.Board
 {
     /// <summary>
     ///     A board is composed by positions that, by themselves, contain a HexCoordinate.
-    ///     Positions may store the game data. Things like monsters, itens, heroes, etc.
+    ///     Positions may store the game elementData. Things like monsters, itens, heroes, etc.
     /// </summary>
     public class Board : IBoard
     {
-        public Board(BoardController controller, BoardDataShape dataShape, Orientation orientation)
-        {
-            Orientation = orientation;
-            DataShape = dataShape;
-            Controller = controller;
-            GeneratePositions();
-        }
-
-        private BoardController Controller { get; }
-        public BoardDataShape DataShape { get; }
+        public BoardController Controller { get; }
         public Orientation Orientation { get; }
         public Position.Position[] Positions { get; private set; }
 
-        public bool HasPosition(Hex point)
-        {
+        public Board(BoardController controller, Orientation orientation) {
+            Controller = controller;
+            Orientation = orientation;
+            GeneratePositions();
+        }
+        
+        public bool HasPosition(Hex point) {
             return GetPosition(point) != null;
         }
 
@@ -35,10 +31,10 @@ namespace ExternBoardSystem.BoardSystem.Board
 
             return null;
         }
-
+        
         private void GeneratePositions()
         {
-            var points = DataShape.GetHexPoints();
+            var points = Controller.GetHexPoints();
             Positions = new Position.Position[points.Length];
             for (var index = 0; index < points.Length; index++)
             {
@@ -48,7 +44,7 @@ namespace ExternBoardSystem.BoardSystem.Board
 
             OnCreateBoard();
         }
-
+        
         private void OnCreateBoard()
         {
             Controller.DispatchCreateBoard(this);

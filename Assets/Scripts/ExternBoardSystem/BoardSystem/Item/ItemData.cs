@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ExternBoardSystem.BoardSystem.Item
 {
     [CreateAssetMenu]
-    public class ItemData : ScriptableObject, IDataProvider
+    public class ItemData : ScriptableObject, IElementDataProvider
     {
         [SerializeField] private Sprite artwork;
         [SerializeField] private GameObject model;

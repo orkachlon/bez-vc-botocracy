@@ -36,12 +36,12 @@ namespace ExternBoardSystem.Ui.Menu
 
         private void OnPointyTogglePressed(bool isEnabled)
         {
-            if (isEnabled) boardController.CreateBoardPointy();
+            // if (isEnabled) boardController.CreateBoardPointy();
         }
 
         private void OnFlatTogglePressed(bool isEnabled)
         {
-            if (isEnabled) boardController.CreateBoardFlat();
+            // if (isEnabled) boardController.CreateBoardFlat();
         }
     }
 }

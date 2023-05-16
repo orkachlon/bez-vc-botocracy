@@ -12,11 +12,11 @@ namespace ExternBoardSystem.BoardSystem
         [SerializeField] private BoardController boardController;
         [SerializeField] private UiTileMapInputHandler uiTileMapInputHandler;
         private IBoard CurrentBoard { get; set; }
-        private IDataProvider ElementProvider { get; set; }
+        private IElementDataProvider ElementProvider { get; set; }
         public event Action<BoardElement, Vector3Int> OnAddElement = (element, cell) => { };
         public event Action<BoardElement, Vector3Int> OnRemoveElement = (element, cell) => { };
 
-        public void SetElementProvider(IDataProvider provider)
+        public void SetElementProvider(IElementDataProvider provider)
         {
             ElementProvider = provider;
         }

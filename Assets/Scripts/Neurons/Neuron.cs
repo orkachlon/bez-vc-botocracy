@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ExternBoardSystem.BoardSystem.Position;
+using UnityEngine;
 using Grid = Grids.Grid;
 
 namespace Neurons {

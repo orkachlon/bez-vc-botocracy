@@ -187,7 +187,7 @@ namespace Grids {
             tile.name = $"{tileIndex}, {radius}";
             tile.TileBaseColor = tileColors[edge % 2];
             
-            // add to data structures
+            // add to elementData structures
             _tiles[new Vector2(tileIndex, radius)] = tile;
             if (tileIndex == 0) {
                 _tilesByRadius[radius] = new List<Tile>() {tile};

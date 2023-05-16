@@ -57,7 +57,7 @@ namespace ExternBoardSystem.Ui.Board
             if (CurrentBoard == null)
                 return;
 
-            foreach (var hex in controller.boardShape.GetHexPoints())
+            foreach (var hex in controller.GetHexPoints())
             {
                 var cell = BoardManipulationOddR.GetCellCoordinate(hex);
                 var worldPosition = tileMap.CellToWorld(cell);

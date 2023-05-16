@@ -439,6 +439,7 @@ GameObject:
   - component: {fileID: 615794150}
   - component: {fileID: 615794149}
   - component: {fileID: 615794148}
+  - component: {fileID: 615794152}
   - component: {fileID: 615794151}
   m_Layer: 0
   m_Name: Grid
@@ -497,11 +498,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 615794147}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 865b51b61f0c4aad830f5181956d0936, type: 3}
+  m_Script: {fileID: 11500000, guid: f6c39e377a913824aa5dec315f3a74f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardController: {fileID: 615794148}
-  uiTileMapInputHandler: {fileID: 1609176191}
+  boardController: {fileID: 0}
+  uiTileMapInputHandler: {fileID: 0}
+--- !u!114 &615794152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615794147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cff3f5cbb31c974478b4192d67b393a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilemap: {fileID: 1609176185}
 --- !u!1 &619682892
 GameObject:
   m_ObjectHideFlags: 0
@@ -2173,8 +2187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cff3f5cbb31c974478b4192d67b393a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardShape: {fileID: 11400000, guid: 7b15acc9104b0ec43a97e745a7f09881, type: 2}
-  tileMap: {fileID: 1950274104}
+  tilemap: {fileID: 0}
 --- !u!156049354 &1998456921
 Grid:
   m_ObjectHideFlags: 0

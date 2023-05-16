@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using ExternBoardSystem.BoardSystem.Board;
-using ExternBoardSystem.BoardSystem.BoardShape;
-using ExternBoardSystem.Tools.Extensions;
+using ExternBoardSystem.BoardSystem.Coordinates;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,55 +10,55 @@ namespace ExternBoardSystem.BoardSystem
 {
     public class BoardController : MonoBehaviour
     {
-        public BoardDataShape boardShape;
-        [SerializeField] private Tilemap tileMap;
+        [SerializeField] private Tilemap tilemap;
+
+        private readonly HashSet<Hex> _tiles = new();
+        
         public IBoard Board { get; private set; }
         public IBoardManipulation BoardManipulation { get; private set; }
-        public event Action<IBoard> OnCreateBoard = board => { };
 
-        private void Start()
-        {
-            CreateBoard();
-            
-            var start = new Vector3Int(0, 0, 0);
-            var end = new Vector3Int(3, 0, -3);
-            var path = BoardManipulation.GetPathBreadthSearch(start, end);
-            path.Print();
+        public event Action<IBoard> OnCreateBoard;
+        
+        private void Awake() {
+            CollectExistingTiles();
         }
 
-        private void CreateBoard()
-        {
-            //using the tile map orientation to pick the default value
-            if (tileMap.orientation == Tilemap.Orientation.XY)
-                CreateBoardPointy();
-            else
-                CreateBoardFlat();
-            BoardManipulation = new BoardManipulationOddR(boardShape);
+        private void CollectExistingTiles() {
+            tilemap.CompressBounds();
+
+            var area = tilemap.cellBounds;
+            foreach (var pos in area.allPositionsWithin) {
+                if (tilemap.HasTile(pos)) {
+                    // convert to Hex and save Map[Hex] = tile
+                    _tiles.Add(OffsetCoordHelper.RoffsetToCube(OffsetCoord.Parity.Odd, new OffsetCoord(pos.x, pos.y)));
+                }
+            }
+            print(_tiles.Count);
         }
 
-        public void SetBoarDataAndCreate(BoardDataShape boardDataShape)
-        {
-            boardShape = boardDataShape;
-            CreateBoard();
+        private void CreateBoard() {
+            Board = new Board.Board(this,
+                tilemap.orientation == Tilemap.Orientation.XY ? Orientation.PointyTop : Orientation.FlatTop);
+            BoardManipulation = new BoardManipulationOddR(Board);
         }
 
-        public void CreateBoardFlat()
-        {
-            tileMap.orientation = Tilemap.Orientation.YX;
-            tileMap.layoutGrid.cellSwizzle = GridLayout.CellSwizzle.YXZ;
-            Board = new Board.Board(this, boardShape, Orientation.FlatTop);
+#if UNITY_EDITOR
+        private void OnDrawGizmos() {
+            foreach (var cell in _tiles
+                         .Select(tile => OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, tile))
+                         .Select(offset => tilemap.CellToWorld(offset.ToVector3Int()))) {
+                Gizmos.DrawWireSphere(cell, 0.5f);
+            }
         }
-
-        public void CreateBoardPointy()
-        {
-            tileMap.orientation = Tilemap.Orientation.XY;
-            tileMap.layoutGrid.cellSwizzle = GridLayout.CellSwizzle.XYZ;
-            Board = new Board.Board(this, boardShape, Orientation.PointyTop);
-        }
-
+#endif
+        
         public void DispatchCreateBoard(IBoard board)
         {
-            OnCreateBoard(board);
+            OnCreateBoard?.Invoke(board);
+        }
+
+        public Hex[] GetHexPoints() {
+            return _tiles.ToArray();
         }
     }
 }

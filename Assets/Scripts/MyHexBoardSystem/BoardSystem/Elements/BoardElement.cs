@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using ExternBoardSystem.BoardSystem.Position;
+using UnityEngine;
 
-namespace ExternBoardSystem.BoardSystem.Position
+namespace MyHexBoardSystem.BoardSystem.Elements
 {
     /// <summary>
     ///     Any kind of elementData which can be positioned onto the board.
@@ -17,10 +18,7 @@ namespace ExternBoardSystem.BoardSystem.Position
         public IElementDataProvider DataProvider { get; }
     }
 
-    public interface IElementDataProvider
-    {
-        BoardElement GetElement();
-        GameObject GetModel();
-        Sprite GetArtwork();
+    public interface IElementDataProvider : ExternBoardSystem.BoardSystem.Position.IElementDataProvider {
+        
     }
 }

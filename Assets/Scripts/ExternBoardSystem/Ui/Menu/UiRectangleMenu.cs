@@ -27,7 +27,7 @@ namespace ExternBoardSystem.Ui.Menu
         {
             dataShape.width = (int) width.value;
             dataShape.height = (int) height.value;
-            boardController.SetBoarDataAndCreate(dataShape);
+            // boardController.SetBoarDataAndCreate(dataShape);
         }
     }
 }

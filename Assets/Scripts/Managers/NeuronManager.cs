@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExternBoardSystem.BoardSystem;
 using Neurons;
 using Tiles;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Managers {
         [SerializeField] private List<Neuron> neurons;
         [SerializeField] private NeuronQueue nextNeurons;
         
+        [SerializeField] private BoardElementsController elementsController;
         public static NeuronManager Instance { get; private set; }
         public static event Action OnNeuronPlaced;
 
@@ -66,6 +68,7 @@ namespace Managers {
 
             _currentNeuron.Show();
             _currentNeuron = nextNeurons.Dequeue();
+            // elementsController.SetElementProvider();
             OnNeuronPlaced?.Invoke();
         }
 
