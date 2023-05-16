@@ -24,6 +24,12 @@ namespace Grids {
         private Dictionary<Vector2, Tile> _tiles;
         private Dictionary<int, List<Tile>> _tilesByRadius;
         private Dictionary<ETraitType, List<Tile>> _tilesByTrait;
+        private Dictionary<Tuple<int, int>, Tile> _hexTiles;
+        
+        protected override void Awake() {
+            _hexTiles = new Dictionary<Tuple<int, int>, Tile>();
+            // CreateHexagonalGridAlt();
+        }
 
         protected void Start() {
             Type = GridType.Hex;
@@ -117,6 +123,27 @@ namespace Grids {
             }
         }
 
+        private void CreateHexagonalGridAlt() {
+            float tileOuterR = 2;
+            float tileInnerR = Mathf.Sqrt(tileOuterR);
+            var rowStart = Vector3.zero;
+            for (var q = -2; q <= 2; q++) {
+                for (var r = Mathf.Max(-2, -q -2); r <= Mathf.Min(2, 2 - q); r++) {
+                    var s = -q - r;
+                    var tilePos = new Vector3(q * 1.5f * tileOuterR, rowStart.y + r * tileInnerR);
+                    // _hexTiles[new Tuple<int, int>(q, r)] = InstantiateTile(tilePos, new Tuple<int, int>(q, r));
+
+                }
+
+                rowStart += new Vector3(tileOuterR * 1.5f, tileInnerR);
+            }
+        }
+
+        // private Tile InstantiateTile(Vector3 position, Tuple<int, int> qr) {
+        //     var tile = Instantiate(tilePrefab, position, Quaternion.identity, transform);
+        //     _hexTiles[qr] = tile;
+        // }
+
         private static Vector3 GetTilePosFromPrevTile(int tileIndex, int currRadius, Tile prevTile) {
             var direction = Mathf.CeilToInt((float) tileIndex / currRadius);
             var tilePos = prevTile.transform.position;
@@ -176,6 +203,7 @@ namespace Grids {
             else {
                 _tilesByTrait[trait] = new List<Tile>() {tile};
             }
+            
             
             return tile;
         }
