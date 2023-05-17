@@ -4,10 +4,9 @@ using UnityEngine;
 namespace ExternBoardSystem.BoardSystem.Board
 {
     /// <summary>
-    ///     Interface that manipulates a board shape.
+    ///     Interface with useful hex board algorithms.
     /// </summary>
-    public interface IBoardManipulation
-    {
+    public interface IBoardManipulation {
         bool Contains(Vector3Int cell);
         Hex[] GetNeighbours(Vector3Int cell);
         Hex[] GetVertical(Vector3Int cell, int length);

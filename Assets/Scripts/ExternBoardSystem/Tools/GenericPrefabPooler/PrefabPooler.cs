@@ -7,8 +7,8 @@ namespace ExternBoardSystem.Tools.GenericPrefabPooler
     public class PrefabPooler<T> : SingletonMB<T>
         where T : class
     {
-        private readonly Dictionary<GameObject, List<GameObject>> busy = new Dictionary<GameObject, List<GameObject>>();
-        private readonly Dictionary<GameObject, List<GameObject>> free = new Dictionary<GameObject, List<GameObject>>();
+        private readonly Dictionary<GameObject, List<GameObject>> busy = new();
+        private readonly Dictionary<GameObject, List<GameObject>> free = new();
 
         [Tooltip("All pooled models have to be inside this array before the initialization")]
         public GameObject[] models;

@@ -5,30 +5,29 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace ExternBoardSystem.Ui.Board
-{
-    public class UiBoardDebug : MonoBehaviour
-    {
+namespace ExternBoardSystem.Ui.Board {
+    
+    /// <summary>
+    ///     A component to show each tile's coordinates.
+    /// </summary>
+    public class UiBoardDebug : MonoBehaviour {
         private GameObject[] _positions;
         [SerializeField] private BoardController controller;
         [SerializeField] private GameObject textPosition;
         [SerializeField] private Tilemap tileMap;
         private IBoard CurrentBoard { get; set; }
 
-        protected void Awake()
-        {
+        protected void Awake() {
             controller.OnCreateBoard += OnCreateBoard;
         }
 
         [Button]
-        private void DrawPositions()
-        {
+        private void DrawPositions() {
             const string uiPosition = "UiPosition_";
             var identity = Quaternion.identity;
             ClearPositions();
             _positions = new GameObject[CurrentBoard.Positions.Length];
-            for (var i = 0; i < CurrentBoard.Positions.Length; i++)
-            {
+            for (var i = 0; i < CurrentBoard.Positions.Length; i++) {
                 var hex = CurrentBoard.Positions[i].Point;
                 var cell = BoardManipulationOddR.GetCellCoordinate(hex);
                 var worldPosition = tileMap.CellToWorld(cell);
@@ -43,8 +42,7 @@ namespace ExternBoardSystem.Ui.Board
         }
 
         [Button]
-        private void ClearPositions()
-        {
+        private void ClearPositions() {
             if (_positions == null)
                 return;
 
@@ -52,23 +50,19 @@ namespace ExternBoardSystem.Ui.Board
                 Destroy(i);
         }
 
-        private void OnDrawGizmos()
-        {
+        private void OnDrawGizmos() {
             if (CurrentBoard == null)
                 return;
 
-            foreach (var hex in controller.GetHexPoints())
-            {
+            foreach (var hex in controller.GetHexPoints()) {
                 var cell = BoardManipulationOddR.GetCellCoordinate(hex);
                 var worldPosition = tileMap.CellToWorld(cell);
                 Gizmos.DrawWireSphere(worldPosition, 0.93f);
             }
         }
 
-        private void OnCreateBoard(IBoard board)
-        {
+        private void OnCreateBoard(IBoard board) {
             CurrentBoard = board;
-            // DrawPositions();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ExternBoardSystem.BoardSystem;
+using ExternBoardSystem.BoardSystem.Neuron;
 using Neurons;
 using Tiles;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Managers {
         [SerializeField] private NeuronQueue nextNeurons;
         
         [SerializeField] private BoardElementsController elementsController;
+        [SerializeField] private NeuronData placeNeuronData;
         public static NeuronManager Instance { get; private set; }
         public static event Action OnNeuronPlaced;
 
@@ -42,6 +44,8 @@ namespace Managers {
             Assert.IsNotNull(neurons);
             RewardNeurons(10);
             _currentNeuron = nextNeurons.Dequeue();
+            
+            elementsController.SetElementProvider(placeNeuronData);
         }
 
         private void OnDestroy() {

@@ -10,7 +10,7 @@ namespace ExternBoardSystem.Ui.Menu
     {
         [SerializeField] private BoardElementsController controller;
         
-        [Header("Itens"), SerializeField] private ItemData apple;
+        [Header("Items"), SerializeField] private ItemData apple;
         [SerializeField] private ItemData banana;
         [SerializeField] private ItemData grape;
         

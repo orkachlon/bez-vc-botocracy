@@ -1,14 +1,12 @@
 using ExternBoardSystem.BoardSystem.BoardShape;
 using ExternBoardSystem.BoardSystem.Coordinates;
 
-namespace ExternBoardSystem.BoardSystem.Board
-{
+namespace ExternBoardSystem.BoardSystem.Board {
     /// <summary>
     ///     A board is composed by positions that, by themselves, contain a HexCoordinate.
-    ///     Positions may store the game elementData. Things like monsters, itens, heroes, etc.
+    ///     Positions may store the game elementData. Things like monsters, items, heroes, etc.
     /// </summary>
-    public class Board : IBoard
-    {
+    public class Board : IBoard {
         public BoardController Controller { get; }
         public Orientation Orientation { get; }
         public Position.Position[] Positions { get; private set; }
@@ -23,8 +21,7 @@ namespace ExternBoardSystem.BoardSystem.Board
             return GetPosition(point) != null;
         }
 
-        public Position.Position GetPosition(Hex point)
-        {
+        public Position.Position GetPosition(Hex point) {
             foreach (var i in Positions)
                 if (i.Point == point)
                     return i;
@@ -32,12 +29,10 @@ namespace ExternBoardSystem.BoardSystem.Board
             return null;
         }
         
-        private void GeneratePositions()
-        {
+        private void GeneratePositions() {
             var points = Controller.GetHexPoints();
             Positions = new Position.Position[points.Length];
-            for (var index = 0; index < points.Length; index++)
-            {
+            for (var index = 0; index < points.Length; index++) {
                 var i = points[index];
                 Positions[index] = new Position.Position(i);
             }
@@ -45,8 +40,7 @@ namespace ExternBoardSystem.BoardSystem.Board
             OnCreateBoard();
         }
         
-        private void OnCreateBoard()
-        {
+        private void OnCreateBoard() {
             Controller.DispatchCreateBoard(this);
         }
     }

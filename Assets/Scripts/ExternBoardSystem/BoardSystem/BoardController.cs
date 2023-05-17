@@ -6,10 +6,13 @@ using ExternBoardSystem.BoardSystem.Coordinates;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace ExternBoardSystem.BoardSystem
-{
-    public class BoardController : MonoBehaviour
-    {
+namespace ExternBoardSystem.BoardSystem {
+    
+    /// <summary>
+    ///     The board controller creates the board on startup, and through its board manipulation other
+    ///     classes can ask for hex board algorithms (e.g. getNeighbors)
+    /// </summary>
+    public class BoardController : MonoBehaviour {
         [SerializeField] private Tilemap tilemap;
 
         private readonly HashSet<Hex> _tiles = new();
@@ -34,7 +37,6 @@ namespace ExternBoardSystem.BoardSystem
                     _tiles.Add(OffsetCoordHelper.RoffsetToCube(OffsetCoord.Parity.Odd, new OffsetCoord(pos.x, pos.y)));
                 }
             }
-            print(_tiles.Count);
         }
 
         private void CreateBoard() {
@@ -53,8 +55,7 @@ namespace ExternBoardSystem.BoardSystem
         }
 #endif
         
-        public void DispatchCreateBoard(IBoard board)
-        {
+        public void DispatchCreateBoard(IBoard board) {
             OnCreateBoard?.Invoke(board);
         }
 

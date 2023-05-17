@@ -5,18 +5,31 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
-namespace ExternBoardSystem.Ui.Util
-{
+namespace ExternBoardSystem.Ui.Util {
+    
+    /// <summary>
+    ///     Receives input events on the board, and dispatches them onward with relevant data.
+    /// </summary>
     [RequireComponent(typeof(IMouseInput)), RequireComponent(typeof(Tilemap)),
      RequireComponent(typeof(TilemapCollider2D)), RequireComponent(typeof(UiBoard))]
-    public class UiTileMapInputHandler : MonoBehaviour
-    {
+    public class UiTileMapInputHandler : MonoBehaviour {
         private Camera Camera { get; set; }
         private Tilemap TileMap { get; set; }
         private UiBoard UiBoard { get; set; }
         private IMouseInput MouseInput { get; set; }
+
+        #region Events
         public event Action<Vector3Int> OnClickTile;
         public event Action<Vector3Int, Vector2> OnRightClickTile;
+        #endregion
+
+        private void Awake() {
+            Camera = Camera.main;
+            UiBoard = GetComponent<UiBoard>();
+            TileMap = GetComponentInChildren<Tilemap>();
+            MouseInput = GetComponent<IMouseInput>();
+            MouseInput.OnPointerClick += OnPointerClick;
+        }
 
         private void OnPointerClick(PointerEventData eventData) {
             var screenPosition = eventData.position;
@@ -29,14 +42,6 @@ namespace ExternBoardSystem.Ui.Util
                     OnRightClickTile?.Invoke(cell, screenPosition);
                     break;
             }
-        }
-
-        private void Awake() {
-            Camera = Camera.main;
-            UiBoard = GetComponent<UiBoard>();
-            TileMap = GetComponentInChildren<Tilemap>();
-            MouseInput = GetComponent<IMouseInput>();
-            MouseInput.OnPointerClick += OnPointerClick;
         }
 
         private Vector3Int ConvertPixelToCell(Vector2 screenPoint) {
