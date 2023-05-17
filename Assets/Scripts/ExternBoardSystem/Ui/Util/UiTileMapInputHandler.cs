@@ -14,36 +14,32 @@ namespace ExternBoardSystem.Ui.Util
         private Camera Camera { get; set; }
         private Tilemap TileMap { get; set; }
         private UiBoard UiBoard { get; set; }
-        private IMouseInput Input { get; set; }
-        public event Action<Vector3Int> OnClickTile = cell => { };
-        public event Action<Vector3Int, Vector2> OnRightClickTile = (cell, screenPoint) => { };
+        private IMouseInput MouseInput { get; set; }
+        public event Action<Vector3Int> OnClickTile;
+        public event Action<Vector3Int, Vector2> OnRightClickTile;
 
-        private void OnPointerClick(PointerEventData eventData)
-        {
+        private void OnPointerClick(PointerEventData eventData) {
             var screenPosition = eventData.position;
             var cell = ConvertPixelToCell(screenPosition);
-            switch (eventData.button)
-            {
+            switch (eventData.button) {
                 case PointerEventData.InputButton.Left:
-                    OnClickTile.Invoke(cell);
+                    OnClickTile?.Invoke(cell);
                     break;
                 case PointerEventData.InputButton.Right:
-                    OnRightClickTile.Invoke(cell, screenPosition);
+                    OnRightClickTile?.Invoke(cell, screenPosition);
                     break;
             }
         }
 
-        private void Awake()
-        {
+        private void Awake() {
             Camera = Camera.main;
             UiBoard = GetComponent<UiBoard>();
             TileMap = GetComponentInChildren<Tilemap>();
-            Input = GetComponent<IMouseInput>();
-            Input.OnPointerClick += OnPointerClick;
+            MouseInput = GetComponent<IMouseInput>();
+            MouseInput.OnPointerClick += OnPointerClick;
         }
 
-        private Vector3Int ConvertPixelToCell(Vector2 screenPoint)
-        {
+        private Vector3Int ConvertPixelToCell(Vector2 screenPoint) {
             var worldPosition = Camera.ScreenToWorldPoint(screenPoint);
             var cell = TileMap.WorldToCell(worldPosition);
             return cell;

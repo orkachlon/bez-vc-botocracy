@@ -2,7 +2,7 @@
 
 namespace ExternBoardSystem.Ui.Particles
 {
-    public class UiHoverParticleSystem : MonoBehaviour
+    public class UiHoverParticleSystem : MonoBehaviour, IHoverEffect
     {
         [SerializeField] private ParticleSystem[] particles;
         [SerializeField] private Renderer[] renderers;
@@ -16,7 +16,7 @@ namespace ExternBoardSystem.Ui.Particles
                 i.Play();
         }
 
-        public void Hide(int layer = -1)
+        public void Hide(int layer)
         {
             if (layer > 0)
                 foreach (var i in renderers)
@@ -27,6 +27,15 @@ namespace ExternBoardSystem.Ui.Particles
                 i.Stop();
                 i.Clear();
             }
+        }
+
+        public void Show(Vector3 position) {
+            transform.position = position;
+            Show();
+        }
+
+        public void Hide() {
+            Hide(-1);
         }
     }
 }

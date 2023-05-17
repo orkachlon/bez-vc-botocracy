@@ -35,7 +35,7 @@ namespace ExternBoardSystem.Ui.Board
                 var gameObj = Instantiate(textPosition, worldPosition, identity, transform);
                 _positions[i] = gameObj;
                 var tmpText = gameObj.GetComponent<TMP_Text>();
-                var sPosition = $"x:{hex.q}\ny:{hex.r}\nz:{hex.s}";
+                var sPosition = $"q:{hex.q}\nr:{hex.r}\ns:{hex.s}";
 //                var sPosition = $"x:{cell.x}\ny:{cell.y}";
                 tmpText.text = sPosition;
                 tmpText.name = uiPosition + sPosition;

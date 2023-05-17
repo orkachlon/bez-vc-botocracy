@@ -21,6 +21,7 @@ namespace ExternBoardSystem.BoardSystem
         
         private void Awake() {
             CollectExistingTiles();
+            CreateBoard();
         }
 
         private void CollectExistingTiles() {
