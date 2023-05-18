@@ -45,6 +45,7 @@ namespace ExternBoardSystem.Tools.Input.Mouse
         //enter
         new Action<PointerEventData> OnPointerEnter { get; set; }
         new Action<PointerEventData> OnPointerExit { get; set; }
+        Action<Vector2> OnPointerStay { get; set; }
         void StartTracking();
         void StopTracking();
     }

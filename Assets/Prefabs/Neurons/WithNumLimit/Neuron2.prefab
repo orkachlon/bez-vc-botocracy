@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 33782750547767552}
   - component: {fileID: 6550989744080490441}
-  - component: {fileID: 8049224235209821516}
+  - component: {fileID: 1550671579323689040}
   m_Layer: 0
   m_Name: Neuron2
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8049224235209821516
+--- !u!114 &1550671579323689040
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,6 +94,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1479567925286621061}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b77c0a041ee43e8b91fc0a0e159d3eb, type: 3}
+  m_Script: {fileID: 11500000, guid: a4dea2a25c2c4055a976cbd55129439c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

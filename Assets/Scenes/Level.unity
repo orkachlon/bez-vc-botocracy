@@ -325,6 +325,7 @@ GameObject:
   m_Component:
   - component: {fileID: 495327937}
   - component: {fileID: 495327936}
+  - component: {fileID: 495327938}
   m_Layer: 0
   m_Name: NeuronQueue
   m_TagString: Untagged
@@ -344,8 +345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f21e32656fa49eca3b79892c271ad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  neuronSpacing: 0.5
-  neuronsToShow: 5
 --- !u!4 &495327937
 Transform:
   m_ObjectHideFlags: 0
@@ -354,13 +353,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495327935}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.7, y: -9.19, z: 0}
+  m_LocalPosition: {x: 11.18, y: -8.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &495327938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495327935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c9659ae94a4baa9d08430544be3855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 495327936}
+  neuronSpacing: 1.02
+  neuronsToShow: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5549,7 +5563,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1494074760
+--- !u!1 &1225651724
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5557,22 +5571,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1494074762}
-  - component: {fileID: 1494074761}
+  - component: {fileID: 1225651725}
+  - component: {fileID: 1225651726}
   m_Layer: 0
-  m_Name: NeuronBindings
+  m_Name: BoardData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1494074761
+--- !u!4 &1225651725
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225651724}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1494074762}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1225651726
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494074760}
+  m_GameObject: {fileID: 1225651724}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cf4632430f4441ea1ae5b98db26a338, type: 3}
@@ -5584,6 +5613,72 @@ MonoBehaviour:
   invulnerable: {fileID: 11400000, guid: ae9a45f6f194f004fb01dff566e6d386, type: 2}
   expand: {fileID: 11400000, guid: 6791cfb0064bdd54a85fc01199d2db77, type: 2}
   explode: {fileID: 11400000, guid: b4a27fc5267b68945b3a2b2aea49bfe8, type: 2}
+--- !u!1 &1477037421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1477037422}
+  - component: {fileID: 1477037423}
+  m_Layer: 0
+  m_Name: Prefabs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1477037422
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477037421}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1494074762}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1477037423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477037421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46783db7cef40d58c5ca014efffc274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDontDestroyOnLoad: 0
+  isSilent: 1
+  dummy: {fileID: 8182463411819914338, guid: 801b4930c5e84c141a2d60c17a4e0760, type: 3}
+  invulnerable: {fileID: 1550671579323689040, guid: 397f4545ce871084ea5a6d9a79dd2360, type: 3}
+  expand: {fileID: 5970706146421332755, guid: 61550df5ab8433944a0d471aff86f8be, type: 3}
+  explode: {fileID: 6126111274344871901, guid: 7d9714a2ef592df48a93cc46df3a3b1a, type: 3}
+--- !u!1 &1494074760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1494074762}
+  m_Layer: 0
+  m_Name: NeuronBindings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
 --- !u!4 &1494074762
 Transform:
   m_ObjectHideFlags: 0
@@ -5595,7 +5690,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1477037422}
+  - {fileID: 1225651725}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8732,6 +8829,10 @@ PrefabInstance:
       propertyPath: neurons.Array.data[5]
       value: 
       objectReference: {fileID: 2029629586840395657, guid: bc0fb64834592fe41933dd46ec1033cb, type: 3}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: uiTileMapHoverHandler
+      value: 
+      objectReference: {fileID: 1609176191}
     - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
       propertyPath: uiTileMapInputHandler
       value: 

@@ -39,13 +39,13 @@ namespace ExternBoardSystem.Tools.Input.Mouse
             ((IMouseInput) this).OnPointerUp?.Invoke(eventData);
         }
 
-        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
-        {
+        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
+            _isInsideBoard = true;
             ((IMouseInput) this).OnPointerEnter?.Invoke(eventData);
         }
 
-        void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
-        {
+        void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
+            _isInsideBoard = false;
             ((IMouseInput) this).OnPointerExit?.Invoke(eventData);
         }
     }

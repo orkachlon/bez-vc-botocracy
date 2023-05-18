@@ -3,7 +3,7 @@ using UnityEngine;
 using Grid = Grids.Grid;
 
 namespace Neurons {
-    public abstract class Neuron : MonoBehaviour, INeuron {
+    public class MNeuron : MonoBehaviour, INeuron {
 
         public enum ENeuronType {
             Undefined,
@@ -12,11 +12,11 @@ namespace Neurons {
             Expanding
         }
 
-        public virtual ENeuronType Type => ENeuronType.Undefined;
+        public ENeuronType Type { get; set; }
 
         protected SpriteRenderer NeuronSprite;
 
-        protected virtual void Awake() {
+        protected void Awake() {
             NeuronSprite = GetComponent<SpriteRenderer>();
         }
         
@@ -38,7 +38,5 @@ namespace Neurons {
         public void Show() {
             NeuronSprite.enabled = true;
         }
-
-        public abstract int AllowedNeighbors();
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace ExternBoardSystem.Tools.Input.Mouse {
@@ -13,5 +14,6 @@ namespace ExternBoardSystem.Tools.Input.Mouse {
         Action<PointerEventData> IMouseInput.OnDrop { get; set; } = eventData => { };
         Action<PointerEventData> IMouseInput.OnPointerEnter { get; set; } = eventData => { };
         Action<PointerEventData> IMouseInput.OnPointerExit { get; set; } = eventData => { };
+        public Action<Vector2> OnPointerStay { get; set; } = mousePos => { };
     }
 }

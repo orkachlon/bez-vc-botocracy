@@ -1,30 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
+using ExternBoardSystem.Ui.Particles;
 using ExternBoardSystem.Ui.Util;
 using MyHexBoardSystem.BoardElements.Neuron;
 using Neurons;
 using Tiles;
 using UnityEngine;
-using UnityEngine.Assertions;
 using Utils;
 using Grid = Grids.Grid;
-using Random = UnityEngine.Random;
 
 namespace Managers {
     public class NeuronManager : MonoBehaviour {
 
-        [SerializeField] private NeuronQueue nextNeurons;
-
+        [Header("Neuron Queue")]
+        [SerializeField] private NeuronQueue.NeuronQueueController nextNeurons;
+        
+        [Header("Board Input")]
         [SerializeField] private MUITileMapInputHandler uiTileMapInputHandler;
+        [SerializeField] private MUITileMapHoverHandler uiTileMapHoverHandler;
+        
+        [Header("Board Element Controller")]
         [SerializeField] private MBoardElementsController<BoardNeuron> elementsController;
+        
         public static NeuronManager Instance { get; private set; }
         public static event Action OnNeuronPlaced;
 
-        private Dictionary<Neuron.ENeuronType, Neuron> _typeToPrefab;
-        private Neuron _currentNeuron;
+        private Dictionary<MNeuron.ENeuronType, MNeuron> _typeToPrefab;
+        private MNeuron _currentNeuron;
 
         private void Awake() {
             if (Instance != null && Instance != this) {
@@ -34,23 +38,22 @@ namespace Managers {
                 Instance = this;
             }
             
-            // Tile.OnTileClickedEvent += PlaceNeuron;
-            Tile.OnTileMouseOverEvent += SnapNeuronToTile;
-            Tile.OnTileMouseExitEvent += HideCurrentNeuron;
             Grid.GridDisabled += HideCurrentNeuron;
             
             // new events
             uiTileMapInputHandler.OnClickTile += PlaceNeuron;
+            // hover smoothly with mouse, but mark the tile below
+            uiTileMapHoverHandler.OnHoverTile += i => {};
         }
 
         private void Start() {
             RewardNeurons(10);
             _currentNeuron = nextNeurons.Dequeue();
             // add the initial neuron
-            elementsController.SetElementProvider(MNeuronBindings.DataFromType(Neuron.ENeuronType.Invulnerable));
-            elementsController.AddStartingElement(new BoardNeuron(MNeuronBindings.DataFromType(Neuron.ENeuronType.Invulnerable)), new Hex(0, 0));
+            elementsController.SetElementProvider(MNeuronTypeToBoardData.GetNeuronData(MNeuron.ENeuronType.Invulnerable));
+            elementsController.AddStartingElement(new BoardNeuron(MNeuronTypeToBoardData.GetNeuronData(MNeuron.ENeuronType.Invulnerable)), new Hex(0, 0));
             
-            elementsController.SetElementProvider(MNeuronBindings.DataFromType(EnumUtil.GetRandom<Neuron.ENeuronType>()));
+            elementsController.SetElementProvider(MNeuronTypeToBoardData.GetNeuronData(EnumUtil.GetRandom<MNeuron.ENeuronType>()));
         }
 
         private void OnDestroy() {
@@ -78,7 +81,7 @@ namespace Managers {
             // _currentNeuron.Show();
             // _currentNeuron = nextNeurons.Dequeue();
             // make this actually update the data
-            elementsController.SetElementProvider(MNeuronBindings.DataFromType(EnumUtil.GetRandom<Neuron.ENeuronType>()));
+            elementsController.SetElementProvider(MNeuronTypeToBoardData.GetNeuronData(EnumUtil.GetRandom<MNeuron.ENeuronType>()));
             OnNeuronPlaced?.Invoke();
         }
 
@@ -112,6 +115,12 @@ namespace Managers {
         
         public void RewardNeurons(int numOfNeurons) {
             nextNeurons.Enqueue(numOfNeurons);
+        }
+
+        public MNeuron GetRandomNeuron() {
+            var rndType = EnumUtil.GetRandom<MNeuron.ENeuronType>();
+            var newNeuron = Instantiate(MNeuronTypeToPrefab.GetNeuronPrefab(rndType), nextNeurons.transform.position, Quaternion.identity, nextNeurons.transform);
+            return newNeuron;
         }
 
         public void HandleGameStateChanged(GameManager.GameState state) {

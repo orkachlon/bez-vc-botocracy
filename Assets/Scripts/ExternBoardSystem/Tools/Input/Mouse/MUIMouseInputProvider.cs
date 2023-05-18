@@ -6,10 +6,11 @@ namespace ExternBoardSystem.Tools.Input.Mouse {
     [RequireComponent(typeof(Collider2D))]
     public partial class MUIMouseInputProvider : MonoBehaviour, IMouseInput {
         private Vector3 _prevPosition;
+        private bool _isInsideBoard;
         public DragDirection Direction => GetDragDirection();
         public Vector2 MousePosition => UnityEngine.Input.mousePosition;
         public bool IsTracking { get; private set; }
-
+        
         public void StartTracking() {
             IsTracking = true;
         }
@@ -21,7 +22,13 @@ namespace ExternBoardSystem.Tools.Input.Mouse {
         private void Awake() {
             // Can be used with PhysicsRaycaster2D and Collider2D too.
             if (Camera.main.GetComponent<Physics2DRaycaster>() == null)
-                throw new Exception(GetType() + " needs an " + typeof(Physics2DRaycaster) + " on the MainCamera");
+                throw new Exception(GetType() + " needs a " + typeof(Physics2DRaycaster) + " on the MainCamera");
+        }
+
+        private void Update() {
+            if (_isInsideBoard) {
+                OnPointerStay?.Invoke(MousePosition);
+            }
         }
 
         private DragDirection GetDragDirection() {
