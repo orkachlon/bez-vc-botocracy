@@ -1,4 +1,3 @@
-using ExternBoardSystem.BoardSystem.BoardShape;
 using ExternBoardSystem.BoardSystem.Coordinates;
 
 namespace ExternBoardSystem.BoardSystem.Board {
@@ -7,12 +6,14 @@ namespace ExternBoardSystem.BoardSystem.Board {
     ///     Positions may store the game elementData. Things like monsters, items, heroes, etc.
     /// </summary>
     public class Board : IBoard {
-        public BoardController Controller { get; }
-        public Orientation Orientation { get; }
+        public IBoardController Controller { get; }
+        public IBoardManipulation Manipulator { get; }
+        public EOrientation Orientation { get; }
         public Position.Position[] Positions { get; private set; }
 
-        public Board(BoardController controller, Orientation orientation) {
+        public Board(IBoardController controller, EOrientation orientation) {
             Controller = controller;
+            Manipulator = controller.BoardManipulation;
             Orientation = orientation;
             GeneratePositions();
         }

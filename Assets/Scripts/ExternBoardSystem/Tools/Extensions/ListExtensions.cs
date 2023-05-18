@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace ExternBoardSystem.Tools.Extensions
-{
+namespace ExternBoardSystem.Tools.Extensions {
     /// <summary>
     ///     Extension methods for the class List Refs:
     ///     https://gist.github.com/omgwtfgames/f917ca28581761b8100f
     ///     https://github.com/mminer/unity-extensions
     /// </summary>
-    public static class ListExtensions
-    {
+    public static class ListExtensions {
         /// <summary>
         ///     Returns a random item from inside the
         ///     <typeparam name="T">List</typeparam>
@@ -20,8 +18,7 @@ namespace ExternBoardSystem.Tools.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static T RandomItem<T>(this List<T> list)
-        {
+        public static T RandomItem<T>(this List<T> list) {
             if (list.Count == 0)
                 throw new IndexOutOfRangeException("List is Empty");
 
@@ -37,8 +34,7 @@ namespace ExternBoardSystem.Tools.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static T RandomItemRemove<T>(this List<T> list)
-        {
+        public static T RandomItemRemove<T>(this List<T> list) {
             var item = list.RandomItem();
             list.Remove(item);
             return item;
@@ -47,8 +43,7 @@ namespace ExternBoardSystem.Tools.Extensions
         /// <summary>
         ///     Shuffles the List using Fisher Yates algorithm: https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle.
         /// </summary>
-        public static void Shuffle<T>(this List<T> list)
-        {
+        public static void Shuffle<T>(this List<T> list) {
             var n = list.Count;
             for (var i = 0; i <= n - 2; i++)
             {
@@ -68,8 +63,7 @@ namespace ExternBoardSystem.Tools.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <param name="item"></param>
-        public static void AddToFront<T>(this List<T> list, T item)
-        {
+        public static void AddToFront<T>(this List<T> list, T item) {
             list.Insert(0, item);
         }
 
@@ -80,8 +74,7 @@ namespace ExternBoardSystem.Tools.Extensions
         /// <param name="list"></param>
         /// <param name="item"></param>
         /// <param name="newItem"></param>
-        public static void AddBeforeOf<T>(this List<T> list, T item, T newItem)
-        {
+        public static void AddBeforeOf<T>(this List<T> list, T item, T newItem) {
             var targetPosition = list.IndexOf(item);
             list.Insert(targetPosition, newItem);
         }
@@ -93,8 +86,7 @@ namespace ExternBoardSystem.Tools.Extensions
         /// <param name="list"></param>
         /// <param name="item"></param>
         /// <param name="newItem"></param>
-        public static void AddAfterOf<T>(this List<T> list, T item, T newItem)
-        {
+        public static void AddAfterOf<T>(this List<T> list, T item, T newItem) {
             var targetPosition = list.IndexOf(item) + 1;
             list.Insert(targetPosition, newItem);
         }
@@ -104,11 +96,9 @@ namespace ExternBoardSystem.Tools.Extensions
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
-        public static void Print<T>(this List<T> list, string log = "")
-        {
+        public static void Print<T>(this List<T> list, string log = "") {
             log += "[";
-            for (var i = 0; i < list.Count; i++)
-            {
+            for (var i = 0; i < list.Count; i++) {
                 log += list[i].ToString();
                 log += i != list.Count - 1 ? ", " : "]";
             }

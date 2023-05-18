@@ -5,8 +5,8 @@ namespace ExternBoardSystem.BoardSystem.Board {
     ///     Interface of a runtime board. It has a shape with its Hex points, orientation and positions to store elementData.
     /// </summary>
     public interface IBoard {
-        BoardController Controller { get; }
-        Orientation Orientation { get; }
+        // MBoardController Controller { get; }
+        EOrientation Orientation { get; }
         Position.Position[] Positions { get; }
         bool HasPosition(Hex point);
         Position.Position GetPosition(Hex point);

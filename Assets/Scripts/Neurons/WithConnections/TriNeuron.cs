@@ -1,7 +1,7 @@
 ﻿namespace Neurons.WithConnections {
     public class TriNeuron : Neuron {
         
-        public override NeuronType Type => NeuronType.Tri;
+        public override ENeuronType Type => ENeuronType.Tri;
            
         public override int AllowedNeighbors() {
             return 3;

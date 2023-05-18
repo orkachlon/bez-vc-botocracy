@@ -2,26 +2,22 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace ExternBoardSystem.BoardSystem.Coordinates
-{
-    public struct Hex : IComparable
-    {
+namespace ExternBoardSystem.BoardSystem.Coordinates {
+    public struct Hex : IComparable {
         public int q { get; } //column, X axis
         public int r { get; } //row, Y axis
         public int s { get; } //s = -(q + r), math is great
         public int Length => (Mathf.Abs(q) + Mathf.Abs(r) + Mathf.Abs(s)) / 2;
 
         //TODO: Maybe keep only one constructor to make things less confusing.
-        public Hex(int q, int r)
-        {
+        public Hex(int q, int r) {
             this.q = q;
             this.r = r;
             s = -(q + r);
             Assert.AreEqual(0, s + q + r);
         }
 
-        public Hex(int q, int r, int s)
-        {
+        public Hex(int q, int r, int s) {
             this.q = q;
             this.r = r;
             this.s = s;
@@ -109,28 +105,23 @@ namespace ExternBoardSystem.BoardSystem.Coordinates
 
         #region Conversion to other Coordinate Systems
 
-        public AxialCoord ToAxialCoord()
-        {
+        public AxialCoord ToAxialCoord() {
             return new AxialCoord(q, r);
         }
 
-        public OffsetCoord ToQoffsetEven()
-        {
+        public OffsetCoord ToQoffsetEven() {
             return OffsetCoordHelper.QoffsetFromCube(OffsetCoord.Parity.Even, this);
         }
 
-        public OffsetCoord ToQoffsetOdd()
-        {
+        public OffsetCoord ToQoffsetOdd() {
             return OffsetCoordHelper.QoffsetFromCube(OffsetCoord.Parity.Odd, this);
         }
 
-        public OffsetCoord ToRoffsetEven()
-        {
+        public OffsetCoord ToRoffsetEven() {
             return OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Even, this);
         }
 
-        public OffsetCoord ToRoffsetOdd()
-        {
+        public OffsetCoord ToRoffsetOdd() {
             return OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, this);
         }
 

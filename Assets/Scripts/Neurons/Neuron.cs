@@ -5,7 +5,7 @@ using Grid = Grids.Grid;
 namespace Neurons {
     public abstract class Neuron : MonoBehaviour, INeuron {
 
-        public enum NeuronType {
+        public enum ENeuronType {
             Undefined,
             Uni,
             Bi,
@@ -18,10 +18,12 @@ namespace Neurons {
             Three,
             Four,
             Five,
-            Six
+            Six,
+            Exploding,
+            Expanding
         }
 
-        public virtual NeuronType Type => NeuronType.Undefined;
+        public virtual ENeuronType Type => ENeuronType.Undefined;
 
         protected SpriteRenderer NeuronSprite;
 

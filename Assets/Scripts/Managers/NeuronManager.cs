@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem;
-using ExternBoardSystem.BoardSystem.Neuron;
+using MyHexBoardSystem.BoardElements.Neuron;
 using Neurons;
 using Tiles;
 using UnityEngine;
@@ -16,12 +17,12 @@ namespace Managers {
         [SerializeField] private List<Neuron> neurons;
         [SerializeField] private NeuronQueue nextNeurons;
         
-        [SerializeField] private BoardElementsController elementsController;
-        [SerializeField] private NeuronData placeNeuronData;
+        [SerializeField] private MBoardElementsController elementsController;
+        [SerializeField] private SNeuronData placeNeuronData;
         public static NeuronManager Instance { get; private set; }
         public static event Action OnNeuronPlaced;
 
-        private Dictionary<Neuron.NeuronType, Neuron> _typeToPrefab;
+        private Dictionary<Neuron.ENeuronType, Neuron> _typeToPrefab;
         private Neuron _currentNeuron;
 
         private void Awake() {

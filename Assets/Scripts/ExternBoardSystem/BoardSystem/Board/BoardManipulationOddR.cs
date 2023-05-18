@@ -5,16 +5,13 @@ using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Tools.Extensions;
 using UnityEngine;
 
-namespace ExternBoardSystem.BoardSystem.Board
-{
+namespace ExternBoardSystem.BoardSystem.Board {
     /// <summary>
     ///     The way to manipulate a board in the Odd-Row layout.
     ///     TODO: Open for many memory/cache optimizations and algorithms improvements.
     /// </summary>
-    public class BoardManipulationOddR : IBoardManipulation
-    {
-        private static readonly Hex[] NeighboursDirections =
-        {
+    public class BoardManipulationOddR : IBoardManipulation {
+        private static readonly Hex[] NeighboursDirections = {
             new Hex(1, 0), new Hex(1, -1), new Hex(0, -1),
             new Hex(-1, 0), new Hex(-1, 1), new Hex(0, 1)
         };
