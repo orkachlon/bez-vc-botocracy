@@ -1,12 +1,10 @@
-﻿using ExternBoardSystem.BoardElements;
+﻿using System.Linq;
+using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using MyHexBoardSystem.BoardElements.Neuron;
 
 namespace MyHexBoardSystem.BoardElements {
     public class MBoardNeuronsController : MBoardElementsController<BoardNeuron> {
-        protected override void Awake() {
-            base.Awake();
-        }
 
         public override void AddElement(BoardNeuron element, Hex hex) {
             var position = Board.GetPosition(hex);
@@ -17,11 +15,20 @@ namespace MyHexBoardSystem.BoardElements {
                 return;
             }
 
+            var cell = GetCellCoordinate(hex);
+            // check if any neighbors exist
+            var neighbours = Manipulator.GetNeighbours(cell);
+            var hasNeighbour = neighbours.Any(neighbour => Board.HasPosition(neighbour) && 
+                                                           Board.GetPosition(neighbour).HasData());
+            if (!hasNeighbour) {
+                return;
+            }
+
             position.AddData(element);
             element.ElementData.GetActivation().Invoke(this, GetCellCoordinate(hex));
             
             // dispatch event
-            base.AddElement(element, hex);
+            DispatchOnAddElement(element, cell);
         }
 
         public override void RemoveElement(Hex hex) {

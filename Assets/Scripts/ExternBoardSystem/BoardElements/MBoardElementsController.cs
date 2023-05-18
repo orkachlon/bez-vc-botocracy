@@ -16,8 +16,8 @@ namespace ExternBoardSystem.BoardElements {
         public IBoardManipulation Manipulator { get; private set; }
         public IBoard<T> Board { get; private set; }
         private IElementDataProvider<T> ElementProvider { get; set; }
-        public event Action<BoardElement, Vector3Int> OnAddElement;
-        public event Action<BoardElement, Vector3Int> OnRemoveElement;
+        public event Action<T, Vector3Int> OnAddElement;
+        public event Action<T, Vector3Int> OnRemoveElement;
 
         protected virtual void Awake() {
             boardController.OnCreateBoard += OnCreateBoard;
@@ -44,16 +44,24 @@ namespace ExternBoardSystem.BoardElements {
             Manipulator = boardController.BoardManipulation;
         }
 
+        public void AddStartingElement(T element, Hex hex) {
+            var position = Board.GetPosition(hex);
+            if (position == null)
+                return;
+            if (position.HasData())
+                return;
+            position.AddData(element);
+            OnAddElement?.Invoke(element, GetCellCoordinate(hex));
+        }
+
         public virtual void AddElement(T element, Hex hex) {
-            // var position = Board.GetPosition(hex);
-            // if (position == null)
-            //     return;
-            // if (position.HasData())
-            //     return;
-            // position.AddData(element);
-            //
-            var cell = GetCellCoordinate(hex);
-            OnAddElement?.Invoke(element, cell);
+            var position = Board.GetPosition(hex);
+            if (position == null)
+                return;
+            if (position.HasData())
+                return;
+            position.AddData(element);
+            OnAddElement?.Invoke(element, GetCellCoordinate(hex));
         }
 
         public virtual void RemoveElement(Hex hex) {
@@ -65,6 +73,14 @@ namespace ExternBoardSystem.BoardElements {
             var data = position.Data;
             position.RemoveData();
             OnRemoveElement?.Invoke(data, GetCellCoordinate(hex));
+        }
+
+        protected void DispatchOnAddElement(T element, Vector3Int cell) {
+            OnAddElement?.Invoke(element, cell);
+        }
+        
+        protected void DispatchOnRemoveElement(T element, Vector3Int cell) {
+            OnRemoveElement?.Invoke(element, cell);
         }
 
         protected static Hex GetHexCoordinate(Vector3Int cell) {

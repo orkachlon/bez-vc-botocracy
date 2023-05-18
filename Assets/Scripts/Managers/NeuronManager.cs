@@ -47,7 +47,8 @@ namespace Managers {
             RewardNeurons(10);
             _currentNeuron = nextNeurons.Dequeue();
             // add the initial neuron
-            elementsController.AddElement(new BoardNeuron(MNeuronBindings.DataFromType(Neuron.ENeuronType.Invulnerable)), new Hex(0, 0));
+            elementsController.SetElementProvider(MNeuronBindings.DataFromType(Neuron.ENeuronType.Invulnerable));
+            elementsController.AddStartingElement(new BoardNeuron(MNeuronBindings.DataFromType(Neuron.ENeuronType.Invulnerable)), new Hex(0, 0));
             
             elementsController.SetElementProvider(MNeuronBindings.DataFromType(EnumUtil.GetRandom<Neuron.ENeuronType>()));
         }
