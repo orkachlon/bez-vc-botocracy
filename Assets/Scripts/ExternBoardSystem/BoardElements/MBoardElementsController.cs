@@ -10,25 +10,25 @@ namespace ExternBoardSystem.BoardElements {
     /// <summary>
     ///     Places board elements on the board. A mediator between an input event and the board.
     /// </summary>
-    public class MBoardElementsController : MonoBehaviour, IBoardElementsController<BoardElement> {
+    public class MBoardElementsController<T> : MonoBehaviour, IBoardElementsController<T> where T : BoardElement{
         [SerializeField] private MBoardController boardController;
         [SerializeField] private MUITileMapInputHandler uiTileMapInputHandler;
         public IBoardManipulation Manipulator { get; private set; }
         public IBoard Board { get; private set; }
-        private IElementDataProvider<BoardElement> ElementProvider { get; set; }
+        private IElementDataProvider<T> ElementProvider { get; set; }
         public event Action<BoardElement, Vector3Int> OnAddElement;
         public event Action<BoardElement, Vector3Int> OnRemoveElement;
 
-        private void Awake() {
+        protected virtual void Awake() {
             boardController.OnCreateBoard += OnCreateBoard;
             uiTileMapInputHandler.OnClickTile += OnClickTile;
         }
 
-        public void SetElementProvider(IElementDataProvider<BoardElement> provider) {
+        public void SetElementProvider(IElementDataProvider<T> provider) {
             ElementProvider = provider;
         }
 
-        private void OnClickTile(Vector3Int cell) {
+        protected void OnClickTile(Vector3Int cell) {
             var hex = GetHexCoordinate(cell);
             if (ElementProvider == null) {
                 RemoveElement(hex);
@@ -39,12 +39,12 @@ namespace ExternBoardSystem.BoardElements {
             }
         }
 
-        private void OnCreateBoard(IBoard board) {
+        protected void OnCreateBoard(IBoard board) {
             Board = board;
             Manipulator = boardController.BoardManipulation;
         }
 
-        public void AddElement(BoardElement element, Hex hex) {
+        public virtual void AddElement(T element, Hex hex) {
             var position = Board.GetPosition(hex);
             if (position == null)
                 return;
@@ -56,7 +56,7 @@ namespace ExternBoardSystem.BoardElements {
             OnAddElement?.Invoke(element, cell);
         }
 
-        public void RemoveElement(Hex hex) {
+        public virtual void RemoveElement(Hex hex) {
             var position = Board?.GetPosition(hex);
             if (position == null)
                 return;

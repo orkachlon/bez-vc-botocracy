@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace MyHexBoardSystem.UI {
-    public class MUINeuronPlacer : MUIElementPlacer<MUIBoardNeuron> {
+    public class MUINeuronPlacer : MUIElementPlacer<BoardNeuron, MUIBoardNeuron> {
         private readonly Dictionary<BoardElement, MUIBoardNeuron> _registerUiElements = new();
         
         protected override void OnCreateBoard(IBoard board) {

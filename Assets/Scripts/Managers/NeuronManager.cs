@@ -17,7 +17,7 @@ namespace Managers {
         [SerializeField] private List<Neuron> neurons;
         [SerializeField] private NeuronQueue nextNeurons;
         
-        [SerializeField] private MBoardElementsController elementsController;
+        [SerializeField] private MBoardElementsController<BoardNeuron> elementsController;
         [SerializeField] private SNeuronData placeNeuronData;
         public static NeuronManager Instance { get; private set; }
         public static event Action OnNeuronPlaced;
@@ -73,7 +73,8 @@ namespace Managers {
 
             _currentNeuron.Show();
             _currentNeuron = nextNeurons.Dequeue();
-            // elementsController.SetElementProvider();
+            // make this actually update the data
+            elementsController.SetElementProvider(placeNeuronData);
             OnNeuronPlaced?.Invoke();
         }
 

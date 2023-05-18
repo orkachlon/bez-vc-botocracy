@@ -10,7 +10,7 @@ namespace ExternBoardSystem.Ui.Board {
     ///     In charge of actually showing the stuff that's on the board using pooler.
     ///     todo: consider renaming this class
     /// </summary>
-    public class MUIGeneralPlacer : MUIElementPlacer<MUIBoardElement> {
+    public class MUIGeneralPlacer : MUIElementPlacer<BoardElement, MUIBoardElement> {
         private readonly Dictionary<BoardElement, MUIBoardElement> _registerUiElements = new();
         
         protected override void OnCreateBoard(IBoard board) {

@@ -5,10 +5,10 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace ExternBoardSystem.Ui.Board {
-    public abstract class MUIElementPlacer<T> : MonoBehaviour {
+    public abstract class MUIElementPlacer<T, TUI> : MonoBehaviour where T : BoardElement{
         // subscribe to events
         [SerializeField] private MBoardController controller;
-        [SerializeField] private MBoardElementsController elementsController;
+        [SerializeField] private MBoardElementsController<T> elementsController;
 
         protected Tilemap TileMap { get; private set; }
         

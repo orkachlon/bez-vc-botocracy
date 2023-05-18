@@ -9,7 +9,7 @@ namespace ExternBoardSystem.Ui.Menu
 {
     public class MUIMenuElements : MonoBehaviour
     {
-        [SerializeField] private MBoardElementsController controller;
+        [SerializeField] private MBoardElementsController<BoardElement> controller;
         
         [Header("Items"), SerializeField] private SItemData apple;
         [SerializeField] private SItemData banana;
