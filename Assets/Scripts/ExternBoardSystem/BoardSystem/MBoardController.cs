@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using UnityEngine;
@@ -12,18 +13,21 @@ namespace ExternBoardSystem.BoardSystem {
     ///     The board controller creates the board on startup, and through its board manipulation other
     ///     classes can ask for hex board algorithms (e.g. getNeighbors)
     /// </summary>
-    public class MBoardController : MonoBehaviour, IBoardController {
+    public class MBoardController<T> : MonoBehaviour, IBoardController<T> where T : BoardElement {
         [SerializeField] private Tilemap tilemap;
 
         private readonly HashSet<Hex> _tiles = new();
         
-        public IBoard Board { get; private set; }
+        public IBoard<T> Board { get; private set; }
         public IBoardManipulation BoardManipulation { get; private set; }
 
-        public event Action<IBoard> OnCreateBoard;
+        public event Action<IBoard<T>> OnCreateBoard;
         
-        private void Awake() {
+        protected virtual void Awake() {
             CollectExistingTiles();
+        }
+
+        protected void Start() {
             CreateBoard();
         }
 
@@ -40,9 +44,10 @@ namespace ExternBoardSystem.BoardSystem {
         }
 
         private void CreateBoard() {
-            Board = new Board.Board(this,
+            Board = new Board<T>(this,
                 tilemap.orientation == Tilemap.Orientation.XY ? EOrientation.PointyTop : EOrientation.FlatTop);
-            BoardManipulation = new BoardManipulationOddR(Board);
+            BoardManipulation = new BoardManipulationOddR<T>(Board);
+            OnCreateBoard?.Invoke(Board);
         }
 
 #if UNITY_EDITOR
@@ -55,8 +60,8 @@ namespace ExternBoardSystem.BoardSystem {
         }
 #endif
         
-        public void DispatchCreateBoard(IBoard board) {
-            OnCreateBoard?.Invoke(board);
+        public void DispatchCreateBoard(IBoard<T> board) {
+            // OnCreateBoard?.Invoke(board);
         }
 
         public Hex[] GetHexPoints() {

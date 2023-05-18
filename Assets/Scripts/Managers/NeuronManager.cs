@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using ExternBoardSystem.BoardElements;
-using ExternBoardSystem.BoardSystem;
+using ExternBoardSystem.BoardSystem.Coordinates;
+using ExternBoardSystem.Ui.Util;
 using MyHexBoardSystem.BoardElements.Neuron;
 using Neurons;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Utils;
 using Grid = Grids.Grid;
 using Random = UnityEngine.Random;
 
 namespace Managers {
     public class NeuronManager : MonoBehaviour {
 
-        [SerializeField] private List<Neuron> neurons;
         [SerializeField] private NeuronQueue nextNeurons;
-        
+
+        [SerializeField] private MUITileMapInputHandler uiTileMapInputHandler;
         [SerializeField] private MBoardElementsController<BoardNeuron> elementsController;
-        [SerializeField] private SNeuronData placeNeuronData;
         public static NeuronManager Instance { get; private set; }
         public static event Action OnNeuronPlaced;
 
@@ -33,24 +34,26 @@ namespace Managers {
                 Instance = this;
             }
             
-            _typeToPrefab = neurons.ToDictionary(n => n.Type);
-
-            Tile.OnTileClickedEvent += PlaceNeuron;
+            // Tile.OnTileClickedEvent += PlaceNeuron;
             Tile.OnTileMouseOverEvent += SnapNeuronToTile;
             Tile.OnTileMouseExitEvent += HideCurrentNeuron;
             Grid.GridDisabled += HideCurrentNeuron;
+            
+            // new events
+            uiTileMapInputHandler.OnClickTile += PlaceNeuron;
         }
 
         private void Start() {
-            Assert.IsNotNull(neurons);
             RewardNeurons(10);
             _currentNeuron = nextNeurons.Dequeue();
+            // add the initial neuron
+            elementsController.AddElement(new BoardNeuron(MNeuronBindings.DataFromType(Neuron.ENeuronType.Invulnerable)), new Hex(0, 0));
             
-            elementsController.SetElementProvider(placeNeuronData);
+            elementsController.SetElementProvider(MNeuronBindings.DataFromType(EnumUtil.GetRandom<Neuron.ENeuronType>()));
         }
 
         private void OnDestroy() {
-            Tile.OnTileClickedEvent -= PlaceNeuron;
+            // Tile.OnTileClickedEvent -= PlaceNeuron;
             Tile.OnTileMouseEnterEvent -= SnapNeuronToTile;
             Tile.OnTileMouseExitEvent -= HideCurrentNeuron;
             Grid.GridDisabled -= HideCurrentNeuron;
@@ -65,16 +68,16 @@ namespace Managers {
             // }
         }
 
-        private void PlaceNeuron(Tile tile) {
-            var placingSuccessful = tile.PlaceNeuron(_currentNeuron);
-            if (!placingSuccessful) {
-                return;
-            }
+        private void PlaceNeuron(Vector3Int cell) {
+            // var placingSuccessful = tile.PlaceNeuron(_currentNeuron);
+            // if (!placingSuccessful) {
+                // return;
+            // }
 
-            _currentNeuron.Show();
-            _currentNeuron = nextNeurons.Dequeue();
+            // _currentNeuron.Show();
+            // _currentNeuron = nextNeurons.Dequeue();
             // make this actually update the data
-            elementsController.SetElementProvider(placeNeuronData);
+            elementsController.SetElementProvider(MNeuronBindings.DataFromType(EnumUtil.GetRandom<Neuron.ENeuronType>()));
             OnNeuronPlaced?.Invoke();
         }
 
@@ -103,14 +106,9 @@ namespace Managers {
         }
 
         public void PlaceFirstNeuron(Tile tile) {
-            tile.PlaceNeuron(Instantiate(GetRandomNeuronPrefab(), tile.transform.position, Quaternion.identity,
-                tile.transform));
+            throw new NotImplementedException("NeuronManager::PlaceFirstNeuron isn't implemented!");
         }
-
-        public Neuron GetRandomNeuronPrefab() {
-            return _typeToPrefab.Values.ToList()[Random.Range(0, _typeToPrefab.Count)];
-        }
-
+        
         public void RewardNeurons(int numOfNeurons) {
             nextNeurons.Enqueue(numOfNeurons);
         }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Managers;
+using MyHexBoardSystem.BoardElements.Neuron;
 using UnityEngine;
+using Utils;
 
 namespace Neurons {
     public class NeuronQueue : MonoBehaviour {
@@ -31,7 +33,7 @@ namespace Neurons {
 
         public void Enqueue(int amount) {
             for (var i = 0; i < amount; i++) {
-                Enqueue(Instantiate(NeuronManager.Instance.GetRandomNeuronPrefab(), transform.position, Quaternion.identity, transform));
+                // Enqueue(Instantiate(NeuronManager.Instance.GetRandomNeuronPrefab(), transform.position, Quaternion.identity, transform));
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using ExternBoardSystem.BoardSystem;
+﻿using ExternBoardSystem.BoardElements;
+using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.Ui.Util;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ namespace ExternBoardSystem.Ui.Menu
     public abstract class MUIParentMenu : MonoBehaviour, IBackHandler
     {
         [Header("Dependencies"), SerializeField]
-        protected MBoardController boardController;
+        protected MBoardController<BoardElement> boardController;
 
         [Header("Internal"), SerializeField] protected GameObject content;
 

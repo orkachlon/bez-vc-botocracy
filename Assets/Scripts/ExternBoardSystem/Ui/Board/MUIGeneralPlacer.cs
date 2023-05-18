@@ -13,7 +13,7 @@ namespace ExternBoardSystem.Ui.Board {
     public class MUIGeneralPlacer : MUIElementPlacer<BoardElement, MUIBoardElement> {
         private readonly Dictionary<BoardElement, MUIBoardElement> _registerUiElements = new();
         
-        protected override void OnCreateBoard(IBoard board) {
+        protected override void OnCreateBoard(IBoard<BoardElement> board) {
             CreateBoardUi();
         }
 

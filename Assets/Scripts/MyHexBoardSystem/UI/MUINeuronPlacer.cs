@@ -12,7 +12,7 @@ namespace MyHexBoardSystem.UI {
     public class MUINeuronPlacer : MUIElementPlacer<BoardNeuron, MUIBoardNeuron> {
         private readonly Dictionary<BoardElement, MUIBoardNeuron> _registerUiElements = new();
         
-        protected override void OnCreateBoard(IBoard board) {
+        protected override void OnCreateBoard(IBoard<BoardNeuron> board) {
             CreateBoardUi();
         }
 

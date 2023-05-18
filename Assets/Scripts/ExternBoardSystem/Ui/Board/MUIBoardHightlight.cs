@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
@@ -8,23 +9,23 @@ using UnityEngine.Tilemaps;
 
 namespace ExternBoardSystem.Ui.Board
 {
-    public class MUIBoardHightlight : MonoBehaviour
+    public class MUIBoardHightlight<T> : MonoBehaviour where T : BoardElement
     {
         private readonly Dictionary<Hex, MUIHoverParticleSystem> _highlights =
             new Dictionary<Hex, MUIHoverParticleSystem>();
 
-        [SerializeField] private MBoardController controller;
+        [SerializeField] private MBoardController<T> controller;
         [SerializeField] private GameObject highlightTiles;
         private Tilemap TileMap { get; set; }
 
-        private void OnCreateBoard(IBoard board)
+        private void OnCreateBoard(IBoard<T> board)
         {
             Hide();
             _highlights.Clear();
             foreach (var p in board.Positions)
             {
                 var hex = p.Point;
-                var cell = BoardManipulationOddR.GetCellCoordinate(hex);
+                var cell = BoardManipulationOddR<T>.GetCellCoordinate(hex);
                 var worldPosition = TileMap.CellToWorld(cell);
                 var highlight = Instantiate(highlightTiles, worldPosition, Quaternion.identity, transform)
                     .GetComponent<MUIHoverParticleSystem>();

@@ -10,11 +10,11 @@ namespace ExternBoardSystem.BoardElements {
     /// <summary>
     ///     Places board elements on the board. A mediator between an input event and the board.
     /// </summary>
-    public class MBoardElementsController<T> : MonoBehaviour, IBoardElementsController<T> where T : BoardElement{
-        [SerializeField] private MBoardController boardController;
+    public class MBoardElementsController<T> : MonoBehaviour, IBoardElementsController<T> where T : BoardElement {
+        [SerializeField] private MBoardController<T> boardController;
         [SerializeField] private MUITileMapInputHandler uiTileMapInputHandler;
         public IBoardManipulation Manipulator { get; private set; }
-        public IBoard Board { get; private set; }
+        public IBoard<T> Board { get; private set; }
         private IElementDataProvider<T> ElementProvider { get; set; }
         public event Action<BoardElement, Vector3Int> OnAddElement;
         public event Action<BoardElement, Vector3Int> OnRemoveElement;
@@ -39,25 +39,25 @@ namespace ExternBoardSystem.BoardElements {
             }
         }
 
-        protected void OnCreateBoard(IBoard board) {
+        private void OnCreateBoard(IBoard<T> board) {
             Board = board;
             Manipulator = boardController.BoardManipulation;
         }
 
         public virtual void AddElement(T element, Hex hex) {
-            var position = Board.GetPosition(hex);
-            if (position == null)
-                return;
-            if (position.HasData())
-                return;
-            position.AddData(element);
-
+            // var position = Board.GetPosition(hex);
+            // if (position == null)
+            //     return;
+            // if (position.HasData())
+            //     return;
+            // position.AddData(element);
+            //
             var cell = GetCellCoordinate(hex);
             OnAddElement?.Invoke(element, cell);
         }
 
         public virtual void RemoveElement(Hex hex) {
-            var position = Board?.GetPosition(hex);
+            var position = Board.GetPosition(hex);
             if (position == null)
                 return;
             if (!position.HasData())
@@ -67,11 +67,11 @@ namespace ExternBoardSystem.BoardElements {
             OnRemoveElement?.Invoke(data, GetCellCoordinate(hex));
         }
 
-        private static Hex GetHexCoordinate(Vector3Int cell) {
+        protected static Hex GetHexCoordinate(Vector3Int cell) {
             return OffsetCoordHelper.RoffsetToCube(OffsetCoord.Parity.Odd, new OffsetCoord(cell.x, cell.y));
         }
 
-        private static Vector3Int GetCellCoordinate(Hex hex) {
+        protected static Vector3Int GetCellCoordinate(Hex hex) {
             return OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, hex).ToVector3Int();
         }
     }

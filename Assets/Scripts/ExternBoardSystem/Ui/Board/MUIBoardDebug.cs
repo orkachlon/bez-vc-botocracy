@@ -1,4 +1,5 @@
-﻿using ExternBoardSystem.BoardSystem;
+﻿using ExternBoardSystem.BoardElements;
+using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.Tools.Attributes;
 using TMPro;
@@ -10,26 +11,26 @@ namespace ExternBoardSystem.Ui.Board {
     /// <summary>
     ///     A component to show each tile's coordinates.
     /// </summary>
-    public class MUIBoardDebug : MonoBehaviour {
+    public class MUIBoardDebug<T> : MonoBehaviour where T : BoardElement {
         private GameObject[] _positions;
-        [SerializeField] private MBoardController controller;
+        [SerializeField] private MBoardController<T> controller;
         [SerializeField] private GameObject textPosition;
         [SerializeField] private Tilemap tileMap;
-        private IBoard CurrentBoard { get; set; }
+        private IBoard<T> CurrentBoard { get; set; }
 
         protected void Awake() {
             controller.OnCreateBoard += OnCreateBoard;
         }
 
         [Button]
-        private void DrawPositions() {
+        protected void DrawPositions() {
             const string uiPosition = "UiPosition_";
             var identity = Quaternion.identity;
             ClearPositions();
             _positions = new GameObject[CurrentBoard.Positions.Length];
             for (var i = 0; i < CurrentBoard.Positions.Length; i++) {
                 var hex = CurrentBoard.Positions[i].Point;
-                var cell = BoardManipulationOddR.GetCellCoordinate(hex);
+                var cell = BoardManipulationOddR<T>.GetCellCoordinate(hex);
                 var worldPosition = tileMap.CellToWorld(cell);
                 var gameObj = Instantiate(textPosition, worldPosition, identity, transform);
                 _positions[i] = gameObj;
@@ -42,7 +43,7 @@ namespace ExternBoardSystem.Ui.Board {
         }
 
         [Button]
-        private void ClearPositions() {
+        protected void ClearPositions() {
             if (_positions == null)
                 return;
 
@@ -55,13 +56,13 @@ namespace ExternBoardSystem.Ui.Board {
                 return;
 
             foreach (var hex in controller.GetHexPoints()) {
-                var cell = BoardManipulationOddR.GetCellCoordinate(hex);
+                var cell = BoardManipulationOddR<T>.GetCellCoordinate(hex);
                 var worldPosition = tileMap.CellToWorld(cell);
                 Gizmos.DrawWireSphere(worldPosition, 0.93f);
             }
         }
 
-        private void OnCreateBoard(IBoard board) {
+        private void OnCreateBoard(IBoard<T> board) {
             CurrentBoard = board;
         }
     }

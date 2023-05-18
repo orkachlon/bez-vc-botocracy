@@ -1,13 +1,14 @@
-﻿using ExternBoardSystem.BoardSystem;
+﻿using ExternBoardSystem.BoardElements;
+using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace ExternBoardSystem.Ui.Util {
-    public class MUICamera : MonoBehaviour
+    public class MUICamera<T> : MonoBehaviour where T : BoardElement
     {
         private Transform _myTransform;
-        [SerializeField] private MBoardController controller;
+        [SerializeField] private MBoardController<T> controller;
         [SerializeField] private Tilemap tileMap;
         private Camera MainCamera { get; set; }
 
@@ -18,7 +19,7 @@ namespace ExternBoardSystem.Ui.Util {
             _myTransform = transform;
         }
 
-        private void OnCreateBoard(IBoard board)
+        private void OnCreateBoard(IBoard<T> board)
         {
             var maxPosY = float.MinValue;
             var maxPosX = float.MinValue;
@@ -28,7 +29,7 @@ namespace ExternBoardSystem.Ui.Util {
             foreach (var pos in board.Positions)
             {
                 var hex = pos.Point;
-                var cell = BoardManipulationOddR.GetCellCoordinate(hex);
+                var cell = BoardManipulationOddR<T>.GetCellCoordinate(hex);
                 var worldCellPos = tileMap.CellToWorld(cell);
 
                 if (worldCellPos.x > maxPosX)

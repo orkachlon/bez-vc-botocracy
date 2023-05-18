@@ -1,16 +1,15 @@
-﻿using ExternBoardSystem.Ui.Board;
+﻿using ExternBoardSystem.BoardElements;
+using ExternBoardSystem.Ui.Board;
 using ExternBoardSystem.Ui.Util;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ExternBoardSystem.Ui.Menu
-{
-    public class MUIBoardMenu : MUIParentMenu
-    {
+namespace ExternBoardSystem.Ui.Menu {
+    public class MUIBoardMenu : MUIParentMenu {
         private const float Width = 1920;
         private const float Height = 1080;
         private const int ABigLength = 12;
-        [SerializeField] private MUIBoardHightlight boardHighlight;
+        [SerializeField] private MUIBoardHightlight<BoardElement> boardHighlight;
         [SerializeField] private Canvas canvas;
         [SerializeField] private Button diagonalAscButton;
         [SerializeField] private Button diagonalDesButton;
@@ -29,8 +28,7 @@ namespace ExternBoardSystem.Ui.Menu
 
         private Vector3Int Selection { get; set; }
 
-        private void OnRightClickTile(Vector3Int selection, Vector2 screenPoint)
-        {
+        private void OnRightClickTile(Vector3Int selection, Vector2 screenPoint) {
             var referenceResolution = canvas.GetComponent<CanvasScaler>().referenceResolution;
             var currentResolution = new Vector2(Screen.width, Screen.height);
             var factorResolution = currentResolution / referenceResolution;
@@ -44,8 +42,7 @@ namespace ExternBoardSystem.Ui.Menu
             Show();
         }
 
-        protected override void Start()
-        {
+        protected override void Start() {
             base.Start();
             Hide();
             var delta = Mathf.Abs(Camera.main.aspect - Width / Height) > 0.001f;
@@ -59,29 +56,25 @@ namespace ExternBoardSystem.Ui.Menu
             uiTileMapInputHandler.OnRightClickTile += OnRightClickTile;
         }
 
-        private void OnPressNeighbours()
-        {
+        private void OnPressNeighbours() {
             var hexes = boardController.BoardManipulation.GetNeighbours(Selection);
             boardHighlight.Show(hexes);
             MBackButton.Instance.Pop();
         }
 
-        private void OnPressDiagonalDes()
-        {
+        private void OnPressDiagonalDes() {
             var selection = boardController.BoardManipulation.GetDiagonalDescendant(Selection, ABigLength);
             boardHighlight.Show(selection);
             MBackButton.Instance.Pop();
         }
 
-        private void OnPressDiagonalAsc()
-        {
+        private void OnPressDiagonalAsc() {
             var selection = boardController.BoardManipulation.GetDiagonalAscendant(Selection, ABigLength);
             boardHighlight.Show(selection);
             MBackButton.Instance.Pop();
         }
 
-        private void OnPressHorizontal()
-        {
+        private void OnPressHorizontal() {
             var selection = boardController.BoardManipulation.GetHorizontal(Selection, ABigLength);
             boardHighlight.Show(selection);
             MBackButton.Instance.Pop();

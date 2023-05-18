@@ -1,4 +1,5 @@
-﻿using ExternBoardSystem.BoardSystem.Coordinates;
+﻿using ExternBoardSystem.BoardElements;
+using ExternBoardSystem.BoardSystem.Coordinates;
 using UnityEngine;
 
 namespace ExternBoardSystem.BoardSystem.Board

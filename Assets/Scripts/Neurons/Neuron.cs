@@ -7,18 +7,7 @@ namespace Neurons {
 
         public enum ENeuronType {
             Undefined,
-            Uni,
-            Bi,
-            Tri,
-            Corner,
-            WideCorner,
-            Hex,
-            One,
-            Two,
-            Three,
-            Four,
-            Five,
-            Six,
+            Invulnerable,
             Exploding,
             Expanding
         }
