@@ -46,7 +46,9 @@ namespace MyHexBoardSystem.UI {
             if (_currentUINeuron == null) {
                 return;
             }
-            _currentUINeuron.SetWorldPosition(_cam.ScreenToWorldPoint(screenPos));
+
+            var newPos = _cam.ScreenToWorldPoint(screenPos);
+            _currentUINeuron.SetWorldPosition(new Vector3(newPos.x, newPos.y, 0));
         }
 
         private void Hide(PointerEventData eventData) {

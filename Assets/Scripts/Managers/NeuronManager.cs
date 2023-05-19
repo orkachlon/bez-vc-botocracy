@@ -95,7 +95,6 @@ namespace Managers {
             
             if (nextNeurons.Count == 0) {
                 OnNoMoreNeurons?.Invoke();
-                return;
             }
             elementsController.SetElementProvider(CurrentNeuron.ElementData);
         }
