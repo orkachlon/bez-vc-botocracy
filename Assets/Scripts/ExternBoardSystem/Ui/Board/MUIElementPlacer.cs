@@ -5,10 +5,13 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace ExternBoardSystem.Ui.Board {
-    public abstract class MUIElementPlacer<T, TUI> : MonoBehaviour where T : BoardElement{
+    public abstract class MUIElementPlacer<T, TUI> : MonoBehaviour 
+        where T : BoardElement
+        where TUI : MUIBoardElement {
+        
         // subscribe to events
         [SerializeField] private MBoardController<T> controller;
-        [SerializeField] private MBoardElementsController<T> elementsController;
+        [SerializeField] private MBoardElementsController<T, TUI> elementsController;
 
         protected Tilemap TileMap { get; private set; }
         
@@ -20,7 +23,7 @@ namespace ExternBoardSystem.Ui.Board {
         }
 
         protected abstract void OnCreateBoard(IBoard<T> board);
-        protected abstract void OnRemoveElement(BoardElement element, Vector3Int cell);
-        protected abstract void OnAddElement(BoardElement element, Vector3Int cell);
+        protected abstract void OnRemoveElement(T element, Vector3Int cell);
+        protected abstract void OnAddElement(T element, Vector3Int cell);
     }
 }

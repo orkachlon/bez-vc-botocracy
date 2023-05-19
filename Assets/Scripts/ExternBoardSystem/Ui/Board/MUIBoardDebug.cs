@@ -58,7 +58,7 @@ namespace ExternBoardSystem.Ui.Board {
             foreach (var hex in controller.GetHexPoints()) {
                 var cell = BoardManipulationOddR<T>.GetCellCoordinate(hex);
                 var worldPosition = tileMap.CellToWorld(cell);
-                Gizmos.DrawWireSphere(worldPosition, 0.93f);
+                Gizmos.DrawWireSphere(worldPosition, 0.5f);
             }
         }
 

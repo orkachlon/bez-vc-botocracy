@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using ExternBoardSystem.Ui.Board;
+using UnityEngine;
 
 namespace ExternBoardSystem.BoardElements.Example.Item {
     [CreateAssetMenu]
-    public class SItemData : ScriptableObject, IElementDataProvider<BoardElement> {
+    public class SItemData : ScriptableObject, IElementDataProvider<BoardElement, MUIBoardElement> {
         [SerializeField] private Sprite artwork;
-        [SerializeField] private GameObject model;
+        [SerializeField] private MUIBoardElement model;
 
         public BoardElement GetElement() {
             return new BoardItem(this);
@@ -14,7 +15,7 @@ namespace ExternBoardSystem.BoardElements.Example.Item {
             return artwork;
         }
 
-        public GameObject GetModel() {
+        public MUIBoardElement GetModel() {
             return model;
         }
     }

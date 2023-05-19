@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using ExternBoardSystem.BoardElements;
-using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.Tools;
 using ExternBoardSystem.Ui.Board;
 using MyHexBoardSystem.BoardElements.Neuron;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace MyHexBoardSystem.UI {
     public class MUINeuronPlacer : MUIElementPlacer<BoardNeuron, MUIBoardNeuron> {
@@ -16,19 +14,15 @@ namespace MyHexBoardSystem.UI {
             CreateBoardUi();
         }
 
-        protected override void OnRemoveElement(BoardElement element, Vector3Int cell) {
+        protected override void OnRemoveElement(BoardNeuron element, Vector3Int cell) {
             var uiElement = _registerUiElements[element];
             MObjectPooler.Instance.Release(uiElement.gameObject);
         }
 
-        protected override void OnAddElement(BoardElement element, Vector3Int cell) {
-            // think of a better way to do this
-            if (typeof(BoardNeuron) != element.GetType()) {
-                return;
-            }
+        protected override void OnAddElement(BoardNeuron element, Vector3Int cell) {
             var data = element.DataProvider;
             var model = data.GetModel();
-            var uiBoardElement = MObjectPooler.Instance.Get<MUIBoardNeuron>(model);
+            var uiBoardElement = MObjectPooler.Instance.Get<MUIBoardNeuron>(model.gameObject);
             var worldPosition = TileMap.CellToWorld(cell);
             uiBoardElement.SetRuntimeElementData(element);
             uiBoardElement.SetWorldPosition(worldPosition);

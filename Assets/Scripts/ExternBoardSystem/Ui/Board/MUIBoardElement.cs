@@ -8,9 +8,9 @@ namespace ExternBoardSystem.Ui.Board {
     ///     A board element's visual appearance. This is also used as a container for pooling board elements.
     /// </summary>
     public class MUIBoardElement : MonoBehaviour {
-        private BoardElement RuntimeData { get; set; }
-        private SpriteRenderer SpriteRenderer { get; set; }
-        private Transform Transform { get; set; }
+        protected BoardElement RuntimeData { get; set; }
+        protected SpriteRenderer SpriteRenderer { get; set; }
+        protected Transform Transform { get; set; }
 
         protected virtual void Awake() {
             SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -18,16 +18,16 @@ namespace ExternBoardSystem.Ui.Board {
             Transform = transform;
         }
 
-        public void SetRuntimeElementData(BoardElement data) {
+        public virtual void SetRuntimeElementData(BoardElement data) {
             RuntimeData = data;
             UpdateView();
         }
 
-        public void SetWorldPosition(Vector3 position) {
+        public virtual void SetWorldPosition(Vector3 position) {
             Transform.position = position;
         }
 
-        private void UpdateView() {
+        protected virtual void UpdateView() {
             SpriteRenderer.sprite = RuntimeData.DataProvider.GetArtwork();
         }
     }

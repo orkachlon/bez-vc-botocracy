@@ -1,61 +1,67 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ExternBoardSystem.Tools;
 using JetBrains.Annotations;
 using Managers;
+using MyHexBoardSystem.BoardElements.Neuron;
 using Neurons;
 using UnityEngine;
 
 namespace NeuronQueue {
-    public class NeuronQueueController : MonoBehaviour, IEnumerable<MNeuron> {
+    public class NeuronQueueController : MonoBehaviour, IEnumerable<BoardNeuron> {
 
         public int Count => _neurons.Count;
         
-        public event Action<MNeuron> OnEnqueueNeuron;
-        public event Action<MNeuron> OnDequeueNeuron;
+        public event Action<BoardNeuron> OnEnqueueNeuron;
+        public event Action<BoardNeuron> OnDequeueNeuron;
 
-        private Queue<MNeuron> _neurons;
+        private Queue<BoardNeuron> _neurons;
 
         private void Awake() {
-            _neurons = new Queue<MNeuron>();
+            _neurons = new Queue<BoardNeuron>();
         }
 
-        public void Enqueue(IEnumerable<MNeuron> neurons) {
+        public void Enqueue(IEnumerable<BoardNeuron> neurons) {
             foreach (var neuron in neurons) {
                 Enqueue(neuron);
             }
         }
         
-        public void Enqueue(MNeuron neuron) {
+        public void Enqueue(BoardNeuron neuron) {
             _neurons.Enqueue(neuron);
             OnEnqueueNeuron?.Invoke(neuron);
         }
 
         public void Enqueue(int amount) {
             for (var i = 0; i < amount; i++) {
-                Enqueue(Instantiate(NeuronManager.Instance.GetRandomNeuron(), transform.position, Quaternion.identity, transform));
+                // todo actually implement a neuron providing system
+                Enqueue(NeuronManager.Instance.GetRandomNeuron());
             }
         }
-        
-        public MNeuron Dequeue() {
+            
+        public BoardNeuron Dequeue() {
             if (_neurons.Count == 0) {
                 return null;
             }
-            var nextNeuron = _neurons.Dequeue();
+            _neurons.TryDequeue(out var nextNeuron);
+            if (nextNeuron == null) {
+                return null;
+            }
             OnDequeueNeuron?.Invoke(nextNeuron);
             return nextNeuron;
         }
 
-        public MNeuron Peek() {
+        public BoardNeuron Peek() {
             return _neurons.Peek();
         }
 
-        public MNeuron PeekLast() {
+        public BoardNeuron PeekLast() {
             return _neurons.ToArray()[_neurons.Count - 1];
         }
 
         [CanBeNull]
-        public MNeuron Peek(int index) {
+        public BoardNeuron Peek(int index) {
             if (0 <= index && index < _neurons.Count) {
                 return _neurons.ToArray()[index];
             }
@@ -63,7 +69,7 @@ namespace NeuronQueue {
             return null;
         }
 
-        public IEnumerator<MNeuron> GetEnumerator() => _neurons.GetEnumerator();
+        public IEnumerator<BoardNeuron> GetEnumerator() => _neurons.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }

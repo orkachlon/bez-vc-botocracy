@@ -2,25 +2,27 @@
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using MyHexBoardSystem.BoardElements.Neuron;
+using MyHexBoardSystem.UI;
 
 namespace MyHexBoardSystem.BoardElements {
-    public class MBoardNeuronsController : MBoardElementsController<BoardNeuron> {
+    public class MBoardNeuronsController : MBoardElementsController<BoardNeuron, MUIBoardNeuron> {
 
         public override void AddElement(BoardNeuron element, Hex hex) {
             var position = Board.GetPosition(hex);
+            var cell = GetCellCoordinate(hex);
             if (position == null)
                 return;
             if (position.HasData()) {
-                print($"Tile {hex} is occupied!");
+                DispatchOnAddElementFailed(element, cell);
                 return;
             }
 
-            var cell = GetCellCoordinate(hex);
             // check if any neighbors exist
             var neighbours = Manipulator.GetNeighbours(cell);
             var hasNeighbour = neighbours.Any(neighbour => Board.HasPosition(neighbour) && 
                                                            Board.GetPosition(neighbour).HasData());
             if (!hasNeighbour) {
+                DispatchOnAddElementFailed(element, cell);
                 return;
             }
 

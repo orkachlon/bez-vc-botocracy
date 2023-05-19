@@ -49,16 +49,6 @@ namespace ExternBoardSystem.BoardSystem {
             BoardManipulation = new BoardManipulationOddR<T>(Board);
             OnCreateBoard?.Invoke(Board);
         }
-
-#if UNITY_EDITOR
-        private void OnDrawGizmos() {
-            foreach (var cell in _tiles
-                         .Select(tile => OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, tile))
-                         .Select(offset => tilemap.CellToWorld(offset.ToVector3Int()))) {
-                Gizmos.DrawWireSphere(cell, 0.5f);
-            }
-        }
-#endif
         
         public void DispatchCreateBoard(IBoard<T> board) {
             // OnCreateBoard?.Invoke(board);

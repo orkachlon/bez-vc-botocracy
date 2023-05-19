@@ -25,7 +25,7 @@ namespace ExternBoardSystem.Ui.Board {
         protected override void OnAddElement(BoardElement element, Vector3Int cell) {
             var data = element.DataProvider;
             var model = data.GetModel();
-            var obj = MObjectPooler.Instance.Get(model);
+            var obj = MObjectPooler.Instance.Get(model.gameObject);
             var uiBoardElement = obj.GetComponent<MUIBoardElement>();
             var worldPosition = TileMap.CellToWorld(cell);
             uiBoardElement.SetRuntimeElementData(element);

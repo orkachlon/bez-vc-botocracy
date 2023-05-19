@@ -19,7 +19,7 @@ namespace Tiles {
         private Collider2D _tileCollider;
         private readonly Color _tileOccupiedColor = new(.9f, .32f, .33f, 1);
 
-        protected MNeuron Occupant = null;
+        protected Neuron Occupant = null;
         protected SpriteRenderer TileRenderer;
 
         private Color _baseColor;
@@ -117,15 +117,15 @@ namespace Tiles {
             TileRenderer.color = TileBaseColor;
         }
 
-        public bool PlaceNeuron(MNeuron neuron) {
+        public bool PlaceNeuron(Neuron neuron) {
             if (!IsEmpty()) {
                 Debug.Log("Tile is occupied!");
                 return false;
             }
 
             Occupant = neuron;
-            Occupant.transform.position = transform.position;
-            Occupant.transform.parent = transform;
+            // Occupant.transform.position = transform.position;
+            // Occupant.transform.parent = transform;
             return true;
         }
     

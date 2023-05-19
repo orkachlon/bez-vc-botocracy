@@ -11,19 +11,14 @@ namespace MyHexBoardSystem.BoardElements.Neuron {
         [SerializeField] private SNeuronData expand;
         [SerializeField] private SNeuronData explode;
 
-        public static SNeuronData GetNeuronData(Neurons.MNeuron.ENeuronType type) {
-            switch (type) {
-                case Neurons.MNeuron.ENeuronType.Undefined:
-                    return Instance.dummy;
-                case Neurons.MNeuron.ENeuronType.Invulnerable:
-                    return Instance.invulnerable;
-                case Neurons.MNeuron.ENeuronType.Exploding:
-                    return Instance.explode;
-                case Neurons.MNeuron.ENeuronType.Expanding:
-                    return Instance.expand;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+        public static SNeuronData GetNeuronData(Neurons.Neuron.ENeuronType type) {
+            return type switch {
+                Neurons.Neuron.ENeuronType.Undefined => Instance.dummy,
+                Neurons.Neuron.ENeuronType.Invulnerable => Instance.invulnerable,
+                Neurons.Neuron.ENeuronType.Exploding => Instance.explode,
+                Neurons.Neuron.ENeuronType.Expanding => Instance.expand,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
         }
     }
 }

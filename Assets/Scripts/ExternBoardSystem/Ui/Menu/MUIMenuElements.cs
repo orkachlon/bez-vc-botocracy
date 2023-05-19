@@ -2,6 +2,7 @@
 using ExternBoardSystem.BoardElements.Example.Creature;
 using ExternBoardSystem.BoardElements.Example.Item;
 using ExternBoardSystem.BoardSystem;
+using ExternBoardSystem.Ui.Board;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ namespace ExternBoardSystem.Ui.Menu
 {
     public class MUIMenuElements : MonoBehaviour
     {
-        [SerializeField] private MBoardElementsController<BoardElement> controller;
+        [SerializeField] private MBoardElementsController<BoardElement, MUIBoardElement> controller;
         
         [Header("Items"), SerializeField] private SItemData apple;
         [SerializeField] private SItemData banana;

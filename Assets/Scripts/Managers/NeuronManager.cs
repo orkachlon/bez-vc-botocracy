@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Ui.Particles;
 using ExternBoardSystem.Ui.Util;
 using MyHexBoardSystem.BoardElements.Neuron;
+using MyHexBoardSystem.UI;
 using Neurons;
 using Tiles;
 using UnityEngine;
@@ -22,13 +24,15 @@ namespace Managers {
         [SerializeField] private MUITileMapHoverHandler uiTileMapHoverHandler;
         
         [Header("Board Element Controller")]
-        [SerializeField] private MBoardElementsController<BoardNeuron> elementsController;
+        [SerializeField] private MBoardElementsController<BoardNeuron, MUIBoardNeuron> elementsController;
         
+        public BoardNeuron CurrentNeuron { get; private set; }
         public static NeuronManager Instance { get; private set; }
         public static event Action OnNeuronPlaced;
+        public event Action OnNoMoreNeurons;
 
-        private Dictionary<MNeuron.ENeuronType, MNeuron> _typeToPrefab;
-        private MNeuron _currentNeuron;
+        private MUINeuron CurrentUINeuron { get; set; }
+        private Dictionary<Neuron.ENeuronType, Neuron> _typeToPrefab;
 
         private void Awake() {
             if (Instance != null && Instance != this) {
@@ -38,74 +42,87 @@ namespace Managers {
                 Instance = this;
             }
             
-            Grid.GridDisabled += HideCurrentNeuron;
+            // Grid.GridDisabled += HideCurrentNeuron;
             
             // new events
-            uiTileMapInputHandler.OnClickTile += PlaceNeuron;
+            // uiTileMapInputHandler.OnClickTile += PlaceNeuron;
+            elementsController.OnAddElement += NextNeuron;
             // hover smoothly with mouse, but mark the tile below
             uiTileMapHoverHandler.OnHoverTile += i => {};
         }
 
         private void Start() {
+            // add some neurons to the queue
             RewardNeurons(10);
-            _currentNeuron = nextNeurons.Dequeue();
-            // add the initial neuron
-            elementsController.SetElementProvider(MNeuronTypeToBoardData.GetNeuronData(MNeuron.ENeuronType.Invulnerable));
-            elementsController.AddStartingElement(new BoardNeuron(MNeuronTypeToBoardData.GetNeuronData(MNeuron.ENeuronType.Invulnerable)), new Hex(0, 0));
+            // place the initial neuron
+            var invulnerableNeuronData = MNeuronTypeToBoardData.GetNeuronData(Neuron.ENeuronType.Invulnerable);
+            var invulnerableBoardNeuron = new BoardNeuron(invulnerableNeuronData);
+            elementsController.SetElementProvider(invulnerableNeuronData);
+            elementsController.AddStartingElement(invulnerableBoardNeuron, new Hex(0, 0));
+            CurrentNeuron = nextNeurons.Dequeue();
             
-            elementsController.SetElementProvider(MNeuronTypeToBoardData.GetNeuronData(EnumUtil.GetRandom<MNeuron.ENeuronType>()));
+            elementsController.SetElementProvider(CurrentNeuron.ElementData);
         }
 
         private void OnDestroy() {
             // Tile.OnTileClickedEvent -= PlaceNeuron;
-            Tile.OnTileMouseEnterEvent -= SnapNeuronToTile;
-            Tile.OnTileMouseExitEvent -= HideCurrentNeuron;
-            Grid.GridDisabled -= HideCurrentNeuron;
+            // Tile.OnTileMouseEnterEvent -= SnapNeuronToTile;
+            // Tile.OnTileMouseExitEvent -= HideCurrentNeuron;
+            // Grid.GridDisabled -= HideCurrentNeuron;
+            uiTileMapInputHandler.OnClickTile -= PlaceNeuron;
+            elementsController.OnAddElement -= NextNeuron;
         }
-
-        private void Update() {
-            // if (Input.GetAxis("Mouse ScrollWheel") < 0) {
-            //     _currentNeuron.Rotate(true);
-            // }
-            // if (Input.GetAxis("Mouse ScrollWheel") > 0) {
-            //     _currentNeuron.Rotate(false);
-            // }
-        }
-
+        
         private void PlaceNeuron(Vector3Int cell) {
-            // var placingSuccessful = tile.PlaceNeuron(_currentNeuron);
+            // var placingSuccessful = tile.PlaceNeuron(CurrentNeuron);
             // if (!placingSuccessful) {
                 // return;
             // }
 
-            // _currentNeuron.Show();
-            // _currentNeuron = nextNeurons.Dequeue();
+            // CurrentNeuron.Show();
+            // CurrentNeuron = nextNeurons.Dequeue();
             // make this actually update the data
-            elementsController.SetElementProvider(MNeuronTypeToBoardData.GetNeuronData(EnumUtil.GetRandom<MNeuron.ENeuronType>()));
+            elementsController.SetElementProvider(MNeuronTypeToBoardData.GetNeuronData(EnumUtil.GetRandom<Neuron.ENeuronType>()));
             OnNeuronPlaced?.Invoke();
         }
 
-        private void HideCurrentNeuron(Tile tile) {
-            if (_currentNeuron == null) {
+        private void NextNeuron(BoardNeuron boardNeuron, Vector3Int cell) {
+            // todo handle neurons being placed by other neurons correctly
+            var nextNeuron = nextNeurons.Dequeue();
+            if (nextNeuron == null) {
                 return;
             }
-            _currentNeuron.Hide();
+
+            CurrentNeuron = nextNeuron;
+            
+            if (nextNeurons.Count == 0) {
+                OnNoMoreNeurons?.Invoke();
+                return;
+            }
+            elementsController.SetElementProvider(CurrentNeuron.ElementData);
+        }
+
+        private void HideCurrentNeuron(Tile tile) {
+            if (CurrentNeuron == null) {
+                return;
+            }
+            CurrentUINeuron.Hide();
         }
         
         private void HideCurrentNeuron() {
-            if (_currentNeuron == null) {
+            if (CurrentNeuron == null) {
                 return;
             }
-            _currentNeuron.Hide();
+            CurrentUINeuron.Hide();
         }
 
         private void SnapNeuronToTile(Tile tile) {
-            _currentNeuron.transform.position = tile.transform.position;
+            CurrentUINeuron.transform.position = tile.transform.position;
             if (tile.IsEmpty()) {
-                _currentNeuron.Show();
+                CurrentUINeuron.Show();
             }
             else {
-                _currentNeuron.Hide();
+                CurrentUINeuron.Hide();
             }
         }
 
@@ -117,10 +134,10 @@ namespace Managers {
             nextNeurons.Enqueue(numOfNeurons);
         }
 
-        public MNeuron GetRandomNeuron() {
-            var rndType = EnumUtil.GetRandom<MNeuron.ENeuronType>();
-            var newNeuron = Instantiate(MNeuronTypeToPrefab.GetNeuronPrefab(rndType), nextNeurons.transform.position, Quaternion.identity, nextNeurons.transform);
-            return newNeuron;
+        public BoardNeuron GetRandomNeuron() {
+            var rndType = EnumUtil.GetRandom<Neuron.ENeuronType>();
+            var data = MNeuronTypeToBoardData.GetNeuronData(rndType);
+            return new BoardNeuron(data);
         }
 
         public void HandleGameStateChanged(GameManager.GameState state) {

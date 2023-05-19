@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neuronType: 1
   artwork: {fileID: 21300000, guid: 9b7607eff053e9c4784bc889689df036, type: 3}
-  model: {fileID: 4560526914762693488, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+  model: {fileID: 4623728799522052598, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
