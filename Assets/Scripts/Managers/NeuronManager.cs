@@ -46,7 +46,7 @@ namespace Managers {
             
             // new events
             // uiTileMapInputHandler.OnClickTile += PlaceNeuron;
-            elementsController.OnAddElement += NextNeuron;
+            elementsController.OnPlaceElement += NextNeuron;
             // hover smoothly with mouse, but mark the tile below
             uiTileMapHoverHandler.OnHoverTile += i => {};
         }
@@ -55,11 +55,10 @@ namespace Managers {
             // add some neurons to the queue
             RewardNeurons(10);
             // place the initial neuron
-            var invulnerableNeuronData = MNeuronTypeToBoardData.GetNeuronData(Neuron.ENeuronType.Invulnerable);
-            var invulnerableBoardNeuron = new BoardNeuron(invulnerableNeuronData);
-            elementsController.SetElementProvider(invulnerableNeuronData);
+            var invulnerableBoardNeuron = GetNeuron(Neuron.ENeuronType.Invulnerable);
+            elementsController.SetElementProvider(invulnerableBoardNeuron.ElementData);
             elementsController.AddStartingElement(invulnerableBoardNeuron, new Hex(0, 0));
-            CurrentNeuron = nextNeurons.Dequeue();
+            NextNeuron(null, Vector3Int.zero);
             
             elementsController.SetElementProvider(CurrentNeuron.ElementData);
         }
@@ -88,12 +87,11 @@ namespace Managers {
 
         private void NextNeuron(BoardNeuron boardNeuron, Vector3Int cell) {
             // todo handle neurons being placed by other neurons correctly
-            var nextNeuron = nextNeurons.Dequeue();
-            if (nextNeuron == null) {
+            CurrentNeuron = nextNeurons.Dequeue();
+            if (CurrentNeuron == null) {
+                elementsController.SetElementProvider(null);
                 return;
             }
-
-            CurrentNeuron = nextNeuron;
             
             if (nextNeurons.Count == 0) {
                 OnNoMoreNeurons?.Invoke();
@@ -132,6 +130,11 @@ namespace Managers {
         
         public void RewardNeurons(int numOfNeurons) {
             nextNeurons.Enqueue(numOfNeurons);
+        }
+
+        public BoardNeuron GetNeuron(Neuron.ENeuronType neuronType) {
+            var data = MNeuronTypeToBoardData.GetNeuronData(neuronType);
+            return new BoardNeuron(data);
         }
 
         public BoardNeuron GetRandomNeuron() {

@@ -25,10 +25,10 @@ namespace ExternBoardSystem.BoardSystem {
         
         protected virtual void Awake() {
             CollectExistingTiles();
+            CreateBoard();
         }
 
         protected void Start() {
-            CreateBoard();
         }
 
         private void CollectExistingTiles() {

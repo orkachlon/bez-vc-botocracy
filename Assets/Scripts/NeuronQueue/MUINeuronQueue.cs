@@ -46,6 +46,12 @@ namespace NeuronQueue {
                 return;
             
             var lastNeuron = controller.Peek(neuronsToShow - 1);
+            
+            // we have less than 'neuronsToShow' neurons
+            if (lastNeuron == null) {
+                return;
+            }
+            
             ShowNeuron(lastNeuron);
         }
 

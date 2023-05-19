@@ -23,6 +23,7 @@ namespace ExternBoardSystem.BoardElements {
         public IBoard<TElement> Board { get; private set; }
         private IElementDataProvider<TElement, TUIElement> ElementProvider { get; set; }
         public event Action<TElement, Vector3Int> OnAddElement;
+        public event Action<TElement, Vector3Int> OnPlaceElement;
         public event Action<TElement, Vector3Int> OnAddElementFailed;
         public event Action<TElement, Vector3Int> OnRemoveElement;
 
@@ -38,12 +39,12 @@ namespace ExternBoardSystem.BoardElements {
         protected void OnClickTile(Vector3Int cell) {
             var hex = GetHexCoordinate(cell);
             if (ElementProvider == null) {
-                RemoveElement(hex);
+                return;
+                // RemoveElement(hex);
             }
-            else {
-                var element = ElementProvider.GetElement();
-                AddElement(element, hex);
-            }
+            var element = ElementProvider.GetElement();
+            AddElement(element, hex);
+            OnPlaceElement?.Invoke(element, GetCellCoordinate(hex));
         }
 
         private void OnCreateBoard(IBoard<TElement> board) {

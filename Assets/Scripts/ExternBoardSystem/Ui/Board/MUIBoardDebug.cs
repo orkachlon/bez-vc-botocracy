@@ -52,7 +52,7 @@ namespace ExternBoardSystem.Ui.Board {
         }
 
         private void OnDrawGizmos() {
-            if (CurrentBoard == null)
+            if (CurrentBoard == null || _positions == null)
                 return;
 
             foreach (var hex in controller.GetHexPoints()) {

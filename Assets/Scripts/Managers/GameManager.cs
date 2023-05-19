@@ -24,6 +24,7 @@ namespace Managers {
             // GameEventManager.OnEventEvaluated += () => ChangeState(GameState.StatTurn);
             GameEventManager.OnNoMoreEvents += () => ChangeState(GameState.StatTurn);
             StatManager.OnStatTurn += isGameLost => ChangeState(isGameLost ? GameState.Lose : GameEventManager.Instance.HasEvents() ? GameState.PlayerTurn : GameState.Win);
+            NeuronManager.Instance.OnNoMoreNeurons += () => ChangeState(GameState.Lose);
         }
 
         private void Start() {
