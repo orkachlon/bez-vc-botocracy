@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Ui.Particles;
 using ExternBoardSystem.Ui.Util;
+using MyHexBoardSystem.BoardElements;
 using MyHexBoardSystem.BoardElements.Neuron;
-using MyHexBoardSystem.UI;
 using Neurons;
 using Tiles;
 using UnityEngine;
 using Utils;
-using Grid = Grids.Grid;
 
 namespace Managers {
     public class NeuronManager : MonoBehaviour {
@@ -24,7 +21,7 @@ namespace Managers {
         [SerializeField] private MUITileMapHoverHandler uiTileMapHoverHandler;
         
         [Header("Board Element Controller")]
-        [SerializeField] private MBoardElementsController<BoardNeuron, MUIBoardNeuron> elementsController;
+        [SerializeField] private MBoardNeuronsController elementsController;
         
         public BoardNeuron CurrentNeuron { get; private set; }
         public static NeuronManager Instance { get; private set; }
