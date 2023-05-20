@@ -8603,6 +8603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17e6c73dcba4089b5b17c089e54a885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentNeuron: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
 --- !u!1 &1648069766
 GameObject:
   m_ObjectHideFlags: 0

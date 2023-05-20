@@ -23,6 +23,7 @@ namespace NeuronQueue {
         private void Awake() {
             _neurons = new Queue<BoardNeuron>();
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, OnBoardElementPlaced);
+            neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
         }
 
         public void Enqueue(IEnumerable<BoardNeuron> neurons) {
@@ -33,7 +34,7 @@ namespace NeuronQueue {
         
         public void Enqueue(BoardNeuron neuron) {
             _neurons.Enqueue(neuron);
-            neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, new NeuronEvent(neuron));
+            neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, new NeuronEventArgs(neuron));
         }
 
         public void Enqueue(int amount) {
@@ -45,14 +46,14 @@ namespace NeuronQueue {
             
         public BoardNeuron Dequeue() {
             if (_neurons.Count == 0) {
-                neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronEvent());
+                neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronEventArgs());
                 return null;
             }
             _neurons.TryDequeue(out var nextNeuron);
             if (nextNeuron == null) {
                 return null;
             }
-            neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronEvent(nextNeuron));
+            neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronEventArgs(nextNeuron));
             return nextNeuron;
         }
 
@@ -75,9 +76,15 @@ namespace NeuronQueue {
 
         #region EventHandlers
 
-        private void OnBoardElementPlaced(EventParams eventData) {
-            if (eventData is OnPlaceElementData<BoardNeuron> neuronEventData) {
+        private void OnBoardElementPlaced(EventArgs eventData) {
+            if (eventData is OnPlaceElementEventArgs<BoardNeuron> neuronEventData) {
                 Dequeue();
+            }
+        }
+
+        private void OnRewardNeurons(EventArgs eventArgs) {
+            if (eventArgs is NeuronRewardEventArgs reward) {
+                Enqueue(reward.Amount);
             }
         }
 

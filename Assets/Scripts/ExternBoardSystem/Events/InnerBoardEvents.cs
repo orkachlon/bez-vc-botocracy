@@ -1,4 +1,5 @@
-﻿using Core.EventSystem;
+﻿using System;
+using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace ExternBoardSystem.Events {
         public const string OnRightClickTile = "InnerBoardOnRightClickTile";
     }
 
-    internal class OnElementEventData<TElement> : EventParams 
+    internal class OnElementEventData<TElement> : EventArgs 
     where TElement : BoardElement {
         public TElement Element;
         public Vector3Int Cell;
@@ -28,7 +29,7 @@ namespace ExternBoardSystem.Events {
         }
     }
 
-    internal class OnBoardEventData<TElement> : EventParams
+    internal class OnBoardEventData<TElement> : EventArgs
     where TElement : BoardElement {
         public IBoard<TElement> Board;
         public IBoardManipulation Manipulator;
@@ -39,7 +40,7 @@ namespace ExternBoardSystem.Events {
         }
     }
 
-    internal class OnInputEventData : EventParams {
+    internal class OnInputEventData : EventArgs {
         public Vector3Int Cell;
 
         public OnInputEventData(Vector3Int cell) {

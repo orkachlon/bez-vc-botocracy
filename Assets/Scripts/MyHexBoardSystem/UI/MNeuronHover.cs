@@ -2,6 +2,8 @@
 using ExternBoardSystem.Tools;
 using ExternBoardSystem.Tools.Input.Mouse;
 using Managers;
+using MyHexBoardSystem.BoardElements.Neuron;
+using Neurons;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,6 +14,10 @@ namespace MyHexBoardSystem.UI {
     /// </summary>
     [RequireComponent(typeof(IMouseInput))]
     public class MNeuronHover : MonoBehaviour {
+
+        [Header("Current Neuron"), SerializeField]
+        private SNeuronData currentNeuron;
+        
         private IMouseInput _mouseInput;
         private Camera _cam;
         private MUIBoardNeuron _currentUINeuron;
@@ -33,17 +39,16 @@ namespace MyHexBoardSystem.UI {
         }
 
         private void Show(PointerEventData eventData) {
-            var currentNeuron = NeuronManager.Instance.CurrentNeuron;
-            if (currentNeuron == null) {
+            if (ENeuronType.Undefined.Equals(currentNeuron.Type)) {
                 return;
             }
-            var neuronModel = currentNeuron.DataProvider.GetModel();
+            var neuronModel = currentNeuron.GetModel();
             _currentUINeuron = MObjectPooler.Instance.Get<MUIBoardNeuron>(neuronModel.gameObject);
-            _currentUINeuron.SetRuntimeElementData(currentNeuron);
+            _currentUINeuron.SetRuntimeElementData(currentNeuron.GetElement());
         }
 
         private void UpdatePosition(Vector2 screenPos) {
-            if (_currentUINeuron == null) {
+            if (ENeuronType.Undefined.Equals(currentNeuron.Type)) {
                 return;
             }
 
@@ -52,11 +57,7 @@ namespace MyHexBoardSystem.UI {
         }
 
         private void Hide(PointerEventData eventData) {
-            if (_currentUINeuron == null) {
-                return;
-            }
             MObjectPooler.Instance.Release(_currentUINeuron.gameObject);
-            _currentUINeuron = null;
         }
 
         private void OnPointerClick(PointerEventData eventData) {

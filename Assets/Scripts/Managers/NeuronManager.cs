@@ -4,22 +4,15 @@ using System.Linq;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Events;
-using ExternBoardSystem.Ui.Particles;
-using ExternBoardSystem.Ui.Util;
-using MyHexBoardSystem.BoardElements;
 using MyHexBoardSystem.BoardElements.Neuron;
 using Neurons;
 using Tiles;
-using Unity.VisualScripting;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
 
 namespace Managers {
     public class NeuronManager : MonoBehaviour {
-
-        [Header("Neuron Queue")]
-        [SerializeField] private NeuronQueue.NeuronQueueController nextNeurons;
 
         [Header("Event Managers"), SerializeField] private SEventManager boardEventManager;
         [SerializeField] private SEventManager neuronEvents;
@@ -28,24 +21,11 @@ namespace Managers {
         private SNeuronData currentNeuronData;
         
         public BoardNeuron CurrentNeuron { get; private set; }
-        public static NeuronManager Instance { get; private set; }
 
         private MUINeuron CurrentUINeuron { get; set; }
         private Dictionary<ENeuronType, Neuron> _typeToPrefab;
 
         private void Awake() {
-            if (Instance != null && Instance != this) {
-                Destroy(this);
-            }
-            else {
-                Instance = this;
-            }
-            
-            // Grid.GridDisabled += HideCurrentNeuron;
-            
-            // new events
-            // uiTileMapInputHandler.OnClickTile += PlaceNeuron;
-            // elementsController.OnPlaceElement += NextNeuron;
             neuronEvents.Register(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
             neuronEvents.Register(NeuronEvents.OnNoMoreNeurons, OnNoMoreNeurons);
             // hover smoothly with mouse, but mark the tile below
@@ -54,13 +34,11 @@ namespace Managers {
 
         private void Start() {
             // add some neurons to the queue
-            RewardNeurons(10);
+            neuronEvents.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(10));
             // place the initial neuron
             var invulnerableBoardNeuron = GetNeuron(ENeuronType.Invulnerable);
             currentNeuronData.SetData(invulnerableBoardNeuron.DataProvider);
-            // elementsController.SetElementProvider(invulnerableBoardNeuron.DataProvider);
-            // elementsController.AddStartingElement(invulnerableBoardNeuron, new Hex(0, 0));
-            var firstNeuronEventData = new OnPlaceElementData<BoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
+            var firstNeuronEventData = new OnPlaceElementEventArgs<BoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
             boardEventManager.Raise(ExternalBoardEvents.OnSetFirstElement, firstNeuronEventData);
         }
 
@@ -75,15 +53,15 @@ namespace Managers {
         
         #region EventHandlers
 
-        private void OnNoMoreNeurons(EventParams eventParams) {
-            if (eventParams is not NeuronEvent)
+        private void OnNoMoreNeurons(EventArgs eventParams) {
+            if (eventParams is not NeuronEventArgs)
                 return;
             CurrentNeuron = null;
             currentNeuronData.Type = ENeuronType.Undefined;
         }
 
-        private void OnDequeueNeuron(EventParams eventParams) {
-            if (eventParams is NeuronEvent data) {
+        private void OnDequeueNeuron(EventArgs eventParams) {
+            if (eventParams is NeuronEventArgs data) {
                 NextNeuron(data.Neuron);
             }
         }
@@ -99,7 +77,7 @@ namespace Managers {
             }
             
             currentNeuronData.SetData(CurrentNeuron.DataProvider);
-            neuronEvents.Raise(NeuronEvents.OnNeuronPlaced, new NeuronEvent(CurrentNeuron));
+            neuronEvents.Raise(NeuronEvents.OnNeuronPlaced, new NeuronEventArgs(CurrentNeuron));
         }
 
         private void HideCurrentNeuron(Tile tile) {
@@ -128,10 +106,6 @@ namespace Managers {
 
         public void PlaceFirstNeuron(Tile tile) {
             throw new NotImplementedException("NeuronManager::PlaceFirstNeuron isn't implemented!");
-        }
-        
-        public void RewardNeurons(int numOfNeurons) {
-            nextNeurons.Enqueue(numOfNeurons);
         }
 
         public static BoardNeuron GetNeuron(ENeuronType neuronType) {

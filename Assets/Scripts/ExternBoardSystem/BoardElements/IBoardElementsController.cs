@@ -6,7 +6,7 @@ namespace ExternBoardSystem.BoardElements {
         public IBoardManipulation Manipulator { get; }
         public IBoard<TElement> Board { get; }
 
-        void AddElement(TElement element, Hex hex);
+        bool AddElement(TElement element, Hex hex);
         void RemoveElement(Hex hex);
     }
 }

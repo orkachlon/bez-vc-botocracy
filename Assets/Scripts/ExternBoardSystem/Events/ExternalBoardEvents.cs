@@ -1,4 +1,5 @@
-﻿using Core.EventSystem;
+﻿using System;
+using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
 
@@ -14,11 +15,11 @@ namespace ExternBoardSystem.Events {
         public const string OnRemoveElement = "BoardOnRemoveElement";
     }
 
-    public class OnPlaceElementData<TElement> : EventParams where TElement : BoardElement {
+    public class OnPlaceElementEventArgs<TElement> : EventArgs where TElement : BoardElement {
         public readonly TElement Element;
         public Hex Hex;
 
-        public OnPlaceElementData(TElement element, Hex hex) {
+        public OnPlaceElementEventArgs(TElement element, Hex hex) {
             Element = element;
             Hex = hex;
         }

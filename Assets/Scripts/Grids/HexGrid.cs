@@ -89,7 +89,8 @@ namespace Grids {
             // CreateRectangularGrid();
             CreateHexagonalGrid();
             PlaceLabels();
-            NeuronManager.Instance.PlaceFirstNeuron(_startingTile);
+            // deprecated
+            // NeuronManager.Instance.PlaceFirstNeuron(_startingTile);
             OnGridCreated();
         }
 

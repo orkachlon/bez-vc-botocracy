@@ -47,14 +47,15 @@ namespace ExternBoardSystem.BoardElements {
             Manipulator = manipulator;
         }
 
-        public virtual void AddElement(TElement element, Hex hex) {
+        public virtual bool AddElement(TElement element, Hex hex) {
             var position = Board.GetPosition(hex);
             if (position == null)
-                return;
+                return false;
             if (position.HasData())
-                return;
+                return false;
             position.AddData(element);
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementAdded, new OnElementEventData<TElement>(element, GetCellCoordinate(hex)));
+            return true;
         }
         
 
@@ -71,13 +72,13 @@ namespace ExternBoardSystem.BoardElements {
 
         #region EventHandlers
 
-        public void OnCreateBoard(EventParams eventData) {
+        public void OnCreateBoard(EventArgs eventData) {
             if (eventData is OnBoardEventData<TElement> boardData) {
                 OnCreateBoard(boardData.Board, boardData.Manipulator);
             }
         }
 
-        private void OnClickTile(EventParams eventData) {
+        private void OnClickTile(EventArgs eventData) {
             if (eventData is OnInputEventData inputEventData) {
                 OnClickTile(inputEventData.Cell);
             }

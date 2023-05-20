@@ -8,10 +8,10 @@ namespace Core.EventSystem {
 
         [SerializeField] private bool debugMessages;
         
-        private readonly Dictionary<string, Action<EventParams>> _eventActionMap = new();
-        private readonly Dictionary<string, Func<EventParams, EventParams>> _eventFunctionMap = new();
+        private readonly Dictionary<string, Action<EventArgs>> _eventActionMap = new();
+        private readonly Dictionary<string, Func<EventArgs, EventArgs>> _eventFunctionMap = new();
 
-        public virtual void Register(string eventName, Action<EventParams> listener) {
+        public virtual void Register(string eventName, Action<EventArgs> listener) {
             if (_eventActionMap.TryGetValue(eventName, out var thisEvent)) {
                 thisEvent += listener;
                 _eventActionMap[eventName] = thisEvent;
@@ -22,14 +22,14 @@ namespace Core.EventSystem {
             }
         }
 
-        public virtual void Unregister(string eventName, Action<EventParams> listener) {
+        public virtual void Unregister(string eventName, Action<EventArgs> listener) {
             if (!_eventActionMap.TryGetValue(eventName, out var thisEvent))
                 return;
             thisEvent -= listener;
             _eventActionMap[eventName] = thisEvent;
         }
 
-        public virtual void Raise(string eventName, EventParams eventParams) {
+        public virtual void Raise(string eventName, EventArgs eventParams) {
             if (_eventActionMap.TryGetValue(eventName, out var thisEvent)) {
                 thisEvent?.Invoke(eventParams);
             }
@@ -39,7 +39,7 @@ namespace Core.EventSystem {
             }
         }
         
-        public virtual void Raise(string eventName, ref EventParams eventParams) {
+        public virtual void Raise(string eventName, ref EventArgs eventParams) {
             if (_eventFunctionMap.TryGetValue(eventName, out var thisEvent)) {
                 thisEvent?.Invoke(eventParams);
             }
@@ -48,9 +48,5 @@ namespace Core.EventSystem {
                 MonoBehaviour.print($"{name} Raised {eventName}!");
             }
         }
-    }
-
-    public class EventParams {
-        
     }
 }

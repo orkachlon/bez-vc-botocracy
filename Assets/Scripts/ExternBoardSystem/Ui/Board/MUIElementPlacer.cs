@@ -1,4 +1,5 @@
-﻿using Core.EventSystem;
+﻿using System;
+using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
@@ -31,19 +32,19 @@ namespace ExternBoardSystem.Ui.Board {
 
         #region EventHandlers
 
-        protected virtual void OnAddElement(EventParams eventData) {
+        protected virtual void OnAddElement(EventArgs eventData) {
             if (eventData is OnElementEventData<T> elementEventData) {
                 OnAddElement(elementEventData.Element, elementEventData.Cell);
             }
         }
         
-        protected virtual void OnCreateBoard(EventParams eventData) {
+        protected virtual void OnCreateBoard(EventArgs eventData) {
             if (eventData is OnBoardEventData<T> boardEventData) {
                 OnCreateBoard(boardEventData.Board);
             }
         }
 
-        protected virtual void OnRemoveElement(EventParams eventData) {
+        protected virtual void OnRemoveElement(EventArgs eventData) {
             if (eventData is OnElementEventData<T> elementEventData) {
                 OnRemoveElement(elementEventData.Element, elementEventData.Cell);
             }

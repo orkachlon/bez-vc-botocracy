@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Core.EventSystem;
 using ExternBoardSystem.Tools;
 using MyHexBoardSystem.BoardElements.Neuron;
@@ -73,14 +74,14 @@ namespace NeuronQueue {
 
         #region EventHandlers
 
-        private void OnEnqueue(EventParams eventData) {
-            if (eventData is NeuronEvent neuronData) {
+        private void OnEnqueue(EventArgs eventData) {
+            if (eventData is NeuronEventArgs neuronData) {
                 OnEnqueue(neuronData.Neuron);
             }
         }
         
-        private void OnDequeue(EventParams eventData) {
-            if (eventData is NeuronEvent neuronData) {
+        private void OnDequeue(EventArgs eventData) {
+            if (eventData is NeuronEventArgs neuronData) {
                 OnDequeue(neuronData.Neuron);
             }
         }

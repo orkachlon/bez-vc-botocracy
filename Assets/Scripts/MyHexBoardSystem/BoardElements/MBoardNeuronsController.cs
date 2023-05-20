@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
@@ -29,15 +30,17 @@ namespace MyHexBoardSystem.BoardElements {
                 return;
             }
             var element = CurrentProvider.GetElement();
-            AddElement(element, hex);
-            var eventData = new OnPlaceElementData<BoardNeuron>(element, hex);
+            if (!AddElement(element, hex)) {
+                return;
+            }
+            var eventData = new OnPlaceElementEventArgs<BoardNeuron>(element, hex);
             externalEventManager.Raise(ExternalBoardEvents.OnPlaceElement, eventData);
             // externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
             // base.OnClickTile(cell);
         }
         
-        public void OnSetFirstNeuron(EventParams eventData) {
-            if (eventData is not OnPlaceElementData<BoardNeuron> neuronData) {
+        public void OnSetFirstNeuron(EventArgs eventData) {
+            if (eventData is not OnPlaceElementEventArgs<BoardNeuron> neuronData) {
                 return;
             }
             var position = Board.GetPosition(neuronData.Hex);
@@ -50,14 +53,14 @@ namespace MyHexBoardSystem.BoardElements {
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData); // ?
         }
 
-        public override void AddElement(BoardNeuron element, Hex hex) {
+        public override bool AddElement(BoardNeuron element, Hex hex) {
             var position = Board.GetPosition(hex);
             var cell = GetCellCoordinate(hex);
             if (position == null)
-                return;
+                return false;
             if (position.HasData()) {
                 DispatchOnAddElementFailed(element, cell);
-                return;
+                return false;
             }
 
             // check if any neighbors exist
@@ -66,7 +69,7 @@ namespace MyHexBoardSystem.BoardElements {
                                                            Board.GetPosition(neighbour).HasData());
             if (!hasNeighbour) {
                 DispatchOnAddElementFailed(element, cell);
-                return;
+                return false;
             }
 
             position.AddData(element);
@@ -75,13 +78,14 @@ namespace MyHexBoardSystem.BoardElements {
             // dispatch event
             DispatchOnAddElement(element, cell);
             
-            var eventData = new OnPlaceElementData<BoardNeuron>(element, hex);
+            var eventData = new OnPlaceElementEventArgs<BoardNeuron>(element, hex);
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
+            return true;
         }
 
         public override void RemoveElement(Hex hex) {
             base.RemoveElement(hex);
-            // var eventData = new OnPlaceElementData<BoardNeuron>(element, hex);
+            // var eventData = new OnPlaceElementEventArgs<BoardNeuron>(element, hex);
 
         }
     }

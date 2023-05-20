@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Core.EventSystem;
 using Managers;
+using Neurons;
 using TMPro;
 using Traits;
 using UnityEngine;
@@ -13,11 +16,17 @@ namespace GameEvents {
         [SerializeField] private TextMeshPro turnCounter;
         [SerializeField] private AnimationCurve neuronEvaluationWeight;
 
+        [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
+
         public int TurnsToEvaluation { get; private set; }
         public bool Evaluated { get; private set; } = false;
 
         private int _reward;
         private StatToTraitWeights _calculationDict;
+
+        private void Awake() {
+            throw new NotImplementedException();
+        }
 
         public void InitData(string eventDescription, int reward, int turnsToEvaluation, StatToTraitWeights calculationDict) {
             // set elementData
@@ -65,7 +74,7 @@ namespace GameEvents {
                 var neuronEvaluation = _calculationDict[stat].Keys.Sum(trait => _calculationDict[stat][trait] * neuronEvaluationWeight.Evaluate((float) Grid.Instance.CountNeurons(trait) / Grid.Instance.CountNeurons()));
                 var numTraits = EnumUtil.GetValues<ETraitType>().Count();
                 StatManager.Instance.Contribute(stat, neuronEvaluation / numTraits);
-                NeuronManager.Instance.RewardNeurons(_reward);
+                neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(_reward));
             }
 
             Evaluated = true;

@@ -1,4 +1,4 @@
-﻿using Core.EventSystem;
+﻿using System;
 using MyHexBoardSystem.BoardElements.Neuron;
 
 namespace Neurons {
@@ -9,17 +9,26 @@ namespace Neurons {
         // queue events
         public const string OnEnqueueNeuron = "NeuronsOnEnqueueNeuron";
         public const string OnDequeueNeuron = "NeuronsOnDequeueNeuron";
+        public const string OnRewardNeurons = "NeuronsOnRewardNeurons";
     }
 
-    public class NeuronEvent : EventParams {
+    public class NeuronEventArgs : EventArgs {
         public readonly BoardNeuron Neuron;
 
-        public NeuronEvent(BoardNeuron neuron) {
+        public NeuronEventArgs(BoardNeuron neuron) {
             Neuron = neuron;
         }
         
-        public NeuronEvent() {
+        public NeuronEventArgs() {
             Neuron = null;
+        }
+    }
+
+    public class NeuronRewardEventArgs : EventArgs {
+        public int Amount;
+
+        public NeuronRewardEventArgs(int amount) {
+            Amount = amount;
         }
     }
 }

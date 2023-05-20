@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca223cfd6b84299bba247f1c7e92512, type: 3}
   m_Name: BoardEventsManager
   m_EditorClassIdentifier: 
-  debugMessages: 1
+  debugMessages: 0
