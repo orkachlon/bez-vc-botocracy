@@ -125,7 +125,7 @@ namespace Managers {
         public void HandleGameStateChanged(GameManager.GameState state) {
             switch (state) {
                 case GameManager.GameState.InitGrid:
-                case GameManager.GameState.EventTurn:
+                case GameManager.GameState.StoryTurn:
                     break;
                 case GameManager.GameState.PlayerTurn:
                     break;

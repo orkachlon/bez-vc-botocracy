@@ -87,7 +87,7 @@ namespace Managers {
                     CheckForGameLossByStats();
                     break;
                 case GameManager.GameState.InitGrid:
-                case GameManager.GameState.EventTurn:
+                case GameManager.GameState.StoryTurn:
                 case GameManager.GameState.PlayerTurn:
                 case GameManager.GameState.EventEvaluation:
                     break;

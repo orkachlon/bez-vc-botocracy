@@ -1,5 +1,5 @@
-﻿namespace GameEvents {
-    public interface IGameEvent {
+﻿namespace StoryPoints {
+    public interface IStoryPoint {
 
         public void Evaluate();
 

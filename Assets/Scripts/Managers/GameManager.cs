@@ -2,6 +2,7 @@
 using System.Linq;
 using Core.EventSystem;
 using Neurons;
+using StoryPoints;
 using Traits;
 using UnityEngine;
 using Utils;
@@ -15,8 +16,8 @@ namespace Managers {
         public static event Action<GameState> OnBeforeGameStateChanged;
         public static event Action<GameState> OnAfterGameStateChanged;
 
-        [Header("Event Managers"), SerializeField]
-        private SEventManager neuronEventManager;
+        [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
+        [SerializeField] private SEventManager storyEventManager;
         
         private void Awake() {
             // game state loop:
@@ -24,13 +25,10 @@ namespace Managers {
             // initGrid > playerTurn > eventTurn( > evaluation > outcome) > statTurn > playerTurn ...
             // todo should these be methods and unsubscribe on destroy?
             Grid.GridInitDone += () => ChangeState(GameState.PlayerTurn);
-            // NeuronManager.OnNeuronPlaced += () => ChangeState(GameState.EventTurn);
-            neuronEventManager.Register(NeuronEvents.OnNeuronPlaced, _ => ChangeState(GameState.EventTurn));
-            GameEventManager.OnEventTurn += () => ChangeState(GameState.StatTurn);
-            // GameEventManager.OnEventEvaluated += () => ChangeState(GameState.StatTurn);
-            GameEventManager.OnNoMoreEvents += () => ChangeState(GameState.StatTurn);
-            StatManager.OnStatTurn += isGameLost => ChangeState(isGameLost ? GameState.Lose : GameEventManager.Instance.HasEvents() ? GameState.PlayerTurn : GameState.Win);
-            // NeuronManager.Instance.OnNoMoreNeurons += () => ChangeState(GameState.Lose);
+            neuronEventManager.Register(NeuronEvents.OnNeuronPlaced, _ => ChangeState(GameState.StoryTurn));
+            storyEventManager.Register(StoryEvents.OnStoryTurn, _ => ChangeState(GameState.StatTurn));
+            storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, _ => ChangeState(GameState.StatTurn));
+            StatManager.OnStatTurn += isGameLost => ChangeState(isGameLost ? GameState.Lose : StoryPointManager.Instance.HasEvents() ? GameState.PlayerTurn : GameState.Win);
             neuronEventManager.Register(NeuronEvents.OnNoMoreNeurons, _ => ChangeState(GameState.Lose));
         }
 
@@ -45,7 +43,7 @@ namespace Managers {
             switch (newState) {
                 case GameState.InitGrid:
                     break;
-                case GameState.EventTurn:
+                case GameState.StoryTurn:
                     break;
                 case GameState.PlayerTurn:
                     break;
@@ -69,7 +67,7 @@ namespace Managers {
 
         public enum GameState {
             InitGrid,
-            EventTurn,
+            StoryTurn,
             PlayerTurn,
             EventEvaluation,
             StatTurn,

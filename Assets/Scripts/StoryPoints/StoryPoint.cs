@@ -9,8 +9,8 @@ using UnityEngine;
 using Utils;
 using Grid = Grids.Grid;
 
-namespace GameEvents {
-    public class GameEvent : MonoBehaviour, IGameEvent {
+namespace StoryPoints {
+    public class StoryPoint : MonoBehaviour, IStoryPoint {
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private TextMeshPro description;
         [SerializeField] private TextMeshPro turnCounter;

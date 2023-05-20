@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 7757088680232381460}
   - component: {fileID: 5441700835829844246}
   m_Layer: 0
-  m_Name: GameEvent
+  m_Name: StoryPointPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
