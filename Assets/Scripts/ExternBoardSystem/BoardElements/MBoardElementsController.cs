@@ -22,7 +22,7 @@ namespace ExternBoardSystem.BoardElements {
         public IBoard<TElement> Board { get; private set; }
         private IElementDataProvider<TElement, TUIElement> ElementProvider { get; set; }
         
-        [Header("Event Managers"), SerializeField] protected SEventManager eventManager;
+        [Header("Event Managers"), SerializeField] protected SEventManager externalEventManager;
         [SerializeField] private SEventManager innerBoardEventManager;
 
         protected virtual void Awake() {

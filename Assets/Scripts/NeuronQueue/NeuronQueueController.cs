@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core.EventSystem;
+using ExternBoardSystem.Events;
 using ExternBoardSystem.Tools;
 using JetBrains.Annotations;
 using Managers;
@@ -12,8 +13,8 @@ using UnityEngine;
 namespace NeuronQueue {
     public class NeuronQueueController : MonoBehaviour, IEnumerable<BoardNeuron> {
 
-        [Header("Event Managers"), SerializeField]
-        private SEventManager neuronEventManager;
+        [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
+        [SerializeField] private SEventManager boardEventManager;
 
         public int Count => _neurons.Count;
 
@@ -21,8 +22,7 @@ namespace NeuronQueue {
 
         private void Awake() {
             _neurons = new Queue<BoardNeuron>();
-            
-            neuronEventManager.Register(NeuronEvents.OnRequestNeuronFromQueue, OnRequestNeuronFromQueue);
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, OnBoardElementPlaced);
         }
 
         public void Enqueue(IEnumerable<BoardNeuron> neurons) {
@@ -33,7 +33,6 @@ namespace NeuronQueue {
         
         public void Enqueue(BoardNeuron neuron) {
             _neurons.Enqueue(neuron);
-            // OnEnqueueNeuron?.Invoke(neuron);
             neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, new NeuronEvent(neuron));
         }
 
@@ -46,14 +45,13 @@ namespace NeuronQueue {
             
         public BoardNeuron Dequeue() {
             if (_neurons.Count == 0) {
-                neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronEvent(null));
+                neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronEvent());
                 return null;
             }
             _neurons.TryDequeue(out var nextNeuron);
             if (nextNeuron == null) {
                 return null;
             }
-            // OnDequeueNeuron?.Invoke(nextNeuron);
             neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronEvent(nextNeuron));
             return nextNeuron;
         }
@@ -77,9 +75,9 @@ namespace NeuronQueue {
 
         #region EventHandlers
 
-        private void OnRequestNeuronFromQueue(EventParams eventData) {
-            if (eventData is NeuronEvent neuronEventData) {
-                neuronEventData.Neuron = Dequeue();
+        private void OnBoardElementPlaced(EventParams eventData) {
+            if (eventData is OnPlaceElementData<BoardNeuron> neuronEventData) {
+                Dequeue();
             }
         }
 

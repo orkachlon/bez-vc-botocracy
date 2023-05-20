@@ -346,6 +346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!4 &495327937
 Transform:
   m_ObjectHideFlags: 0
@@ -538,7 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d7600071a1242cfae63a19d6c7ef9a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  externalEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
   currentNeuronData: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
 --- !u!114 &615794155
@@ -8773,6 +8774,10 @@ PrefabInstance:
       propertyPath: placeNeuronData
       value: 
       objectReference: {fileID: 11400000, guid: 6791cfb0064bdd54a85fc01199d2db77, type: 2}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: boardEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
     - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
       propertyPath: currentNeuronData
       value: 

@@ -20,7 +20,7 @@ namespace MyHexBoardSystem.BoardElements {
         protected override void Awake() {
             base.Awake();
             
-            eventManager.Register(BoardEvents.OnSetFirstNeuron, OnSetFirstNeuron);
+            externalEventManager.Register(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
         }
 
         protected override void OnClickTile(Vector3Int cell) {
@@ -30,7 +30,9 @@ namespace MyHexBoardSystem.BoardElements {
             }
             var element = CurrentProvider.GetElement();
             AddElement(element, hex);
-            eventManager.Raise(BoardEvents.OnPlaceElement, new OnPlaceElementData<BoardNeuron>(element, hex));
+            var eventData = new OnPlaceElementData<BoardNeuron>(element, hex);
+            externalEventManager.Raise(ExternalBoardEvents.OnPlaceElement, eventData);
+            // externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
             // base.OnClickTile(cell);
         }
         
@@ -44,8 +46,8 @@ namespace MyHexBoardSystem.BoardElements {
             if (position.HasData()) // should never fail
                 return;
             position.AddData(neuronData.Element);
-            // OnAddElement?.Invoke(element, GetCellCoordinate(hex));
             DispatchOnAddElement(neuronData.Element, GetCellCoordinate(neuronData.Hex));
+            externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData); // ?
         }
 
         public override void AddElement(BoardNeuron element, Hex hex) {
@@ -72,10 +74,15 @@ namespace MyHexBoardSystem.BoardElements {
             
             // dispatch event
             DispatchOnAddElement(element, cell);
+            
+            var eventData = new OnPlaceElementData<BoardNeuron>(element, hex);
+            externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
         }
 
         public override void RemoveElement(Hex hex) {
             base.RemoveElement(hex);
+            // var eventData = new OnPlaceElementData<BoardNeuron>(element, hex);
+
         }
     }
 }

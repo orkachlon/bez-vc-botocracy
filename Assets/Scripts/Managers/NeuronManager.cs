@@ -21,7 +21,7 @@ namespace Managers {
         [Header("Neuron Queue")]
         [SerializeField] private NeuronQueue.NeuronQueueController nextNeurons;
 
-        [Header("Event Managers"), SerializeField] private SEventManager boardEvents;
+        [Header("Event Managers"), SerializeField] private SEventManager boardEventManager;
         [SerializeField] private SEventManager neuronEvents;
 
         [Header("Current Neuron Data"), SerializeField]
@@ -46,7 +46,8 @@ namespace Managers {
             // new events
             // uiTileMapInputHandler.OnClickTile += PlaceNeuron;
             // elementsController.OnPlaceElement += NextNeuron;
-            boardEvents.Register(BoardEvents.OnPlaceElement, OnPlaceElement);
+            neuronEvents.Register(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
+            neuronEvents.Register(NeuronEvents.OnNoMoreNeurons, OnNoMoreNeurons);
             // hover smoothly with mouse, but mark the tile below
             // uiTileMapHoverHandler.OnHoverTile += i => {};
         }
@@ -60,11 +61,7 @@ namespace Managers {
             // elementsController.SetElementProvider(invulnerableBoardNeuron.DataProvider);
             // elementsController.AddStartingElement(invulnerableBoardNeuron, new Hex(0, 0));
             var firstNeuronEventData = new OnPlaceElementData<BoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
-            boardEvents.Raise(BoardEvents.OnSetFirstNeuron, firstNeuronEventData);
-            NextNeuron();
-            
-            currentNeuronData.SetData(CurrentNeuron.DataProvider);
-            // elementsController.SetElementProvider(CurrentNeuron.DataProvider);
+            boardEventManager.Raise(ExternalBoardEvents.OnSetFirstElement, firstNeuronEventData);
         }
 
         private void OnDestroy() {
@@ -78,31 +75,31 @@ namespace Managers {
         
         #region EventHandlers
 
-        private void OnPlaceElement(EventParams eventParams) {
-            if (eventParams is OnPlaceElementData<BoardNeuron> data) {
-                NextNeuron();
+        private void OnNoMoreNeurons(EventParams eventParams) {
+            if (eventParams is not NeuronEvent)
+                return;
+            CurrentNeuron = null;
+            currentNeuronData.Type = ENeuronType.Undefined;
+        }
+
+        private void OnDequeueNeuron(EventParams eventParams) {
+            if (eventParams is NeuronEvent data) {
+                NextNeuron(data.Neuron);
             }
         }
 
         #endregion
 
-        private void NextNeuron() {
+        private void NextNeuron(BoardNeuron nextNeuron) {
             // todo handle neurons being placed by other neurons correctly
-            var nextNeuron = new BoardNeuron(null);
-            var eventData = new NeuronEvent(ref nextNeuron);
-            // TODO CONTINUE FROM HERE - NEED TO FIND A WAY TO RETURN VALUE FROM EVENT
-            // neuronEvents.Raise(NeuronEvents.OnRequestNeuronFromQueue, ref eventData);
-            CurrentNeuron = eventData.Neuron;
-            // CurrentNeuron = nextNeurons.Dequeue();
+            CurrentNeuron = nextNeuron;
             if (CurrentNeuron == null) {
                 currentNeuronData.Type = ENeuronType.Undefined;
                 return;
             }
             
             currentNeuronData.SetData(CurrentNeuron.DataProvider);
-            
             neuronEvents.Raise(NeuronEvents.OnNeuronPlaced, new NeuronEvent(CurrentNeuron));
-            // elementsController.SetElementProvider(CurrentNeuron.DataProvider);
         }
 
         private void HideCurrentNeuron(Tile tile) {
