@@ -1,5 +1,6 @@
 ﻿using System;
 using ExternBoardSystem.Tools.Singleton;
+using Neurons;
 using UnityEngine;
 
 namespace MyHexBoardSystem.BoardElements.Neuron {
@@ -11,13 +12,13 @@ namespace MyHexBoardSystem.BoardElements.Neuron {
         [SerializeField] private SNeuronData expand;
         [SerializeField] private SNeuronData explode;
 
-        public static SNeuronData GetNeuronData(Neurons.Neuron.ENeuronType type) {
+        public static SNeuronData GetNeuronData(ENeuronType type) {
             return type switch {
-                Neurons.Neuron.ENeuronType.Dummy => Instance.dummy,
-                Neurons.Neuron.ENeuronType.Invulnerable => Instance.invulnerable,
-                Neurons.Neuron.ENeuronType.Exploding => Instance.explode,
-                Neurons.Neuron.ENeuronType.Expanding => Instance.expand,
-                Neurons.Neuron.ENeuronType.Undefined => null,
+                ENeuronType.Dummy => Instance.dummy,
+                ENeuronType.Invulnerable => Instance.invulnerable,
+                ENeuronType.Exploding => Instance.explode,
+                ENeuronType.Expanding => Instance.expand,
+                ENeuronType.Undefined => null,
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
         }

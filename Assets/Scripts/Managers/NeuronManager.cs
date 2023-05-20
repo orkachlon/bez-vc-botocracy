@@ -21,19 +21,17 @@ namespace Managers {
         [Header("Neuron Queue")]
         [SerializeField] private NeuronQueue.NeuronQueueController nextNeurons;
 
-        [Header("Event Managers")] [SerializeField]
-        private SEventManager boardEvents;
+        [Header("Event Managers"), SerializeField] private SEventManager boardEvents;
+        [SerializeField] private SEventManager neuronEvents;
 
         [Header("Current Neuron Data"), SerializeField]
         private SNeuronData currentNeuronData;
         
         public BoardNeuron CurrentNeuron { get; private set; }
         public static NeuronManager Instance { get; private set; }
-        public static event Action OnNeuronPlaced;
-        public event Action OnNoMoreNeurons;
 
         private MUINeuron CurrentUINeuron { get; set; }
-        private Dictionary<Neuron.ENeuronType, Neuron> _typeToPrefab;
+        private Dictionary<ENeuronType, Neuron> _typeToPrefab;
 
         private void Awake() {
             if (Instance != null && Instance != this) {
@@ -48,7 +46,7 @@ namespace Managers {
             // new events
             // uiTileMapInputHandler.OnClickTile += PlaceNeuron;
             // elementsController.OnPlaceElement += NextNeuron;
-            boardEvents.Register(BoardEvents.OnPlaceElement, OnPlaceNeuron);
+            boardEvents.Register(BoardEvents.OnPlaceElement, OnPlaceElement);
             // hover smoothly with mouse, but mark the tile below
             // uiTileMapHoverHandler.OnHoverTile += i => {};
         }
@@ -57,7 +55,7 @@ namespace Managers {
             // add some neurons to the queue
             RewardNeurons(10);
             // place the initial neuron
-            var invulnerableBoardNeuron = GetNeuron(Neuron.ENeuronType.Invulnerable);
+            var invulnerableBoardNeuron = GetNeuron(ENeuronType.Invulnerable);
             currentNeuronData.SetData(invulnerableBoardNeuron.DataProvider);
             // elementsController.SetElementProvider(invulnerableBoardNeuron.DataProvider);
             // elementsController.AddStartingElement(invulnerableBoardNeuron, new Hex(0, 0));
@@ -80,7 +78,7 @@ namespace Managers {
         
         #region EventHandlers
 
-        private void OnPlaceNeuron(EventParams eventParams) {
+        private void OnPlaceElement(EventParams eventParams) {
             if (eventParams is OnPlaceElementData<BoardNeuron> data) {
                 NextNeuron();
             }
@@ -90,16 +88,20 @@ namespace Managers {
 
         private void NextNeuron() {
             // todo handle neurons being placed by other neurons correctly
-            CurrentNeuron = nextNeurons.Dequeue();
+            var nextNeuron = new BoardNeuron(null);
+            var eventData = new NeuronEvent(ref nextNeuron);
+            // TODO CONTINUE FROM HERE - NEED TO FIND A WAY TO RETURN VALUE FROM EVENT
+            // neuronEvents.Raise(NeuronEvents.OnRequestNeuronFromQueue, ref eventData);
+            CurrentNeuron = eventData.Neuron;
+            // CurrentNeuron = nextNeurons.Dequeue();
             if (CurrentNeuron == null) {
-                currentNeuronData.Type = Neuron.ENeuronType.Undefined;
+                currentNeuronData.Type = ENeuronType.Undefined;
                 return;
             }
             
-            if (nextNeurons.Count == 0) {
-                OnNoMoreNeurons?.Invoke();
-            }
             currentNeuronData.SetData(CurrentNeuron.DataProvider);
+            
+            neuronEvents.Raise(NeuronEvents.OnNeuronPlaced, new NeuronEvent(CurrentNeuron));
             // elementsController.SetElementProvider(CurrentNeuron.DataProvider);
         }
 
@@ -135,14 +137,14 @@ namespace Managers {
             nextNeurons.Enqueue(numOfNeurons);
         }
 
-        public BoardNeuron GetNeuron(Neuron.ENeuronType neuronType) {
+        public static BoardNeuron GetNeuron(ENeuronType neuronType) {
             var data = MNeuronTypeToBoardData.GetNeuronData(neuronType);
             return new BoardNeuron(data);
         }
 
-        public BoardNeuron GetRandomNeuron() {
-            var asArray = EnumUtil.GetValues<Neuron.ENeuronType>()
-                .Where(t => t != Neuron.ENeuronType.Undefined)
+        public static BoardNeuron GetRandomNeuron() {
+            var asArray = EnumUtil.GetValues<ENeuronType>()
+                .Where(t => t != ENeuronType.Undefined)
                 .ToArray();
             var rnd = asArray[Random.Range(0, asArray.Length)];
             var data = MNeuronTypeToBoardData.GetNeuronData(rnd);

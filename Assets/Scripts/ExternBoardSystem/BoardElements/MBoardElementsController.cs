@@ -18,23 +18,16 @@ namespace ExternBoardSystem.BoardElements {
         where TElement : BoardElement
         where TUIElement : MUIBoardElement {
         
-        
-        [SerializeField] private MBoardController<TElement> boardController;
-        [SerializeField] private MUITileMapInputHandler uiTileMapInputHandler;
         public IBoardManipulation Manipulator { get; private set; }
         public IBoard<TElement> Board { get; private set; }
-       private IElementDataProvider<TElement, TUIElement> ElementProvider { get; set; }
-       
-       [Header("Events"), SerializeField] protected SEventManager eventManager;
-       [SerializeField] private SEventManager innerBoardEventManager;
-        public event Action<TElement, Vector3Int> OnAddElement;
-        public event Action<TElement, Vector3Int> OnPlaceElement;
-        public event Action<TElement, Vector3Int> OnAddElementFailed;
-        public event Action<TElement, Vector3Int> OnRemoveElement;
+        private IElementDataProvider<TElement, TUIElement> ElementProvider { get; set; }
+        
+        [Header("Event Managers"), SerializeField] protected SEventManager eventManager;
+        [SerializeField] private SEventManager innerBoardEventManager;
 
         protected virtual void Awake() {
-            boardController.OnCreateBoard += OnCreateBoard;
-            uiTileMapInputHandler.OnClickTile += OnClickTile;
+            innerBoardEventManager.Register(InnerBoardEvents.OnCreateBoard, OnCreateBoard);
+            innerBoardEventManager.Register(InnerBoardEvents.OnClickTile, OnClickTile);
         }
 
         public void SetElementProvider(IElementDataProvider<TElement, TUIElement> provider) {
@@ -42,20 +35,16 @@ namespace ExternBoardSystem.BoardElements {
         }
 
         protected virtual void OnClickTile(Vector3Int cell) {
-            var hex = GetHexCoordinate(cell);
-            if (ElementProvider == null) {
-                return;
-                // RemoveElement(hex);
-            }
-            var element = ElementProvider.GetElement();
-            // AddElement(element, hex);
-            // OnPlaceElement?.Invoke(element, GetCellCoordinate(hex));
-            innerBoardEventManager.Raise(BoardEvents.OnPlaceElement, new OnPlaceElementData<TElement>(element, hex));
+            // if (ElementProvider == null) {
+            //     return;
+            // }
+            // var element = ElementProvider.GetElement();
+            // innerBoardEventManager.Raise(InnerBoardEvents.OnElementAdded, new OnElementEventData<TElement>(element, cell));
         }
 
-        private void OnCreateBoard(IBoard<TElement> board) {
+        private void OnCreateBoard(IBoard<TElement> board, IBoardManipulation manipulator) {
             Board = board;
-            Manipulator = boardController.BoardManipulation;
+            Manipulator = manipulator;
         }
 
         public virtual void AddElement(TElement element, Hex hex) {
@@ -65,11 +54,9 @@ namespace ExternBoardSystem.BoardElements {
             if (position.HasData())
                 return;
             position.AddData(element);
-            // OnAddElement?.Invoke(element, GetCellCoordinate(hex));
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementAdded, new OnElementEventData<TElement>(element, GetCellCoordinate(hex)));
         }
         
-        // public virtual void AddSilent
 
         public virtual void RemoveElement(Hex hex) {
             var position = Board.GetPosition(hex);
@@ -79,27 +66,41 @@ namespace ExternBoardSystem.BoardElements {
                 return;
             var data = position.Data;
             position.RemoveData();
-            // OnRemoveElement?.Invoke(data, GetCellCoordinate(hex));
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementRemoved, new OnElementEventData<TElement>(data, GetCellCoordinate(hex)));
         }
+
+        #region EventHandlers
+
+        public void OnCreateBoard(EventParams eventData) {
+            if (eventData is OnBoardEventData<TElement> boardData) {
+                OnCreateBoard(boardData.Board, boardData.Manipulator);
+            }
+        }
+
+        private void OnClickTile(EventParams eventData) {
+            if (eventData is OnInputEventData inputEventData) {
+                OnClickTile(inputEventData.Cell);
+            }
+        }
+
+        #endregion
 
         #region EventDispatchers
 
         protected void DispatchOnAddElement(TElement element, Vector3Int cell) {
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementAdded, new OnElementEventData<TElement>(element, cell));
-            // OnAddElement?.Invoke(element, cell);
         }
 
         protected void DispatchOnAddElementFailed(TElement element, Vector3Int cell) {
-            // OnAddElementFailed?.Invoke(element, cell);
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementAddFailed, new OnElementEventData<TElement>(element, cell));
         }
 
         protected void DispatchOnRemoveElement(TElement element, Vector3Int cell) {
-            // OnRemoveElement?.Invoke(element, cell);
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementRemoved, new OnElementEventData<TElement>(element, cell));
         }
         #endregion
+
+        #region HelperFunctions
 
         protected static Hex GetHexCoordinate(Vector3Int cell) {
             return OffsetCoordHelper.RoffsetToCube(OffsetCoord.Parity.Odd, new OffsetCoord(cell.x, cell.y));
@@ -108,5 +109,7 @@ namespace ExternBoardSystem.BoardElements {
         protected static Vector3Int GetCellCoordinate(Hex hex) {
             return OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, hex).ToVector3Int();
         }
+
+        #endregion
     }
 }

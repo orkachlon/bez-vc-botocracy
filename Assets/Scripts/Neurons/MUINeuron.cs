@@ -6,7 +6,7 @@ namespace Neurons {
         private SpriteRenderer SpriteRenderer { get; set; }
         private Transform Transform { get; set; }
         
-        public Neuron.ENeuronType Type { get; set; }
+        public ENeuronType Type { get; set; }
 
         protected virtual void Awake() {
             SpriteRenderer = GetComponentInChildren<SpriteRenderer>();

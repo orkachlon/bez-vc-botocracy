@@ -5,6 +5,7 @@ using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Events;
 using MyHexBoardSystem.BoardElements.Neuron;
 using MyHexBoardSystem.UI;
+using Neurons;
 using UnityEngine;
 
 namespace MyHexBoardSystem.BoardElements {
@@ -24,13 +25,13 @@ namespace MyHexBoardSystem.BoardElements {
 
         protected override void OnClickTile(Vector3Int cell) {
             var hex = GetHexCoordinate(cell);
-            if (Neurons.Neuron.ENeuronType.Undefined.Equals(CurrentProvider.Type)) {
+            if (ENeuronType.Undefined.Equals(CurrentProvider.Type)) {
                 return;
             }
             var element = CurrentProvider.GetElement();
             AddElement(element, hex);
             eventManager.Raise(BoardEvents.OnPlaceElement, new OnPlaceElementData<BoardNeuron>(element, hex));
-            base.OnClickTile(cell);
+            // base.OnClickTile(cell);
         }
         
         public void OnSetFirstNeuron(EventParams eventData) {

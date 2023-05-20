@@ -1,4 +1,6 @@
 ﻿using System;
+using Core.EventSystem;
+using ExternBoardSystem.Events;
 using ExternBoardSystem.Tools.Input.Mouse;
 using ExternBoardSystem.Ui.Board;
 using UnityEngine;
@@ -18,7 +20,13 @@ namespace ExternBoardSystem.Ui.Util {
         private IMouseInput MouseInput { get; set; }
 
         #region Events
-        public event Action<Vector3Int> OnClickTile;
+
+        [Header("Event Managers"), SerializeField]
+        private SEventManager innerBoardEventManager;
+        
+        /// <summary>
+        ///     DO NOT USE
+        /// </summary>
         public event Action<Vector3Int, Vector2> OnRightClickTile;
         #endregion
 
@@ -34,10 +42,12 @@ namespace ExternBoardSystem.Ui.Util {
             var cell = ConvertPixelToCell(screenPosition);
             switch (eventData.button) {
                 case PointerEventData.InputButton.Left:
-                    OnClickTile?.Invoke(cell);
+                    // OnClickTile?.Invoke(cell);
+                    innerBoardEventManager.Raise(InnerBoardEvents.OnClickTile, new OnInputEventData(cell));
                     break;
                 case PointerEventData.InputButton.Right:
                     OnRightClickTile?.Invoke(cell, screenPosition);
+                    innerBoardEventManager.Raise(InnerBoardEvents.OnRightClickTile, new OnInputEventData(cell));
                     break;
             }
         }

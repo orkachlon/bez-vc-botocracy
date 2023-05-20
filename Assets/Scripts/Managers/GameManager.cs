@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using Core.EventSystem;
+using Neurons;
 using Traits;
 using UnityEngine;
 using Utils;
@@ -12,6 +14,9 @@ namespace Managers {
 
         public static event Action<GameState> OnBeforeGameStateChanged;
         public static event Action<GameState> OnAfterGameStateChanged;
+
+        [Header("Event Managers"), SerializeField]
+        private SEventManager neuronEventManager;
         
         private void Awake() {
             // game state loop:
@@ -19,12 +24,14 @@ namespace Managers {
             // initGrid > playerTurn > eventTurn( > evaluation > outcome) > statTurn > playerTurn ...
             // todo should these be methods and unsubscribe on destroy?
             Grid.GridInitDone += () => ChangeState(GameState.PlayerTurn);
-            NeuronManager.OnNeuronPlaced += () => ChangeState(GameState.EventTurn);
+            // NeuronManager.OnNeuronPlaced += () => ChangeState(GameState.EventTurn);
+            neuronEventManager.Register(NeuronEvents.OnNeuronPlaced, _ => ChangeState(GameState.EventTurn));
             GameEventManager.OnEventTurn += () => ChangeState(GameState.StatTurn);
             // GameEventManager.OnEventEvaluated += () => ChangeState(GameState.StatTurn);
             GameEventManager.OnNoMoreEvents += () => ChangeState(GameState.StatTurn);
             StatManager.OnStatTurn += isGameLost => ChangeState(isGameLost ? GameState.Lose : GameEventManager.Instance.HasEvents() ? GameState.PlayerTurn : GameState.Win);
-            NeuronManager.Instance.OnNoMoreNeurons += () => ChangeState(GameState.Lose);
+            // NeuronManager.Instance.OnNoMoreNeurons += () => ChangeState(GameState.Lose);
+            neuronEventManager.Register(NeuronEvents.OnNoMoreNeurons, _ => ChangeState(GameState.Lose));
         }
 
         private void Start() {

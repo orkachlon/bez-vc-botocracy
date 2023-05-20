@@ -8,28 +8,39 @@ namespace Core.EventSystem {
 
         [SerializeField] private bool debugMessages;
         
-        private readonly Dictionary<string, Action<EventParams>> _eventMap = new();
+        private readonly Dictionary<string, Action<EventParams>> _eventActionMap = new();
+        private readonly Dictionary<string, Func<EventParams, EventParams>> _eventFunctionMap = new();
 
         public virtual void Register(string eventName, Action<EventParams> listener) {
-            if (_eventMap.TryGetValue(eventName, out var thisEvent)) {
+            if (_eventActionMap.TryGetValue(eventName, out var thisEvent)) {
                 thisEvent += listener;
-                _eventMap[eventName] = thisEvent;
+                _eventActionMap[eventName] = thisEvent;
             }
             else {
                 thisEvent += listener;
-                _eventMap.Add(eventName, thisEvent);
+                _eventActionMap.Add(eventName, thisEvent);
             }
         }
 
         public virtual void Unregister(string eventName, Action<EventParams> listener) {
-            if (!_eventMap.TryGetValue(eventName, out var thisEvent))
+            if (!_eventActionMap.TryGetValue(eventName, out var thisEvent))
                 return;
             thisEvent -= listener;
-            _eventMap[eventName] = thisEvent;
+            _eventActionMap[eventName] = thisEvent;
         }
 
         public virtual void Raise(string eventName, EventParams eventParams) {
-            if (_eventMap.TryGetValue(eventName, out var thisEvent)) {
+            if (_eventActionMap.TryGetValue(eventName, out var thisEvent)) {
+                thisEvent?.Invoke(eventParams);
+            }
+
+            if (debugMessages) {
+                MonoBehaviour.print($"{name} Raised {eventName}!");
+            }
+        }
+        
+        public virtual void Raise(string eventName, ref EventParams eventParams) {
+            if (_eventFunctionMap.TryGetValue(eventName, out var thisEvent)) {
                 thisEvent?.Invoke(eventParams);
             }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core.EventSystem;
 using ExternBoardSystem.Tools;
 using MyHexBoardSystem.BoardElements.Neuron;
 using MyHexBoardSystem.UI;
@@ -7,6 +8,10 @@ using UnityEngine;
 
 namespace NeuronQueue {
     public class MUINeuronQueue : MonoBehaviour {
+
+        [Header("Event Managers"), SerializeField]
+        private SEventManager neuronEventManager;
+        
         [SerializeField] private NeuronQueueController controller;
         [SerializeField] private float neuronSpacing;
         [SerializeField] private int neuronsToShow = 5;
@@ -14,14 +19,18 @@ namespace NeuronQueue {
         private readonly Dictionary<BoardNeuron, MUIBoardNeuron> _registerUiElements = new();
 
         private void Awake() {
-            controller.OnEnqueueNeuron += OnEnqueue;
-            controller.OnDequeueNeuron += OnDequeue;
+            // controller.OnEnqueueNeuron += OnEnqueue;
+            // controller.OnDequeueNeuron += OnDequeue;
+            neuronEventManager.Register(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
+            neuronEventManager.Register(NeuronEvents.OnDequeueNeuron, OnDequeue);
         }
 
 
         private void OnDestroy() {
-            controller.OnEnqueueNeuron -= OnEnqueue;
-            controller.OnDequeueNeuron -= OnDequeue;
+            // controller.OnEnqueueNeuron -= OnEnqueue;
+            // controller.OnDequeueNeuron -= OnDequeue;
+            neuronEventManager.Unregister(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
+            neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeue);
         }
 
         private void OnEnqueue(BoardNeuron neuron) {
@@ -61,5 +70,21 @@ namespace NeuronQueue {
             uiElement.SetWorldPosition(transform.position + Vector3.right * (_registerUiElements.Count * neuronSpacing));
             _registerUiElements.Add(neuron, uiElement);
         }
+
+        #region EventHandlers
+
+        private void OnEnqueue(EventParams eventData) {
+            if (eventData is NeuronEvent neuronData) {
+                OnEnqueue(neuronData.Neuron);
+            }
+        }
+        
+        private void OnDequeue(EventParams eventData) {
+            if (eventData is NeuronEvent neuronData) {
+                OnDequeue(neuronData.Neuron);
+            }
+        }
+
+        #endregion
     }
 }

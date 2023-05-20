@@ -26,6 +26,9 @@ namespace ExternBoardSystem.BoardSystem {
         public IBoard<T> Board { get; private set; }
         public IBoardManipulation BoardManipulation { get; private set; }
 
+        /// <summary>
+        ///     DO NOT USE
+        /// </summary>
         public event Action<IBoard<T>> OnCreateBoard;
         
         protected virtual void Awake() {
@@ -53,7 +56,7 @@ namespace ExternBoardSystem.BoardSystem {
                 tilemap.orientation == Tilemap.Orientation.XY ? EOrientation.PointyTop : EOrientation.FlatTop);
             BoardManipulation = new BoardManipulationOddR<T>(Board);
             OnCreateBoard?.Invoke(Board);
-            innerBoardEventManager.Raise(InnerBoardEvents.OnCreateBoard, new OnBoardEventData<T>(Board));
+            innerBoardEventManager.Raise(InnerBoardEvents.OnCreateBoard, new OnBoardEventData<T>(Board, BoardManipulation));
         }
         
         public void DispatchCreateBoard(IBoard<T> board) {
