@@ -1,27 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Core.EventSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
+using ExternBoardSystem.Events;
 using ExternBoardSystem.Ui.Particles;
 using ExternBoardSystem.Ui.Util;
 using MyHexBoardSystem.BoardElements;
 using MyHexBoardSystem.BoardElements.Neuron;
 using Neurons;
 using Tiles;
+using Unity.VisualScripting;
 using UnityEngine;
 using Utils;
+using Random = UnityEngine.Random;
 
 namespace Managers {
     public class NeuronManager : MonoBehaviour {
 
         [Header("Neuron Queue")]
         [SerializeField] private NeuronQueue.NeuronQueueController nextNeurons;
-        
-        [Header("Board Input")]
-        [SerializeField] private MUITileMapInputHandler uiTileMapInputHandler;
-        [SerializeField] private MUITileMapHoverHandler uiTileMapHoverHandler;
-        
-        [Header("Board Element Controller")]
-        [SerializeField] private MBoardNeuronsController elementsController;
+
+        [Header("Event Managers")] [SerializeField]
+        private SEventManager boardEvents;
+
+        [Header("Current Neuron Data"), SerializeField]
+        private SNeuronData currentNeuronData;
         
         public BoardNeuron CurrentNeuron { get; private set; }
         public static NeuronManager Instance { get; private set; }
@@ -43,9 +47,10 @@ namespace Managers {
             
             // new events
             // uiTileMapInputHandler.OnClickTile += PlaceNeuron;
-            elementsController.OnPlaceElement += NextNeuron;
+            // elementsController.OnPlaceElement += NextNeuron;
+            boardEvents.Register(BoardEvents.OnPlaceElement, OnPlaceNeuron);
             // hover smoothly with mouse, but mark the tile below
-            uiTileMapHoverHandler.OnHoverTile += i => {};
+            // uiTileMapHoverHandler.OnHoverTile += i => {};
         }
 
         private void Start() {
@@ -53,11 +58,15 @@ namespace Managers {
             RewardNeurons(10);
             // place the initial neuron
             var invulnerableBoardNeuron = GetNeuron(Neuron.ENeuronType.Invulnerable);
-            elementsController.SetElementProvider(invulnerableBoardNeuron.ElementData);
-            elementsController.AddStartingElement(invulnerableBoardNeuron, new Hex(0, 0));
-            NextNeuron(null, Vector3Int.zero);
+            currentNeuronData.SetData(invulnerableBoardNeuron.DataProvider);
+            // elementsController.SetElementProvider(invulnerableBoardNeuron.DataProvider);
+            // elementsController.AddStartingElement(invulnerableBoardNeuron, new Hex(0, 0));
+            var firstNeuronEventData = new OnPlaceElementData<BoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
+            boardEvents.Raise(BoardEvents.OnSetFirstNeuron, firstNeuronEventData);
+            NextNeuron();
             
-            elementsController.SetElementProvider(CurrentNeuron.ElementData);
+            currentNeuronData.SetData(CurrentNeuron.DataProvider);
+            // elementsController.SetElementProvider(CurrentNeuron.DataProvider);
         }
 
         private void OnDestroy() {
@@ -65,35 +74,33 @@ namespace Managers {
             // Tile.OnTileMouseEnterEvent -= SnapNeuronToTile;
             // Tile.OnTileMouseExitEvent -= HideCurrentNeuron;
             // Grid.GridDisabled -= HideCurrentNeuron;
-            uiTileMapInputHandler.OnClickTile -= PlaceNeuron;
-            elementsController.OnAddElement -= NextNeuron;
+            // uiTileMapInputHandler.OnClickTile -= PlaceNeuron;
+            // elementsController.OnAddElement -= NextNeuron;
         }
         
-        private void PlaceNeuron(Vector3Int cell) {
-            // var placingSuccessful = tile.PlaceNeuron(CurrentNeuron);
-            // if (!placingSuccessful) {
-                // return;
-            // }
+        #region EventHandlers
 
-            // CurrentNeuron.Show();
-            // CurrentNeuron = nextNeurons.Dequeue();
-            // make this actually update the data
-            elementsController.SetElementProvider(MNeuronTypeToBoardData.GetNeuronData(EnumUtil.GetRandom<Neuron.ENeuronType>()));
-            OnNeuronPlaced?.Invoke();
+        private void OnPlaceNeuron(EventParams eventParams) {
+            if (eventParams is OnPlaceElementData<BoardNeuron> data) {
+                NextNeuron();
+            }
         }
 
-        private void NextNeuron(BoardNeuron boardNeuron, Vector3Int cell) {
+        #endregion
+
+        private void NextNeuron() {
             // todo handle neurons being placed by other neurons correctly
             CurrentNeuron = nextNeurons.Dequeue();
             if (CurrentNeuron == null) {
-                elementsController.SetElementProvider(null);
+                currentNeuronData.Type = Neuron.ENeuronType.Undefined;
                 return;
             }
             
             if (nextNeurons.Count == 0) {
                 OnNoMoreNeurons?.Invoke();
             }
-            elementsController.SetElementProvider(CurrentNeuron.ElementData);
+            currentNeuronData.SetData(CurrentNeuron.DataProvider);
+            // elementsController.SetElementProvider(CurrentNeuron.DataProvider);
         }
 
         private void HideCurrentNeuron(Tile tile) {
@@ -134,8 +141,11 @@ namespace Managers {
         }
 
         public BoardNeuron GetRandomNeuron() {
-            var rndType = EnumUtil.GetRandom<Neuron.ENeuronType>();
-            var data = MNeuronTypeToBoardData.GetNeuronData(rndType);
+            var asArray = EnumUtil.GetValues<Neuron.ENeuronType>()
+                .Where(t => t != Neuron.ENeuronType.Undefined)
+                .ToArray();
+            var rnd = asArray[Random.Range(0, asArray.Length)];
+            var data = MNeuronTypeToBoardData.GetNeuronData(rnd);
             return new BoardNeuron(data);
         }
 

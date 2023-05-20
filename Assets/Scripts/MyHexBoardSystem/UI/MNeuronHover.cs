@@ -37,7 +37,7 @@ namespace MyHexBoardSystem.UI {
             if (currentNeuron == null) {
                 return;
             }
-            var neuronModel = currentNeuron.ElementData.GetModel();
+            var neuronModel = currentNeuron.DataProvider.GetModel();
             _currentUINeuron = MObjectPooler.Instance.Get<MUIBoardNeuron>(neuronModel.gameObject);
             _currentUINeuron.SetRuntimeElementData(currentNeuron);
         }

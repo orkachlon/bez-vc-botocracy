@@ -13,6 +13,10 @@ namespace ExternBoardSystem.BoardElements
         }
 
         public IElementDataProvider<BoardElement, MUIBoardElement> DataProvider { get; }
+
+        public override string ToString() {
+            return DataProvider.ToString();
+        }
     }
 
     public interface IElementDataProvider<out TElement, out TUIElement> where TElement : BoardElement {

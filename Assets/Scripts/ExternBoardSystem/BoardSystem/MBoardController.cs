@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
+using ExternBoardSystem.Events;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -15,6 +17,9 @@ namespace ExternBoardSystem.BoardSystem {
     /// </summary>
     public class MBoardController<T> : MonoBehaviour, IBoardController<T> where T : BoardElement {
         [SerializeField] private Tilemap tilemap;
+
+        [Header("Event Managers"), SerializeField]
+        private SEventManager innerBoardEventManager;
 
         private readonly HashSet<Hex> _tiles = new();
         
@@ -48,6 +53,7 @@ namespace ExternBoardSystem.BoardSystem {
                 tilemap.orientation == Tilemap.Orientation.XY ? EOrientation.PointyTop : EOrientation.FlatTop);
             BoardManipulation = new BoardManipulationOddR<T>(Board);
             OnCreateBoard?.Invoke(Board);
+            innerBoardEventManager.Raise(InnerBoardEvents.OnCreateBoard, new OnBoardEventData<T>(Board));
         }
         
         public void DispatchCreateBoard(IBoard<T> board) {

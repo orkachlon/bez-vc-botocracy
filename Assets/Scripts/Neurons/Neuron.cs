@@ -7,7 +7,8 @@ namespace Neurons {
             Undefined,
             Invulnerable,
             Exploding,
-            Expanding
+            Expanding,
+            Dummy
         }
 
         public Neuron(SNeuronData dataProvider) {

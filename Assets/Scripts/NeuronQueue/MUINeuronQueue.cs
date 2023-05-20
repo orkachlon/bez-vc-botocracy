@@ -56,7 +56,7 @@ namespace NeuronQueue {
         }
 
         private void ShowNeuron(BoardNeuron neuron) {
-            var uiElement = MObjectPooler.Instance.Get<MUIBoardNeuron>(neuron.ElementData.GetModel().gameObject);
+            var uiElement = MObjectPooler.Instance.Get<MUIBoardNeuron>(neuron.DataProvider.GetModel().gameObject);
             uiElement.SetRuntimeElementData(neuron);
             uiElement.SetWorldPosition(transform.position + Vector3.right * (_registerUiElements.Count * neuronSpacing));
             _registerUiElements.Add(neuron, uiElement);

@@ -4,19 +4,29 @@ using MyHexBoardSystem.UI;
 using UnityEngine;
 
 namespace MyHexBoardSystem.BoardElements.Neuron {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "Neurons/Neuron Data")]
     public class SNeuronData : ScriptableObject, IElementDataProvider<BoardNeuron, MUIBoardNeuron> {
         [SerializeField] private Neurons.Neuron.ENeuronType neuronType;
+
+        public Neurons.Neuron.ENeuronType Type {
+            get => neuronType;
+            set => neuronType = value;
+        }
         
-        [Header("Visuals")]
+        [Header("Sprite")]
         [SerializeField] private Sprite artwork;
         
-        // todo think about using only 1 model
         [Header("Pooling Model")]
         [SerializeField] private MUIBoardNeuron model;
 
+        public void SetData(SNeuronData other) {
+            Type = other.Type;
+            artwork = other.artwork;
+            model = other.model;
+        }
+
         public BoardNeuron GetElement() {
-            return new(this);
+            return new BoardNeuron(this);
         }
 
         public MUIBoardNeuron GetModel() {
@@ -42,7 +52,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron {
                     continue;
                 // expand to this hex
                 var newElement =
-                    new BoardNeuron(MNeuronTypeToBoardData.GetNeuronData(Neurons.Neuron.ENeuronType.Undefined));
+                    new BoardNeuron(MNeuronTypeToBoardData.GetNeuronData(Neurons.Neuron.ENeuronType.Dummy));
                 elementsController.AddElement(newElement, neighbour);
             }
         }
@@ -51,13 +61,15 @@ namespace MyHexBoardSystem.BoardElements.Neuron {
             var neighbours = elementsController.Manipulator.GetNeighbours(cell);
             foreach (var neighbour in neighbours) {
                 var neighbourPos = elementsController.Board.GetPosition(neighbour);
-                if (!neighbourPos.HasData() || Neurons.Neuron.ENeuronType.Invulnerable.Equals(neighbourPos.Data.ElementData.neuronType))
+                if (!neighbourPos.HasData() || Neurons.Neuron.ENeuronType.Invulnerable.Equals(neighbourPos.Data.DataProvider.neuronType))
                     continue;
                 // explode this neuron
                 elementsController.RemoveElement(neighbour);
             }
         }
-        
-        
+
+        public override string ToString() {
+            return $"{neuronType}";
+        }
     }
 }

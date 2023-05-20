@@ -5,6 +5,6 @@ namespace MyHexBoardSystem.BoardElements.Neuron {
         public BoardNeuron(SNeuronData dataProvider) : base(dataProvider) {
         }
         
-        public SNeuronData ElementData => DataProvider as SNeuronData;
+        public new SNeuronData DataProvider => base.DataProvider as SNeuronData;
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace ExternBoardSystem.BoardElements.Example.Creature {
-    [CreateAssetMenu]
+    // [CreateAssetMenu]
     public class SCreatureData : ScriptableObject, IElementDataProvider<BoardElement, MUIBoardElement> {
         [SerializeField] private Sprite artwork;
         [SerializeField] private MUIBoardElement model;

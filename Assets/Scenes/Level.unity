@@ -538,6 +538,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardController: {fileID: 615794156}
   uiTileMapInputHandler: {fileID: 1609176189}
+  eventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
+  currentNeuronData: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
 --- !u!114 &615794155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,6 +569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1609176185}
+  innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
 --- !u!1 &619682892
 GameObject:
   m_ObjectHideFlags: 0
@@ -8584,6 +8588,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 615794156}
   elementsController: {fileID: 615794154}
+  innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
 --- !u!114 &1609176195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8752,6 +8757,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: boardEvents
+      value: 
+      objectReference: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
       propertyPath: nextNeurons
       value: 
       objectReference: {fileID: 495327936}
@@ -8759,6 +8768,10 @@ PrefabInstance:
       propertyPath: placeNeuronData
       value: 
       objectReference: {fileID: 11400000, guid: 6791cfb0064bdd54a85fc01199d2db77, type: 2}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: currentNeuronData
+      value: 
+      objectReference: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
     - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
       propertyPath: elementsController
       value: 

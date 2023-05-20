@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
+using ExternBoardSystem.Events;
 using ExternBoardSystem.Tools;
 using UnityEngine;
 
@@ -12,7 +15,7 @@ namespace ExternBoardSystem.Ui.Board {
     /// </summary>
     public class MUIGeneralPlacer : MUIElementPlacer<BoardElement, MUIBoardElement> {
         private readonly Dictionary<BoardElement, MUIBoardElement> _registerUiElements = new();
-        
+
         protected override void OnCreateBoard(IBoard<BoardElement> board) {
             CreateBoardUi();
         }
