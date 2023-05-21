@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OddHex
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 21300000, guid: 63d1a60cdfc36f3419cd3c67674a290a, type: 3}
-  m_Color: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 1}
+  m_Color: {r: 0.26563427, g: 0.2933236, b: 0.3490566, a: 1}
   m_Transform:
     e00: 1
     e01: 0

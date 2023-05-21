@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 58cfb734ab8fb704092cbc3cda2cee6d, type: 3}
-  m_Color: {r: 0.18123294, g: 0.38679248, b: 0.26388508, a: 1}
+  m_Color: {r: 0.24365135, g: 0.34323627, b: 0.4056604, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -158,7 +158,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 58cfb734ab8fb704092cbc3cda2cee6d, type: 3}
-  m_Color: {r: 0.572327, g: 1, b: 0.73291194, a: 1}
+  m_Color: {r: 0.5660377, g: 0.8490566, b: 0.70058095, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -215,7 +215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1232680c69841bc8ca513addd0b9af0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0.5
+  dataProvider: {fileID: 0}
+  statEventManager: {fileID: 0}
   statFill: {fileID: 6854504967864753953}
 --- !u!1 &5609858843125523523
 GameObject:

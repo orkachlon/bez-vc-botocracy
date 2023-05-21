@@ -45,6 +45,7 @@ namespace MyHexBoardSystem.UI {
             var neuronModel = currentNeuron.GetModel();
             _currentUINeuron = MObjectPooler.Instance.Get<MUIBoardNeuron>(neuronModel.gameObject);
             _currentUINeuron.SetRuntimeElementData(currentNeuron.GetElement());
+            _currentUINeuron.ToFront();
         }
 
         private void UpdatePosition(Vector2 screenPos) {
@@ -60,6 +61,7 @@ namespace MyHexBoardSystem.UI {
             if (_currentUINeuron == null) {
                 return;
             }
+            _currentUINeuron.ToBack();
             MObjectPooler.Instance.Release(_currentUINeuron.gameObject);
         }
 
