@@ -8,10 +8,6 @@ namespace Tiles {
 
         public static event Action<Tile> OnTileDragEvent;
         public static event Action<Vector3> OnTileMouseDownEvent;
-        public static event Action<Tile> OnTileClickedEvent;
-        public static event Action<Tile> OnTileMouseEnterEvent;
-        public static event Action<Tile> OnTileMouseOverEvent;
-        public static event Action<Tile> OnTileMouseExitEvent;
 
         [SerializeField] private float mouseClickThreshold;
 
@@ -72,7 +68,7 @@ namespace Tiles {
             if (!IsEmpty()) {
                 TileRenderer.color = _tileOccupiedColor;
             }
-            OnTileMouseOverEvent?.Invoke(this);
+            // OnTileMouseOverEvent?.Invoke(this);
 
         }
 
@@ -82,7 +78,7 @@ namespace Tiles {
                 return;
             }
             TileRenderer.color = TileBaseColor;
-            OnTileMouseExitEvent?.Invoke(this);
+            // OnTileMouseExitEvent?.Invoke(this);
         }
 
         private void OnMouseDrag() {
@@ -98,7 +94,7 @@ namespace Tiles {
                 return;
             }
             _mouseDownTime = Time.time;
-            OnTileMouseDownEvent?.Invoke(Utils.Unity.GetMousePos());
+            // OnTileMouseDownEvent?.Invoke(Utils.Unity.GetMousePos());
         }
 
         private void OnMouseUpAsButton() {
@@ -109,7 +105,7 @@ namespace Tiles {
                 // not a click
                 return;
             }
-            OnTileClickedEvent?.Invoke(this);
+            // OnTileClickedEvent?.Invoke(this);
         }
         #endregion
 

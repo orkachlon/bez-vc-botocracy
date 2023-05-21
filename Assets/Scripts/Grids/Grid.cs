@@ -52,28 +52,28 @@ namespace Grids {
             }
             Tile.OnTileDragEvent += DragGrid;
             Tile.OnTileMouseDownEvent += SetMouseOffsetForDrag;
-            GameManager.OnAfterGameStateChanged += HandleAfterGameStateChanged;
+            // GameManager.OnAfterGameStateChanged += HandleAfterGameStateChanged;
         }
         
         protected virtual void OnDestroy() {
             Tile.OnTileDragEvent -= DragGrid;
             Tile.OnTileMouseDownEvent -= SetMouseOffsetForDrag;
-            GameManager.OnAfterGameStateChanged -= HandleAfterGameStateChanged;
+            // GameManager.OnAfterGameStateChanged -= HandleAfterGameStateChanged;
         }
 
-        public void HandleAfterGameStateChanged(GameManager.GameState state) {
+        public void HandleAfterGameStateChanged(GameState state, EventArgs customArgs = null) {
             switch (state) {
-                case GameManager.GameState.InitGrid:
+                case GameState.InitGrid:
                     CreateGrid();
                     break;
-                case GameManager.GameState.PlayerTurn:
+                case GameState.PlayerTurn:
                     EnableGridInteractions();
                     break;
-                case GameManager.GameState.EventEvaluation:
-                case GameManager.GameState.StoryTurn:
-                case GameManager.GameState.Win:
-                case GameManager.GameState.Lose:
-                case GameManager.GameState.StatTurn:
+                case GameState.EventEvaluation:
+                case GameState.StoryTurn:
+                case GameState.Win:
+                case GameState.Lose:
+                case GameState.StatTurn:
                     DisableGridInteractions();
                     break;
                 default:

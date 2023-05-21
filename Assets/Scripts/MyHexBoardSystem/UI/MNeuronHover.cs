@@ -57,6 +57,9 @@ namespace MyHexBoardSystem.UI {
         }
 
         private void Hide(PointerEventData eventData) {
+            if (_currentUINeuron == null) {
+                return;
+            }
             MObjectPooler.Instance.Release(_currentUINeuron.gameObject);
         }
 

@@ -14,7 +14,9 @@ using Random = UnityEngine.Random;
 namespace Managers {
     public class NeuronManager : MonoBehaviour {
 
-        [Header("Event Managers"), SerializeField] private SEventManager boardEventManager;
+        [Header("Event Managers"), SerializeField]
+        private SEventManager gmEventManager;
+        [SerializeField] private SEventManager boardEventManager;
         [SerializeField] private SEventManager neuronEvents;
 
         [Header("Current Neuron Data"), SerializeField]
@@ -40,6 +42,7 @@ namespace Managers {
             currentNeuronData.SetData(invulnerableBoardNeuron.DataProvider);
             var firstNeuronEventData = new OnPlaceElementEventArgs<BoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
             boardEventManager.Raise(ExternalBoardEvents.OnSetFirstElement, firstNeuronEventData);
+            gmEventManager.Raise(GameManagerEvents.OnGameLoopStart, EventArgs.Empty);
         }
 
         private void OnDestroy() {
@@ -122,20 +125,20 @@ namespace Managers {
             return new BoardNeuron(data);
         }
 
-        public void HandleGameStateChanged(GameManager.GameState state) {
+        public void HandleGameStateChanged(GameState state) {
             switch (state) {
-                case GameManager.GameState.InitGrid:
-                case GameManager.GameState.StoryTurn:
+                case GameState.InitGrid:
+                case GameState.StoryTurn:
                     break;
-                case GameManager.GameState.PlayerTurn:
+                case GameState.PlayerTurn:
                     break;
-                case GameManager.GameState.EventEvaluation:
+                case GameState.EventEvaluation:
                     break;
-                case GameManager.GameState.StatTurn:
+                case GameState.StatTurn:
                     break;
-                case GameManager.GameState.Win:
+                case GameState.Win:
                     break;
-                case GameManager.GameState.Lose:
+                case GameState.Lose:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Core.EventSystem;
+using GameStats;
 using Managers;
 using Neurons;
 using TMPro;
@@ -11,12 +12,14 @@ using Grid = Grids.Grid;
 
 namespace StoryPoints {
     public class StoryPoint : MonoBehaviour, IStoryPoint {
+        
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private TextMeshPro description;
         [SerializeField] private TextMeshPro turnCounter;
         [SerializeField] private AnimationCurve neuronEvaluationWeight;
 
         [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
+        [SerializeField] private SEventManager statEventManager;
 
         public int TurnsToEvaluation { get; private set; }
         public bool Evaluated { get; private set; } = false;
@@ -25,7 +28,7 @@ namespace StoryPoints {
         private StatToTraitWeights _calculationDict;
 
         private void Awake() {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         public void InitData(string eventDescription, int reward, int turnsToEvaluation, StatToTraitWeights calculationDict) {
@@ -66,14 +69,14 @@ namespace StoryPoints {
 #endif
             }
             // shouldn't happen because we always have the first neuron
-            if (Grid.Instance.CountNeurons() == 0) {
-                return;
-            }
+            // if (Grid.Instance.CountNeurons() == 0) {
+            //     return;
+            // }
             foreach (var stat in _calculationDict.Keys) {
                 // sum(traitWeight * curve(numNeuronsPerTrait / neuronsOnGrid)) / numTraits
-                var neuronEvaluation = _calculationDict[stat].Keys.Sum(trait => _calculationDict[stat][trait] * neuronEvaluationWeight.Evaluate((float) Grid.Instance.CountNeurons(trait) / Grid.Instance.CountNeurons()));
+                var neuronEvaluation = 0.3f;// _calculationDict[stat].Keys.Sum(trait => _calculationDict[stat][trait] * neuronEvaluationWeight.Evaluate((float) Grid.Instance.CountNeurons(trait) / Grid.Instance.CountNeurons()));
                 var numTraits = EnumUtil.GetValues<ETraitType>().Count();
-                StatManager.Instance.Contribute(stat, neuronEvaluation / numTraits);
+                statEventManager.Raise(StatEvents.OnContributeToStat, new StatContributeEventArgs(stat, neuronEvaluation / numTraits));
                 neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(_reward));
             }
 

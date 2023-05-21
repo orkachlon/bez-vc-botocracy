@@ -2,32 +2,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core.EventSystem;
 using GameStats;
 using UnityEngine;
 
 namespace Managers {
-    public class StatManager : MonoBehaviour, IGameStateResponder, IEnumerable<Stat> {
+    public class StatManager : MonoBehaviour, IGameStateResponder, IEnumerable<MStat> {
 
-        [SerializeField] private float statLoLimit = 0;
-        [SerializeField] private float statHiLimit = 1;
-
-        public static event Action<bool> OnStatTurn;
+        [Header("Event Managers"), SerializeField] private SEventManager statEventManager; 
+        [SerializeField] private SEventManager gmEventManager;
         
-        [SerializeField] private Stat health;
+        [SerializeField] private MStat health;
 
         public float Health {
             get => health.Value;
             private set => health.Value = value;
         }
 
-        [SerializeField] private Stat defense;
+        [SerializeField] private MStat defense;
 
         public float Defense {
             get => defense.Value;
             private set => defense.Value = value;
         }
 
-        [SerializeField] private Stat economy;
+        [SerializeField] private MStat economy;
 
         public float Economy {
             get => economy.Value;
@@ -44,12 +43,13 @@ namespace Managers {
                 Instance = this;
             }
 
-            GameManager.OnAfterGameStateChanged += HandleAfterGameStateChanged;
+            gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
+            statEventManager.Register(StatEvents.OnPrintStats, OnPrintStats);
         }
 
         private void OnDestroy() {
-            GameManager.OnAfterGameStateChanged -= HandleAfterGameStateChanged;
-
+            gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
+            statEventManager.Unregister(StatEvents.OnPrintStats, OnPrintStats);
         }
 
         public void Contribute(EStatType stat, float amount) {
@@ -69,30 +69,31 @@ namespace Managers {
         }
 
         public bool IsStatOutOfBounds() {
-            return !economy.IsInBounds(statLoLimit, statHiLimit) || !defense.IsInBounds(statLoLimit, statHiLimit) ||
-                   !health.IsInBounds(statLoLimit, statHiLimit);
+            return !economy.IsInBounds() || !defense.IsInBounds() ||
+                   !health.IsInBounds();
         }
 
         private void CheckForGameLossByStats() {
             if (IsStatOutOfBounds()) {
-                OnStatTurn?.Invoke(true);
+                // OnStatTurn?.Invoke(true);
                 return;
             }
-            OnStatTurn?.Invoke(false);
+            // OnStatTurn?.Invoke(false);
+            statEventManager.Raise(StatEvents.OnStatTurn, EventArgs.Empty);
         }
 
-        public void HandleAfterGameStateChanged(GameManager.GameState state) {
+        public void HandleAfterGameStateChanged(GameState state, EventArgs customArgs = null) {
             switch (state) {
-                case GameManager.GameState.StatTurn:
+                case GameState.StatTurn:
                     CheckForGameLossByStats();
                     break;
-                case GameManager.GameState.InitGrid:
-                case GameManager.GameState.StoryTurn:
-                case GameManager.GameState.PlayerTurn:
-                case GameManager.GameState.EventEvaluation:
+                case GameState.InitGrid:
+                case GameState.StoryTurn:
+                case GameState.PlayerTurn:
+                case GameState.EventEvaluation:
                     break;
-                case GameManager.GameState.Win:
-                case GameManager.GameState.Lose:
+                case GameState.Win:
+                case GameState.Lose:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -100,12 +101,26 @@ namespace Managers {
         }
 
         public void PrintStats() {
-            Debug.Log(string.Join("\n", Instance.Select(stat => $"{stat} -> {stat.Value}")));
+            Debug.Log(string.Join("\n", this.Select(stat => $"{stat} -> {stat.Value}")));
         }
 
+        #region EventHandlers
+
+        private void OnAfterGameState(EventArgs eventArgs) {
+            if (eventArgs is GameStateEventArgs gameStateEventArgs) {
+                HandleAfterGameStateChanged(gameStateEventArgs.State);
+            }
+        }
+
+        private void OnPrintStats(EventArgs eventArgs) {
+            PrintStats();
+        }
+
+        #endregion
+
         #region IEnumerable
-        public IEnumerator<Stat> GetEnumerator() {
-            return new List<Stat>() {health, defense, economy}.GetEnumerator();
+        public IEnumerator<MStat> GetEnumerator() {
+            return new List<MStat>() {health, defense, economy}.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {

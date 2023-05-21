@@ -20,16 +20,12 @@ namespace NeuronQueue {
         private readonly Dictionary<BoardNeuron, MUIBoardNeuron> _registerUiElements = new();
 
         private void Awake() {
-            // controller.OnEnqueueNeuron += OnEnqueue;
-            // controller.OnDequeueNeuron += OnDequeue;
             neuronEventManager.Register(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Register(NeuronEvents.OnDequeueNeuron, OnDequeue);
         }
 
 
         private void OnDestroy() {
-            // controller.OnEnqueueNeuron -= OnEnqueue;
-            // controller.OnDequeueNeuron -= OnDequeue;
             neuronEventManager.Unregister(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeue);
         }

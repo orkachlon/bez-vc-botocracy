@@ -511,3 +511,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
+  statEventManager: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}

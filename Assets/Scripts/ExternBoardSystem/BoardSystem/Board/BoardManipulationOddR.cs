@@ -145,6 +145,37 @@ namespace ExternBoardSystem.BoardSystem.Board {
             return path.ToArray();
         }
 
+        public Hex[] GetTriangle(int qSign, int rSign, int sSign) {
+            qSign = (int) Mathf.Sign(qSign);
+            rSign = (int) Mathf.Sign(rSign);
+            sSign = (int) Mathf.Sign(sSign);
+            
+            int i1, i2;
+            if (qSign == 0) {
+                i1 = rSign;
+                i2 = sSign;
+            } else if (rSign == 0) {
+                i1 = qSign;
+                i2 = sSign;
+            }
+            else {
+                i1 = qSign;
+                i2 = rSign;
+            }
+
+            var hexes = new List<Hex>();
+            while (Contains(GetCellCoordinate(new Hex(i1, 0)))) {
+                while (Mathf.Abs(i2) <= Mathf.Abs(i1)) {
+                    hexes.Add(new Hex(i1, i2));
+                    i2 += rSign;
+                }
+
+                i1 += qSign;
+            }
+
+            return hexes.ToArray();
+        }
+
         /// <summary>
         ///     Unity by default makes use the R-Offset Odd to reference tiles inside a TileMap with a vector3Int cell.
         ///     The internal board manipulation works with HexCoordinates, this method converts vector3int cell to hex.

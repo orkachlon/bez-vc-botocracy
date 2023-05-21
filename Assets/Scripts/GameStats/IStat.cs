@@ -3,7 +3,7 @@
         
         public float Value { get; set; }
 
-        public bool IsInBounds(float lo, float hi);
+        public bool IsInBounds();
     }
 
     public enum EStatType {

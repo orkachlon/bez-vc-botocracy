@@ -53,23 +53,23 @@ namespace Managers {
             }
         }
 
-        public void HandleAfterGameStateChanged(GameManager.GameState state) {
+        public void HandleAfterGameStateChanged(GameState state, EventArgs customArgs = null) {
             switch (state) {
-                case GameManager.GameState.StoryTurn:
+                case GameState.StoryTurn:
                     StoryTurn();
                     storyEventManager.Raise(StoryEvents.OnStoryTurn, EventArgs.Empty);
                     // OnEventTurn?.Invoke();
                     break;
-                case GameManager.GameState.EventEvaluation:
+                case GameState.EventEvaluation:
                     // EvaluateCurrentStory();
                     break;
-                case GameManager.GameState.Win:
-                case GameManager.GameState.Lose:
+                case GameState.Win:
+                case GameState.Lose:
                     // maybe display something
                     break;
-                case GameManager.GameState.InitGrid:
-                case GameManager.GameState.PlayerTurn:
-                case GameManager.GameState.StatTurn:
+                case GameState.InitGrid:
+                case GameState.PlayerTurn:
+                case GameState.StatTurn:
                     // ignore these
                     break;
                 default:

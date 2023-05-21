@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Events;
@@ -29,7 +28,10 @@ namespace MyHexBoardSystem.BoardElements {
             if (ENeuronType.Undefined.Equals(CurrentProvider.Type)) {
                 return;
             }
-            var element = CurrentProvider.GetElement();
+
+            // use the static data instead of the CurrentProvider data which is going to change every time
+            var dataCopy = MNeuronTypeToBoardData.GetNeuronData(CurrentProvider.Type);
+            var element = new BoardNeuron(dataCopy);
             if (!AddElement(element, hex)) {
                 return;
             }

@@ -15,6 +15,7 @@ namespace ExternBoardSystem.BoardSystem.Board
         Hex[] GetDiagonalAscendant(Vector3Int cell, int length);
         Hex[] GetDiagonalDescendant(Vector3Int cell, int length);
         Hex[] GetPathBreadthSearch(Vector3Int begin, Vector3Int end);
+        Hex[] GetTriangle(int qSign, int rSign, int sSign);
         //TODO:
         //1. Range
         //2. Path finding

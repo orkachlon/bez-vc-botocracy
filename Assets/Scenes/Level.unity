@@ -9842,6 +9842,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
     - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: gmEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: da5fbe8daab46c14780444ed40e883a7, type: 2}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
       propertyPath: placeNeuronData
       value: 
       objectReference: {fileID: 11400000, guid: 6791cfb0064bdd54a85fc01199d2db77, type: 2}
@@ -9920,7 +9924,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -9.04
       objectReference: {fileID: 0}
     - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9958,14 +9962,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1967953746720976092, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
+      propertyPath: dataProvider
+      value: 
+      objectReference: {fileID: 11400000, guid: d855fec2dbd812b498d01d77ae41a18b, type: 2}
+    - target: {fileID: 1967953746720976092, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
+      propertyPath: statEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}
     - target: {fileID: 3737079732536018850, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_Name
       value: StatManager
       objectReference: {fileID: 0}
     - target: {fileID: 3737079732536018850, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3982193639859094203, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
+      propertyPath: dataProvider
+      value: 
+      objectReference: {fileID: 11400000, guid: 58303a55b50e18341b954afac8bd073c, type: 2}
+    - target: {fileID: 3982193639859094203, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
+      propertyPath: statEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}
     - target: {fileID: 4406905473918562772, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.02
@@ -9982,6 +10002,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -5.02
       objectReference: {fileID: 0}
+    - target: {fileID: 8997245568188691628, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
+      propertyPath: dataProvider
+      value: 
+      objectReference: {fileID: 11400000, guid: 19baf293448c96842bf9fe2b8f383403, type: 2}
+    - target: {fileID: 8997245568188691628, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
+      propertyPath: statEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
 --- !u!1001 &2883184649275028136
@@ -10049,7 +10077,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2883184648831337473, guid: 0672931386439804ab244e309a06f42f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4
+      value: -13
       objectReference: {fileID: 0}
     - target: {fileID: 2883184648831337473, guid: 0672931386439804ab244e309a06f42f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10093,7 +10121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2883184648831337487, guid: 0672931386439804ab244e309a06f42f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0672931386439804ab244e309a06f42f, type: 3}
@@ -10154,12 +10182,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5589631878319523306, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5589631878319523307, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
+      propertyPath: gmEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: da5fbe8daab46c14780444ed40e883a7, type: 2}
     - target: {fileID: 5589631878319523307, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
       propertyPath: statEventManager
       value: 
       objectReference: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}
+    - target: {fileID: 5589631878319523307, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
+      propertyPath: boardEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
     - target: {fileID: 5589631878319523307, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
       propertyPath: storyEventManager
       value: 
