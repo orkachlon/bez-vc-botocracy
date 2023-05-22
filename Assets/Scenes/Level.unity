@@ -627,6 +627,7 @@ MonoBehaviour:
   externalEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
   currentNeuronData: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
+  gmEventManager: {fileID: 11400000, guid: da5fbe8daab46c14780444ed40e883a7, type: 2}
 --- !u!114 &615794155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -642,6 +643,7 @@ MonoBehaviour:
   controller: {fileID: 615794156}
   textPosition: {fileID: 3841204323083488389, guid: c6485be8551d4dd45b6f34b1f8de7156, type: 3}
   tileMap: {fileID: 1609176185}
+  direction: 0
 --- !u!114 &615794156
 MonoBehaviour:
   m_ObjectHideFlags: 0

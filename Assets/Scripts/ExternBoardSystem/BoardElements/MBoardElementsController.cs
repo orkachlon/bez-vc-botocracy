@@ -1,11 +1,9 @@
 using System;
 using Core.EventSystem;
-using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Events;
 using ExternBoardSystem.Ui.Board;
-using ExternBoardSystem.Ui.Util;
 using UnityEngine;
 
 namespace ExternBoardSystem.BoardElements {
@@ -22,7 +20,7 @@ namespace ExternBoardSystem.BoardElements {
         public IBoard<TElement> Board { get; private set; }
         private IElementDataProvider<TElement, TUIElement> ElementProvider { get; set; }
         
-        [Header("Event Managers"), SerializeField] protected SEventManager externalEventManager;
+        [Header("Inner Event Managers"), SerializeField] protected SEventManager externalEventManager;
         [SerializeField] private SEventManager innerBoardEventManager;
 
         protected virtual void Awake() {

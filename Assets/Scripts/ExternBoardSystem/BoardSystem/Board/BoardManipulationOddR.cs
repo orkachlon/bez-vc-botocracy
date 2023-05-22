@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ExternBoardSystem.BoardElements;
-using ExternBoardSystem.BoardSystem.BoardShape;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Tools.Extensions;
 using UnityEngine;
@@ -145,34 +144,58 @@ namespace ExternBoardSystem.BoardSystem.Board {
             return path.ToArray();
         }
 
-        public Hex[] GetTriangle(int qSign, int rSign, int sSign) {
-            qSign = (int) Mathf.Sign(qSign);
-            rSign = (int) Mathf.Sign(rSign);
-            sSign = (int) Mathf.Sign(sSign);
+        public Hex[] GetTriangle(Hex direction) {
+            var qSign = (int) Mathf.Sign(direction.q);
+            var rSign = (int) Mathf.Sign(direction.r);
+            var sSign = (int) Mathf.Sign(direction.s);
             
-            int i1, i2;
-            if (qSign == 0) {
-                i1 = rSign;
-                i2 = sSign;
-            } else if (rSign == 0) {
-                i1 = qSign;
-                i2 = sSign;
-            }
-            else {
-                i1 = qSign;
-                i2 = rSign;
-            }
-
             var hexes = new List<Hex>();
-            while (Contains(GetCellCoordinate(new Hex(i1, 0)))) {
-                while (Mathf.Abs(i2) <= Mathf.Abs(i1)) {
-                    hexes.Add(new Hex(i1, i2));
-                    i2 += rSign;
+            
+            int sign1, sign2;
+            if (direction.q == 0) { // s outer loop
+                sign1 = rSign;
+                sign2 = sSign;
+                var i1 = sign1;
+                var i2 = sign2;
+                while (Contains(GetCellCoordinate(new Hex(-i1 - i2, i1)))) {
+                    i1 = sign1;
+                    while (Mathf.Abs(i1) <= Mathf.Abs(i2)) {
+                        hexes.Add(new Hex(-i1 - i2, i1));
+                        i1 += sign1;
+                    }
+
+                    i2 += sign2;
                 }
+            } else if (direction.r == 0) { // q outer loop
+                sign1 = qSign;
+                sign2 = sSign;
+                var i1 = sign1;
+                var i2 = sign2;
+                while (Contains(GetCellCoordinate(new Hex(i1, 0)))) {
+                    i2 = sign2;
+                    while (Mathf.Abs(i2) <= Mathf.Abs(i1)) {
+                        hexes.Add(new Hex(i1, -i1 - i2));
+                        i2 += sign2;
+                    }
 
-                i1 += qSign;
+                    i1 += sign1;
+                }
             }
+            else { // r outer loop
+                sign1 = qSign;
+                sign2 = rSign;
+                var i1 = sign1;
+                var i2 = sign2;
+                while (Contains(GetCellCoordinate(new Hex(0, i2)))) {
+                    i1 = sign1;
+                    while (Mathf.Abs(i1) <= Mathf.Abs(i2)) {
+                        hexes.Add(new Hex(i1, i2));
+                        i1 += sign1;
+                    }
 
+                    i2 += sign2;
+                }
+            }
             return hexes.ToArray();
         }
 

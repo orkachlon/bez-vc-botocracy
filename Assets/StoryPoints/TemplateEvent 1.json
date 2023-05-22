@@ -2,26 +2,26 @@
   "description": "An asteroid headed towards earth has been detected.",
   "statEffects": {
     "economy": {
-      "empathy": 0,
+      "empathy": -1,
       "righteousness": 0,
       "charisma": 0,
-      "perception": 0,
+      "perception": 1,
       "optimism": 0,
       "intelligence": 0
     },
     "health": {
-      "empathy": 0,
+      "empathy": -1,
       "righteousness": 0,
       "charisma": 0,
-      "perception": 0,
+      "perception": 1,
       "optimism": 0,
       "intelligence": 0
     },
     "defense": {
-      "empathy": 0,
+      "empathy": -1,
       "righteousness": 0,
       "charisma": 0,
-      "perception": 0,
+      "perception": 1,
       "optimism": 0,
       "intelligence": 0
     }
