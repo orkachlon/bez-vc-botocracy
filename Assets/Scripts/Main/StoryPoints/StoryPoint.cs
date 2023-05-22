@@ -18,6 +18,7 @@ namespace Main.StoryPoints {
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private TextMeshPro description;
         [SerializeField] private TextMeshPro turnCounter;
+        [SerializeField] private TextMeshPro rewardText;
         [SerializeField] private AnimationCurve neuronEvaluationWeight;
 
         [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
@@ -45,6 +46,7 @@ namespace Main.StoryPoints {
             // set visual elements
             description.text = eventDescription;
             UpdateTurnCounter();
+            rewardText.text = $"Reward: {_reward}";
         }
 
         public void Hide() {

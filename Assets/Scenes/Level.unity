@@ -10010,6 +10010,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
     - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: storyEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
       propertyPath: elementsController
       value: 
       objectReference: {fileID: 615794154}
@@ -10068,7 +10072,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1235238280171036595, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.0299997
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_RootOrder
@@ -10076,7 +10080,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.04
+      value: -12.88
       objectReference: {fileID: 0}
     - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10122,6 +10126,10 @@ PrefabInstance:
       propertyPath: statEventManager
       value: 
       objectReference: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}
+    - target: {fileID: 2289200038591081083, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
+      propertyPath: m_text
+      value: Health
+      objectReference: {fileID: 0}
     - target: {fileID: 3737079732536018850, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_Name
       value: StatManager
@@ -10140,7 +10148,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}
     - target: {fileID: 4406905473918562772, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4986866810238129634, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: gmEventManager
@@ -10150,9 +10158,17 @@ PrefabInstance:
       propertyPath: statEventManager
       value: 
       objectReference: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}
+    - target: {fileID: 6078703252601248876, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
+      propertyPath: m_text
+      value: Economy
+      objectReference: {fileID: 0}
     - target: {fileID: 6537900112201918884, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.02
+      value: -2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8671663366691090955, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
+      propertyPath: m_text
+      value: Defense
       objectReference: {fileID: 0}
     - target: {fileID: 8997245568188691628, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
       propertyPath: dataProvider

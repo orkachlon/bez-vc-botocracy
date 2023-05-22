@@ -7,6 +7,7 @@ using ExternBoardSystem.Events;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem;
 using Main.Neurons;
+using Main.StoryPoints;
 using Main.Utils;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -18,6 +19,7 @@ namespace Main.Managers {
         private SEventManager gmEventManager;
         [SerializeField] private SEventManager boardEventManager;
         [SerializeField] private SEventManager neuronEvents;
+        [SerializeField] private SEventManager storyEventManager;
 
         [Header("Current Neuron Data"), SerializeField]
         private SNeuronData currentNeuronData;
@@ -29,7 +31,8 @@ namespace Main.Managers {
 
         private void Awake() {
             neuronEvents.Register(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
-            neuronEvents.Register(NeuronEvents.OnNoMoreNeurons, OnNoMoreNeurons);
+            neuronEvents.Register(NeuronEvents.OnNoMoreNeurons, OnDisableBoardInteraction);
+            storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, OnDisableBoardInteraction);
             // hover smoothly with mouse, but mark the tile below
             // uiTileMapHoverHandler.OnHoverTile += i => {};
         }
@@ -47,14 +50,12 @@ namespace Main.Managers {
 
         private void OnDestroy() {
             neuronEvents.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
-            neuronEvents.Unregister(NeuronEvents.OnNoMoreNeurons, OnNoMoreNeurons);
+            neuronEvents.Unregister(NeuronEvents.OnNoMoreNeurons, OnDisableBoardInteraction);
         }
         
         #region EventHandlers
 
-        private void OnNoMoreNeurons(EventArgs eventParams) {
-            if (eventParams is not NeuronEventArgs)
-                return;
+        private void OnDisableBoardInteraction(EventArgs eventParams) {
             CurrentNeuron = null;
             currentNeuronData.Type = ENeuronType.Undefined;
         }
