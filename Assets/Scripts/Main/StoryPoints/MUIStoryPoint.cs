@@ -17,6 +17,11 @@ namespace Main.StoryPoints {
             storyEventManager.Register(StoryEvents.OnDecrement, OnDecrementStory);
         }
 
+        private void OnDestroy() {
+            storyEventManager.Unregister(StoryEvents.OnInitStory, OnInitStory);
+            storyEventManager.Unregister(StoryEvents.OnDecrement, OnDecrementStory);
+        }
+
         #region EventHandlers
 
         private void OnInitStory(EventArgs eventArgs) {

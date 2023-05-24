@@ -1,20 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Core.EventSystem;
+using Main.GameStats;
 using Main.Traits;
+using Main.Utils;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Main.StoryPoints {
     public class MUITraitIndicator : MonoBehaviour {
-        [SerializeField] private SpriteRenderer baseColor;
+        [SerializeField] private EStatType statType;
         
-        [Header("Triangles"), SerializeField] private SpriteRenderer topRight;
-        [SerializeField] private SpriteRenderer topLeft;
-        [SerializeField] private SpriteRenderer midLeft;
-        [SerializeField] private SpriteRenderer botLeft;
-        [SerializeField] private SpriteRenderer botRight;
-        [SerializeField] private SpriteRenderer midRight;
+        [SerializeField] private Image baseColor;
+        
+        [Header("Triangles"), SerializeField] private Image topRight;
+        [SerializeField] private Image topLeft;
+        [SerializeField] private Image midLeft;
+        [SerializeField] private Image botLeft;
+        [SerializeField] private Image botRight;
+        [SerializeField] private Image midRight;
 
-        private List<SpriteRenderer> _traitIcons;
+        [Header("Event Managers"), SerializeField]
+        private SEventManager storyEventManager;
+        
+        private List<Image> _traitIcons;
 
         private const int TopRightMask = 0b000001;
         private const int TopLeftMask = 0b000010;
@@ -25,7 +35,7 @@ namespace Main.StoryPoints {
 
 
         private void Awake() {
-            _traitIcons = new List<SpriteRenderer>() {
+            _traitIcons = new List<Image>() {
                 topRight,
                 topLeft,
                 midLeft,
@@ -33,6 +43,12 @@ namespace Main.StoryPoints {
                 botRight,
                 midRight
             };
+            
+            storyEventManager.Register(StoryEvents.OnInitStory, ShowIndicator);
+        }
+
+        private void OnDestroy() {
+            storyEventManager.Unregister(StoryEvents.OnInitStory, ShowIndicator);
         }
 
         public void Show(HashSet<ETraitType> traits) {
@@ -76,7 +92,20 @@ namespace Main.StoryPoints {
         public void Hide() {
             baseColor.gameObject.SetActive(false);
             _traitIcons.ForEach(t => t.gameObject.SetActive(false));
-
         }
+
+        #region EventHandlers
+
+        private void ShowIndicator(EventArgs eventArgs) {
+            if (eventArgs is not StoryEventArgs storyEventArgs) {
+                return;
+            }
+
+            var story = storyEventArgs.Story;
+            var traitWeights = story.TraitWeights[statType];
+            Show(traitWeights.Keys.Where(k => traitWeights[k] != 0).ToHashSet());
+        }
+
+        #endregion
     }
 }

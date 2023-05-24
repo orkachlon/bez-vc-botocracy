@@ -6630,7 +6630,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7031859087748310436, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_Name
-      value: StoryPointPrefab
+      value: StoryPointPlaceholder
+      objectReference: {fileID: 0}
+    - target: {fileID: 7100089371615617629, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: statType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7757088680232381460, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_RootOrder
@@ -6675,6 +6679,10 @@ PrefabInstance:
     - target: {fileID: 7757088680232381460, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993296335561764638, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: statType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8352185396173129141, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchorMax.y

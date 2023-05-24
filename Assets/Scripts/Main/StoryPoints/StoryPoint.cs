@@ -6,7 +6,6 @@ using Main.MyHexBoardSystem.BoardElements;
 using Main.Neurons;
 using Main.Traits;
 using Main.Utils;
-using TMPro;
 using UnityEngine;
 
 namespace Main.StoryPoints {
@@ -21,10 +20,11 @@ namespace Main.StoryPoints {
 
         public string StoryDescription { get; private set; }
         public int TurnsToEvaluation { get; private set; }
-        public int Reward => _reward;
+        public int Reward { get; private set; }
+
+        public StatToTraitWeights TraitWeights => _calculationDict;
         public bool Evaluated { get; private set; } = false;
 
-        private int _reward;
         private StatToTraitWeights _calculationDict;
         
 
@@ -32,7 +32,7 @@ namespace Main.StoryPoints {
             // set data
             StoryDescription = eventDescription;
             TurnsToEvaluation = turnsToEvaluation;
-            _reward = reward;
+            Reward = reward;
             _calculationDict = calculationDict;
             
             // for legibility file values are in [-1,1]. We map them here to [-0.5,0.5].
@@ -49,11 +49,10 @@ namespace Main.StoryPoints {
                 Debug.Log("Event turn counter < 0 !!!");
             }
 #endif
-            TurnsToEvaluation -= 1;
+            TurnsToEvaluation--;
             storyEventManager.Raise(StoryEvents.OnDecrement, new StoryEventArgs(this));
         }
 
-        // maybe this function should return a dict<Stat, contributionAmount> instead of calling the StatManager itself
         public void Evaluate(IBoardNeuronController controller) {
             if (Evaluated) {
 #if UNITY_EDITOR
@@ -66,16 +65,16 @@ namespace Main.StoryPoints {
                 return;
             }
             foreach (var stat in _calculationDict.Keys) {
-                // sum(traitWeight * curve(numNeuronsPerTrait / neuronsOnGrid)) / numTraits
+                // calculation is: sum(traitWeight * curve(numNeuronsPerTrait / neuronsOnGrid)) / numTraits
                 var neuronEvaluation = 0f;
                 foreach (var trait in _calculationDict[stat].Keys) {
-                    var fraction = (float) controller.GetTraitCount(trait) / controller.CountNeurons;
+                    var fraction = (float) controller.GetTraitCount(trait) / (controller.CountNeurons - 1); // don't count starting neuron
                     var evaluationValue = neuronEvaluationWeight.Evaluate(fraction);
                     neuronEvaluation += _calculationDict[stat][trait] * evaluationValue;
                 }
                 var numTraits = EnumUtil.GetValues<ETraitType>().Count();
                 statEventManager.Raise(StatEvents.OnContributeToStat, new StatContributeEventArgs(stat, neuronEvaluation / numTraits));
-                neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(_reward));
+                neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(Reward));
             }
 
             Evaluated = true;

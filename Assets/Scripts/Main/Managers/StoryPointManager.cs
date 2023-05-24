@@ -44,11 +44,9 @@ namespace Main.Managers {
             EnqueueStoryPoints(storyTextAssets);
             NextStoryPoint();
             gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
-            // GameManager.OnAfterGameStateChanged += HandleAfterGameStateChanged;
         }
 
         private void OnDestroy() {
-            // GameManager.OnAfterGameStateChanged -= HandleAfterGameStateChanged;
             gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
         }
         
@@ -76,8 +74,6 @@ namespace Main.Managers {
             }
             // in the middle of event
             _currentStory.Decrement();
-            // if (!_currentStory.Evaluated) {
-            // }
             // event reached evaluation
             if (_currentStory.TurnsToEvaluation == 0) {
                 _currentStory.Evaluate(elementsController);
