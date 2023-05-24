@@ -55,22 +55,22 @@ namespace Main.StoryPoints {
             baseColor.gameObject.SetActive(true);
             foreach (var trait in traits) {
                 switch (trait) {
-                    case ETraitType.Empathy:
+                    case ETraitType.Defender:
                         topRight.gameObject.SetActive(true);
                         break;
-                    case ETraitType.Righteousness:
+                    case ETraitType.Commander:
                         topLeft.gameObject.SetActive(true);
                         break;
-                    case ETraitType.Charisma:
+                    case ETraitType.Entrepreneur:
                         midLeft.gameObject.SetActive(true);
                         break;
-                    case ETraitType.Perception:
+                    case ETraitType.Logistician:
                         botLeft.gameObject.SetActive(true);
                         break;
-                    case ETraitType.Optimism:
+                    case ETraitType.Entropist:
                         botRight.gameObject.SetActive(true);
                         break;
-                    case ETraitType.Intelligence:
+                    case ETraitType.Mediator:
                         midRight.gameObject.SetActive(true);
                         break;
                     default:

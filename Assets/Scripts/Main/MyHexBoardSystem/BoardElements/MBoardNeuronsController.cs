@@ -116,12 +116,12 @@ namespace Main.MyHexBoardSystem.BoardElements {
 
         private static Hex TraitToDirection(ETraitType trait) {
             var direction = trait switch {
-                ETraitType.Empathy => new Hex(0, 1),
-                ETraitType.Righteousness => new Hex(1, 0),
-                ETraitType.Charisma => new Hex(1, -1),
-                ETraitType.Perception => new Hex(0, -1),
-                ETraitType.Optimism => new Hex(-1, 0),
-                ETraitType.Intelligence => new Hex(-1, 1),
+                ETraitType.Defender => new Hex(0, 1),
+                ETraitType.Commander => new Hex(1, 0),
+                ETraitType.Entrepreneur => new Hex(1, -1),
+                ETraitType.Logistician => new Hex(0, -1),
+                ETraitType.Entropist => new Hex(-1, 0),
+                ETraitType.Mediator => new Hex(-1, 1),
                 _ => throw new ArgumentOutOfRangeException(nameof(trait), trait, null)
             };
             return direction;

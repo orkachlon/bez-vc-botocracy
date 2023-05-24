@@ -6,11 +6,11 @@
     }
     
     public enum ETraitType {
-        Empathy,
-        Righteousness,
-        Charisma,
-        Perception,
-        Optimism,
-        Intelligence
+        Defender,
+        Commander,
+        Entrepreneur,
+        Logistician,
+        Entropist,
+        Mediator
     }
 }
