@@ -99,7 +99,7 @@ namespace Main.Managers {
             var eventData = ReadEventFromJson();
 
             var lastEvent = _currentStory;
-            _currentStory = Instantiate(storyPointPrefab, storyPosition.position, Quaternion.identity, transform);
+            _currentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
             _currentStory.InitData(eventData.description, eventData.reward, eventData.turnsToEvaluation, eventData.statEffects);
             if (lastEvent != null) {
                 Destroy(lastEvent.gameObject);

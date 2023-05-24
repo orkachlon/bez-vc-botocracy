@@ -4,7 +4,5 @@ namespace Main.StoryPoints {
     public interface IStoryPoint {
 
         public void Evaluate(IBoardNeuronController controller);
-
-        public void Hide();
     }
 }

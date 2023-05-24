@@ -1,11 +1,8 @@
 ﻿using System.Linq;
 using Core.EventSystem;
-using ExternBoardSystem.BoardElements;
-using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.GameStats;
 using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements;
-using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.Neurons;
 using Main.Traits;
 using Main.Utils;
@@ -15,43 +12,35 @@ using UnityEngine;
 namespace Main.StoryPoints {
     public class StoryPoint : MonoBehaviour, IStoryPoint {
         
-        [SerializeField] private SpriteRenderer sprite;
-        [SerializeField] private TextMeshPro description;
-        [SerializeField] private TextMeshPro turnCounter;
-        [SerializeField] private TextMeshPro rewardText;
         [SerializeField] private AnimationCurve neuronEvaluationWeight;
 
-        [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
+        [Header("Event Managers"), SerializeField]
+        private SEventManager storyEventManager;
+        [SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager statEventManager;
 
+        public string StoryDescription { get; private set; }
         public int TurnsToEvaluation { get; private set; }
+        public int Reward => _reward;
         public bool Evaluated { get; private set; } = false;
 
         private int _reward;
         private StatToTraitWeights _calculationDict;
-
-        private void Awake() {
-            // throw new NotImplementedException();
-        }
+        
 
         public void InitData(string eventDescription, int reward, int turnsToEvaluation, StatToTraitWeights calculationDict) {
-            // set elementData
+            // set data
+            StoryDescription = eventDescription;
             TurnsToEvaluation = turnsToEvaluation;
             _reward = reward;
             _calculationDict = calculationDict;
+            
             // for legibility file values are in [-1,1]. We map them here to [-0.5,0.5].
             _calculationDict.Keys.ToList().ForEach(s =>
                 _calculationDict[s].Keys.ToList().ForEach(t => _calculationDict[s][t] = _calculationDict[s][t] * 0.5f));
             
             // set visual elements
-            description.text = eventDescription;
-            UpdateTurnCounter();
-            rewardText.text = $"Reward: {_reward}";
-        }
-
-        public void Hide() {
-            sprite.enabled = false;
-            description.enabled = false;
+            storyEventManager.Raise(StoryEvents.OnInitStory, new StoryEventArgs(this));
         }
 
         public void Decrement() {
@@ -61,7 +50,7 @@ namespace Main.StoryPoints {
             }
 #endif
             TurnsToEvaluation -= 1;
-            UpdateTurnCounter();
+            storyEventManager.Raise(StoryEvents.OnDecrement, new StoryEventArgs(this));
         }
 
         // maybe this function should return a dict<Stat, contributionAmount> instead of calling the StatManager itself
@@ -91,13 +80,5 @@ namespace Main.StoryPoints {
 
             Evaluated = true;
         }
-
-        #region VisualElements
-
-        private void UpdateTurnCounter() {
-            turnCounter.text = $"Turns: {TurnsToEvaluation}";
-        }
-
-        #endregion
     }
 }
