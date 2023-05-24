@@ -1,4 +1,6 @@
-﻿using Core.EventSystem;
+﻿using System;
+using Core.EventSystem;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Main.GameStats {
@@ -20,8 +22,8 @@ namespace Main.GameStats {
                     // return; ???
                 }
 
+                FitFillToValue(Math.Abs(DataProvider.Value - value) > 0.02f);
                 DataProvider.Value = value;
-                FitFillToValue();
                 statEventManager.Raise(StatEvents.OnStatValueChanged, new StatEventArgs(this));
             }
         }
@@ -43,7 +45,10 @@ namespace Main.GameStats {
             return Value is > 0 and < 1;
         }
 
-        private void FitFillToValue() {
+        private void FitFillToValue(bool animate = false) {
+            if (animate) {
+                DOVirtual.Color(statFill.color, Color.white, 0.2f, c => statFill.color = c).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InOutExpo); 
+            }
             var scale = statFill.transform.localScale;
             statFill.transform.localScale = new Vector3(scale.x, Mathf.Clamp01(Value), scale.z);
         }

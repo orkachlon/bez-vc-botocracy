@@ -7,20 +7,20 @@
       "entrepreneur": 0,
       "logistician": 1,
       "entropist": 0,
-      "mediator": 0
+      "mediator": 1
     },
     "health": {
       "defender": -1,
-      "commander": 0,
+      "commander": 1,
       "entrepreneur": 0,
-      "logistician": 1,
-      "entropist": 0,
+      "logistician": 0,
+      "entropist": -1,
       "mediator": 0
     },
     "defense": {
       "defender": -1,
       "commander": 0,
-      "entrepreneur": 0,
+      "entrepreneur": 1,
       "logistician": 1,
       "entropist": 0,
       "mediator": 0
