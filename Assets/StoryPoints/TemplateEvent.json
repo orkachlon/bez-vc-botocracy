@@ -2,28 +2,28 @@
   "description": "Neighboring country bought missiles worth $1M",
   "statEffects": {
     "economy": {
-      "empathy": 0,
-      "righteousness": 0,
-      "charisma": 0,
-      "perception": 0,
-      "optimism": 0,
-      "intelligence": 0
+      "defender": 0,
+      "commander": 0,
+      "entrepreneur": 0,
+      "logistician": 0,
+      "entropist": 0,
+      "mediator": 0
     },
     "health": {
-      "empathy": 0,
-      "righteousness": 0,
-      "charisma": 0,
-      "perception": 0,
-      "optimism": 0,
-      "intelligence": 0
+      "defender": 0,
+      "commander": 0,
+      "entrepreneur": 0,
+      "logistician": 0,
+      "entropist": 0,
+      "mediator": 0
     },
     "defense": {
-      "empathy": 0,
-      "righteousness": 0,
-      "charisma": 0,
-      "perception": 0,
-      "optimism": 0,
-      "intelligence": 0
+      "defender": 0,
+      "commander": 0,
+      "entrepreneur": 0,
+      "logistician": 0,
+      "entropist": 0,
+      "mediator": 0
     }
   },
   "reward": 0,

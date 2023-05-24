@@ -2,28 +2,28 @@
   "description": "Your country has been invaded!",
   "statEffects": {
     "economy": {
-      "empathy": -1,
-      "righteousness": -1,
-      "charisma": 1,
-      "perception": 1,
-      "optimism": 1,
-      "intelligence": 1
+      "defender": -1,
+      "commander": -1,
+      "entrepreneur": 1,
+      "logistician": 1,
+      "entropist": 1,
+      "mediator": 1
     },
     "health": {
-      "empathy": 1,
-      "righteousness": -1,
-      "charisma": 0,
-      "perception": 0,
-      "optimism": 1,
-      "intelligence": 0
+      "defender": 1,
+      "commander": -1,
+      "entrepreneur": 0,
+      "logistician": 0,
+      "entropist": 1,
+      "mediator": 0
     },
     "defense": {
-      "empathy": -1,
-      "righteousness": 1,
-      "charisma": 0,
-      "perception": 0,
-      "optimism": 1,
-      "intelligence": 1
+      "defender": -1,
+      "commander": 1,
+      "entrepreneur": 0,
+      "logistician": 0,
+      "entropist": 1,
+      "mediator": 1
     }
   },
   "reward": 4,
