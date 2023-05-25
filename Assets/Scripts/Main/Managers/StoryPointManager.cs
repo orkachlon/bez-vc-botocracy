@@ -26,19 +26,11 @@ namespace Main.Managers {
         
         [Header("Story Points")]
         [SerializeField] private List<TextAsset> storyTextAssets;
-
-        public static StoryPointManager Instance;
-
+        
         private Queue<TextAsset> _eventQueue;
         private MStoryPoint _currentStory;
 
         private void Awake() {
-            if (Instance != null && Instance != this) {
-                Destroy(this);
-            }
-            else {
-                Instance = this;
-            }
             UnityEditor.AssetDatabase.Refresh();
             _eventQueue = new Queue<TextAsset>();
             EnqueueStoryPoints(storyTextAssets);
