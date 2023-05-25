@@ -17,6 +17,8 @@ namespace Main.StoryPoints {
         private Queue<MUIOutcome> _outcomeQueue;
 
         private void Awake() {
+            _outcomeQueue = new Queue<MUIOutcome>();
+            
             storyEventManager.Register(StoryEvents.OnEvaluate, OnStoryEvaluated);
         }
 
@@ -31,7 +33,7 @@ namespace Main.StoryPoints {
             if (eventArgs is not StoryEventArgs storyEventArgs) {
                 return;
             }
-
+            
             var newOutcome = Instantiate(outcomePrefab, verticalContainer);
             newOutcome.SetText(storyEventArgs.Story.Outcome);
             _outcomeQueue.Enqueue(newOutcome);

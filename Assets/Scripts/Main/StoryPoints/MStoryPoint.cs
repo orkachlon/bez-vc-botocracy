@@ -74,30 +74,27 @@ namespace Main.StoryPoints {
                     var evaluationValue = neuronEvaluationWeight.Evaluate(fraction);
                     neuronEvaluation += _calculationDict[stat][trait] * evaluationValue;
                 }
-                
-                // set outcome
-                var max = 0;
-                ETraitType maxTrait = ETraitType.Commander;
-                foreach (var trait in _possibleOutcomes.Keys) {
-                    if (max >= controller.GetTraitCount(trait)) {
-                        continue;
-                    }
-                    max = controller.GetTraitCount(trait);
-                    maxTrait = trait;
-                }
-
-                Outcome = _possibleOutcomes[maxTrait];
-                    
                 var contributionAmount = neuronEvaluation / EnumUtil.GetValues<ETraitType>().Count();
-                
-
-                // dispatch events
-                storyEventManager.Raise(StoryEvents.OnEvaluate, new StoryEventArgs(this));
                 statEventManager.Raise(StatEvents.OnContributeToStat, new StatContributeEventArgs(stat, contributionAmount));
-                neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(Reward));
             }
-
+            
+            // set outcome
+            var max = 0;
+            var maxTrait = ETraitType.Commander;
+            foreach (var trait in _possibleOutcomes.Keys) {
+                if (max >= controller.GetTraitCount(trait)) {
+                    continue;
+                }
+                max = controller.GetTraitCount(trait);
+                maxTrait = trait;
+            }
+            Outcome = _possibleOutcomes[maxTrait];
             Evaluated = true;
+
+            // dispatch events
+            storyEventManager.Raise(StoryEvents.OnEvaluate, new StoryEventArgs(this));
+            neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(Reward));
+
         }
     }
 }
