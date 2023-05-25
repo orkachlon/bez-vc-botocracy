@@ -12,7 +12,7 @@ namespace Main.StoryPoints {
     public class MUITraitIndicator : MonoBehaviour {
         [SerializeField] private EStatType statType;
         
-        [SerializeField] private Image baseColor;
+        [SerializeField] private Image baseHex;
         
         [Header("Triangles"), SerializeField] private Image topRight;
         [SerializeField] private Image topLeft;
@@ -52,7 +52,7 @@ namespace Main.StoryPoints {
         }
 
         public void Show(HashSet<ETraitType> traits) {
-            baseColor.gameObject.SetActive(true);
+            baseHex.gameObject.SetActive(true);
             foreach (var trait in traits) {
                 switch (trait) {
                     case ETraitType.Defender:
@@ -80,7 +80,7 @@ namespace Main.StoryPoints {
         }
 
         public void Show(int mask) {
-            baseColor.gameObject.SetActive(true);
+            baseHex.gameObject.SetActive(true);
             topRight.gameObject.SetActive((mask & TopRightMask) > 0);
             topLeft.gameObject.SetActive((mask & TopLeftMask) > 0);
             midLeft.gameObject.SetActive((mask & MidLeftMask) > 0);
@@ -90,7 +90,7 @@ namespace Main.StoryPoints {
         }
 
         public void Hide() {
-            baseColor.gameObject.SetActive(false);
+            baseHex.gameObject.SetActive(false);
             _traitIcons.ForEach(t => t.gameObject.SetActive(false));
         }
 

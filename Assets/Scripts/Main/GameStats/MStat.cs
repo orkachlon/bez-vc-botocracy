@@ -1,6 +1,7 @@
 ﻿using System;
 using Core.EventSystem;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 namespace Main.GameStats {
@@ -11,8 +12,9 @@ namespace Main.GameStats {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager statEventManager;
-        
-        [Header("Visuals"), SerializeField] private SpriteRenderer statFill;
+
+        [Header("Visuals"), SerializeField] private TextMeshPro title;
+        [SerializeField] private SpriteRenderer statFill;
         
         public float Value {
             get => DataProvider.Value;
@@ -28,12 +30,13 @@ namespace Main.GameStats {
             }
         }
 
-        public string Name => DataProvider.Name;
+        public EStatType Name => DataProvider.Type;
 
         private SStatData DataProvider => dataProvider;
 
         private void Awake() {
             DataProvider.Value = initialValue;
+            title.text = DataProvider.Type.ToString();
             FitFillToValue();
         }
 

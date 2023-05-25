@@ -9,6 +9,6 @@
     public enum EStatType {
         Economy,
         Defense,
-        Health
+        Welfare
     }
 }

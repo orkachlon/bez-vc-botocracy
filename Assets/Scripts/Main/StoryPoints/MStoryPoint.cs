@@ -9,7 +9,7 @@ using Main.Utils;
 using UnityEngine;
 
 namespace Main.StoryPoints {
-    public class StoryPoint : MonoBehaviour, IStoryPoint {
+    public class MStoryPoint : MonoBehaviour, IStoryPoint {
         
         [SerializeField] private AnimationCurve neuronEvaluationWeight;
 
@@ -21,18 +21,20 @@ namespace Main.StoryPoints {
         public string StoryDescription { get; private set; }
         public int TurnsToEvaluation { get; private set; }
         public int Reward { get; private set; }
-
+        public string Outcome { get; private set; }
         public StatToTraitWeights TraitWeights => _calculationDict;
         public bool Evaluated { get; private set; } = false;
 
         private StatToTraitWeights _calculationDict;
+        private TraitsToOutcomes _possibleOutcomes;
         
 
-        public void InitData(string eventDescription, int reward, int turnsToEvaluation, StatToTraitWeights calculationDict) {
+        public void InitData(string eventDescription, int reward, int turnsToEvaluation, TraitsToOutcomes outcomes, StatToTraitWeights calculationDict) {
             // set data
             StoryDescription = eventDescription;
             TurnsToEvaluation = turnsToEvaluation;
             Reward = reward;
+            _possibleOutcomes = outcomes;
             _calculationDict = calculationDict;
             
             // for legibility file values are in [-1,1]. We map them here to [-0.5,0.5].
@@ -72,8 +74,26 @@ namespace Main.StoryPoints {
                     var evaluationValue = neuronEvaluationWeight.Evaluate(fraction);
                     neuronEvaluation += _calculationDict[stat][trait] * evaluationValue;
                 }
-                var numTraits = EnumUtil.GetValues<ETraitType>().Count();
-                statEventManager.Raise(StatEvents.OnContributeToStat, new StatContributeEventArgs(stat, neuronEvaluation / numTraits));
+                
+                // set outcome
+                var max = 0;
+                ETraitType maxTrait = ETraitType.Commander;
+                foreach (var trait in _possibleOutcomes.Keys) {
+                    if (max >= controller.GetTraitCount(trait)) {
+                        continue;
+                    }
+                    max = controller.GetTraitCount(trait);
+                    maxTrait = trait;
+                }
+
+                Outcome = _possibleOutcomes[maxTrait];
+                    
+                var contributionAmount = neuronEvaluation / EnumUtil.GetValues<ETraitType>().Count();
+                
+
+                // dispatch events
+                storyEventManager.Raise(StoryEvents.OnEvaluate, new StoryEventArgs(this));
+                statEventManager.Raise(StatEvents.OnContributeToStat, new StatContributeEventArgs(stat, contributionAmount));
                 neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(Reward));
             }
 

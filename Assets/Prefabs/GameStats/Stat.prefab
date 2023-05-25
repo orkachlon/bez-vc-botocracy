@@ -390,7 +390,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataProvider: {fileID: 0}
   initialValue: 0.5
-  statEventManager: {fileID: 0}
+  statEventManager: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}
+  title: {fileID: 4486854112728749649}
   statFill: {fileID: 6854504967864753953}
 --- !u!1 &5609858843125523523
 GameObject:

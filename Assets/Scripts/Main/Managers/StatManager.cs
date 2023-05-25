@@ -12,11 +12,11 @@ namespace Main.Managers {
         [Header("Event Managers"), SerializeField] private SEventManager statEventManager; 
         [SerializeField] private SEventManager gmEventManager;
         
-        [SerializeField] private MStat health;
+        [SerializeField] private MStat welfare;
 
-        public float Health {
-            get => health.Value;
-            private set => health.Value = value;
+        public float Welfare {
+            get => welfare.Value;
+            private set => welfare.Value = value;
         }
 
         [SerializeField] private MStat defense;
@@ -52,8 +52,8 @@ namespace Main.Managers {
                 case EStatType.Defense:
                     Defense += amount;
                     break;
-                case EStatType.Health:
-                    Health += amount;
+                case EStatType.Welfare:
+                    Welfare += amount;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(stat), stat, null);
@@ -62,7 +62,7 @@ namespace Main.Managers {
 
         public bool IsStatOutOfBounds() {
             return !economy.IsInBounds() || !defense.IsInBounds() ||
-                   !health.IsInBounds();
+                   !welfare.IsInBounds();
         }
 
         private void CheckForGameLossByStats() {
@@ -106,7 +106,7 @@ namespace Main.Managers {
 
         #region IEnumerable
         public IEnumerator<MStat> GetEnumerator() {
-            return new List<MStat>() {health, defense, economy}.GetEnumerator();
+            return new List<MStat>() {welfare, defense, economy}.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {

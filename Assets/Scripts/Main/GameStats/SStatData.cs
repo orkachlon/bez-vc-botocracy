@@ -3,7 +3,7 @@
 namespace Main.GameStats {
     [CreateAssetMenu(menuName = "Stats/Stat Data")]
     public class SStatData : ScriptableObject {
-        [SerializeField] private string statName;
+        [SerializeField] private EStatType statType;
         [SerializeField] private float value;
 
         #region Properties
@@ -12,7 +12,7 @@ namespace Main.GameStats {
             get => value;
             set => this.value = value;
         }
-        public string Name => statName;
+        public EStatType Type => statType;
 
         #endregion
     }

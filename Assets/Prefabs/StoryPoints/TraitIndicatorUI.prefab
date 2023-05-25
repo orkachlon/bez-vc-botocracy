@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statType: 0
-  baseColor: {fileID: 8894968873585265094}
+  baseHex: {fileID: 8894968873585265094}
   topRight: {fileID: 5317674702226908727}
   topLeft: {fileID: 3028000560337625022}
   midLeft: {fileID: 2444885807290466383}

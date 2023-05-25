@@ -47,9 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d7112137534e4ea15aa288703175d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statLoLimit: 0
-  statHiLimit: 1
-  health: {fileID: 8997245568188691628}
+  statEventManager: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}
+  gmEventManager: {fileID: 11400000, guid: da5fbe8daab46c14780444ed40e883a7, type: 2}
+  welfare: {fileID: 8997245568188691628}
   defense: {fileID: 1967953746720976092}
   economy: {fileID: 3982193639859094203}
 --- !u!1001 &2414031953288936490
@@ -61,7 +61,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5473518271188173558, guid: 347f599de3db22447b7d82a2da702c6c, type: 3}
       propertyPath: m_Name
-      value: Health
+      value: Welfare
       objectReference: {fileID: 0}
     - target: {fileID: 8879713931882567054, guid: 347f599de3db22447b7d82a2da702c6c, type: 3}
       propertyPath: m_RootOrder

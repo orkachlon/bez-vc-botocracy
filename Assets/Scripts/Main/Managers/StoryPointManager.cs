@@ -21,7 +21,7 @@ namespace Main.Managers {
         [SerializeField] private SEventManager gmEventManager;
         
         [Header("Visuals")]
-        [SerializeField] private StoryPoint storyPointPrefab;
+        [SerializeField] private MStoryPoint storyPointPrefab;
         [FormerlySerializedAs("eventsPosition")] [SerializeField] private Transform storyPosition;
         
         [Header("Story Points")]
@@ -30,7 +30,7 @@ namespace Main.Managers {
         public static StoryPointManager Instance;
 
         private Queue<TextAsset> _eventQueue;
-        private StoryPoint _currentStory;
+        private MStoryPoint _currentStory;
 
         private void Awake() {
             if (Instance != null && Instance != this) {
@@ -92,11 +92,11 @@ namespace Main.Managers {
                 storyEventManager.Raise(StoryEvents.OnNoMoreStoryPoints, EventArgs.Empty);
                 return;
             }
-            var eventData = ReadEventFromJson();
+            var storyPointData = ReadEventFromJson();
 
             var lastEvent = _currentStory;
             _currentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
-            _currentStory.InitData(eventData.description, eventData.reward, eventData.turnsToEvaluation, eventData.statEffects);
+            _currentStory.InitData(storyPointData.description, storyPointData.reward, storyPointData.turnsToEvaluation, storyPointData.outcomes, storyPointData.statEffects);
             if (lastEvent != null) {
                 Destroy(lastEvent.gameObject);
             }
@@ -131,6 +131,7 @@ namespace Main.Managers {
         public StatToTraitWeights statEffects;
         public int reward;
         public int turnsToEvaluation;
+        public TraitsToOutcomes outcomes;
     }
 
     [Serializable]
@@ -138,5 +139,9 @@ namespace Main.Managers {
     
     [Serializable]
     public class StatToTraitWeights : SerializableDictionary<EStatType, TraitWeights> { }
+
+    [Serializable]
+    public class TraitsToOutcomes : SerializableDictionary<ETraitType, string> { }
+
     #endregion
 }

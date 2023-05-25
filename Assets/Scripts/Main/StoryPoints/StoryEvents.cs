@@ -9,12 +9,13 @@ namespace Main.StoryPoints {
         // instance events
         public const string OnInitStory = "StoryOnInitStory";
         public const string OnDecrement = "StoryOnDecrement";
+        public const string OnEvaluate = "StoryOnEvaluate";
     }
 
     public class StoryEventArgs : EventArgs {
-        public StoryPoint Story;
+        public MStoryPoint Story;
         
-        public StoryEventArgs(StoryPoint story) {
+        public StoryEventArgs(MStoryPoint story) {
             Story = story;
         }
     }
