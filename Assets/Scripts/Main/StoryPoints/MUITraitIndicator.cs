@@ -11,6 +11,9 @@ using UnityEngine.UI;
 namespace Main.StoryPoints {
     public class MUITraitIndicator : MonoBehaviour {
         [SerializeField] private EStatType statType;
+
+        [SerializeField] private Color addColor;
+        [SerializeField] private Color subtractColor;
         
         [SerializeField] private Image baseHex;
         
@@ -51,27 +54,66 @@ namespace Main.StoryPoints {
             storyEventManager.Unregister(StoryEvents.OnInitStory, ShowIndicator);
         }
 
-        private void Show(HashSet<ETraitType> traits) {
+        private void ShowNegative(HashSet<ETraitType> traits) {
             baseHex.gameObject.SetActive(true);
             foreach (var trait in traits) {
                 switch (trait) {
                     case ETraitType.Defender:
                         topRight.gameObject.SetActive(true);
+                        topRight.color = subtractColor;
                         break;
                     case ETraitType.Commander:
                         topLeft.gameObject.SetActive(true);
+                        topLeft.color = subtractColor;
                         break;
                     case ETraitType.Entrepreneur:
                         midLeft.gameObject.SetActive(true);
+                        midLeft.color = subtractColor;
                         break;
                     case ETraitType.Logistician:
                         botLeft.gameObject.SetActive(true);
+                        botLeft.color = subtractColor;
                         break;
                     case ETraitType.Entropist:
                         botRight.gameObject.SetActive(true);
+                        botRight.color = subtractColor;
                         break;
                     case ETraitType.Mediator:
                         midRight.gameObject.SetActive(true);
+                        midRight.color = subtractColor;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
+        private void ShowPositive(HashSet<ETraitType> traits) {
+            foreach (var trait in traits) {
+                switch (trait) {
+                    case ETraitType.Defender:
+                        topRight.gameObject.SetActive(true);
+                        topRight.color = addColor;
+                        break;
+                    case ETraitType.Commander:
+                        topLeft.gameObject.SetActive(true);
+                        topLeft.color = addColor;
+                        break;
+                    case ETraitType.Entrepreneur:
+                        midLeft.gameObject.SetActive(true);
+                        midLeft.color = addColor;
+                        break;
+                    case ETraitType.Logistician:
+                        botLeft.gameObject.SetActive(true);
+                        botLeft.color = addColor;
+                        break;
+                    case ETraitType.Entropist:
+                        botRight.gameObject.SetActive(true);
+                        botRight.color = addColor;
+                        break;
+                    case ETraitType.Mediator:
+                        midRight.gameObject.SetActive(true);
+                        midRight.color = addColor;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -103,7 +145,8 @@ namespace Main.StoryPoints {
 
             var story = storyEventArgs.Story;
             var traitWeights = story.TraitWeights[statType];
-            Show(traitWeights.Keys.Where(k => traitWeights[k] != 0).ToHashSet());
+            ShowNegative(traitWeights.Keys.Where(k => traitWeights[k] < 0).ToHashSet());
+            ShowPositive(traitWeights.Keys.Where(k => traitWeights[k] > 0).ToHashSet());
         }
 
         #endregion
