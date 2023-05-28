@@ -1,5 +1,5 @@
 ﻿using System;
-using ExternBoardSystem.Tools.Singleton;
+using Core.Utils.Singleton;
 using Main.Neurons;
 using UnityEngine;
 

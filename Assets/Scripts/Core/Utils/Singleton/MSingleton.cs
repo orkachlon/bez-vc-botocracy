@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ExternBoardSystem.Tools.Singleton
+namespace Core.Utils.Singleton
 {
     public class MSingleton<T> : MonoBehaviour where T : class
     {

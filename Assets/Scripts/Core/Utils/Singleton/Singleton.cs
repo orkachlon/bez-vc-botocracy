@@ -1,4 +1,4 @@
-﻿namespace ExternBoardSystem.Tools.Singleton {
+﻿namespace Core.Utils.Singleton {
     public class Singleton<T> where T : class, new() {
         protected Singleton() {
         }

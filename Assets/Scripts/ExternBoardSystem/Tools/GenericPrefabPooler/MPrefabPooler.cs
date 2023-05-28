@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ExternBoardSystem.Tools.Singleton;
+using Core.Utils.Singleton;
 using UnityEngine;
 
 namespace ExternBoardSystem.Tools.GenericPrefabPooler
