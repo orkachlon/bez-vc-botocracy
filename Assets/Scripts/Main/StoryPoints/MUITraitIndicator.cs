@@ -51,7 +51,7 @@ namespace Main.StoryPoints {
             storyEventManager.Unregister(StoryEvents.OnInitStory, ShowIndicator);
         }
 
-        public void Show(HashSet<ETraitType> traits) {
+        private void Show(HashSet<ETraitType> traits) {
             baseHex.gameObject.SetActive(true);
             foreach (var trait in traits) {
                 switch (trait) {

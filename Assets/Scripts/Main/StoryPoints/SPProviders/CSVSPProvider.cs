@@ -49,7 +49,7 @@ namespace Main.StoryPoints.SPProviders {
             var currentStoryEntries = new List<Dictionary<string, object>>();
 
             var i = 0;
-            while (_spEnumerator.MoveNext() && i < RowsPerSP) {
+            while (i < RowsPerSP && _spEnumerator.MoveNext()) {
                 currentStoryEntries.Add(_spEnumerator.Current);
                 i++;
             }

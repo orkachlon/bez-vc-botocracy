@@ -78,14 +78,12 @@ namespace Main.Managers {
 
             // var storyPointData = ReadStoryPointFromJson();
             var storyPointData = _spProvider.Next();
-
-            var lastEvent = _currentStory;
-            _currentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
-            _currentStory.InitData(storyPointData.description, storyPointData.reward, storyPointData.turnsToEvaluation,
-                storyPointData.outcomes, storyPointData.statEffects);
-            if (lastEvent != null) {
-                Destroy(lastEvent.gameObject);
+            
+            if (_currentStory != null) {
+                Destroy(_currentStory.gameObject);
             }
+            _currentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
+            _currentStory.InitData(storyPointData);
         }
 
         #region EventHandlers

@@ -18,30 +18,28 @@ namespace Main.StoryPoints {
         [SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager statEventManager;
 
-        public string StoryDescription { get; private set; }
+        public string StoryDescription => _spData.description;
         public int TurnsToEvaluation { get; private set; }
-        public int Reward { get; private set; }
+        public int Reward => _spData.reward;
         public string Outcome { get; private set; }
-        public StatToTraitWeights TraitWeights => _calculationDict;
+        public StatToTraitWeights TraitWeights { get; private set; }
+
         public bool Evaluated { get; private set; } = false;
 
-        private StatToTraitWeights _calculationDict;
-        private TraitsToOutcomes _possibleOutcomes;
+        private StoryPointData _spData;
         
 
-        public void InitData(string eventDescription, int reward, int turnsToEvaluation, TraitsToOutcomes outcomes, StatToTraitWeights calculationDict) {
+        public void InitData(StoryPointData spData) {
             // set data
-            StoryDescription = eventDescription;
-            TurnsToEvaluation = turnsToEvaluation;
-            Reward = reward;
-            _possibleOutcomes = outcomes;
-            _calculationDict = calculationDict;
+            _spData = spData;
+            TurnsToEvaluation = spData.turnsToEvaluation;
+            TraitWeights = spData.statEffects;
             
             // for legibility file values are in [-1,1]. We map them here to [-0.5,0.5].
-            _calculationDict.Keys.ToList().ForEach(s =>
-                _calculationDict[s].Keys.ToList().ForEach(t => _calculationDict[s][t] = _calculationDict[s][t] * 0.5f));
+            TraitWeights.Keys.ToList().ForEach(s =>
+                TraitWeights[s].Keys.ToList().ForEach(t => TraitWeights[s][t] = TraitWeights[s][t] * 0.5f));
             
-            // set visual elements
+            // notify
             storyEventManager.Raise(StoryEvents.OnInitStory, new StoryEventArgs(this));
         }
 
@@ -66,13 +64,13 @@ namespace Main.StoryPoints {
             if (controller.CountNeurons == 0) {
                 return;
             }
-            foreach (var stat in _calculationDict.Keys) {
+            foreach (var stat in TraitWeights.Keys) {
                 // calculation is: sum(traitWeight * curve(numNeuronsPerTrait / neuronsOnGrid)) / numTraits
                 var neuronEvaluation = 0f;
-                foreach (var trait in _calculationDict[stat].Keys) {
+                foreach (var trait in TraitWeights[stat].Keys) {
                     var fraction = (float) controller.GetTraitCount(trait) / (controller.CountNeurons - 1); // don't count starting neuron
                     var evaluationValue = neuronEvaluationWeight.Evaluate(fraction);
-                    neuronEvaluation += _calculationDict[stat][trait] * evaluationValue;
+                    neuronEvaluation += TraitWeights[stat][trait] * evaluationValue;
                 }
                 var contributionAmount = neuronEvaluation / EnumUtil.GetValues<ETraitType>().Count();
                 statEventManager.Raise(StatEvents.OnContributeToStat, new StatContributeEventArgs(stat, contributionAmount));
@@ -81,14 +79,14 @@ namespace Main.StoryPoints {
             // set outcome
             var max = 0;
             var maxTrait = ETraitType.Commander;
-            foreach (var trait in _possibleOutcomes.Keys) {
+            foreach (var trait in _spData.outcomes.Keys) {
                 if (max >= controller.GetTraitCount(trait)) {
                     continue;
                 }
                 max = controller.GetTraitCount(trait);
                 maxTrait = trait;
             }
-            Outcome = _possibleOutcomes[maxTrait];
+            Outcome = _spData.outcomes[maxTrait];
             Evaluated = true;
 
             // dispatch events
