@@ -4,6 +4,7 @@ using System.Linq;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Events;
+using Main.GameStats;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem;
 using Main.Neurons;
@@ -20,19 +21,20 @@ namespace Main.Managers {
         [SerializeField] private SEventManager boardEventManager;
         [SerializeField] private SEventManager neuronEvents;
         [SerializeField] private SEventManager storyEventManager;
+        [SerializeField] private SEventManager statEventManager;
 
         [Header("Current Neuron Data"), SerializeField]
         private SNeuronData currentNeuronData;
-        
-        public BoardNeuron CurrentNeuron { get; private set; }
 
-        private MUINeuron CurrentUINeuron { get; set; }
+        private BoardNeuron CurrentNeuron { get; set; }
+
         private Dictionary<ENeuronType, Neuron> _typeToPrefab;
 
         private void Awake() {
             neuronEvents.Register(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
-            neuronEvents.Register(NeuronEvents.OnNoMoreNeurons, OnDisableBoardInteraction);
-            storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, OnDisableBoardInteraction);
+            neuronEvents.Register(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
+            storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, DisableBoardInteraction);
+            statEventManager.Register(StatEvents.OnStatOutOfBounds, DisableBoardInteraction);
             // hover smoothly with mouse, but mark the tile below
             // uiTileMapHoverHandler.OnHoverTile += i => {};
         }
@@ -50,12 +52,12 @@ namespace Main.Managers {
 
         private void OnDestroy() {
             neuronEvents.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
-            neuronEvents.Unregister(NeuronEvents.OnNoMoreNeurons, OnDisableBoardInteraction);
+            neuronEvents.Unregister(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
         }
         
         #region EventHandlers
 
-        private void OnDisableBoardInteraction(EventArgs eventParams) {
+        private void DisableBoardInteraction(EventArgs eventParams) {
             CurrentNeuron = null;
             currentNeuronData.Type = ENeuronType.Undefined;
         }

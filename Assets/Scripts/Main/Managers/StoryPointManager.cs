@@ -1,14 +1,10 @@
 ﻿using System;
 using Core.EventSystem;
-using Main.GameStats;
 using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.BoardSystem;
 using Main.StoryPoints;
 using Main.StoryPoints.SPProviders;
-using Main.Traits;
-using Main.Utils;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Main.Managers {
     public class StoryPointManager : MonoBehaviour, IGameStateResponder {
@@ -19,11 +15,7 @@ namespace Main.Managers {
         [SerializeField] private SEventManager gmEventManager;
 
         [Header("Visuals")] [SerializeField] private MStoryPoint storyPointPrefab;
-
-        [FormerlySerializedAs("eventsPosition")] [SerializeField]
-        private Transform storyPosition;
-
-
+        
         private MStoryPoint _currentStory;
         private ISPProvider _spProvider;
 
@@ -88,7 +80,7 @@ namespace Main.Managers {
 
         #region EventHandlers
 
-        public void OnAfterGameState(EventArgs eventData) {
+        private void OnAfterGameState(EventArgs eventData) {
             if (eventData is GameStateEventArgs stateData) {
                 HandleAfterGameStateChanged(stateData.State, stateData.CustomArgs);
             }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.EventSystem;
 using Core.Utils;
+using Main.GameModifications;
 using Main.GameStats;
 using Main.Traits;
 using Main.Utils;
@@ -10,6 +12,8 @@ namespace Main.StoryPoints.SPProviders {
     public class CSVSPProvider : MonoBehaviour, ISPProvider {
 
         [SerializeField] private TextAsset StoryPointsCSV;
+        
+        [Header("Event Managers"), SerializeField] private SEventManager modificationsEventManager;
 
         private const int RowsPerSP = 6;
 
@@ -27,24 +31,29 @@ namespace Main.StoryPoints.SPProviders {
             string reward,
             string prerequisites
             ) _header;
+        
+        private bool _isInfinite;
 
         public int Count { get; private set; }
 
         private void Awake() {
             InitHeader();
-            _spEnumerator = CSVReader.ReadIterative(StoryPointsCSV).GetEnumerator();
-            var allSPs = CSVReader.Read(StoryPointsCSV);
-            if (allSPs == null || allSPs.Count % RowsPerSP != 0) {
-                Count = 0;
-            }
-            else {
-                Count = allSPs.Count / RowsPerSP;
-            }
+            Reset();
+            
+            modificationsEventManager.Register(GameModificationEvents.OnInfiniteSP, OnInfiniteStoryPoints);
+        }
+
+        private void OnDestroy() {
+            modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteSP, OnInfiniteStoryPoints);
         }
 
         public StoryPointData Next() {
             if (IsEmpty()) {
                 throw new IndexOutOfRangeException("No more events in queue!");
+            }
+
+            if (Count == 0 && _isInfinite) {
+                Reset();
             }
             var currentStoryEntries = new List<Dictionary<string, object>>();
 
@@ -61,12 +70,19 @@ namespace Main.StoryPoints.SPProviders {
         }
 
         public bool IsEmpty() {
-            return Count == 0;
+            return !_isInfinite && Count == 0;
         }
 
         public void Reset() {
-            _spEnumerator.Dispose();
+            _spEnumerator?.Dispose();
             _spEnumerator = CSVReader.ReadIterative(StoryPointsCSV).GetEnumerator();
+            var allSPs = CSVReader.Read(StoryPointsCSV);
+            if (allSPs == null || allSPs.Count % RowsPerSP != 0) {
+                Count = 0;
+            }
+            else {
+                Count = allSPs.Count / RowsPerSP;
+            }
         }
 
         private StoryPointData TryParse(List<Dictionary<string, object>> entries) {
@@ -149,6 +165,18 @@ namespace Main.StoryPoints.SPProviders {
             _header.reward = headerAsArray[9];
             _header.prerequisites = headerAsArray[10];
         }
+
+        #region EventHandlers
+
+        private void OnInfiniteStoryPoints(EventArgs eventArgs) {
+            if (eventArgs is not IsInfiniteStoryPointsEventArgs infiniteSPArgs) {
+                return;
+            }
+
+            _isInfinite = infiniteSPArgs.IsInfinite;
+        }
+
+        #endregion
 
     }
 }

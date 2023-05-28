@@ -48,8 +48,8 @@ namespace Main.GameStats {
             return Value is > 0 and < 1;
         }
 
-        private void FitFillToValue(bool animate = false) {
-            if (animate) {
+        private void FitFillToValue(bool valueWasChanged = false) {
+            if (valueWasChanged) {
                 DOVirtual.Color(statFill.color, Color.white, 0.2f, c => statFill.color = c).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InOutExpo); 
             }
             var scale = statFill.transform.localScale;

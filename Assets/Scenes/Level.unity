@@ -10489,6 +10489,25 @@ MeshRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1803447949 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5589631878319523306, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
+  m_PrefabInstance: {fileID: 5589631879776718406}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1803447951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803447949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39cd528a08d04ef3856f97c058dbc417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infiniteStoryPoints: 1
+  modificationEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
 --- !u!1 &1830479124
 GameObject:
   m_ObjectHideFlags: 0
@@ -10591,6 +10610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StoryPointsCSV: {fileID: 4900000, guid: 45cfc3fe0f01d3a4887776f636db4395, type: 3}
+  modificationsEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
 --- !u!1001 &476210249403872669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10662,6 +10682,10 @@ PrefabInstance:
       propertyPath: placeNeuronData
       value: 
       objectReference: {fileID: 11400000, guid: 6791cfb0064bdd54a85fc01199d2db77, type: 2}
+    - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
+      propertyPath: statEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}
     - target: {fileID: 476210249489798314, guid: 56fb9268e059e4149be4439238035a56, type: 3}
       propertyPath: boardEventManager
       value: 
