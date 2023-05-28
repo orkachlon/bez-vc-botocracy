@@ -1,0 +1,13 @@
+id,description,traits,Economy,Welfare,Defense,outcomes,outcomeID,turnsToEvaluation,reward,prerequisites
+1,Teachers on strike. Demanding pay raise.,Commander,0,-1,0,Raise denied. 25% of teachers quit the public school system.,1,4,5,
+,,Entrepreneur,1,-1,0,Raise promised in next budget.,2,,,
+,,Mediator,1,1,0,Raise given. Teachers satisfied.,3,,,
+,,Defender,-1,1,-1,Raise given. Teachers satisfied.,3,,,
+,,Entropist,-1,-1,0,Raise denied. 25% of teachers quit the public school system.,1,,,
+,,Logistician,1,0,0,Raise promised in next budget.,2,,,
+2,A group of war refugees is asking for shelter,Commander,0,1,-1,Refugees refused entry.,4,4,5,
+,,Entrepreneur,1,-1,0,Accepted some refugees.,6,,,
+,,Mediator,1,0,-1,Accepted some refugees.,6,,,
+,,Defender,-1,-1,-1,Refugees given entry.,5,,,
+,,Entropist,1,0,-1,Refugees given entry.,5,,,
+,,Logistician,0,0,-1,Refugees refused entry.,4,,,

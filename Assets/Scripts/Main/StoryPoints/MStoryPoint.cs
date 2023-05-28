@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using Core.EventSystem;
 using Main.GameStats;
-using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements;
 using Main.Neurons;
+using Main.StoryPoints.SPProviders;
 using Main.Traits;
 using Main.Utils;
 using UnityEngine;

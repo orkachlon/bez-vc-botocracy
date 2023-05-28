@@ -43,7 +43,7 @@ namespace OldGridSystem.Tiles {
 
         public void Disable() {
             InteractionDisabled = true;
-            Main.Utils.Unity.SetCursorVisibility(true);
+            // Main.Utils.General.SetCursorVisibility(true);
         }
 
         public void Enable() {
@@ -64,7 +64,7 @@ namespace OldGridSystem.Tiles {
             if (InteractionDisabled) {
                 return;
             }
-            Main.Utils.Unity.SetCursorVisibility(false);
+            // Main.Utils.General.SetCursorVisibility(false);
             if (!IsEmpty()) {
                 TileRenderer.color = _tileOccupiedColor;
             }
@@ -73,7 +73,7 @@ namespace OldGridSystem.Tiles {
         }
 
         private void OnMouseExit() {
-            Main.Utils.Unity.SetCursorVisibility(true);
+            // Main.Utils.General.SetCursorVisibility(true);
             if (InteractionDisabled) {
                 return;
             }
