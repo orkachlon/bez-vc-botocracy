@@ -5,6 +5,7 @@ using ExternBoardSystem.Tools;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.UI;
 using Main.Neurons;
+using TMPro;
 using UnityEngine;
 
 namespace Main.NeuronQueue {
@@ -16,6 +17,8 @@ namespace Main.NeuronQueue {
         [SerializeField] private NeuronQueueController controller;
         [SerializeField] private float neuronSpacing;
         [SerializeField] private int neuronsToShow = 5;
+
+        [SerializeField] private TextMeshPro neuronCountDisplay;
 
         private readonly Dictionary<BoardNeuron, MUIBoardNeuron> _registerUiElements = new();
 
@@ -35,9 +38,11 @@ namespace Main.NeuronQueue {
                 return;
             }
             ShowNeuron(neuron);
+            neuronCountDisplay.text = $"{controller.Count}";
         }
         
         private void OnDequeue(BoardNeuron neuron) {
+            neuronCountDisplay.text = $"{controller.Count}";
             // release the dequeued neuron ?
             MObjectPooler.Instance.Release(_registerUiElements[neuron].gameObject);
             _registerUiElements.Remove(neuron);
