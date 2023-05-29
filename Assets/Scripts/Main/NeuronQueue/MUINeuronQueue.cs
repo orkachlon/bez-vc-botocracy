@@ -34,11 +34,11 @@ namespace Main.NeuronQueue {
         }
 
         private void OnEnqueue(BoardNeuron neuron) {
+            neuronCountDisplay.text = $"{controller.Count}";
             if (_registerUiElements.Count >= neuronsToShow) {
                 return;
             }
             ShowNeuron(neuron);
-            neuronCountDisplay.text = $"{controller.Count}";
         }
         
         private void OnDequeue(BoardNeuron neuron) {
