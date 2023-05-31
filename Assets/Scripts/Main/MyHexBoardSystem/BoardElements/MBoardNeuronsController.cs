@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
@@ -9,6 +10,7 @@ using Main.MyHexBoardSystem.BoardSystem;
 using Main.MyHexBoardSystem.UI;
 using Main.Neurons;
 using Main.Traits;
+using Main.Utils;
 using UnityEngine;
 
 namespace Main.MyHexBoardSystem.BoardElements {
@@ -22,6 +24,8 @@ namespace Main.MyHexBoardSystem.BoardElements {
         
         protected SNeuronData CurrentProvider => currentNeuronData;
 
+
+        public int CountNeurons => Board.Positions.Count(p => p.HasData());
 
         protected override void Awake() {
             base.Awake();
@@ -50,7 +54,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             externalEventManager.Raise(ExternalBoardEvents.OnPlaceElement, eventData);
             // base.OnClickTile(cell);
         }
-        
+
         public void OnSetFirstNeuron(EventArgs eventData) {
             if (eventData is not OnPlaceElementEventArgs<BoardNeuron> neuronData) {
                 return;
@@ -100,7 +104,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             // var eventData = new OnPlaceElementEventArgs<BoardNeuron>(element, hex);
 
         }
-        
+
         public int GetTraitCount(ETraitType trait) {
             var direction = INeuronBoardController.TraitToDirection(trait);
 
@@ -109,7 +113,13 @@ namespace Main.MyHexBoardSystem.BoardElements {
                 .Count(p => p != null && p.HasData());
         }
 
-        public int CountNeurons => Board.Positions.Count(p => p.HasData());
+        public IEnumerable<ETraitType> GetMaxTrait(IEnumerable<ETraitType> fromTraits = null) {
+            fromTraits ??= EnumUtil.GetValues<ETraitType>();
+            // todo choose random trait in case of tie
+            var traits = fromTraits as ETraitType[] ?? fromTraits.ToArray();
+            var max = traits.Max(GetTraitCount);
+            return traits.Where(t => GetTraitCount(t) == max);
+        }
 
         #region EventHandlers
 

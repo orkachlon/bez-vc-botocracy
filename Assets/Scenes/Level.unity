@@ -654,7 +654,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
   nonDecidingTraitColor: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
+  currentDecidingTraitColor: {r: 0.7834712, g: 0.60784316, b: 0.81960785, a: 1}
+  goodTraitColor: {r: 0.56173193, g: 1, b: 0.54402506, a: 1}
+  badTraitColor: {r: 1, g: 0.49685526, b: 0.49685526, a: 1}
 --- !u!4 &647378601 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2883184648831337473, guid: 0672931386439804ab244e309a06f42f, type: 3}
@@ -7055,7 +7059,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 320105941, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 9.4373
       objectReference: {fileID: 0}
     - target: {fileID: 320105941, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7063,7 +7067,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 320105941, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 4.71865
       objectReference: {fileID: 0}
     - target: {fileID: 372852145, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchorMax.y
@@ -7195,7 +7199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2059593201, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 9.4373
       objectReference: {fileID: 0}
     - target: {fileID: 2059593201, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7203,7 +7207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2059593201, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 4.71865
       objectReference: {fileID: 0}
     - target: {fileID: 2059593201, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -10142,11 +10146,25 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 6b2753cc269171f41aa0eee63d4be159, type: 2}
   - m_RefCount: 135
     m_Data: {fileID: 11400000, guid: d231e77840242274f9db14731cfe7300, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 271
     m_Data: {fileID: 21300000, guid: 63d1a60cdfc36f3419cd3c67674a290a, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 271
     m_Data:
@@ -10166,20 +10184,110 @@ Tilemap:
       e31: 0
       e32: 0
       e33: 1
+  - m_RefCount: 0
+    m_Data:
+      e00: -0.021323562
+      e01: NaN
+      e02: 2.96218e-18
+      e03: 0
+      e10: 6.2e-44
+      e11: NaN
+      e12: 4.5904e-41
+      e13: 0
+      e20: 3.4248e-41
+      e21: 0
+      e22: -0.021323532
+      e23: 0
+      e30: 0
+      e31: 7.34684e-40
+      e32: 6.2e-44
+      e33: 1
+  - m_RefCount: 0
+    m_Data:
+      e00: 0
+      e01: 0
+      e02: 0
+      e03: -0.021315634
+      e10: 0
+      e11: 0
+      e12: 0
+      e13: 6.2e-44
+      e20: 0
+      e21: 0
+      e22: 0
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 0
+  - m_RefCount: 0
+    m_Data:
+      e00: 0
+      e01: 0
+      e02: 0
+      e03: -0.021315634
+      e10: 0
+      e11: 0
+      e12: 0
+      e13: 6.2e-44
+      e20: 0
+      e21: 0
+      e22: 0
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 0
+  - m_RefCount: 0
+    m_Data:
+      e00: -0.021323562
+      e01: NaN
+      e02: 2.96218e-18
+      e03: 0
+      e10: 6.2e-44
+      e11: NaN
+      e12: 4.5904e-41
+      e13: 0
+      e20: 3.4248e-41
+      e21: 0
+      e22: -0.021323532
+      e23: 0
+      e30: 0
+      e31: 7.34684e-40
+      e32: 6.2e-44
+      e33: 1
+  - m_RefCount: 0
+    m_Data:
+      e00: 0
+      e01: 0
+      e02: 0
+      e03: -0.021315634
+      e10: 0
+      e11: 0
+      e12: 0
+      e13: 6.2e-44
+      e20: 0
+      e21: 0
+      e22: 0
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 0
   m_TileColorArray:
   - m_RefCount: 135
     m_Data: {r: 0.70980394, g: 0.7882353, b: 0.7647059, a: 1}
   - m_RefCount: 135
     m_Data: {r: 0.5921569, g: 0.6392157, b: 0.65882355, a: 1}
   - m_RefCount: 0
-    m_Data: {r: 3.399e-41, g: 3.399e-41, b: 3.399e-41, a: 3.399e-41}
+    m_Data: {r: 3.4248e-41, g: 3.4248e-41, b: 3.4248e-41, a: 3.4248e-41}
   - m_RefCount: 1
     m_Data: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -9, y: -9, z: 0}
-  m_Size: {x: 19, y: 19, z: 1}
+  m_Origin: {x: -13, y: -12, z: 0}
+  m_Size: {x: 23, y: 23, z: 1}
   m_TileAnchor: {x: 0, y: 0, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:

@@ -57,25 +57,25 @@ namespace ExternBoardSystem.Ui.Menu {
         }
 
         private void OnPressNeighbours() {
-            var hexes = boardController.BoardManipulation.GetNeighbours(Selection);
+            var hexes = boardController.Manipulator.GetNeighbours(Selection);
             boardHighlight.Show(hexes);
             MBackButton.Instance.Pop();
         }
 
         private void OnPressDiagonalDes() {
-            var selection = boardController.BoardManipulation.GetDiagonalDescendant(Selection, ABigLength);
+            var selection = boardController.Manipulator.GetDiagonalDescendant(Selection, ABigLength);
             boardHighlight.Show(selection);
             MBackButton.Instance.Pop();
         }
 
         private void OnPressDiagonalAsc() {
-            var selection = boardController.BoardManipulation.GetDiagonalAscendant(Selection, ABigLength);
+            var selection = boardController.Manipulator.GetDiagonalAscendant(Selection, ABigLength);
             boardHighlight.Show(selection);
             MBackButton.Instance.Pop();
         }
 
         private void OnPressHorizontal() {
-            var selection = boardController.BoardManipulation.GetHorizontal(Selection, ABigLength);
+            var selection = boardController.Manipulator.GetHorizontal(Selection, ABigLength);
             boardHighlight.Show(selection);
             MBackButton.Instance.Pop();
         }

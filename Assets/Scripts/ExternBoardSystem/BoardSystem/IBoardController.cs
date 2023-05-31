@@ -6,7 +6,7 @@ namespace ExternBoardSystem.BoardSystem {
     public interface IBoardController<T> where T : BoardElement {
         #region Properties
         public IBoard<T> Board { get; }
-        public IBoardManipulation BoardManipulation { get; }
+        public IBoardManipulation Manipulator { get; }
         #endregion
 
         #region Functions

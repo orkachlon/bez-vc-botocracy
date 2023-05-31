@@ -63,10 +63,8 @@ namespace Main.StoryPoints {
                 return;
             }
             
-            // todo choose random trait in case of tie
-            var maxTrait = _spData.decidingTraits.Keys
-                .Select(t => new KeyValuePair<ETraitType, int>(t, controller.GetTraitCount(t)))
-                .Aggregate((t1, t2) => t1.Value > t2.Value ? t1 : t2).Key;
+            var maxTraits = controller.GetMaxTrait(_spData.decidingTraits.Keys).ToArray();
+            var maxTrait = maxTraits[Random.Range(0, maxTraits.Length - 1)];
 
             DecisionEffects = new TraitDecisionEffects {
                 Outcome = _spData.decidingTraits[maxTrait].Outcome,

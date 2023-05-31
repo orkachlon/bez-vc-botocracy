@@ -24,7 +24,7 @@ namespace ExternBoardSystem.BoardSystem {
         private readonly HashSet<Hex> _tiles = new();
         
         public IBoard<T> Board { get; private set; }
-        public IBoardManipulation BoardManipulation { get; private set; }
+        public IBoardManipulation Manipulator { get; private set; }
 
         /// <summary>
         ///     DO NOT USE
@@ -51,9 +51,9 @@ namespace ExternBoardSystem.BoardSystem {
         private void CreateBoard() {
             Board = new Board<T>(this,
                 tilemap.orientation == Tilemap.Orientation.XY ? EOrientation.PointyTop : EOrientation.FlatTop);
-            BoardManipulation = new BoardManipulationOddR<T>(Board);
+            Manipulator = new BoardManipulationOddR<T>(Board);
             OnCreateBoard?.Invoke(Board);
-            innerBoardEventManager.Raise(InnerBoardEvents.OnCreateBoard, new OnBoardEventData<T>(Board, BoardManipulation));
+            innerBoardEventManager.Raise(InnerBoardEvents.OnCreateBoard, new OnBoardEventData<T>(Board, Manipulator));
         }
 
         public Hex[] GetHexPoints() {

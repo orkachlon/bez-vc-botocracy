@@ -31,7 +31,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         #region InterfaceMethods
 
         public int GetTraitTileCount(ETraitType trait) {
-            return BoardManipulation.GetTriangle(INeuronBoardController.TraitToDirection(trait)).Count(h => Board.HasPosition(h));
+            return Manipulator.GetTriangle(INeuronBoardController.TraitToDirection(trait)).Count(h => Board.HasPosition(h));
         }
 
         public void SetColor(Hex[] hexTiles, Color color) {

@@ -62,7 +62,7 @@ namespace ExternBoardSystem.Ui.Board {
             ClearDirection();
             _triangle = new GameObject[] { };
             var dir = direction % 6;
-            controller.BoardManipulation
+            controller.Manipulator
                 .GetTriangle(DirectionToHex(dir))
                 .Where(h => CurrentBoard.HasPosition(h))
                 .Select(BoardManipulationOddR<T>.GetCellCoordinate)

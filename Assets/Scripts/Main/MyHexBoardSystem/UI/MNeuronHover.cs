@@ -24,13 +24,17 @@ namespace Main.MyHexBoardSystem.UI {
         private void Awake() {
             _cam = Camera.main;
             _mouseInput = GetComponent<IMouseInput>();
+            OnEnable();
+        }
+
+        private void OnEnable() {
             _mouseInput.OnPointerEnter += Show;
             _mouseInput.OnPointerStay += UpdatePosition;
             _mouseInput.OnPointerExit += Hide;
             _mouseInput.OnPointerClick += OnPointerClick;
         }
 
-        private void OnDestroy() {
+        private void OnDisable() {
             _mouseInput.OnPointerEnter -= Show;
             _mouseInput.OnPointerStay -= UpdatePosition;
             _mouseInput.OnPointerExit -= Hide;
