@@ -11,25 +11,27 @@ namespace Main.Managers {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
-
         [SerializeField] private SEventManager gmEventManager;
 
         [Header("Visuals")] [SerializeField] private MStoryPoint storyPointPrefab;
         
-        private MStoryPoint _currentStory;
+        private IStoryPoint _currentStory;
         private ISPProvider _spProvider;
 
         private void Awake() {
             _spProvider = GetComponent<ISPProvider>();
-            gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
-        }
-
-        private void OnDestroy() {
-            gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
         }
 
         private void Start() {
             NextStoryPoint();
+        }
+
+        private void OnEnable() {
+            gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
+        }
+
+        private void OnDisable() {
+            gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
         }
 
         public void HandleAfterGameStateChanged(GameState state, EventArgs customArgs = null) {
@@ -70,10 +72,8 @@ namespace Main.Managers {
 
             // var storyPointData = ReadStoryPointFromJson();
             var storyPointData = _spProvider.Next();
-            
-            if (_currentStory != null) {
-                Destroy(_currentStory.gameObject);
-            }
+
+            _currentStory?.Destroy();
             _currentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
             _currentStory.InitData(storyPointData);
         }

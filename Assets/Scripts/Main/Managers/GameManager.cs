@@ -1,7 +1,5 @@
 ﻿using System;
 using Core.EventSystem;
-using ExternBoardSystem.Events;
-using Main.GameStats;
 using Main.MyHexBoardSystem.BoardSystem;
 using Main.Neurons;
 using Main.StoryPoints;
@@ -15,10 +13,9 @@ namespace Main.Managers {
         [Header("Event Managers"), SerializeField] private SEventManager gmEventManager;
         [SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager storyEventManager;
-        [SerializeField] private SEventManager statEventManager;
         [SerializeField] private SEventManager boardEventManager;
         
-        private void Awake() {
+        private void OnEnable() {
             // game state loop:
             // initGrid > playerTurn > eventTurn( > evaluation > outcome) > statTurn > playerTurn ...
             // todo should these be methods and unsubscribe on destroy?
@@ -26,10 +23,8 @@ namespace Main.Managers {
             neuronEventManager.Register(NeuronEvents.OnNeuronPlaced, e => ChangeState(GameState.BoardStateBroadcast, e));
             boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, e => ChangeState(GameState.StoryTurn, e));
             neuronEventManager.Register(NeuronEvents.OnNoMoreNeurons, e => ChangeState(GameState.Lose, e));
-            storyEventManager.Register(StoryEvents.OnStoryTurn, e => ChangeState(GameState.StatTurn, e));
+            storyEventManager.Register(StoryEvents.OnStoryTurn, e => ChangeState(GameState.PlayerTurn, e));
             storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, e => ChangeState(GameState.Win, e));
-            statEventManager.Register(StatEvents.OnStatOutOfBounds, e => ChangeState(GameState.Lose, e));
-            statEventManager.Register(StatEvents.OnStatTurn, e => ChangeState(GameState.PlayerTurn, e));
         }
 
         private void Start() {
@@ -51,17 +46,13 @@ namespace Main.Managers {
                     break;
                 case GameState.BoardStateBroadcast:
                     break;
-                case GameState.EventEvaluation:
-                    break;
-                case GameState.StatTurn:
+                case GameState.BoardEffectTurn:
                     break;
                 case GameState.Win:
                     print("You win!");
-                    statEventManager.Raise(StatEvents.OnPrintStats, EventArgs.Empty);
                     break;
                 case GameState.Lose:
                     print("You lose!");
-                    statEventManager.Raise(StatEvents.OnPrintStats, EventArgs.Empty);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -77,8 +68,7 @@ namespace Main.Managers {
         InitGrid,
         StoryTurn,
         PlayerTurn,
-        EventEvaluation,
-        StatTurn,
+        BoardEffectTurn,
         Win,
         Lose,
         BoardStateBroadcast

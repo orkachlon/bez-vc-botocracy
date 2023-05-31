@@ -36,9 +36,6 @@ namespace ExternBoardSystem.BoardSystem {
             CreateBoard();
         }
 
-        protected void Start() {
-        }
-
         private void CollectExistingTiles() {
             tilemap.CompressBounds();
 
@@ -57,10 +54,6 @@ namespace ExternBoardSystem.BoardSystem {
             BoardManipulation = new BoardManipulationOddR<T>(Board);
             OnCreateBoard?.Invoke(Board);
             innerBoardEventManager.Raise(InnerBoardEvents.OnCreateBoard, new OnBoardEventData<T>(Board, BoardManipulation));
-        }
-        
-        public void DispatchCreateBoard(IBoard<T> board) {
-            // OnCreateBoard?.Invoke(board);
         }
 
         public Hex[] GetHexPoints() {

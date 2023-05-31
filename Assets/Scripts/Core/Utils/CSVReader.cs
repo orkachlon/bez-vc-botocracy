@@ -49,7 +49,7 @@ namespace Core.Utils {
         }
 
 
-        public static IEnumerable<Dictionary<string, object>> ReadIterative(TextAsset data) {
+        public static IEnumerable<Dictionary<string, object>> ReadIterative(TextAsset data, bool leaveCellsEmpty = false) {
             var history = new List<Dictionary<string, object>>();
             // var data = Resources.Load (file) as TextAsset;
             if (data == null) {
@@ -72,8 +72,10 @@ namespace Core.Utils {
                     var value = values[j];
                     value = value.TrimStart(TrimChars).TrimEnd(TrimChars).Replace("\\", string.Empty);
                     
-                    // combined cells return empty values for all but first row
-                    var finalValue = value == string.Empty && history.Count > 0 ? history[i - 2][header[j]] : value;
+                    // combined cells return empty values for all but the first row
+                    var finalValue = value == string.Empty && history.Count > 0 && !leaveCellsEmpty ? 
+                        history[i - 2][header[j]] : 
+                        value;
                     
                     if(int.TryParse(value, out var n)) {
                         finalValue = n;

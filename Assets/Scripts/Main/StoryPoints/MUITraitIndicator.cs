@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Core.EventSystem;
-using Main.GameStats;
 using Main.Traits;
-using Main.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Main.StoryPoints {
     public class MUITraitIndicator : MonoBehaviour {
-        [SerializeField] private EStatType statType;
 
         [SerializeField] private Color addColor;
         [SerializeField] private Color subtractColor;
@@ -144,9 +140,9 @@ namespace Main.StoryPoints {
             }
 
             var story = storyEventArgs.Story;
-            var traitWeights = story.TraitWeights[statType];
-            ShowNegative(traitWeights.Keys.Where(k => traitWeights[k] < 0).ToHashSet());
-            ShowPositive(traitWeights.Keys.Where(k => traitWeights[k] > 0).ToHashSet());
+            // var traitWeights = story.TraitWeights[statType];
+            // ShowNegative(traitWeights.Keys.Where(k => traitWeights[k] < 0).ToHashSet());
+            // ShowPositive(traitWeights.Keys.Where(k => traitWeights[k] > 0).ToHashSet());
         }
 
         #endregion

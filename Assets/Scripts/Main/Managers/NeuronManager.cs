@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
-using ExternBoardSystem.Events;
-using Main.GameStats;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem;
 using Main.Neurons;
@@ -21,7 +19,6 @@ namespace Main.Managers {
         [SerializeField] private SEventManager boardEventManager;
         [SerializeField] private SEventManager neuronEvents;
         [SerializeField] private SEventManager storyEventManager;
-        [SerializeField] private SEventManager statEventManager;
 
         [Header("Current Neuron Data"), SerializeField]
         private SNeuronData currentNeuronData;
@@ -34,7 +31,6 @@ namespace Main.Managers {
             neuronEvents.Register(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
             neuronEvents.Register(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
             storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, DisableBoardInteraction);
-            statEventManager.Register(StatEvents.OnStatOutOfBounds, DisableBoardInteraction);
             // hover smoothly with mouse, but mark the tile below
             // uiTileMapHoverHandler.OnHoverTile += i => {};
         }

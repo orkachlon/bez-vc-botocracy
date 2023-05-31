@@ -10,9 +10,6 @@ namespace ExternBoardSystem.BoardSystem {
         #endregion
 
         #region Functions
-
-        // should this be here?
-        public void DispatchCreateBoard(IBoard<T> board);
         
         public Hex[] GetHexPoints();
         

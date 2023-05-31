@@ -13,7 +13,7 @@ namespace Main.StoryPoints {
     }
 
     public class StoryEventArgs : EventArgs {
-        public MStoryPoint Story;
+        public IStoryPoint Story;
         
         public StoryEventArgs(MStoryPoint story) {
             Story = story;

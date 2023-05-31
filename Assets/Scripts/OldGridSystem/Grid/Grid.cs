@@ -69,11 +69,10 @@ namespace OldGridSystem.Grid {
                 case GameState.PlayerTurn:
                     EnableGridInteractions();
                     break;
-                case GameState.EventEvaluation:
                 case GameState.StoryTurn:
                 case GameState.Win:
                 case GameState.Lose:
-                case GameState.StatTurn:
+                case GameState.BoardEffectTurn:
                     DisableGridInteractions();
                     break;
                 default:

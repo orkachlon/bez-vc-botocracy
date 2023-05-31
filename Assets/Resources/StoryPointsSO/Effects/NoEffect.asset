@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6ea8a02709c455db622fa734b9a8670, type: 3}
-  m_Name: Economy
+  m_Script: {fileID: 11500000, guid: 33ab6bb0d58143fb89c648bcc6c914bb, type: 3}
+  m_Name: NoEffect
   m_EditorClassIdentifier: 
-  statName: Economy
-  value: 0.32621342
+  effect: 0

@@ -12,12 +12,12 @@ namespace Main.StoryPoints {
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
 
-        private void Awake() {
+        private void OnEnable() {
             storyEventManager.Register(StoryEvents.OnInitStory, OnInitStory);
             storyEventManager.Register(StoryEvents.OnDecrement, OnDecrementStory);
         }
 
-        private void OnDestroy() {
+        private void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnInitStory, OnInitStory);
             storyEventManager.Unregister(StoryEvents.OnDecrement, OnDecrementStory);
         }
@@ -30,7 +30,7 @@ namespace Main.StoryPoints {
             }
 
             var story = storyEventArgs.Story;
-            description.text = story.StoryDescription;
+            description.text = story.Description;
             UpdateRewardAmount(story.Reward);
             UpdateTurnCounter(story.TurnsToEvaluation);
         }

@@ -1,5 +1,5 @@
 ﻿using System;
-using Main.GameStats;
+using System.Collections.Generic;
 using Main.Traits;
 using Main.Utils;
 
@@ -17,20 +17,28 @@ namespace Main.StoryPoints.SPProviders {
     [Serializable]
     public struct StoryPointData {
         public string description;
-        public StatToTraitWeights statEffects;
         public int reward;
         public int turnsToEvaluation;
-        public TraitsToOutcomes outcomes;
+        public TraitImplications decidingTraits;
     }
 
     #region Wrappers
 
+    // why are these serializable?
     [Serializable]
     public class TraitWeights : SerializableDictionary<ETraitType, float> { }
     [Serializable]
-    public class StatToTraitWeights : SerializableDictionary<EStatType, TraitWeights> { }
-    [Serializable]
     public class TraitsToOutcomes : SerializableDictionary<ETraitType, string> { }
+
+    public class TraitImplications : Dictionary<ETraitType, TraitDecisionEffects> { }
+
+    public class TraitDecisionEffects {
+
+        public static readonly TraitDecisionEffects NoDecision = new();
+        
+        public string Outcome;
+        public Dictionary<ETraitType, int> BoardEffect;
+    }
 
     #endregion
 }

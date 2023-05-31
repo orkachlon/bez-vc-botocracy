@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.EventSystem;
+using Main.StoryPoints.SPProviders;
 using UnityEngine;
 
 namespace Main.StoryPoints {
@@ -18,11 +19,13 @@ namespace Main.StoryPoints {
 
         private void Awake() {
             _outcomeQueue = new Queue<MUIOutcome>();
-            
+        }
+
+        private void OnEnable() {
             storyEventManager.Register(StoryEvents.OnEvaluate, OnStoryEvaluated);
         }
 
-        private void OnDestroy() {
+        private void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnEvaluate, OnStoryEvaluated);
         }
 
@@ -30,12 +33,12 @@ namespace Main.StoryPoints {
         #region EventHandlers
 
         private void OnStoryEvaluated(EventArgs eventArgs) {
-            if (eventArgs is not StoryEventArgs storyEventArgs) {
+            if (eventArgs is not StoryEventArgs storyEventArgs || storyEventArgs.Story.DecisionEffects == TraitDecisionEffects.NoDecision) {
                 return;
             }
             
             var newOutcome = Instantiate(outcomePrefab, verticalContainer);
-            newOutcome.SetText(storyEventArgs.Story.Outcome);
+            newOutcome.SetText(storyEventArgs.Story.DecisionEffects.Outcome);
             _outcomeQueue.Enqueue(newOutcome);
         }
 

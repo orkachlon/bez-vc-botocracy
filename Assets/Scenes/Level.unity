@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &68907006 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-  m_PrefabInstance: {fileID: 698172731538061857}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &92867822
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,6 +639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1609176185}
   innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
+  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!4 &647378601 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2883184648831337473, guid: 0672931386439804ab244e309a06f42f, type: 3}
@@ -829,7 +825,6 @@ GameObject:
   m_Component:
   - component: {fileID: 735814909}
   - component: {fileID: 735814911}
-  - component: {fileID: 735814913}
   - component: {fileID: 735814912}
   - component: {fileID: 735814915}
   - component: {fileID: 735814914}
@@ -916,19 +911,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: Efficiency is king.
   header: Logistician
---- !u!65 &735814913
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735814908}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.373971, y: 0.709853, z: 0}
-  m_Center: {x: 0.002108872, y: -0.10699704, z: 0}
 --- !u!114 &735814914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6003,7 +5985,6 @@ Transform:
   - {fileID: 168493727}
   - {fileID: 647378601}
   - {fileID: 296610568}
-  - {fileID: 68907006}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6224,7 +6205,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1082466025}
   - component: {fileID: 1082466027}
-  - component: {fileID: 1082466029}
   - component: {fileID: 1082466028}
   - component: {fileID: 1082466031}
   - component: {fileID: 1082466030}
@@ -6311,19 +6291,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: Profit from every opportunity.
   header: Entrepreneur
---- !u!65 &1082466029
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082466024}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.385884, y: 0.7067649, z: 0}
-  m_Center: {x: 0.019682651, y: -0.107805885, z: 0}
 --- !u!114 &1082466030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6614,7 +6581,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1214009804}
   - component: {fileID: 1214009806}
-  - component: {fileID: 1214009808}
   - component: {fileID: 1214009807}
   - component: {fileID: 1214009810}
   - component: {fileID: 1214009809}
@@ -6701,19 +6667,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: A good compromise means everyone wins.
   header: Mediator
---- !u!65 &1214009808
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1214009803}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.8258832, y: 0.56676483, z: 0}
-  m_Center: {x: 0.019682353, y: -0.035452925, z: 0}
 --- !u!114 &1214009809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6872,11 +6825,10 @@ GameObject:
   - component: {fileID: 1330746248}
   - component: {fileID: 1330746250}
   - component: {fileID: 1330746251}
-  - component: {fileID: 1330746252}
   - component: {fileID: 1330746254}
   - component: {fileID: 1330746253}
   m_Layer: 0
-  m_Name: Defender
+  m_Name: Entropist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6899,7 +6851,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 507, y: 715}
+  m_AnchoredPosition: {x: 473, y: 736}
   m_SizeDelta: {x: 370.5908, y: 164.3846}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1330746250
@@ -6958,32 +6910,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: Always protect the underdog.
   header: Defender
---- !u!61 &1330746252
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1330746247}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.0092410445, y: -0.035452917}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.9797063, y: 0.5667647}
-  m_EdgeRadius: 0
 --- !u!114 &1330746253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7004,7 +6930,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Defender
+  m_text: Entropist
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
   m_sharedMaterial: {fileID: 8845025251329881265, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
@@ -10378,12 +10304,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1641581097}
   - component: {fileID: 1641581099}
-  - component: {fileID: 1641581101}
   - component: {fileID: 1641581100}
   - component: {fileID: 1641581103}
   - component: {fileID: 1641581102}
   m_Layer: 0
-  m_Name: Entropist
+  m_Name: Defender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10465,19 +10390,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: The universe knows best.
   header: Entropist
---- !u!65 &1641581101
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1641581096}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.9217649, y: 0.70911765, z: 0}
-  m_Center: {x: 0.018432438, y: -0.10662939, z: 0}
 --- !u!114 &1641581102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10498,7 +10410,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Entropist
+  m_text: Defender
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
   m_sharedMaterial: {fileID: 8845025251329881265, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
@@ -10820,7 +10732,6 @@ GameObject:
   - component: {fileID: 1795018043}
   - component: {fileID: 1795018045}
   - component: {fileID: 1795018046}
-  - component: {fileID: 1795018047}
   - component: {fileID: 1795018049}
   - component: {fileID: 1795018048}
   m_Layer: 0
@@ -10906,19 +10817,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: Treat everything as a threat.
   header: Commander
---- !u!65 &1795018047
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1795018042}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.911471, y: 0.5667647, z: 0}
-  m_Center: {x: 0.020491183, y: -0.035452917, z: 0}
 --- !u!114 &1795018048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11034,6 +10932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infiniteStoryPoints: 1
+  infiniteNeurons: 0
   modificationEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
 --- !u!1 &1830479124
 GameObject:
@@ -11568,155 +11467,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56fb9268e059e4149be4439238035a56, type: 3}
---- !u!1001 &698172731538061857
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 927296032}
-    m_Modifications:
-    - target: {fileID: 1235238280171036595, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1235238280171036595, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -13.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 6.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1306665814208571833, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1815929333893299067, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_Color.b
-      value: 0.35686275
-      objectReference: {fileID: 0}
-    - target: {fileID: 1815929333893299067, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_Color.g
-      value: 0.35686275
-      objectReference: {fileID: 0}
-    - target: {fileID: 1815929333893299067, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_Color.r
-      value: 0.93725497
-      objectReference: {fileID: 0}
-    - target: {fileID: 1967953746720976092, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: dataProvider
-      value: 
-      objectReference: {fileID: 11400000, guid: d855fec2dbd812b498d01d77ae41a18b, type: 2}
-    - target: {fileID: 2289200038591081083, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_text
-      value: Welfare
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737079732536018850, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_Name
-      value: StatManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 3737079732536018850, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3836910332954481948, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_Color.b
-      value: 0.61960787
-      objectReference: {fileID: 0}
-    - target: {fileID: 3836910332954481948, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_Color.g
-      value: 0.6392157
-      objectReference: {fileID: 0}
-    - target: {fileID: 3836910332954481948, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_Color.r
-      value: 0.1254902
-      objectReference: {fileID: 0}
-    - target: {fileID: 3982193639859094203, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: dataProvider
-      value: 
-      objectReference: {fileID: 11400000, guid: 58303a55b50e18341b954afac8bd073c, type: 2}
-    - target: {fileID: 4406905473918562772, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4406905473918562772, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6078703252601248876, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_text
-      value: Economy
-      objectReference: {fileID: 0}
-    - target: {fileID: 6537900112201918884, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6537900112201918884, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7671189940196261596, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_Name
-      value: Welfare
-      objectReference: {fileID: 0}
-    - target: {fileID: 8671663366691090955, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_text
-      value: Defense
-      objectReference: {fileID: 0}
-    - target: {fileID: 8997245568188691628, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: dataProvider
-      value: 
-      objectReference: {fileID: 11400000, guid: 19baf293448c96842bf9fe2b8f383403, type: 2}
-    - target: {fileID: 9124374994430731019, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_Color.b
-      value: 0.039215688
-      objectReference: {fileID: 0}
-    - target: {fileID: 9124374994430731019, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_Color.g
-      value: 0.75294125
-      objectReference: {fileID: 0}
-    - target: {fileID: 9124374994430731019, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
-      propertyPath: m_Color.r
-      value: 0.9921569
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: cec34df3249ed384d9e75764efdd5c33, type: 3}
 --- !u!1001 &2883184649275028136
 PrefabInstance:
   m_ObjectHideFlags: 0

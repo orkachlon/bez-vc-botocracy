@@ -6,16 +6,18 @@ using Main.MyHexBoardSystem.BoardElements;
 namespace Main.MyHexBoardSystem.BoardSystem {
     public static class ExternalBoardEvents {
 
-        public const string OnBoardSetupComplete = "BoardOnBoardSetupComplete";
+        public const string OnBoardSetupComplete = "Board_OnBoardSetupComplete";
         
-        public const string OnBoardBroadCast = "BoardOnBoardBroadCast";
+        public const string OnBoardBroadCast = "Board_OnBoardBroadCast";
+
+        public const string OnBoardEffect = "Board_OnBoardEffect";
         
         // by click
-        public const string OnPlaceElement = "BoardOnPlaceElement";
+        public const string OnPlaceElement = "Board_OnPlaceElement";
         // by any means
-        public const string OnAddElement = "BoardOnAddElement";
-        public const string OnRemoveElement = "BoardOnRemoveElement";
-        public const string OnSetFirstElement = "BoardOnSetFirstElement";
+        public const string OnAddElement = "Board_OnAddElement";
+        public const string OnRemoveElement = "Board_OnRemoveElement";
+        public const string OnSetFirstElement = "Board_OnSetFirstElement";
     }
 
     public class OnPlaceElementEventArgs<TElement> : EventArgs where TElement : BoardElement {

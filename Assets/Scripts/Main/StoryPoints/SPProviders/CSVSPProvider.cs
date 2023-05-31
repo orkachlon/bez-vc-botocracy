@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Core.EventSystem;
 using Core.Utils;
 using Main.GameModifications;
-using Main.GameStats;
 using Main.Traits;
 using Main.Utils;
 using UnityEngine;
@@ -19,14 +18,17 @@ namespace Main.StoryPoints.SPProviders {
 
         private IEnumerator<Dictionary<string, object>> _spEnumerator;
         private (
-            string id, 
-            string description, 
-            string traits, 
-            string economy, 
-            string welfare, 
-            string defense, 
-            string outcomes, 
-            string outcomeID, 
+            string id,
+            string description,
+            string decidingTraits,
+            string cmmndr,
+            string ntrpnr,
+            string mdtr,
+            string dfndr,
+            string ntrpst,
+            string lgstcn,
+            string outcomes,
+            string outcomeID,
             string turnsToEvaluation,
             string reward,
             string prerequisites
@@ -91,79 +93,102 @@ namespace Main.StoryPoints.SPProviders {
                 reward = (int) entries[0][_header.reward],
                 turnsToEvaluation = (int) entries[0][_header.turnsToEvaluation]
             };
-            var statsToTraits = GetStatToTraitWeights(entries);
-            if (statsToTraits == null) {
+
+            var decidingTraits = GetDecidingTraits(entries);
+            if (decidingTraits == null) {
                 throw new Exception($"SP data couldn't be read correctly! SP: {newSPData.description}");
             }
 
-            newSPData.statEffects = statsToTraits;
-
-            var outcomes = GetTraitsToOutcomes(entries);
-            if (outcomes == null) {
-                throw new Exception($"SP data couldn't be read correctly! SP: {newSPData.description}");
-            }
-
-            newSPData.outcomes = outcomes;
+            newSPData.decidingTraits = decidingTraits;
 
             return newSPData;
         }
-
-        private TraitsToOutcomes GetTraitsToOutcomes(List<Dictionary<string, object>> entries) {
-            var traitOutcomes = new TraitsToOutcomes();
+        
+        private TraitImplications GetDecidingTraits(List<Dictionary<string, object>> entries) {
+            var deciders = new TraitImplications();
             foreach (var entry in entries) {
-                var traitString = (string) entry[_header.traits];
+                if ((string) entry[_header.outcomes] == "-") {
+                    continue;
+                }
+
+                var deciderEffects = GetDeciderEffects(entry);
+                if (deciderEffects == null) {
+                    return null;
+                }
+
+                var traitString = (string) entry[_header.decidingTraits];
                 if (Enum.TryParse<ETraitType>(traitString, out var trait)) {
-                    traitOutcomes[trait] = (string) entry[_header.outcomes];
-                } else {
-                    return null;
+                    deciders[trait] = deciderEffects;
                 }
-            }
-            
-            return traitOutcomes;
-        }
-
-        private StatToTraitWeights GetStatToTraitWeights(List<Dictionary<string, object>> entries) {
-            var statsToTraits = new StatToTraitWeights();
-            foreach (var stat in EnumUtil.GetValues<EStatType>()) {
-                var traitWeights = GetTraitWeightsForStat(entries, stat);
-                if (traitWeights == null) {
-                    return null;
-                }
-
-                statsToTraits[stat] = traitWeights;
-            }
-
-            return statsToTraits;
-        }
-
-        private TraitWeights GetTraitWeightsForStat(List<Dictionary<string, object>> entries, EStatType stat) {
-            var weights = new TraitWeights();
-            foreach (var entry in entries) {
-                var traitString = (string) entry[_header.traits];
-                var weight = (int) entry[stat.ToString()];
-                if (Enum.TryParse<ETraitType>(traitString, out var trait)) {
-                    weights[trait] = weight;
-                } else {
+                else {
                     return null;
                 }
             }
 
-            return weights;
+            return deciders;
         }
+
+        private TraitDecisionEffects GetDeciderEffects(IReadOnlyDictionary<string, object> entry) {
+            var effects = new TraitDecisionEffects {
+                Outcome = (string) entry[_header.outcomes],
+                BoardEffect = new Dictionary<ETraitType, int>()
+            };
+            foreach (var trait in EnumUtil.GetValues<ETraitType>()) {
+                if (!entry.ContainsKey(trait.ToString())) {
+                    return null;
+                }
+
+                effects.BoardEffect[trait] = (int) entry[trait.ToString()];
+            }
+
+            return effects;
+        }
+
+        // private StatToTraitWeights GetStatToTraitWeights(List<Dictionary<string, object>> entries) {
+        //     var statsToTraits = new StatToTraitWeights();
+        //     foreach (var stat in EnumUtil.GetValues<EStatType>()) {
+        //         var traitWeights = GetTraitWeightsForStat(entries, stat);
+        //         if (traitWeights == null) {
+        //             return null;
+        //         }
+        //
+        //         statsToTraits[stat] = traitWeights;
+        //     }
+        //
+        //     return statsToTraits;
+        // }
+
+        // private TraitWeights GetTraitWeightsForStat(List<Dictionary<string, object>> entries, EStatType stat) {
+        //     var weights = new TraitWeights();
+        //     foreach (var entry in entries) {
+        //         var traitString = (string) entry[_header.traits];
+        //         var weight = (int) entry[stat.ToString()];
+        //         if (Enum.TryParse<ETraitType>(traitString, out var trait)) {
+        //             weights[trait] = weight;
+        //         } else {
+        //             return null;
+        //         }
+        //     }
+        //
+        //     return weights;
+        // }
 
         private void InitHeader() {
             var headerAsArray = CSVReader.GetHeader(StoryPointsCSV);
             _header.id = headerAsArray[0];
             _header.description = headerAsArray[1];
-            _header.traits = headerAsArray[2];
-            _header.economy = headerAsArray[3];
-            _header.welfare = headerAsArray[4];
-            _header.defense = headerAsArray[5];
-            _header.outcomes = headerAsArray[6];
-            _header.outcomeID = headerAsArray[7];
-            _header.turnsToEvaluation = headerAsArray[8];
-            _header.reward = headerAsArray[9];
-            _header.prerequisites = headerAsArray[10];
+            _header.decidingTraits = headerAsArray[2];
+            _header.cmmndr = headerAsArray[3];
+            _header.ntrpnr = headerAsArray[4];
+            _header.mdtr = headerAsArray[5];
+            _header.dfndr = headerAsArray[6];
+            _header.ntrpst = headerAsArray[7];
+            _header.lgstcn = headerAsArray[8];
+            _header.outcomes = headerAsArray[9];
+            _header.outcomeID = headerAsArray[10];
+            _header.turnsToEvaluation = headerAsArray[11];
+            _header.reward = headerAsArray[12];
+            _header.prerequisites = headerAsArray[13];
         }
 
         #region EventHandlers

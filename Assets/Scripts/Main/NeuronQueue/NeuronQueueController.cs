@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core.EventSystem;
-using ExternBoardSystem.Events;
 using JetBrains.Annotations;
+using Main.GameModifications;
 using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem;
@@ -15,15 +15,27 @@ namespace Main.NeuronQueue {
 
         [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager boardEventManager;
+        [SerializeField] private SEventManager modificationsEventManager;
 
-        public int Count => _neurons.Count;
+        public int Count => _isInfinite ? int.MaxValue : _neurons.Count;
 
         private Queue<BoardNeuron> _neurons;
+        private bool _isInfinite;
 
         private void Awake() {
             _neurons = new Queue<BoardNeuron>();
+        }
+
+        private void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, OnBoardElementPlaced);
             neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
+            modificationsEventManager.Register(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
+        }
+
+        private void OnDisable() {
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, OnBoardElementPlaced);
+            neuronEventManager.Unregister(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
+            modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
         }
 
         public void Enqueue(IEnumerable<BoardNeuron> neurons) {
@@ -52,6 +64,11 @@ namespace Main.NeuronQueue {
             _neurons.TryDequeue(out var nextNeuron);
             if (nextNeuron == null) {
                 return null;
+            }
+
+            // never run out of neurons but keep visibility and functionality the same
+            if (_isInfinite) {
+                Enqueue(1);
             }
             neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronEventArgs(nextNeuron));
             return nextNeuron;
@@ -86,6 +103,14 @@ namespace Main.NeuronQueue {
             if (eventArgs is NeuronRewardEventArgs reward) {
                 Enqueue(reward.Amount);
             }
+        }
+
+        private void OnInfiniteNeurons(EventArgs eventArgs) {
+            if (eventArgs is not IsInfiniteNeuronsEventArgs infiniteNeurons) {
+                return;
+            }
+
+            _isInfinite = infiniteNeurons.IsInfinite;
         }
 
         #endregion
