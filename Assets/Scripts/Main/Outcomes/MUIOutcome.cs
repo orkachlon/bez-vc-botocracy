@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace Main.StoryPoints {
+namespace Main.Outcomes {
     public class MUIOutcome : MonoBehaviour {
         [Header("Visuals"), SerializeField] private TextMeshProUGUI outcomeText;
         

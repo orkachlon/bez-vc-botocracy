@@ -3,7 +3,7 @@ using Core.Utils.DataStructures;
 using Main.Traits;
 using UnityEngine;
 
-namespace Main.StoryPoints {
+namespace Main.StoryPoints.SOVersion {
     [CreateAssetMenu(fileName = "NewTraitEffectsContainer", menuName = "Story Points/Trait Effects Container")]
     public class STraitEffectsContainer : ScriptableObject {
         public int outcomeID;

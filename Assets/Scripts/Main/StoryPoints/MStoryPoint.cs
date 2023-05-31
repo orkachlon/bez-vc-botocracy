@@ -20,6 +20,7 @@ namespace Main.StoryPoints {
         public string Description => _spData.description;
         public int TurnsToEvaluation { get; private set; }
         public int Reward => _spData.reward;
+        public DecidingTraits DecidingTraits => _spData.decidingTraits;
         public TraitDecisionEffects DecisionEffects { get; private set; }
         public bool Evaluated { get; private set; } = false;
 
@@ -61,17 +62,6 @@ namespace Main.StoryPoints {
             if (controller.CountNeurons == 0) {
                 return;
             }
-            
-            // set outcome
-            // var max = 0;
-            // var maxTrait = ETraitType.Commander;
-            // foreach (var trait in _spData.decidingTraits.Keys) {
-            //     if (max >= controller.GetTraitCount(trait)) {
-            //         continue;
-            //     }
-            //     max = controller.GetTraitCount(trait);
-            //     maxTrait = trait;
-            // }
             
             // todo choose random trait in case of tie
             var maxTrait = _spData.decidingTraits.Keys

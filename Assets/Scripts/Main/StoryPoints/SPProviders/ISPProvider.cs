@@ -19,7 +19,7 @@ namespace Main.StoryPoints.SPProviders {
         public string description;
         public int reward;
         public int turnsToEvaluation;
-        public TraitImplications decidingTraits;
+        public DecidingTraits decidingTraits;
     }
 
     #region Wrappers
@@ -30,7 +30,7 @@ namespace Main.StoryPoints.SPProviders {
     [Serializable]
     public class TraitsToOutcomes : SerializableDictionary<ETraitType, string> { }
 
-    public class TraitImplications : Dictionary<ETraitType, TraitDecisionEffects> { }
+    public class DecidingTraits : Dictionary<ETraitType, TraitDecisionEffects> { }
 
     public class TraitDecisionEffects {
 

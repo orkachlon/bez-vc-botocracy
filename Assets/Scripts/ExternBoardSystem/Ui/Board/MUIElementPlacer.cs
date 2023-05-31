@@ -12,11 +12,7 @@ namespace ExternBoardSystem.Ui.Board {
         where T : BoardElement
         where TUI : MUIBoardElement {
         
-        // subscribe to events
-        [SerializeField] private MBoardController<T> controller;
-        [SerializeField] private MBoardElementsController<T, TUI> elementsController;
-
-        [Header("Events"), SerializeField] private SEventManager innerBoardEventManager;
+        [Header("Event Managers"), SerializeField] private SEventManager innerBoardEventManager;
 
         protected Tilemap TileMap { get; private set; }
         
@@ -25,9 +21,6 @@ namespace ExternBoardSystem.Ui.Board {
             innerBoardEventManager.Register(InnerBoardEvents.OnElementAdded, OnAddElement);
             innerBoardEventManager.Register(InnerBoardEvents.OnElementRemoved, OnRemoveElement);
             innerBoardEventManager.Register(InnerBoardEvents.OnCreateBoard, OnCreateBoard);
-            // controller.OnCreateBoard += OnCreateBoard;
-            // elementsController.OnAddElement += OnAddElement;
-            // elementsController.OnRemoveElement += OnRemoveElement;
         }
 
         #region EventHandlers

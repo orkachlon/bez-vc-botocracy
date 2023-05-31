@@ -3,7 +3,7 @@ using Core.Utils.DataStructures;
 using Main.Traits;
 using UnityEngine;
 
-namespace Main.StoryPoints {
+namespace Main.StoryPoints.SOVersion {
     [CreateAssetMenu(fileName = "NewStoryPoint", menuName = "Story Points/Story Point")]
     public class SStoryPointData : ScriptableObject {
         public string description;

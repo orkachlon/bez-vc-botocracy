@@ -104,8 +104,8 @@ namespace Main.StoryPoints.SPProviders {
             return newSPData;
         }
         
-        private TraitImplications GetDecidingTraits(List<Dictionary<string, object>> entries) {
-            var deciders = new TraitImplications();
+        private DecidingTraits GetDecidingTraits(List<Dictionary<string, object>> entries) {
+            var deciders = new DecidingTraits();
             foreach (var entry in entries) {
                 if ((string) entry[_header.outcomes] == "-") {
                     continue;

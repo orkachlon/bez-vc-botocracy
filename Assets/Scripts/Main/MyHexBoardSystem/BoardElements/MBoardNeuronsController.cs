@@ -3,7 +3,6 @@ using System.Linq;
 using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
-using ExternBoardSystem.Events;
 using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem;
@@ -101,30 +100,13 @@ namespace Main.MyHexBoardSystem.BoardElements {
             // var eventData = new OnPlaceElementEventArgs<BoardNeuron>(element, hex);
 
         }
-
-        public int GetTraitOverall(ETraitType trait) {
-            return Manipulator.GetTriangle(TraitToDirection(trait)).Count(h => Board.HasPosition(h));
-        }
-
+        
         public int GetTraitCount(ETraitType trait) {
-            var direction = TraitToDirection(trait);
+            var direction = INeuronBoardController.TraitToDirection(trait);
 
             return Manipulator.GetTriangle(direction)
                 .Select(h => Board.GetPosition(h))
                 .Count(p => p != null && p.HasData());
-        }
-
-        private static Hex TraitToDirection(ETraitType trait) {
-            var direction = trait switch {
-                ETraitType.Entropist => new Hex(0, 1),
-                ETraitType.Commander => new Hex(1, 0),
-                ETraitType.Entrepreneur => new Hex(1, -1),
-                ETraitType.Logistician => new Hex(0, -1),
-                ETraitType.Defender => new Hex(-1, 0),
-                ETraitType.Mediator => new Hex(-1, 1),
-                _ => throw new ArgumentOutOfRangeException(nameof(trait), trait, null)
-            };
-            return direction;
         }
 
         public int CountNeurons => Board.Positions.Count(p => p.HasData());

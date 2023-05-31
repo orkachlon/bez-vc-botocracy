@@ -9,6 +9,9 @@ namespace Main.StoryPoints {
         public string Description { get; }
         public int TurnsToEvaluation { get; }
         public int Reward { get; }
+        public DecidingTraits DecidingTraits { get; }
+        
+        // for after SP evaluation
         public TraitDecisionEffects DecisionEffects { get; }
         public bool Evaluated { get; }
 

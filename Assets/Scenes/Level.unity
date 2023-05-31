@@ -558,6 +558,7 @@ GameObject:
   - component: {fileID: 615794154}
   - component: {fileID: 615794156}
   - component: {fileID: 615794155}
+  - component: {fileID: 615794157}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -640,6 +641,20 @@ MonoBehaviour:
   tilemap: {fileID: 1609176185}
   innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+--- !u!114 &615794157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615794147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2841ccfbb7b940adbda7e5183d6b225b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  nonDecidingTraitColor: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
 --- !u!4 &647378601 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2883184648831337473, guid: 0672931386439804ab244e309a06f42f, type: 3}
@@ -7040,7 +7055,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 320105941, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 9.4373
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 320105941, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7048,7 +7063,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 320105941, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 4.71865
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 372852145, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchorMax.y
@@ -7180,7 +7195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2059593201, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 9.4373
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2059593201, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7188,7 +7203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2059593201, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 4.71865
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2059593201, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -7271,7 +7286,15 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8352185396173129141, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352185396173129141, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352185396173129141, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8352185396173129141, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
@@ -7282,8 +7305,20 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8352185396173129141, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191175438144581461, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9191175438144581461, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191175438144581461, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9191175438144581461, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
@@ -7294,8 +7329,20 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9191175438144581461, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191175439037565174, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9191175439037565174, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191175439037565174, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9191175439037565174, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
@@ -7304,6 +7351,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9191175439037565174, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191175439037565174, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -10278,8 +10329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c20d4012154550adc0bfacd31cfe4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 615794156}
-  elementsController: {fileID: 615794154}
   innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
 --- !u!114 &1609176195
 MonoBehaviour:

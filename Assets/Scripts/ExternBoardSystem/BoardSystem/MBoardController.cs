@@ -16,7 +16,7 @@ namespace ExternBoardSystem.BoardSystem {
     ///     classes can ask for hex board algorithms (e.g. getNeighbors)
     /// </summary>
     public class MBoardController<T> : MonoBehaviour, IBoardController<T> where T : BoardElement {
-        [SerializeField] private Tilemap tilemap;
+        [SerializeField] protected Tilemap tilemap;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager innerBoardEventManager;

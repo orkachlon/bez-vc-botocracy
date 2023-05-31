@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.EventSystem;
+using Main.StoryPoints;
 using Main.StoryPoints.SPProviders;
 using UnityEngine;
 
-namespace Main.StoryPoints {
+namespace Main.Outcomes {
     public class MOutcomesController : MonoBehaviour {
         [Header("Outcome Prefab"), SerializeField]
         private MUIOutcome outcomePrefab;
