@@ -1,0 +1,39 @@
+﻿{
+  "description": "A group of war refugees is asking for shelter.",
+  "statEffects": {
+    "economy": {
+      "commander": 0,
+      "entrepreneur": 1,
+      "mediator": 1,
+      "defender": -1,
+      "entropist": -1,
+      "logistician": 1
+    },
+    "welfare": {
+      "commander": -1,
+      "entrepreneur": -1,
+      "mediator": 1,
+      "defender": 1,
+      "entropist": -1,
+      "logistician": 0
+    },
+    "defense": {
+      "commander": 0,
+      "entrepreneur": 0,
+      "mediator": 0,
+      "defender": -1,
+      "entropist": 0,
+      "logistician": 0
+    }
+  },
+  "reward": 2,
+  "turnsToEvaluation": 3,
+  "outcomes": {
+    "commander": "Students missed a whole year.",
+    "entrepreneur": "Raise promised in next budget.",
+    "mediator": "Teacher satisfied.",
+    "defender": "Teacher satisfied.",
+    "entropist": "Students missed a whole year.",
+    "logistician": "Raise promised in next budget."
+  }
+}

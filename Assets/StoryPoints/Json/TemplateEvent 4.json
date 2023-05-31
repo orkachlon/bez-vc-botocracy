@@ -1,0 +1,39 @@
+﻿{
+  "description": "Your country has been invaded!",
+  "statEffects": {
+    "economy": {
+      "defender": -1,
+      "commander": -1,
+      "entrepreneur": 1,
+      "logistician": 1,
+      "entropist": 1,
+      "mediator": 1
+    },
+    "welfare": {
+      "defender": 1,
+      "commander": -1,
+      "entrepreneur": 0,
+      "logistician": 0,
+      "entropist": 1,
+      "mediator": 0
+    },
+    "defense": {
+      "defender": -1,
+      "commander": 1,
+      "entrepreneur": 0,
+      "logistician": 0,
+      "entropist": 1,
+      "mediator": 1
+    }
+  },
+  "reward": 4,
+  "turnsToEvaluation": 5,
+  "outcomes": {
+    "defender": "outcome 1",
+    "commander": "outcome 2",
+    "entrepreneur": "outcome 3",
+    "logistician": "outcome 4",
+    "entropist": "outcome 5",
+    "mediator": "outcome 6"
+  }
+}

@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: f816b8a6481ade24cb880141fe6dd95d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Ezer Block TRIAL ONLY
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 773c8ee82d91f684491183c5ccd3be90, type: 3}
+  - {fileID: 12800000, guid: b29a6de93d675f0408ec601a9476bbec, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

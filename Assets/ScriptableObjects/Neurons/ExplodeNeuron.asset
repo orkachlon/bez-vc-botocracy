@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5f2212528764d29a4351b22cf87bab7, type: 3}
+  m_Name: ExplodeNeuron
+  m_EditorClassIdentifier: 
+  neuronType: 2
+  artwork: {fileID: 21300000, guid: 2bc08d43f842f264cb95f1c26ba29fc3, type: 3}
+  model: {fileID: 4623728799522052598, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
