@@ -19,7 +19,7 @@ namespace Main.MyHexBoardSystem.UI {
         [Header("Current Neuron"), SerializeField]
         private SNeuronData currentNeuron;
 
-        [Header("Tilemap and Tiles"), SerializeField]
+        [Header("Highlighting"), SerializeField]
         private TileBase hoverTile;
 
         [Header("Event Managers"), SerializeField]
@@ -83,7 +83,6 @@ namespace Main.MyHexBoardSystem.UI {
                 return;
             }
             Hide(_currentHighlightedTrait);
-            _currentHighlightedTrait = null;
         }
 
         private void OnUpdatePosition(EventArgs args) {
@@ -126,6 +125,7 @@ namespace Main.MyHexBoardSystem.UI {
                 return;
             }
             _traitAccessor.SetTiles(trait.Value, null, BoardConstants.TraitHoverTileLayer);
+            _currentHighlightedTrait = null;
         }
     }
 }
