@@ -18,9 +18,18 @@ namespace ExternBoardSystem.Ui.Board {
         
         protected virtual void Awake() {
             TileMap = GetComponentInChildren<Tilemap>();
+        }
+
+        protected virtual void OnEnable() {
             innerBoardEventManager.Register(InnerBoardEvents.OnElementAdded, OnAddElement);
             innerBoardEventManager.Register(InnerBoardEvents.OnElementRemoved, OnRemoveElement);
             innerBoardEventManager.Register(InnerBoardEvents.OnCreateBoard, OnCreateBoard);
+        }
+
+        protected virtual void OnDisable() {
+            innerBoardEventManager.Unregister(InnerBoardEvents.OnElementAdded, OnAddElement);
+            innerBoardEventManager.Unregister(InnerBoardEvents.OnElementRemoved, OnRemoveElement);
+            innerBoardEventManager.Unregister(InnerBoardEvents.OnCreateBoard, OnCreateBoard);
         }
 
         #region EventHandlers

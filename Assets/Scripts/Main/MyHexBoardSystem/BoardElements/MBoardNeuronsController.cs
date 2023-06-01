@@ -102,12 +102,6 @@ namespace Main.MyHexBoardSystem.BoardElements {
             return true;
         }
 
-        public override void RemoveElement(Hex hex) {
-            base.RemoveElement(hex);
-            // var eventData = new OnPlaceElementEventArgs<BoardNeuron>(element, hex);
-
-        }
-
         public int GetTraitCount(ETraitType trait) {
             var direction = ITraitAccessor.TraitToDirection(trait);
 

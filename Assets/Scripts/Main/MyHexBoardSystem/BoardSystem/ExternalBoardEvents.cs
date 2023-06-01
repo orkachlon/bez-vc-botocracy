@@ -1,12 +1,15 @@
 ﻿using System;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
+using ExternBoardSystem.BoardSystem.Position;
 using Main.MyHexBoardSystem.BoardElements;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Main.MyHexBoardSystem.BoardSystem {
     public static class ExternalBoardEvents {
+        public const string OnRemoveTile = "Board_OnRemoveTile";
+        public const string OnAddTile = "Board_OnAddTile";
 
         public const string OnBoardSetupComplete = "Board_OnBoardSetupComplete";
         
@@ -66,6 +69,14 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
         public OnBoardPointerStayEventArgs(Vector2 mousePosition) {
             MousePosition = mousePosition;
+        }
+    }
+
+    public class OnTileModifyEventArgs<TElement> : EventArgs  where TElement : BoardElement {
+        public Position<TElement> Position;
+
+        public OnTileModifyEventArgs(Position<TElement> position) {
+            Position = position;
         }
     }
 }

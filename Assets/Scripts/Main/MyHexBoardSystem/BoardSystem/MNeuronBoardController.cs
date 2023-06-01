@@ -25,14 +25,6 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             externalBoardEventManager.Raise(ExternalBoardEvents.OnBoardSetupComplete, EventArgs.Empty);
         }
 
-        private void OnEnable() {
-            storyEventManager.Register(StoryEvents.OnEvaluate, OnBoardEffect);
-        }
-
-        private void OnDisable() {
-            storyEventManager.Unregister(StoryEvents.OnEvaluate, OnBoardEffect);
-        }
-
         #endregion
 
         #region InterfaceMethods
@@ -72,17 +64,15 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             return BoardManipulationOddR<BoardNeuron>.GetHexCoordinate(tilemapLayers[BoardConstants.BaseTilemapLayer].WorldToCell(position));
         }
 
-
-        #endregion
-
-        #region EventHandlers
-
-        private void OnBoardEffect(EventArgs obj) {
-            if (obj is not StoryEventArgs storyEventArgs) {
+        public void RemoveTile(Hex hex) {
+            // notify that tile is being removed
+            if (!Board.HasPosition(hex)) {
                 return;
             }
-            // todo add effect on board (remove tiles?)
-            print(storyEventArgs.Story.Description);
+            Board.RemovePosition(hex);
+            tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
+            tilemapLayers[BaseTilemapLayer].RefreshAllTiles();
+            tilemapLayers[BaseTilemapLayer].CompressBounds();
         }
 
         #endregion

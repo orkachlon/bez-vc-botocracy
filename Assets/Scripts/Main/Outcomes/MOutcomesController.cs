@@ -37,9 +37,10 @@ namespace Main.Outcomes {
             if (eventArgs is not StoryEventArgs storyEventArgs || storyEventArgs.Story.DecisionEffects == TraitDecisionEffects.NoDecision) {
                 return;
             }
-            
+
+            var storyEffects = storyEventArgs.Story.DecisionEffects;
             var newOutcome = Instantiate(outcomePrefab, verticalContainer);
-            newOutcome.SetText(storyEventArgs.Story.DecisionEffects.Outcome);
+            newOutcome.SetText($"{storyEffects.DecidingTrait}: {storyEffects.Outcome}");
             _outcomeQueue.Enqueue(newOutcome);
         }
 

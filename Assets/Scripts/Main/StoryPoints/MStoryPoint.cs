@@ -67,6 +67,7 @@ namespace Main.StoryPoints {
             var maxTrait = maxTraits[Random.Range(0, maxTraits.Length - 1)];
 
             DecisionEffects = new TraitDecisionEffects {
+                DecidingTrait = maxTrait,
                 Outcome = _spData.decidingTraits[maxTrait].Outcome,
                 BoardEffect = _spData.decidingTraits[maxTrait].BoardEffect
             };

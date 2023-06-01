@@ -32,8 +32,8 @@ namespace ExternBoardSystem.Ui.Board {
             var identity = Quaternion.identity;
             ClearPositions();
             ClearDirection();
-            _positions = new GameObject[CurrentBoard.Positions.Length];
-            for (var i = 0; i < CurrentBoard.Positions.Length; i++) {
+            _positions = new GameObject[CurrentBoard.Positions.Count];
+            for (var i = 0; i < CurrentBoard.Positions.Count; i++) {
                 var hex = CurrentBoard.Positions[i].Point;
                 var cell = BoardManipulationOddR<T>.GetCellCoordinate(hex);
                 var worldPosition = tileMap.CellToWorld(cell);

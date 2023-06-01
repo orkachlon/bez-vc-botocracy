@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
+using ExternBoardSystem.BoardSystem.Position;
 using ExternBoardSystem.Tools.Extensions;
 using UnityEngine;
 
@@ -16,10 +18,10 @@ namespace ExternBoardSystem.BoardSystem.Board {
             new Hex(-1, 0), new Hex(-1, 1), new Hex(0, 1)
         };
 
-        private readonly Hex[] _hexPoints;
+        private readonly IBoard<T> _board;
 
         public BoardManipulationOddR(IBoard<T> board) {
-            _hexPoints = board.Positions.Select(p => p.Point).ToArray();
+            _board = board;
         }
 
         public Hex[] GetNeighbours(Vector3Int cell) {
@@ -35,7 +37,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
         }
 
         /// <summary>
-        ///     If the point is present among the starting configuration returns it. Otherwise returns a empty array.
+        ///     If the point is present ~among the starting configuration~ returns it. Otherwise returns a empty array.
         /// </summary>
         private Hex[] GetIfExistsOrEmpty(Hex hex) {
             var cell = GetCellCoordinate(hex);
@@ -46,10 +48,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
 
         public bool Contains(Vector3Int cell) {
             var hex = GetHexCoordinate(cell);
-            foreach (var i in _hexPoints)
-                if (i == hex)
-                    return true;
-            return false;
+            return _board.HasPosition(hex);
         }
 
         public Hex[] GetVertical(Vector3Int cell, int length) {
@@ -157,10 +156,14 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 sign2 = sSign;
                 var i1 = sign1;
                 var i2 = sign2;
-                while (Contains(GetCellCoordinate(new Hex(-i1 - i2, i1)))) {
+                var lastI = sign2 * MaxCoord(p => sign2 * p.Point.s);
+                while (lastI.HasValue && Mathf.Abs(i2) <= Mathf.Abs(lastI.Value)) {
                     i1 = sign1;
                     while (Mathf.Abs(i1) <= Mathf.Abs(i2)) {
-                        hexes.Add(new Hex(-i1 - i2, i1));
+                        var hexToAdd = new Hex(-i1 - i2, i1);
+                        if (Contains(GetCellCoordinate(hexToAdd))) {
+                            hexes.Add(hexToAdd);
+                        }
                         i1 += sign1;
                     }
 
@@ -171,10 +174,14 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 sign2 = sSign;
                 var i1 = sign1;
                 var i2 = sign2;
-                while (Contains(GetCellCoordinate(new Hex(i1, 0)))) {
+                var lastI = sign1 * MaxCoord(p => sign1 * p.Point.q);
+                while (lastI.HasValue && Mathf.Abs(i1) <= Mathf.Abs(lastI.Value)) {
                     i2 = sign2;
                     while (Mathf.Abs(i2) <= Mathf.Abs(i1)) {
-                        hexes.Add(new Hex(i1, -i1 - i2));
+                        var hexToAdd = new Hex(i1, -i1 - i2);
+                        if (Contains(GetCellCoordinate(hexToAdd))) {
+                            hexes.Add(hexToAdd);
+                        }
                         i2 += sign2;
                     }
 
@@ -186,10 +193,14 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 sign2 = rSign;
                 var i1 = sign1;
                 var i2 = sign2;
-                while (Contains(GetCellCoordinate(new Hex(0, i2)))) {
+                var lastI = sign2 * MaxCoord(p => sign2 * p.Point.r);
+                while (lastI.HasValue && Mathf.Abs(i2) <= Mathf.Abs(lastI.Value)) {
                     i1 = sign1;
                     while (Mathf.Abs(i1) <= Mathf.Abs(i2)) {
-                        hexes.Add(new Hex(i1, i2));
+                        var hexToAdd = new Hex(i1, i2);
+                        if (Contains(GetCellCoordinate(hexToAdd))) {
+                            hexes.Add(hexToAdd);
+                        }
                         i1 += sign1;
                     }
 
@@ -197,6 +208,10 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 }
             }
             return hexes.ToArray();
+        }
+
+        private int? MaxCoord(Func<Position<T>,int> selector) {
+            return _board.Positions.Select(selector).OrderByDescending(c => c).FirstOrDefault();
         }
 
         /// <summary>

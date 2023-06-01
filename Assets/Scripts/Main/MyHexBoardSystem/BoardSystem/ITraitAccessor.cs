@@ -16,6 +16,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         #region Tiles
 
         public Hex[] GetTraitHexes(ETraitType trait);
+        public bool RemoveTraitTile(ETraitType trait);
         
         
         public Color GetColor(ETraitType trait, string tilemapLayer = BoardConstants.BaseTilemapLayer);

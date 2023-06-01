@@ -7,6 +7,8 @@ using Main.Traits;
 using Main.Utils;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
+
 
 namespace Main.MyHexBoardSystem.BoardSystem {
     
@@ -36,6 +38,22 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
         public Hex[] GetTraitHexes(ETraitType trait) {
             return boardController.Manipulator.GetTriangle(ITraitAccessor.TraitToDirection(trait));
+        }
+
+        public bool RemoveTraitTile(ETraitType trait) {
+            var hexes = GetTraitHexes(trait);
+            // foreach (var hex in hexes) {
+            //     if (boardController.Manipulator.GetNeighbours()) {
+            //         continue;
+            //     }
+            //     neuronsController.RemoveElement(hex);
+            //     boardController.RemoveTile(hex);
+            //     return true;
+            // }
+            var randomHex = hexes[0];
+            neuronsController.RemoveElement(randomHex);
+            boardController.RemoveTile(randomHex);
+            return true;
         }
 
         public Color GetColor(ETraitType trait, string tilemapLayer = BoardConstants.BaseTilemapLayer) {

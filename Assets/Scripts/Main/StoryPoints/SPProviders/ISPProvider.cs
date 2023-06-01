@@ -35,7 +35,8 @@ namespace Main.StoryPoints.SPProviders {
     public class TraitDecisionEffects {
 
         public static readonly TraitDecisionEffects NoDecision = new();
-        
+
+        public ETraitType DecidingTrait;
         public string Outcome;
         public Dictionary<ETraitType, int> BoardEffect;
     }

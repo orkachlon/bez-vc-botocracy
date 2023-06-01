@@ -1,4 +1,5 @@
-﻿using ExternBoardSystem.BoardElements;
+﻿using System.Collections.Generic;
+using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
 
 namespace ExternBoardSystem.BoardSystem.Board {
@@ -8,8 +9,9 @@ namespace ExternBoardSystem.BoardSystem.Board {
     public interface IBoard<T> where T : BoardElement {
         // MBoardController Controller { get; }
         EOrientation Orientation { get; }
-        Position.Position<T>[] Positions { get; }
+        List<Position.Position<T>> Positions { get; }
         bool HasPosition(Hex point);
         Position.Position<T> GetPosition(Hex point);
+        void RemovePosition(Hex point);
     }
 }
