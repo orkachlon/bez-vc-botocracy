@@ -1,4 +1,6 @@
 ﻿using System;
+using Core.EventSystem;
+using ExternBoardSystem.Events;
 using ExternBoardSystem.Tools.Input.Mouse;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -20,7 +22,14 @@ namespace ExternBoardSystem.Ui.Particles {
             TileMap = GetComponent<Tilemap>();
             Hover = GetComponentInChildren<IHoverEffect>();
             MouseInput = GetComponent<IMouseInput>();
+        }
+
+        private void OnEnable() {
             MouseInput.OnPointerStay += CalculateHoverPosition;
+        }
+
+        private void OnDisable() {
+            MouseInput.OnPointerStay -= CalculateHoverPosition;
         }
 
         private void HideHover() {

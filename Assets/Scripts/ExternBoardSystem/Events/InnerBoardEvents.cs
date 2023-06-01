@@ -6,16 +6,17 @@ using UnityEngine;
 
 namespace ExternBoardSystem.Events {
     internal static class InnerBoardEvents {
-        
+
         // element events
-        public const string OnElementAdded = "InnerBoardOnElementAdded";
-        public const string OnElementRemoved = "InnerBoardOnElementRemoved";
-        public const string OnElementAddFailed = "InnerBoardOnElementAddFailed";
+        public const string OnElementAdded = "InnerBoard_OnElementAdded";
+        public const string OnElementRemoved = "InnerBoard_OnElementRemoved";
+        public const string OnElementAddFailed = "InnerBoard_OnElementAddFailed";
 
         // board events
-        public const string OnCreateBoard = "InnerBoardOnCreateBoard";
-        public const string OnClickTile = "InnerBoardOnClickTile";
-        public const string OnRightClickTile = "InnerBoardOnRightClickTile";
+        public const string OnCreateBoard = "InnerBoard_OnCreateBoard";
+        public const string OnClickTile = "InnerBoard_OnClickTile";
+        public const string OnRightClickTile = "InnerBoard_OnRightClickTile";
+        public const string OnEnterTile = "InnerBoard_OnEnterTile";
     }
 
     internal class OnElementEventData<TElement> : EventArgs 

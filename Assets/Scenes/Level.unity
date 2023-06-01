@@ -2606,6 +2606,7 @@ GameObject:
   - component: {fileID: 1609176193}
   - component: {fileID: 1609176194}
   - component: {fileID: 1609176195}
+  - component: {fileID: 1609176196}
   m_Layer: 0
   m_Name: BaseTilemap
   m_TagString: Untagged
@@ -5644,6 +5645,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentNeuron: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
+--- !u!114 &1609176196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609176184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377564e7fd254529a55b3f380ad59f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1 &1641581096
 GameObject:
   m_ObjectHideFlags: 0
@@ -6295,6 +6309,8 @@ GameObject:
   - component: {fileID: 1816006968}
   - component: {fileID: 1816006970}
   - component: {fileID: 1816006969}
+  - component: {fileID: 1816006972}
+  - component: {fileID: 1816006971}
   m_Layer: 0
   m_Name: OutlineTilemap
   m_TagString: Untagged
@@ -6355,9 +6371,9 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1553271469
+  m_SortingLayer: 3
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -6404,6 +6420,35 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1816006971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816006967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50ca6b71b68a4dde81da5ace71d19e76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentNeuron: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
+  hoverTile: {fileID: 11400000, guid: e576e9d63a6ca114b97f8722abe6490d, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+--- !u!114 &1816006972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816006967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b2cc68708a4e07a80f0b0d36475164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardController: {fileID: 615794156}
+  neuronsController: {fileID: 615794154}
 --- !u!1 &1830479124
 GameObject:
   m_ObjectHideFlags: 0

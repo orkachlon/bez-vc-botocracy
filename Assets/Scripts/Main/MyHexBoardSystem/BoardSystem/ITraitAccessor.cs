@@ -8,8 +8,8 @@ using UnityEngine.Tilemaps;
 namespace Main.MyHexBoardSystem.BoardSystem {
     public interface ITraitAccessor {
 
-        public ETraitType HexToTrait(Hex hex);
-        public ETraitType WorldPosToTrait(Vector3 worldPosition);
+        public ETraitType? HexToTrait(Hex hex);
+        public ETraitType? WorldPosToTrait(Vector3 worldPosition);
 
 
 

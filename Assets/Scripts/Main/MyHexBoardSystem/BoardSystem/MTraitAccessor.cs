@@ -17,11 +17,8 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
         [SerializeField] private MNeuronBoardController boardController;
         [SerializeField] private MBoardNeuronsController neuronsController;
-
-        private Dictionary<ETraitType, Trait> _traits = new Dictionary<ETraitType, Trait>();
-
-
-        public ETraitType HexToTrait(Hex hex) {
+        
+        public ETraitType? HexToTrait(Hex hex) {
             foreach (var trait in EnumUtil.GetValues<ETraitType>()) {
                 var traitHexes = boardController.Manipulator.GetTriangle(ITraitAccessor.TraitToDirection(trait));
                 if (traitHexes.Contains(hex)) {
@@ -29,10 +26,10 @@ namespace Main.MyHexBoardSystem.BoardSystem {
                 }
             }
 
-            throw new ArgumentOutOfRangeException(nameof(hex), hex, "Hex wasn't found in any of the traits!");
+            return null;
         }
 
-        public ETraitType WorldPosToTrait(Vector3 worldPosition) {
+        public ETraitType? WorldPosToTrait(Vector3 worldPosition) {
             var hex = boardController.WorldPosToHex(worldPosition);
             return HexToTrait(hex);
         }
