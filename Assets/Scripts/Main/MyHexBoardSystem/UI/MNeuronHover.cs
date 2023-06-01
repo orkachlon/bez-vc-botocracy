@@ -24,7 +24,6 @@ namespace Main.MyHexBoardSystem.UI {
         private void Awake() {
             _cam = Camera.main;
             _mouseInput = GetComponent<IMouseInput>();
-            OnEnable();
         }
 
         private void OnEnable() {

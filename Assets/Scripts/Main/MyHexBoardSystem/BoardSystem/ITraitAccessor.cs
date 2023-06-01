@@ -1,23 +1,37 @@
 ﻿using System;
-using ExternBoardSystem.BoardSystem;
+using System.Collections.Generic;
 using ExternBoardSystem.BoardSystem.Coordinates;
-using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.Traits;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Main.MyHexBoardSystem.BoardSystem {
-    public interface INeuronBoardController : IBoardController<BoardNeuron> {
-        int GetTraitTileCount(ETraitType trait);
+    public interface ITraitAccessor {
 
-        Color GetColor(Hex tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
-        void SetColor(Hex[] hexTiles, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
-        void SetColor(Hex hexTile, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
-        void SetTile(Hex hexTile, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
-        void SetTiles(Hex[] hexTiles, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        public ETraitType HexToTrait(Hex hex);
+        public ETraitType WorldPosToTrait(Vector3 worldPosition);
 
-        Hex WorldPosToHex(Vector3 position);
+
+
+        #region Tiles
+
+        public Hex[] GetTraitHexes(ETraitType trait);
         
+        
+        public Color GetColor(ETraitType trait, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        public void SetColor(ETraitType trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        public void SetTiles(ETraitType trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+
+        #endregion
+
+        #region Neurons
+
+        IEnumerable<ETraitType> GetMaxNeuronsTrait(IEnumerable<ETraitType> fromTraits = null);
+
+        #endregion
+
+        #region StaticFunctions
+
         static Hex TraitToDirection(ETraitType trait) {
             var direction = trait switch {
                 ETraitType.Entropist => new Hex(0, 1),
@@ -53,5 +67,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
             throw new ArgumentOutOfRangeException(nameof(hex), hex, null);
         }
+
+        #endregion
     }
 }

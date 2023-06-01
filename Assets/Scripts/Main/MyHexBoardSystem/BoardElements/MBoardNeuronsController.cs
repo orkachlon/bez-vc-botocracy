@@ -29,11 +29,14 @@ namespace Main.MyHexBoardSystem.BoardElements {
 
         protected override void Awake() {
             base.Awake();
+        }
+
+        private void OnEnable() {
             externalEventManager.Register(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
             gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnBoardStateBroadcast);
         }
 
-        private void OnDestroy() {
+        private void OnDisable() {
             externalEventManager.Unregister(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
             gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnBoardStateBroadcast);
         }
@@ -106,7 +109,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
         }
 
         public int GetTraitCount(ETraitType trait) {
-            var direction = INeuronBoardController.TraitToDirection(trait);
+            var direction = ITraitAccessor.TraitToDirection(trait);
 
             return Manipulator.GetTriangle(direction)
                 .Select(h => Board.GetPosition(h))

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
-using ExternBoardSystem.BoardSystem.Coordinates;
-using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.BoardSystem;
 using Main.Neurons;
 using Main.StoryPoints;
@@ -14,7 +12,7 @@ using Random = UnityEngine.Random;
 
 namespace Main.MyHexBoardSystem.UI {
     
-    [RequireComponent(typeof(MNeuronBoardController)), RequireComponent(typeof(MBoardNeuronsController))]
+    [RequireComponent(typeof(MTraitAccessor))]
     public class MBoardHighlighter : MonoBehaviour {
 
         [Header("Event Managers"), SerializeField]
@@ -27,17 +25,15 @@ namespace Main.MyHexBoardSystem.UI {
         [SerializeField] private Color goodTraitColor;
         [SerializeField] private Color badTraitColor;
         
-        private INeuronBoardController _boardController;
-        private IBoardNeuronController _neuronController;
-        private readonly Dictionary<Hex, Color> _previousColors = new();
+        private ITraitAccessor _traitAccessor;
+        private readonly Dictionary<ETraitType, Color> _previousColors = new();
         private IStoryPoint _currentSP;
         private ETraitType _currentMaxTrait;
 
         #region UnityMethods
 
         private void Awake() {
-            _boardController = GetComponent<INeuronBoardController>();
-            _neuronController = GetComponent<IBoardNeuronController>();
+            _traitAccessor = GetComponent<ITraitAccessor>();
         }
 
         private void OnEnable() {
@@ -72,8 +68,7 @@ namespace Main.MyHexBoardSystem.UI {
                     continue;
                 }
 
-                var traitTiles = _boardController.Manipulator.GetTriangle(INeuronBoardController.TraitToDirection(trait));
-                RevertColor(traitTiles);
+                RevertColor(trait);
             }
         }
 
@@ -91,9 +86,8 @@ namespace Main.MyHexBoardSystem.UI {
                     continue;
                 }
 
-                var traitHexes = _boardController.Manipulator.GetTriangle(INeuronBoardController.TraitToDirection(trait));
-                CacheColors(traitHexes);
-                _boardController.SetColor(traitHexes, nonDecidingTraitColor);
+                CacheColors(trait);
+                _traitAccessor.SetColor(trait, nonDecidingTraitColor);
             }
         }
 
@@ -102,7 +96,7 @@ namespace Main.MyHexBoardSystem.UI {
                 return;
             }
 
-            RevertColor(_boardController.Manipulator.GetTriangle(INeuronBoardController.TraitToDirection(_currentMaxTrait)));
+            RevertColor(_currentMaxTrait);
             MarkMaxDecidingTrait();
         }
         
@@ -116,39 +110,30 @@ namespace Main.MyHexBoardSystem.UI {
         #endregion
 
         private void MarkMaxDecidingTrait() {
-            var maxTraits = _neuronController.GetMaxTrait(_currentSP.DecidingTraits.Keys).ToArray();
+            var maxTraits = _traitAccessor.GetMaxNeuronsTrait(_currentSP.DecidingTraits.Keys).ToArray();
             if (!maxTraits.Contains(_currentMaxTrait)) {
-                RevertColor(
-                    _boardController.Manipulator.GetTriangle(
-                        INeuronBoardController.TraitToDirection(_currentMaxTrait)));
+                RevertColor(_currentMaxTrait);
                 // save new maximum
                 _currentMaxTrait = maxTraits[Random.Range(0, maxTraits.Length - 1)];
             }
 
-            var maxTraitHexes = _boardController.Manipulator
-                .GetTriangle(INeuronBoardController.TraitToDirection(_currentMaxTrait));
-
-            CacheColors(maxTraitHexes);
-            _boardController.SetColor(maxTraitHexes, currentDecidingTraitColor);
+            CacheColors(_currentMaxTrait);
+            _traitAccessor.SetColor(_currentMaxTrait, currentDecidingTraitColor);
         }
 
-        private void CacheColors(Hex[] hexes) {
-            foreach (var hex in hexes) {
-                if (_previousColors.ContainsKey(hex)) { // do not overwrite colors
-                    continue;
-                }
-                _previousColors[hex] = _boardController.GetColor(hex);
+        private void CacheColors(ETraitType trait) {
+            if (_previousColors.ContainsKey(trait)) { // do not overwrite colors
+                return;
             }
+            _previousColors[trait] = _traitAccessor.GetColor(trait);
         }
 
-        private void RevertColor(Hex[] hexes) {
-            foreach (var hex in hexes) {
-                if (!_previousColors.ContainsKey(hex)) {
-                    continue;
-                }
-                _boardController.SetColor(hex, _previousColors[hex]);
-                _previousColors.Remove(hex);
+        private void RevertColor(ETraitType trait) {
+            if (!_previousColors.ContainsKey(trait)) {
+                return;
             }
+            _traitAccessor.SetColor(trait, _previousColors[trait]);
+            _previousColors.Remove(trait);
         }
     }
 }

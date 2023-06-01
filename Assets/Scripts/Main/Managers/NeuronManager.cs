@@ -27,15 +27,23 @@ namespace Main.Managers {
 
         private Dictionary<ENeuronType, Neuron> _typeToPrefab;
 
-        private void Awake() {
+        private void OnEnable() {
             neuronEvents.Register(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
             neuronEvents.Register(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
             storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, DisableBoardInteraction);
-            // hover smoothly with mouse, but mark the tile below
-            // uiTileMapHoverHandler.OnHoverTile += i => {};
+            boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
-        private void Start() {
+        private void OnDisable() {
+            neuronEvents.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
+            neuronEvents.Unregister(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
+            storyEventManager.Unregister(StoryEvents.OnNoMoreStoryPoints, DisableBoardInteraction);
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, Init);
+        }
+
+        #region EventHandlers
+
+        private void Init(EventArgs obj) {
             // add some neurons to the queue
             neuronEvents.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(10));
             // place the initial neuron
@@ -45,13 +53,6 @@ namespace Main.Managers {
             boardEventManager.Raise(ExternalBoardEvents.OnSetFirstElement, firstNeuronEventData);
             gmEventManager.Raise(GameManagerEvents.OnGameLoopStart, EventArgs.Empty);
         }
-
-        private void OnDestroy() {
-            neuronEvents.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
-            neuronEvents.Unregister(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
-        }
-        
-        #region EventHandlers
 
         private void DisableBoardInteraction(EventArgs eventParams) {
             CurrentNeuron = null;

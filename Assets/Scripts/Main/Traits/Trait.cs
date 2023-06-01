@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace Main.Traits {
-    public class Trait : MonoBehaviour, ITrait {
+    public class Trait : ITrait {
 
         protected ETraitType TraitType;
         

@@ -12,27 +12,30 @@ namespace Main.Managers {
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
         [SerializeField] private SEventManager gmEventManager;
+        [SerializeField] private SEventManager boardEventManager;
 
         [Header("Visuals")] [SerializeField] private MStoryPoint storyPointPrefab;
         
         private IStoryPoint _currentStory;
         private ISPProvider _spProvider;
 
+        #region UnityMethods
+
         private void Awake() {
             _spProvider = GetComponent<ISPProvider>();
         }
 
-        private void Start() {
-            NextStoryPoint();
-        }
-
         private void OnEnable() {
             gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
+            boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
         private void OnDisable() {
             gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
+
+        #endregion
 
         public void HandleAfterGameStateChanged(GameState state, EventArgs customArgs = null) {
             if (state != GameState.StoryTurn) {
@@ -44,6 +47,10 @@ namespace Main.Managers {
             }
 
             storyEventManager.Raise(StoryEvents.OnStoryTurn, EventArgs.Empty);
+        }
+
+        private void Init(EventArgs obj) {
+            NextStoryPoint();
         }
 
         private void StoryTurn(IBoardNeuronController elementsController) {
