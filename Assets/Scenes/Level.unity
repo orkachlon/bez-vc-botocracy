@@ -6435,6 +6435,7 @@ MonoBehaviour:
   currentNeuron: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
   hoverTile: {fileID: 11400000, guid: e576e9d63a6ca114b97f8722abe6490d, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!114 &1816006972
 MonoBehaviour:
   m_ObjectHideFlags: 0

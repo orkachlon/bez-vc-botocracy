@@ -16,17 +16,9 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
         [SerializeField] private SEventManager externalBoardEventManager;
-
-
-        public const string TraitHoverTileLayer = "traitHover";
-
+        
 
         #region UnityMethods
-
-        protected override void Awake() {
-            base.Awake();
-            
-        }
 
         protected override void Start() {
             base.Start();
