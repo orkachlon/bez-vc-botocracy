@@ -2,6 +2,7 @@
 using Core.EventSystem;
 using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.BoardSystem;
+using Main.MyHexBoardSystem.Events;
 using Main.StoryPoints;
 using Main.StoryPoints.SPProviders;
 using UnityEngine;

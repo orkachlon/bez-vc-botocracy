@@ -1,11 +1,10 @@
 ﻿using ExternBoardSystem.Tools;
 using ExternBoardSystem.Tools.Input.Mouse;
-using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.Neurons;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Main.MyHexBoardSystem.UI {
+namespace Main.MyHexBoardSystem.BoardElements.Neuron {
     
     /// <summary>
     ///     This class is supposed to show the neuron which is about to be placed.

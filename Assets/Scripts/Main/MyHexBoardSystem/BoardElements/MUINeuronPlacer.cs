@@ -6,7 +6,7 @@ using ExternBoardSystem.Ui.Board;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using UnityEngine;
 
-namespace Main.MyHexBoardSystem.UI {
+namespace Main.MyHexBoardSystem.BoardElements {
     public class MUINeuronPlacer : MUIElementPlacer<BoardNeuron, MUIBoardNeuron> {
         private readonly Dictionary<BoardElement, MUIBoardNeuron> _registerUiElements = new();
         

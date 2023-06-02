@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements;
+using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.Traits;
 using Main.Utils;
 using UnityEngine;

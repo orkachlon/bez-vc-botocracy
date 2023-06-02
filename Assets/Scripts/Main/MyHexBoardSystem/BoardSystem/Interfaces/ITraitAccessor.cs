@@ -5,7 +5,7 @@ using Main.Traits;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Main.MyHexBoardSystem.BoardSystem {
+namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
     public interface ITraitAccessor {
 
         public ETrait? HexToTrait(Hex hex);

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using Core.EventSystem;
 using ExternBoardSystem.Tools;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
-using Main.MyHexBoardSystem.UI;
-using Main.Neurons;
 using TMPro;
 using UnityEngine;
 
-namespace Main.NeuronQueue {
+namespace Main.Neurons.NeuronQueue {
     public class MUINeuronQueue : MonoBehaviour {
 
         [Header("Event Managers"), SerializeField]

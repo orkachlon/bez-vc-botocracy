@@ -2,6 +2,7 @@
 using Core.EventSystem;
 using ExternBoardSystem.Tools.Input.Mouse;
 using Main.MyHexBoardSystem.BoardSystem;
+using Main.MyHexBoardSystem.Events;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

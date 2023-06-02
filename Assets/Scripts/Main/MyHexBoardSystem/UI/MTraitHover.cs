@@ -2,6 +2,8 @@
 using Core.EventSystem;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem;
+using Main.MyHexBoardSystem.BoardSystem.Interfaces;
+using Main.MyHexBoardSystem.Events;
 using Main.Neurons;
 using Main.StoryPoints;
 using Main.Traits;

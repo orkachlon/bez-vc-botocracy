@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using Main.MyHexBoardSystem.BoardSystem;
+using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.Neurons;
 using Main.StoryPoints;
 using Main.Traits;

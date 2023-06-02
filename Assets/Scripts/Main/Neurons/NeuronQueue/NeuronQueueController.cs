@@ -6,11 +6,10 @@ using JetBrains.Annotations;
 using Main.GameModifications;
 using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
-using Main.MyHexBoardSystem.BoardSystem;
-using Main.Neurons;
+using Main.MyHexBoardSystem.Events;
 using UnityEngine;
 
-namespace Main.NeuronQueue {
+namespace Main.Neurons.NeuronQueue {
     public class NeuronQueueController : MonoBehaviour, IEnumerable<BoardNeuron> {
 
         [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;

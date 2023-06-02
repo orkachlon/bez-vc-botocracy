@@ -1,6 +1,7 @@
 ﻿using System;
 using Core.EventSystem;
 using Main.MyHexBoardSystem.BoardSystem;
+using Main.MyHexBoardSystem.Events;
 using Main.Neurons;
 using Main.StoryPoints;
 using UnityEngine;

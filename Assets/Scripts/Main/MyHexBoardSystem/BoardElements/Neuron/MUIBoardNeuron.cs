@@ -1,6 +1,6 @@
 ﻿using ExternBoardSystem.Ui.Board;
 
-namespace Main.MyHexBoardSystem.UI {
+namespace Main.MyHexBoardSystem.BoardElements.Neuron {
     public class MUIBoardNeuron : MUIBoardElement {
 
 

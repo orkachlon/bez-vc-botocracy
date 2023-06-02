@@ -8,6 +8,8 @@ using Main.Traits;
 using UnityEngine;
 using System.Linq;
 using ExternBoardSystem.BoardSystem.Board;
+using Main.MyHexBoardSystem.BoardSystem.Interfaces;
+using Main.MyHexBoardSystem.Events;
 using UnityEngine.Tilemaps;
 
 namespace Main.MyHexBoardSystem.BoardSystem {
@@ -80,6 +82,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
         public void AddTile(Hex hex) {
             Board.AddPosition(hex);
+            // todo figure out which tile should be added using the direction
             tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), evenTile);
         }
 

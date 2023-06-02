@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem;
+using Main.MyHexBoardSystem.Events;
 using Main.Neurons;
 using Main.StoryPoints;
 using Main.Utils;
@@ -24,8 +24,6 @@ namespace Main.Managers {
         private SNeuronData currentNeuronData;
 
         private BoardNeuron CurrentNeuron { get; set; }
-
-        private Dictionary<ENeuronType, Neuron> _typeToPrefab;
 
         private void OnEnable() {
             neuronEvents.Register(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);

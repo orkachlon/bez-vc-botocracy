@@ -7,7 +7,7 @@ using Main.Traits;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Main.MyHexBoardSystem.BoardSystem {
+namespace Main.MyHexBoardSystem.Events {
     public static class ExternalBoardEvents {
         public const string OnRemoveTile = "Board_OnRemoveTile";
         public const string OnAddTile = "Board_OnAddTile";

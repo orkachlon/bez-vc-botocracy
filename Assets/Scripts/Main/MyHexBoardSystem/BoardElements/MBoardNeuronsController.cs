@@ -7,6 +7,8 @@ using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem;
+using Main.MyHexBoardSystem.BoardSystem.Interfaces;
+using Main.MyHexBoardSystem.Events;
 using Main.MyHexBoardSystem.UI;
 using Main.Neurons;
 using Main.Traits;

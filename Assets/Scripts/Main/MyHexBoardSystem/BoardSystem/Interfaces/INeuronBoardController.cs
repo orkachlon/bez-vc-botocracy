@@ -1,12 +1,11 @@
-﻿using System;
-using ExternBoardSystem.BoardSystem;
+﻿using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.Traits;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Main.MyHexBoardSystem.BoardSystem {
+namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
     public interface INeuronBoardController : IBoardController<BoardNeuron> {
         int GetTraitTileCount(ETrait trait);
 

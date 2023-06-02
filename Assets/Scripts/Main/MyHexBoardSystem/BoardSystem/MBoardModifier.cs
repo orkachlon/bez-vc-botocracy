@@ -2,6 +2,8 @@
 using System.Linq;
 using Core.EventSystem;
 using Main.MyHexBoardSystem.BoardElements;
+using Main.MyHexBoardSystem.BoardSystem.Interfaces;
+using Main.MyHexBoardSystem.Events;
 using Main.StoryPoints;
 using Main.Traits;
 using UnityEngine;
