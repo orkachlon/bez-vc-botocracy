@@ -74,11 +74,11 @@ namespace Main.MyHexBoardSystem.Events {
         }
     }
 
-    public class OnTileModifyEventArgs<TElement> : EventArgs  where TElement : BoardElement {
-        public Position<TElement> Position;
+    public class OnTileModifyEventArgs : EventArgs {
+        public Hex Hex;
 
-        public OnTileModifyEventArgs(Position<TElement> position) {
-            Position = position;
+        public OnTileModifyEventArgs(Hex hex) {
+            Hex = hex;
         }
     }
     

@@ -70,10 +70,11 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         }
 
         public void RemoveTile(Hex hex) {
-            // notify that tile is being removed
             if (!Board.HasPosition(hex)) {
                 return;
             }
+            // notify that tile is being removed before removing it
+            externalBoardEventManager.Raise(ExternalBoardEvents.OnRemoveTile, new OnTileModifyEventArgs(hex));
             Board.RemovePosition(hex);
             tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
             tilemapLayers[BaseTilemapLayer].RefreshAllTiles();
@@ -84,6 +85,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             Board.AddPosition(hex);
             // todo figure out which tile should be added using the direction
             tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), evenTile);
+            externalBoardEventManager.Raise(ExternalBoardEvents.OnAddTile, new OnTileModifyEventArgs(hex));
         }
 
         #endregion

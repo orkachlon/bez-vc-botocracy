@@ -26,7 +26,6 @@ namespace Main.MyHexBoardSystem.UI {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager boardEventManager;
-
         [SerializeField] private SEventManager storyEventManager;
         
         private ITraitAccessor _traitAccessor;
@@ -46,6 +45,8 @@ namespace Main.MyHexBoardSystem.UI {
             boardEventManager.Register(ExternalBoardEvents.OnPointerEnter, OnShow);
             boardEventManager.Register(ExternalBoardEvents.OnPointerStay, OnUpdatePosition);
             boardEventManager.Register(ExternalBoardEvents.OnPointerExit, OnHide);
+            boardEventManager.Register(ExternalBoardEvents.OnAddTile, OnTileAdded);
+            boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
             storyEventManager.Register(StoryEvents.OnInitStory, OnInitStory);
         }
 
@@ -53,6 +54,8 @@ namespace Main.MyHexBoardSystem.UI {
             boardEventManager.Unregister(ExternalBoardEvents.OnPointerEnter, OnShow);
             boardEventManager.Unregister(ExternalBoardEvents.OnPointerStay, OnUpdatePosition);
             boardEventManager.Unregister(ExternalBoardEvents.OnPointerExit, OnHide);
+            boardEventManager.Unregister(ExternalBoardEvents.OnAddTile, OnTileAdded);
+            boardEventManager.Unregister(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
             storyEventManager.Unregister(StoryEvents.OnInitStory, OnInitStory);
         }
 
@@ -97,12 +100,27 @@ namespace Main.MyHexBoardSystem.UI {
             if (!newTrait.HasValue || newTrait == _currentHighlightedTrait) {
                 return;
             }
-            Hide(_currentHighlightedTrait);
-            if (!_currentSP.DecidingTraits.ContainsKey(newTrait.Value)) {
+            RefreshEffect(newTrait.Value);
+        }
+
+        private void OnTileRemoved(EventArgs eventArgs) {
+            if (eventArgs is not OnTileModifyEventArgs tileEventArgs) {
                 return;
             }
-            _currentHighlightedTrait = newTrait;
-            Show(_currentHighlightedTrait);
+
+            if (_currentHighlightedTrait.HasValue) {
+                Hide(_currentHighlightedTrait);
+            }
+        }
+        
+        private void OnTileAdded(EventArgs eventArgs) {
+            if (eventArgs is not OnTileModifyEventArgs tileEventArgs) {
+                return;
+            }
+
+            if (_currentHighlightedTrait.HasValue) {
+                RefreshEffect(_currentHighlightedTrait.Value);
+            }
         }
 
         private void OnInitStory(EventArgs args) {
@@ -128,6 +146,15 @@ namespace Main.MyHexBoardSystem.UI {
             }
             _traitAccessor.SetTiles(trait.Value, null, BoardConstants.TraitHoverTileLayer);
             _currentHighlightedTrait = null;
+        }
+
+        private void RefreshEffect(ETrait newTrait) {
+            Hide(_currentHighlightedTrait);
+            if (!_currentSP.DecidingTraits.ContainsKey(newTrait)) {
+                return;
+            }
+            _currentHighlightedTrait = newTrait;
+            Show(_currentHighlightedTrait);
         }
     }
 }
