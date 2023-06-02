@@ -20,12 +20,14 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
         private INeuronBoardController _boardController;
         private IBoardNeuronsController _neuronsController;
+        private System.Random _rndGenerator;
 
         #region UnityMethods
 
         private void Awake() {
             _boardController = GetComponent<INeuronBoardController>();
             _neuronsController = GetComponent<IBoardNeuronsController>();
+            _rndGenerator = new System.Random();
         }
 
         private void OnEnable() {
@@ -44,15 +46,21 @@ namespace Main.MyHexBoardSystem.BoardSystem {
                 return;
             }
 
-            foreach (var trait in storyEventArgs.Story.DecisionEffects.BoardEffect.Keys) {
-                if (storyEventArgs.Story.DecisionEffects.BoardEffect[trait] < 0) {
-                    if (!RemoveTraitTile(trait)) {
-                        // lose game
-                        boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));
-                    }
-                } else if (storyEventArgs.Story.DecisionEffects.BoardEffect[trait] > 0) {
-                    // Add tile
-                    AddTraitTile(trait);
+            var boardEffect = storyEventArgs.Story.DecisionEffects.BoardEffect;
+            foreach (var trait in boardEffect.Keys) {
+                if (boardEffect[trait] < 0) {
+                    RemoveTilesFromTrait(trait, _neuronsController.GetTraitCount(trait));
+                } else if (boardEffect[trait] > 0) {
+                    AddTilesToTrait(trait, _neuronsController.GetTraitCount(trait));
+                }
+            }
+        }
+
+        private void RemoveTilesFromTrait(ETrait trait, int amount) {
+            for(var i = 0; i < amount; i++) {
+                if (!RemoveTraitTile(trait)) {
+                    // lose game
+                    boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));
                 }
             }
         }
@@ -74,6 +82,12 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             return !isLastHex;
         }
 
+        private void AddTilesToTrait(ETrait trait, int amount) {
+            for (var i = 0; i < amount; i++) {
+                AddTraitTile(trait);
+            }
+        }
+        
         private void AddTraitTile(ETrait trait) {
             var edgeHexes = _boardController.Manipulator
                 .GetEdge(ITraitAccessor.TraitToDirection(trait));
