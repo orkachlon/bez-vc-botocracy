@@ -5,8 +5,8 @@ using OldGridSystem.Tiles;
 namespace OldGridSystem.Grid {
     public interface IGrid {
         public void CreateGrid();
-        public int CountNeurons(ETraitType trait);
-        public float CountNeuronsNormalized(ETraitType trait);
+        public int CountNeurons(ETrait trait);
+        public float CountNeuronsNormalized(ETrait trait);
         public int MaxNeuronsPerTrait();
         public int CountNeurons();
         public IEnumerable<Tile> GetNeighbors(Tile tile);

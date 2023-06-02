@@ -30,7 +30,7 @@ namespace Main.MyHexBoardSystem.UI {
         private ITraitAccessor _traitAccessor;
         private Camera _cam;
 
-        private ETraitType? _currentHighlightedTrait;
+        private ETrait? _currentHighlightedTrait;
         private IStoryPoint _currentSP;
 
         #region UnityMethods
@@ -113,14 +113,14 @@ namespace Main.MyHexBoardSystem.UI {
 
         #endregion
 
-        private void Show(ETraitType? trait) {
+        private void Show(ETrait? trait) {
             if (!trait.HasValue) {
                 return;
             }
             _traitAccessor.SetTiles(trait.Value, hoverTile, BoardConstants.TraitHoverTileLayer);
         }
 
-        private void Hide(ETraitType? trait) {
+        private void Hide(ETrait? trait) {
             if (!trait.HasValue) {
                 return;
             }

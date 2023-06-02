@@ -8,60 +8,60 @@ using UnityEngine.Tilemaps;
 namespace Main.MyHexBoardSystem.BoardSystem {
     public interface ITraitAccessor {
 
-        public ETraitType? HexToTrait(Hex hex);
-        public ETraitType? WorldPosToTrait(Vector3 worldPosition);
+        public ETrait? HexToTrait(Hex hex);
+        public ETrait? WorldPosToTrait(Vector3 worldPosition);
 
 
 
         #region Tiles
 
-        public Hex[] GetTraitHexes(ETraitType trait);
+        public Hex[] GetTraitHexes(ETrait trait);
 
-        public Color GetColor(ETraitType trait, string tilemapLayer = BoardConstants.BaseTilemapLayer);
-        public void SetColor(ETraitType trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
-        public void SetTiles(ETraitType trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        public Color GetColor(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        public void SetColor(ETrait trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        public void SetTiles(ETrait trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
 
         #endregion
 
         #region Neurons
 
-        IEnumerable<ETraitType> GetMaxNeuronsTrait(IEnumerable<ETraitType> fromTraits = null);
+        IEnumerable<ETrait> GetMaxNeuronsTrait(IEnumerable<ETrait> fromTraits = null);
 
         #endregion
 
         #region StaticFunctions
 
-        static Hex TraitToDirection(ETraitType trait) {
+        static Hex TraitToDirection(ETrait trait) {
             var direction = trait switch {
-                ETraitType.Entropist => new Hex(0, 1),
-                ETraitType.Commander => new Hex(1, 0),
-                ETraitType.Entrepreneur => new Hex(1, -1),
-                ETraitType.Logistician => new Hex(0, -1),
-                ETraitType.Defender => new Hex(-1, 0),
-                ETraitType.Mediator => new Hex(-1, 1),
+                ETrait.Entropist => new Hex(0, 1),
+                ETrait.Commander => new Hex(1, 0),
+                ETrait.Entrepreneur => new Hex(1, -1),
+                ETrait.Logistician => new Hex(0, -1),
+                ETrait.Defender => new Hex(-1, 0),
+                ETrait.Mediator => new Hex(-1, 1),
                 _ => throw new ArgumentOutOfRangeException(nameof(trait), trait, null)
             };
             return direction;
         }
         
-        static ETraitType DirectionToTrait(Hex hex) {
+        static ETrait DirectionToTrait(Hex hex) {
             if (hex == new Hex(0, 1)) {
-                return ETraitType.Entropist;
+                return ETrait.Entropist;
             }
             if (hex == new Hex(1, 0)) {
-                return ETraitType.Commander;
+                return ETrait.Commander;
             }
             if (hex == new Hex(1, -1)) {
-                return ETraitType.Entrepreneur;
+                return ETrait.Entrepreneur;
             }
             if (hex == new Hex(0, -1)) {
-                return ETraitType.Logistician;
+                return ETrait.Logistician;
             }
             if (hex == new Hex(-1, 0)) {
-                return ETraitType.Defender;
+                return ETrait.Defender;
             }
             if (hex == new Hex(-1, 1)) {
-                return ETraitType.Mediator;
+                return ETrait.Mediator;
             }
 
             throw new ArgumentOutOfRangeException(nameof(hex), hex, null);

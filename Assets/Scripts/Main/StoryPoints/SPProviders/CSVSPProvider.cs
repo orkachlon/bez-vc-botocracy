@@ -117,7 +117,7 @@ namespace Main.StoryPoints.SPProviders {
                 }
 
                 var traitString = (string) entry[_header.decidingTraits];
-                if (Enum.TryParse<ETraitType>(traitString, out var trait)) {
+                if (Enum.TryParse<ETrait>(traitString, out var trait)) {
                     deciders[trait] = deciderEffects;
                 }
                 else {
@@ -131,9 +131,9 @@ namespace Main.StoryPoints.SPProviders {
         private TraitDecisionEffects GetDeciderEffects(IReadOnlyDictionary<string, object> entry) {
             var effects = new TraitDecisionEffects {
                 Outcome = (string) entry[_header.outcomes],
-                BoardEffect = new Dictionary<ETraitType, int>()
+                BoardEffect = new Dictionary<ETrait, int>()
             };
-            foreach (var trait in EnumUtil.GetValues<ETraitType>()) {
+            foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 if (!entry.ContainsKey(trait.ToString())) {
                     return null;
                 }
@@ -163,7 +163,7 @@ namespace Main.StoryPoints.SPProviders {
         //     foreach (var entry in entries) {
         //         var traitString = (string) entry[_header.traits];
         //         var weight = (int) entry[stat.ToString()];
-        //         if (Enum.TryParse<ETraitType>(traitString, out var trait)) {
+        //         if (Enum.TryParse<ETrait>(traitString, out var trait)) {
         //             weights[trait] = weight;
         //         } else {
         //             return null;

@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 
 namespace Main.MyHexBoardSystem.BoardSystem {
     public interface INeuronBoardController : IBoardController<BoardNeuron> {
-        int GetTraitTileCount(ETraitType trait);
+        int GetTraitTileCount(ETrait trait);
 
         Color GetColor(Hex tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
         void SetColor(Hex[] hexTiles, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
@@ -19,5 +19,6 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         Hex WorldPosToHex(Vector3 position);
 
         void RemoveTile(Hex hex);
+        void AddTile(Hex hex);
     }
 }

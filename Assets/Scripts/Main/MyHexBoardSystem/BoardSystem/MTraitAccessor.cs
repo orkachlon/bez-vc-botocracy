@@ -20,8 +20,8 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         [SerializeField] private MNeuronBoardController boardController;
         [SerializeField] private MBoardNeuronsController neuronsController;
         
-        public ETraitType? HexToTrait(Hex hex) {
-            foreach (var trait in EnumUtil.GetValues<ETraitType>()) {
+        public ETrait? HexToTrait(Hex hex) {
+            foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 var traitHexes = boardController.Manipulator.GetTriangle(ITraitAccessor.TraitToDirection(trait));
                 if (traitHexes.Contains(hex)) {
                     return trait;
@@ -31,16 +31,16 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             return null;
         }
 
-        public ETraitType? WorldPosToTrait(Vector3 worldPosition) {
+        public ETrait? WorldPosToTrait(Vector3 worldPosition) {
             var hex = boardController.WorldPosToHex(worldPosition);
             return HexToTrait(hex);
         }
 
-        public Hex[] GetTraitHexes(ETraitType trait) {
+        public Hex[] GetTraitHexes(ETrait trait) {
             return boardController.Manipulator.GetTriangle(ITraitAccessor.TraitToDirection(trait));
         }
 
-        public Color GetColor(ETraitType trait, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
+        public Color GetColor(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
             var traitHexes = boardController.Manipulator.GetTriangle(ITraitAccessor.TraitToDirection(trait));
             if (traitHexes == null || traitHexes.Length == 0) {
                 return Color.magenta;
@@ -48,17 +48,17 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             return boardController.GetColor(traitHexes[0]);
         }
 
-        public void SetColor(ETraitType trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
+        public void SetColor(ETrait trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
             var traitHexes = boardController.Manipulator.GetTriangle(ITraitAccessor.TraitToDirection(trait));
             boardController.SetColor(traitHexes, color);
         }
 
-        public void SetTiles(ETraitType trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
+        public void SetTiles(ETrait trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
             var traitHexes = boardController.Manipulator.GetTriangle(ITraitAccessor.TraitToDirection(trait));
             boardController.SetTiles(traitHexes, tile, tilemapLayer);
         }
 
-        public IEnumerable<ETraitType> GetMaxNeuronsTrait(IEnumerable<ETraitType> fromTraits = null) {
+        public IEnumerable<ETrait> GetMaxNeuronsTrait(IEnumerable<ETrait> fromTraits = null) {
             return neuronsController.GetMaxTrait(fromTraits);
         }
     }

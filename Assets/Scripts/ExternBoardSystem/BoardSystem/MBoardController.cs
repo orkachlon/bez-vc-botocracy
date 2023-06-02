@@ -18,7 +18,7 @@ namespace ExternBoardSystem.BoardSystem {
     ///     classes can ask for hex board algorithms (e.g. getNeighbors)
     /// </summary>
     public class MBoardController<T> : MonoBehaviour, IBoardController<T> where T : BoardElement {
-        [SerializeField] protected TileLayers tilemapLayers;
+        [SerializeField] protected TilemapLayers tilemapLayers;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager innerBoardEventManager;
@@ -72,5 +72,5 @@ namespace ExternBoardSystem.BoardSystem {
     }
 
     [Serializable]
-    public class TileLayers : UDictionary<string, Tilemap> { }
+    public class TilemapLayers : UDictionary<string, Tilemap> { }
 }

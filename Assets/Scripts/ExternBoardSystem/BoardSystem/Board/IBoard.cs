@@ -13,5 +13,6 @@ namespace ExternBoardSystem.BoardSystem.Board {
         bool HasPosition(Hex point);
         Position.Position<T> GetPosition(Hex point);
         void RemovePosition(Hex point);
+        void AddPosition(Hex hex);
     }
 }

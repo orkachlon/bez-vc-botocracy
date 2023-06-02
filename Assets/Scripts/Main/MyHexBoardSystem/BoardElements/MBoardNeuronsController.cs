@@ -102,7 +102,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             return true;
         }
 
-        public int GetTraitCount(ETraitType trait) {
+        public int GetTraitCount(ETrait trait) {
             var direction = ITraitAccessor.TraitToDirection(trait);
 
             return Manipulator.GetTriangle(direction)
@@ -110,10 +110,10 @@ namespace Main.MyHexBoardSystem.BoardElements {
                 .Count(p => p != null && p.HasData());
         }
 
-        public IEnumerable<ETraitType> GetMaxTrait(IEnumerable<ETraitType> fromTraits = null) {
-            fromTraits ??= EnumUtil.GetValues<ETraitType>();
+        public IEnumerable<ETrait> GetMaxTrait(IEnumerable<ETrait> fromTraits = null) {
+            fromTraits ??= EnumUtil.GetValues<ETrait>();
             // todo choose random trait in case of tie
-            var traits = fromTraits as ETraitType[] ?? fromTraits.ToArray();
+            var traits = fromTraits as ETrait[] ?? fromTraits.ToArray();
             var max = traits.Max(GetTraitCount);
             return traits.Where(t => GetTraitCount(t) == max);
         }

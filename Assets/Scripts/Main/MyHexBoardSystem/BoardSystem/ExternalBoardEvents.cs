@@ -83,8 +83,8 @@ namespace Main.MyHexBoardSystem.BoardSystem {
     }
     
     public class TraitOutOfTilesEventArgs : EventArgs {
-        public ETraitType Trait;
-        public TraitOutOfTilesEventArgs(ETraitType trait) {
+        public ETrait Trait;
+        public TraitOutOfTilesEventArgs(ETrait trait) {
             Trait = trait;
         }
     }

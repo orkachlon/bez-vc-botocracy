@@ -50,6 +50,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
                     }
                 } else if (storyEventArgs.Story.DecisionEffects.BoardEffect[trait] > 0) {
                     // Add tile
+                    AddTraitTile(trait);
                 }
             }
         }
@@ -57,7 +58,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         /// <summary>
         ///     Returns false if trait has no more tiles
         /// </summary>
-        private bool RemoveTraitTile(ETraitType trait) {
+        private bool RemoveTraitTile(ETrait trait) {
             var edgeHexes = _boardController.Manipulator
                 .GetEdge(ITraitAccessor.TraitToDirection(trait));
             if (edgeHexes.Length == 0) {
@@ -69,6 +70,15 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             _neuronsController.RemoveElement(randomHex);
             _boardController.RemoveTile(randomHex);
             return !isLastHex;
+        }
+
+        private void AddTraitTile(ETrait trait) {
+            var edgeHexes = _boardController.Manipulator
+                .GetEdge(ITraitAccessor.TraitToDirection(trait));
+            var surroundingHexes = _boardController.Manipulator.GetSurroundingHexes(edgeHexes, true);
+            var onlyEmptySurroundingHexes = surroundingHexes.Where(h => !_boardController.Board.HasPosition(h)).ToArray();
+            var randomHex = onlyEmptySurroundingHexes[Random.Range(0, onlyEmptySurroundingHexes.Length)];
+            _boardController.AddTile(randomHex);
         }
     }
 }

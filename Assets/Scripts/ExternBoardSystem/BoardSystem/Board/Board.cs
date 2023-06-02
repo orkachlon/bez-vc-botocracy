@@ -37,6 +37,10 @@ namespace ExternBoardSystem.BoardSystem.Board {
             Positions.Remove(pos);
         }
 
+        public void AddPosition(Hex hex) {
+            Positions.Add(new Position<T>(hex));
+        }
+
         private void GeneratePositions() {
             var points = Controller.GetHexPoints();
             Positions = new List<Position<T>>(points.Length);

@@ -5,7 +5,7 @@
         public int Sum();
     }
     
-    public enum ETraitType {
+    public enum ETrait {
         Defender,
         Commander,
         Entrepreneur,

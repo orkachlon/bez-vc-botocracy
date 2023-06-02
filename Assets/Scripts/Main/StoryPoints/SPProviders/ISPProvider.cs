@@ -26,19 +26,19 @@ namespace Main.StoryPoints.SPProviders {
 
     // why are these serializable?
     [Serializable]
-    public class TraitWeights : SerializableDictionary<ETraitType, float> { }
+    public class TraitWeights : SerializableDictionary<ETrait, float> { }
     [Serializable]
-    public class TraitsToOutcomes : SerializableDictionary<ETraitType, string> { }
+    public class TraitsToOutcomes : SerializableDictionary<ETrait, string> { }
 
-    public class DecidingTraits : Dictionary<ETraitType, TraitDecisionEffects> { }
+    public class DecidingTraits : Dictionary<ETrait, TraitDecisionEffects> { }
 
     public class TraitDecisionEffects {
 
         public static readonly TraitDecisionEffects NoDecision = new();
 
-        public ETraitType DecidingTrait;
+        public ETrait DecidingTrait;
         public string Outcome;
-        public Dictionary<ETraitType, int> BoardEffect;
+        public Dictionary<ETrait, int> BoardEffect;
     }
 
     #endregion

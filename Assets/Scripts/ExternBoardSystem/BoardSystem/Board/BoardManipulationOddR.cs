@@ -24,22 +24,6 @@ namespace ExternBoardSystem.BoardSystem.Board {
             _board = board;
         }
 
-        public Hex[] GetNeighbours(Vector3Int cell) {
-            var hex = GetHexCoordinate(cell);
-            return GetNeighbours(hex);
-        }
-
-        public Hex[] GetNeighbours(Hex hex) {
-            var center = GetIfExistsOrEmpty(hex);
-            var neighbours = new Hex[] { };
-            foreach (var direction in NeighboursDirections) {
-                var neighbour = Hex.Add(center[0], direction);
-                neighbours = neighbours.Append(GetIfExistsOrEmpty(neighbour));
-            }
-
-            return neighbours;
-        }
-
         /// <summary>
         ///     If the point is present ~among the starting configuration~ returns it. Otherwise returns a empty array.
         /// </summary>
@@ -49,6 +33,22 @@ namespace ExternBoardSystem.BoardSystem.Board {
         }
 
         #region Operations
+
+        public Hex[] GetNeighbours(Vector3Int cell) {
+            var hex = GetHexCoordinate(cell);
+            return GetNeighbours(hex);
+        }
+
+        public Hex[] GetNeighbours(Hex hex, bool includeEmpty = false) {
+            var center = includeEmpty ? hex : GetIfExistsOrEmpty(hex)[0];
+            var neighbours = new Hex[] { };
+            foreach (var direction in NeighboursDirections) {
+                var neighbour = Hex.Add(center, direction);
+                neighbours = neighbours.Append(includeEmpty ? new []{neighbour} : GetIfExistsOrEmpty(neighbour));
+            }
+
+            return neighbours;
+        }
 
         public bool Contains(Vector3Int cell) {
             var hex = GetHexCoordinate(cell);
@@ -224,6 +224,15 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 .ToArray();
         }
 
+        public Hex[] GetSurroundingHexes(Hex[] hexes, bool includeEmpty = false) {
+            return hexes
+                .SelectMany(h => GetNeighbours(h, includeEmpty))
+                .Where(h => !hexes.Contains(h))
+                .ToArray();
+        }
+
+        #endregion
+
         private int? MaxCoord(Func<Position<T>,int> selector) {
             return _board.Positions.Select(selector).OrderByDescending(c => c).FirstOrDefault();
         }
@@ -243,7 +252,5 @@ namespace ExternBoardSystem.BoardSystem.Board {
         public static Vector3Int GetCellCoordinate(Hex hex) {
             return OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, hex).ToVector3Int();
         }
-
-        #endregion
     }
 }

@@ -11,5 +11,5 @@ namespace Main.StoryPoints.SOVersion {
     }
 
     [Serializable]
-    public class TraitsToEffects : UDictionary<ETraitType, STraitEffectsContainer> { }
+    public class TraitsToEffects : UDictionary<ETrait, STraitEffectsContainer> { }
 }

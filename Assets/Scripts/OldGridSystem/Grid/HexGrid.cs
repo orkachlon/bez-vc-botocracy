@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace OldGridSystem.Grid {
-    public class HexGrid : Grid {
+    public class HexGrid : OldGrid {
 
         [SerializeField] private List<Color> tileColors;
         [SerializeField] private int gridRadius = 4;
@@ -21,7 +21,7 @@ namespace OldGridSystem.Grid {
         private Tile _startingTile;
         private Dictionary<Vector2, Tile> _tiles;
         private Dictionary<int, List<Tile>> _tilesByRadius;
-        private Dictionary<ETraitType, List<Tile>> _tilesByTrait;
+        private Dictionary<ETrait, List<Tile>> _tilesByTrait;
         private Dictionary<Tuple<int, int>, Tile> _hexTiles;
         
         protected override void Awake() {
@@ -59,7 +59,7 @@ namespace OldGridSystem.Grid {
 
         #region NeuronCounting
 
-        public override int CountNeurons(ETraitType trait) {
+        public override int CountNeurons(ETrait trait) {
             return _tilesByTrait[trait].Count(t => !t.IsEmpty());
         }
 
@@ -67,7 +67,7 @@ namespace OldGridSystem.Grid {
             return _tilesByTrait[0].Count;
         }
 
-        public override float CountNeuronsNormalized(ETraitType trait) {
+        public override float CountNeuronsNormalized(ETrait trait) {
             return (float) _tilesByTrait[trait].Count(t => !t.IsEmpty()) / _tilesByTrait[trait].Count;
         }
 
@@ -83,7 +83,7 @@ namespace OldGridSystem.Grid {
         public override void CreateGrid() {
             _tiles = new Dictionary<Vector2, Tile>();
             _tilesByRadius = new Dictionary<int, List<Tile>>();
-            _tilesByTrait = new Dictionary<ETraitType, List<Tile>>();
+            _tilesByTrait = new Dictionary<ETrait, List<Tile>>();
             // CreateRectangularGrid();
             CreateHexagonalGrid();
             PlaceLabels();
@@ -94,7 +94,7 @@ namespace OldGridSystem.Grid {
 
         private void PlaceLabels() {
             var angle = 30;
-            foreach (var trait in EnumUtil.GetValues<ETraitType>()) {
+            foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 var direction = Quaternion.AngleAxis(angle, Vector3.back) * Vector3.up;
                 var rotation = Quaternion.LookRotation(Vector3.forward, Mathf.Abs(angle) > 90 ? -direction.normalized : direction.normalized);
                 var labelPos = origin.position + direction *
@@ -195,7 +195,7 @@ namespace OldGridSystem.Grid {
                 _tilesByRadius[radius].Add(tile);
             }
 
-            var trait = EnumUtil.GetValues<ETraitType>().ToList()[edge % 6];
+            var trait = EnumUtil.GetValues<ETrait>().ToList()[edge % 6];
             if (_tilesByTrait.ContainsKey(trait)) {
                 _tilesByTrait[trait].Add(tile);
             }

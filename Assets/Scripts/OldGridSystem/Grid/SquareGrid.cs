@@ -5,7 +5,7 @@ using OldGridSystem.Tiles;
 using UnityEngine;
 
 namespace OldGridSystem.Grid {
-    public class SquareGrid : Grid {
+    public class SquareGrid : OldGrid {
 
         private Dictionary<Tuple<int, int>, Tile> _tiles;
 
@@ -41,11 +41,11 @@ namespace OldGridSystem.Grid {
 
         #region NotImplemeted
 
-        public override int CountNeurons(ETraitType trait) {
+        public override int CountNeurons(ETrait trait) {
             throw new NotImplementedException();
         }
 
-        public override float CountNeuronsNormalized(ETraitType trait) {
+        public override float CountNeuronsNormalized(ETrait trait) {
             throw new NotImplementedException();
         }
 

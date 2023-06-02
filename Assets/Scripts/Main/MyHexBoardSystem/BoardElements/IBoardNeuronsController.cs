@@ -13,8 +13,8 @@ namespace Main.MyHexBoardSystem.BoardElements {
 
         #region Methods
 
-        int GetTraitCount(ETraitType trait);
-        IEnumerable<ETraitType> GetMaxTrait(IEnumerable<ETraitType> fromTraits = null);
+        int GetTraitCount(ETrait trait);
+        IEnumerable<ETrait> GetMaxTrait(IEnumerable<ETrait> fromTraits = null);
 
         #endregion
     }

@@ -26,9 +26,9 @@ namespace Main.MyHexBoardSystem.UI {
         [SerializeField] private Color badTraitColor;
         
         private ITraitAccessor _traitAccessor;
-        private readonly Dictionary<ETraitType, Color> _previousColors = new();
+        private readonly Dictionary<ETrait, Color> _previousColors = new();
         private IStoryPoint _currentSP;
-        private ETraitType _currentMaxTrait;
+        private ETrait _currentMaxTrait;
 
         #region UnityMethods
 
@@ -63,7 +63,7 @@ namespace Main.MyHexBoardSystem.UI {
                 return;
             }
             var story = storyEventArgs.Story;
-            foreach (var trait in EnumUtil.GetValues<ETraitType>()) {
+            foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 if (story.DecidingTraits.ContainsKey(trait)) {
                     continue;
                 }
@@ -81,7 +81,7 @@ namespace Main.MyHexBoardSystem.UI {
             }
 
             _currentSP = storyEventArgs.Story;
-            foreach (var trait in EnumUtil.GetValues<ETraitType>()) {
+            foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 if (_currentSP.DecidingTraits.ContainsKey(trait)) {
                     continue;
                 }
@@ -121,14 +121,14 @@ namespace Main.MyHexBoardSystem.UI {
             _traitAccessor.SetColor(_currentMaxTrait, currentDecidingTraitColor);
         }
 
-        private void CacheColors(ETraitType trait) {
+        private void CacheColors(ETrait trait) {
             if (_previousColors.ContainsKey(trait)) { // do not overwrite colors
                 return;
             }
             _previousColors[trait] = _traitAccessor.GetColor(trait);
         }
 
-        private void RevertColor(ETraitType trait) {
+        private void RevertColor(ETrait trait) {
             if (!_previousColors.ContainsKey(trait)) {
                 return;
             }

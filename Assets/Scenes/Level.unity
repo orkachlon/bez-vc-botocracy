@@ -651,6 +651,8 @@ MonoBehaviour:
   innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   externalBoardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  evenTile: {fileID: 11400000, guid: d231e77840242274f9db14731cfe7300, type: 2}
+  oddTile: {fileID: 11400000, guid: 6b2753cc269171f41aa0eee63d4be159, type: 2}
 --- !u!114 &615794157
 MonoBehaviour:
   m_ObjectHideFlags: 0

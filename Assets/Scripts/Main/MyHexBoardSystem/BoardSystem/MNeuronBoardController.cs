@@ -16,6 +16,9 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
         [SerializeField] private SEventManager externalBoardEventManager;
+
+        [Header("Tilemap"), SerializeField] private TileBase evenTile;
+        [SerializeField] private TileBase oddTile;
         
 
         #region UnityMethods
@@ -29,7 +32,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
         #region InterfaceMethods
 
-        public int GetTraitTileCount(ETraitType trait) {
+        public int GetTraitTileCount(ETrait trait) {
             return Manipulator.GetTriangle(ITraitAccessor.TraitToDirection(trait)).Count(h => Board.HasPosition(h));
         }
 
@@ -73,6 +76,11 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
             tilemapLayers[BaseTilemapLayer].RefreshAllTiles();
             tilemapLayers[BaseTilemapLayer].CompressBounds();
+        }
+
+        public void AddTile(Hex hex) {
+            Board.AddPosition(hex);
+            tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), evenTile);
         }
 
         #endregion

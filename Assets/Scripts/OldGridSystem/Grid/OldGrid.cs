@@ -6,7 +6,7 @@ using OldGridSystem.Tiles;
 using UnityEngine;
 
 namespace OldGridSystem.Grid {
-    public abstract class Grid : MonoBehaviour, IGrid, IGameStateResponder {
+    public abstract class OldGrid : MonoBehaviour, IGrid, IGameStateResponder {
     
         [SerializeField] protected int width;
         [SerializeField] protected int height;
@@ -19,7 +19,7 @@ namespace OldGridSystem.Grid {
         public static event Action GridDisabled;
         public static event Action GridEnabled;
         
-        public static Grid Instance { get; private set; }
+        public static OldGrid Instance { get; private set; }
     
         public GridType Type { get; protected set; }
         // public int Count { get; protected set; }
@@ -96,9 +96,9 @@ namespace OldGridSystem.Grid {
             GridInitDone?.Invoke();
         }
 
-        public abstract int CountNeurons(ETraitType trait);
+        public abstract int CountNeurons(ETrait trait);
 
-        public abstract float CountNeuronsNormalized(ETraitType trait);
+        public abstract float CountNeuronsNormalized(ETrait trait);
 
         public abstract int MaxNeuronsPerTrait();
 

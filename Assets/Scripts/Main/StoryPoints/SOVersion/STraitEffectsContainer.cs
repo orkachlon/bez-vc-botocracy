@@ -12,5 +12,5 @@ namespace Main.StoryPoints.SOVersion {
     }
     
     [Serializable]
-    public class TraitBoardEffect : UDictionary<ETraitType, TraitEffect> { }
+    public class TraitBoardEffect : UDictionary<ETrait, TraitEffect> { }
 }
