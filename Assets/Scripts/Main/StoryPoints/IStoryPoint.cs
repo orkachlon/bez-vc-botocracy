@@ -20,7 +20,7 @@ namespace Main.StoryPoints {
         #region Methods
 
         public void Decrement();
-        public void Evaluate(IBoardNeuronController controller);
+        public void Evaluate(IBoardNeuronsController controller);
         public void InitData(StoryPointData spData);
         public void Destroy();
 

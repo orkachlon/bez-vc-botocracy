@@ -51,7 +51,7 @@ namespace Main.StoryPoints {
             storyEventManager.Raise(StoryEvents.OnDecrement, new StoryEventArgs(this));
         }
 
-        public void Evaluate(IBoardNeuronController controller) {
+        public void Evaluate(IBoardNeuronsController controller) {
             if (Evaluated) {
 #if UNITY_EDITOR
                 Debug.Log("Event already evaluated!");

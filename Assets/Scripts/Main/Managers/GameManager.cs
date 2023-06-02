@@ -25,6 +25,7 @@ namespace Main.Managers {
             neuronEventManager.Register(NeuronEvents.OnNoMoreNeurons, e => ChangeState(GameState.Lose, e));
             storyEventManager.Register(StoryEvents.OnStoryTurn, e => ChangeState(GameState.PlayerTurn, e));
             storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, e => ChangeState(GameState.Win, e));
+            boardEventManager.Register(ExternalBoardEvents.OnTraitOutOfTiles, e => ChangeState(GameState.Lose, e));
         }
 
         private void Start() {

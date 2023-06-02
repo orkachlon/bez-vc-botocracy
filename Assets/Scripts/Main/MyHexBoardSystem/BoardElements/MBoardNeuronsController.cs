@@ -14,7 +14,7 @@ using Main.Utils;
 using UnityEngine;
 
 namespace Main.MyHexBoardSystem.BoardElements {
-    public class MBoardNeuronsController : MBoardElementsController<BoardNeuron, MUIBoardNeuron> , IBoardNeuronController {
+    public class MBoardNeuronsController : MBoardElementsController<BoardNeuron, MUIBoardNeuron> , IBoardNeuronsController {
 
         [Header("Neuron Data Provider"), SerializeField]
         private SNeuronData currentNeuronData;

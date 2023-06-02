@@ -25,8 +25,12 @@ namespace ExternBoardSystem.BoardSystem.Board {
         }
 
         public Hex[] GetNeighbours(Vector3Int cell) {
-            var point = GetHexCoordinate(cell);
-            var center = GetIfExistsOrEmpty(point);
+            var hex = GetHexCoordinate(cell);
+            return GetNeighbours(hex);
+        }
+
+        public Hex[] GetNeighbours(Hex hex) {
+            var center = GetIfExistsOrEmpty(hex);
             var neighbours = new Hex[] { };
             foreach (var direction in NeighboursDirections) {
                 var neighbour = Hex.Add(center[0], direction);
@@ -208,6 +212,16 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 }
             }
             return hexes.ToArray();
+        }
+
+        public Hex[] GetEdge(Hex direction) {
+            var directionHexes = GetTriangle(direction);
+            if (directionHexes.Length == 0) {
+                return Array.Empty<Hex>();
+            }
+            return directionHexes
+                .Where(h => GetNeighbours(h).Length != 6)
+                .ToArray();
         }
 
         private int? MaxCoord(Func<Position<T>,int> selector) {

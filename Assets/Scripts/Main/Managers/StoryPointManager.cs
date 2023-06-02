@@ -53,7 +53,7 @@ namespace Main.Managers {
             NextStoryPoint();
         }
 
-        private void StoryTurn(IBoardNeuronController elementsController) {
+        private void StoryTurn(IBoardNeuronsController elementsController) {
             // first SP
             if (_currentStory == null) {
                 NextStoryPoint();

@@ -12,7 +12,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Main.Managers {
-    public class NeuronManager : MonoBehaviour {
+    public class NeuronManager : MonoBehaviour, IGameStateResponder {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager gmEventManager;
@@ -29,15 +29,16 @@ namespace Main.Managers {
 
         private void OnEnable() {
             neuronEvents.Register(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
-            neuronEvents.Register(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
-            storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, DisableBoardInteraction);
+            // neuronEvents.Register(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
+            // storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, DisableBoardInteraction);
+            gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnGameStateChanged);
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
         private void OnDisable() {
             neuronEvents.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
-            neuronEvents.Unregister(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
-            storyEventManager.Unregister(StoryEvents.OnNoMoreStoryPoints, DisableBoardInteraction);
+            // neuronEvents.Unregister(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
+            // storyEventManager.Unregister(StoryEvents.OnNoMoreStoryPoints, DisableBoardInteraction);
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
@@ -54,7 +55,7 @@ namespace Main.Managers {
             gmEventManager.Raise(GameManagerEvents.OnGameLoopStart, EventArgs.Empty);
         }
 
-        private void DisableBoardInteraction(EventArgs eventParams) {
+        private void DisableBoardInteraction() {
             CurrentNeuron = null;
             currentNeuronData.Type = ENeuronType.Undefined;
         }
@@ -63,6 +64,13 @@ namespace Main.Managers {
             if (eventParams is NeuronEventArgs data) {
                 NextNeuron(data.Neuron);
             }
+        }
+
+        private void OnGameStateChanged(EventArgs eventArgs) {
+            if (eventArgs is not GameStateEventArgs stateEventArgs) {
+                return;
+            }
+            HandleAfterGameStateChanged(stateEventArgs.State, stateEventArgs.CustomArgs);
         }
 
         #endregion
@@ -91,6 +99,12 @@ namespace Main.Managers {
             var rnd = asArray[Random.Range(0, asArray.Length)];
             var data = MNeuronTypeToBoardData.GetNeuronData(rnd);
             return new BoardNeuron(data);
+        }
+
+        public void HandleAfterGameStateChanged(GameState state, EventArgs customArgs = null) {
+            if (state is GameState.Lose or GameState.Win) {
+                DisableBoardInteraction();
+            }
         }
     }
 }

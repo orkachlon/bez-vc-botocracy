@@ -3,6 +3,7 @@ using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.BoardSystem.Position;
 using Main.MyHexBoardSystem.BoardElements;
+using Main.Traits;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -36,6 +37,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         public const string OnPointerEnter = "Board_OnPointerEnter";
         public const string OnPointerExit = "Board_OnPointerExit";
         public const string OnPointerStay = "Board_OnPointerStay";
+        public const string OnTraitOutOfTiles = "Board_OnTraitOutOfTiles";
     }
 
     public class OnPlaceElementEventArgs<TElement> : EventArgs where TElement : BoardElement {
@@ -49,9 +51,9 @@ namespace Main.MyHexBoardSystem.BoardSystem {
     }
 
     public class OnBoardStateBroadcastEventArgs : EventArgs {
-        public readonly IBoardNeuronController ElementsController;
+        public readonly IBoardNeuronsController ElementsController;
 
-        public OnBoardStateBroadcastEventArgs(IBoardNeuronController controller) {
+        public OnBoardStateBroadcastEventArgs(IBoardNeuronsController controller) {
             ElementsController = controller;
         }
     }
@@ -77,6 +79,13 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
         public OnTileModifyEventArgs(Position<TElement> position) {
             Position = position;
+        }
+    }
+    
+    public class TraitOutOfTilesEventArgs : EventArgs {
+        public ETraitType Trait;
+        public TraitOutOfTilesEventArgs(ETraitType trait) {
+            Trait = trait;
         }
     }
 }

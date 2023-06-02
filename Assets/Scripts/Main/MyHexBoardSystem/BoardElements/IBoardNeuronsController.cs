@@ -4,7 +4,7 @@ using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.Traits;
 
 namespace Main.MyHexBoardSystem.BoardElements {
-    public interface IBoardNeuronController : IBoardElementsController<BoardNeuron> {
+    public interface IBoardNeuronsController : IBoardElementsController<BoardNeuron> {
         #region Properties
 
         int CountNeurons { get; }
