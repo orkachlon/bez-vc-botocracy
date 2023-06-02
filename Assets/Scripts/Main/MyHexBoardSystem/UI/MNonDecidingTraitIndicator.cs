@@ -9,25 +9,27 @@ using Main.StoryPoints;
 using Main.Traits;
 using Main.Utils;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 namespace Main.MyHexBoardSystem.UI {
     
     [RequireComponent(typeof(MTraitAccessor))]
-    public class MBoardHighlighter : MonoBehaviour {
+    public class MNonDecidingTraitIndicator : MonoBehaviour {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
         [SerializeField] private SEventManager neuronEventManager;
 
         // maybe change the tile entirely instead of just the color
-        [Header("Visuals"), SerializeField] private Color nonDecidingTraitColor;
+        [Header("Visuals"), SerializeField] private TileBase nonDecidingTraitTile;
         [SerializeField] private Color currentDecidingTraitColor;
         [SerializeField] private Color goodTraitColor;
         [SerializeField] private Color badTraitColor;
         
         private ITraitAccessor _traitAccessor;
         private readonly Dictionary<ETrait, Color> _previousColors = new();
+        private readonly Dictionary<ETrait, TileBase> _previousTiles = new();
         private IStoryPoint _currentSP;
         private ETrait _currentMaxTrait;
 
@@ -39,16 +41,16 @@ namespace Main.MyHexBoardSystem.UI {
 
         private void OnEnable() {
             storyEventManager.Register(StoryEvents.OnInitStory, MarkNonDecidingTraits);
-            storyEventManager.Register(StoryEvents.OnInitStory, ResetMaxTraitMarking);
+            // storyEventManager.Register(StoryEvents.OnInitStory, ResetMaxTraitMarking);
             storyEventManager.Register(StoryEvents.OnEvaluate, RevertNonDecidingTraits);
-            neuronEventManager.Register(NeuronEvents.OnNeuronPlaced, OnMarkMaxTraitBoardBroadcast);
+            // neuronEventManager.Register(NeuronEvents.OnNeuronPlaced, OnMarkMaxTraitBoardBroadcast);
         }
 
         private void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnInitStory, MarkNonDecidingTraits);
-            storyEventManager.Unregister(StoryEvents.OnInitStory, ResetMaxTraitMarking);
+            // storyEventManager.Unregister(StoryEvents.OnInitStory, ResetMaxTraitMarking);
             storyEventManager.Unregister(StoryEvents.OnEvaluate, RevertNonDecidingTraits);
-            neuronEventManager.Unregister(NeuronEvents.OnNeuronPlaced, OnMarkMaxTraitBoardBroadcast);
+            // neuronEventManager.Unregister(NeuronEvents.OnNeuronPlaced, OnMarkMaxTraitBoardBroadcast);
         }
 
         #endregion
@@ -69,7 +71,7 @@ namespace Main.MyHexBoardSystem.UI {
                     continue;
                 }
 
-                RevertColor(trait);
+                RevertTiles(trait);
             }
         }
 
@@ -87,8 +89,8 @@ namespace Main.MyHexBoardSystem.UI {
                     continue;
                 }
 
-                CacheColors(trait);
-                _traitAccessor.SetColor(trait, nonDecidingTraitColor);
+                CacheTiles(trait);
+                _traitAccessor.SetTiles(trait, nonDecidingTraitTile);
             }
         }
 
@@ -118,15 +120,15 @@ namespace Main.MyHexBoardSystem.UI {
                 _currentMaxTrait = maxTraits[Random.Range(0, maxTraits.Length - 1)];
             }
 
-            CacheColors(_currentMaxTrait);
+            CacheTiles(_currentMaxTrait);
             _traitAccessor.SetColor(_currentMaxTrait, currentDecidingTraitColor);
         }
 
-        private void CacheColors(ETrait trait) {
-            if (_previousColors.ContainsKey(trait)) { // do not overwrite colors
+        private void CacheTiles(ETrait trait) {
+            if (_previousTiles.ContainsKey(trait)) { // do not overwrite colors
                 return;
             }
-            _previousColors[trait] = _traitAccessor.GetColor(trait);
+            // _previousTiles[trait] = _traitAccessor.GetTile(trait);
         }
 
         private void RevertColor(ETrait trait) {
@@ -135,6 +137,14 @@ namespace Main.MyHexBoardSystem.UI {
             }
             _traitAccessor.SetColor(trait, _previousColors[trait]);
             _previousColors.Remove(trait);
+        }
+
+        private void RevertTiles(ETrait trait) {
+            if (!_previousTiles.ContainsKey(trait)) {
+                return;
+            }
+            _traitAccessor.SetTiles(trait, _previousTiles[trait]);
+            _previousTiles.Remove(trait);
         }
     }
 }

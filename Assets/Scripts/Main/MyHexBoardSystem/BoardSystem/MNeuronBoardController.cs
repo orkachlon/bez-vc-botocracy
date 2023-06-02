@@ -3,10 +3,10 @@ using Core.EventSystem;
 using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
-using Main.StoryPoints;
 using Main.Traits;
 using UnityEngine;
 using System.Linq;
+using Core.Utils.DataStructures;
 using ExternBoardSystem.BoardSystem.Board;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
@@ -16,12 +16,10 @@ namespace Main.MyHexBoardSystem.BoardSystem {
     public class MNeuronBoardController : MBoardController<BoardNeuron>, INeuronBoardController {
 
         [Header("Event Managers"), SerializeField]
-        private SEventManager storyEventManager;
-        [SerializeField] private SEventManager externalBoardEventManager;
+        private SEventManager externalBoardEventManager;
 
-        [Header("Tilemap"), SerializeField] private TileBase evenTile;
-        [SerializeField] private TileBase oddTile;
-        
+        [Header("Tilemap"), SerializeField] private TraitTiles traitTiles;
+
 
         #region UnityMethods
 
@@ -48,6 +46,10 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             var offsetCoord = OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, hexTile);
             tilemapLayers[tilemapLayer].RemoveTileFlags(offsetCoord.ToVector3Int(), TileFlags.LockColor);
             tilemapLayers[tilemapLayer].SetColor(offsetCoord.ToVector3Int(), color);
+        }
+
+        public TileBase GetTile(Hex hex, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
+            return tilemapLayers[tilemapLayer].GetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex));
         }
 
         public void SetTile(Hex hexTile, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
@@ -84,10 +86,13 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         public void AddTile(Hex hex) {
             Board.AddPosition(hex);
             // todo figure out which tile should be added using the direction
-            tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), evenTile);
+            // tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTiles[]);
             externalBoardEventManager.Raise(ExternalBoardEvents.OnAddTile, new OnTileModifyEventArgs(hex));
         }
 
         #endregion
     }
+    
+    [Serializable]
+    internal class TraitTiles : UDictionary<ETrait, TileBase> { }
 }

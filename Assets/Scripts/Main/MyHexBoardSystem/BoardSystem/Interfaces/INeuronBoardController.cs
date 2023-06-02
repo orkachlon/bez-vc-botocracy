@@ -12,6 +12,7 @@ namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
         Color GetColor(Hex tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
         void SetColor(Hex[] hexTiles, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
         void SetColor(Hex hexTile, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        TileBase GetTile(Hex hex, string tilemapLayer = BoardConstants.BaseTilemapLayer);
         void SetTile(Hex hexTile, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
         void SetTiles(Hex[] hexTiles, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
 

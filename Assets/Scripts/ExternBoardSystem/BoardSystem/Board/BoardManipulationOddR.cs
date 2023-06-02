@@ -231,6 +231,21 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 .ToArray();
         }
 
+        public Hex GetDirection(Hex hex) {
+            return hex.r switch {
+                //                     top-right
+                > 0 when hex.q >= 0 => new Hex(0, 1),
+                //                 bot-right            mid-right
+                > 0 => hex.s > 0 ? new Hex(-1, 0) : new Hex(-1, 1),
+                //                     bot-left
+                < 0 when hex.q <= 0 => new Hex(0, -1),
+                //                 top-left           mid-left
+                < 0 => hex.s < 0 ? new Hex(1, 0) : new Hex(1, -1),
+                //               top-left           bot-right
+                _ => hex.q > 0 ? new Hex(1, 0) : new Hex(-1, 0)
+            };
+        }
+
         #endregion
 
         private int? MaxCoord(Func<Position<T>,int> selector) {

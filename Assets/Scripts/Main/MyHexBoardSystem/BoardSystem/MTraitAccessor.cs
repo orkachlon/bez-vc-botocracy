@@ -22,14 +22,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         [SerializeField] private MBoardNeuronsController neuronsController;
         
         public ETrait? HexToTrait(Hex hex) {
-            foreach (var trait in EnumUtil.GetValues<ETrait>()) {
-                var traitHexes = boardController.Manipulator.GetTriangle(ITraitAccessor.TraitToDirection(trait));
-                if (traitHexes.Contains(hex)) {
-                    return trait;
-                }
-            }
-
-            return null;
+            return ITraitAccessor.DirectionToTrait(boardController.Manipulator.GetDirection(hex));
         }
 
         public ETrait? WorldPosToTrait(Vector3 worldPosition) {

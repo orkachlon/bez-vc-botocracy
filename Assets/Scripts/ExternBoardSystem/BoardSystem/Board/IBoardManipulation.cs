@@ -19,6 +19,7 @@ namespace ExternBoardSystem.BoardSystem.Board
         Hex[] GetTriangle(Hex direction);
         Hex[] GetEdge(Hex direction);
         Hex[] GetSurroundingHexes(Hex[] hexes, bool includeEmpty = false);
+        Hex GetDirection(Hex hex);
 
         //TODO:
         //1. Range
