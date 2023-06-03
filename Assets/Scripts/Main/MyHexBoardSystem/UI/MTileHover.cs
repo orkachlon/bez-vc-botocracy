@@ -21,7 +21,6 @@ namespace Main.MyHexBoardSystem.UI {
         private IMouseInput _mouseInput;
         private Camera _cam;
         
-        private TileBase _baseTile;
         private Hex? _currentTile;
 
         private void Awake() {
@@ -66,8 +65,7 @@ namespace Main.MyHexBoardSystem.UI {
         }
 
         private void Show(Hex hex) {
-            _baseTile = boardController.GetTile(hex);
-            boardController.SetTile(hex, hoverTile);
+            boardController.SetTile(hex, hoverTile, BoardConstants.MouseHoverTileLayer);
             _currentTile = hex;
         }
 
@@ -75,7 +73,7 @@ namespace Main.MyHexBoardSystem.UI {
             if (!_currentTile.HasValue) {
                 return;
             }
-            boardController.SetTile(_currentTile.Value, _baseTile);
+            boardController.SetTile(_currentTile.Value, null, BoardConstants.MouseHoverTileLayer);
             _currentTile = null;
         }
     }
