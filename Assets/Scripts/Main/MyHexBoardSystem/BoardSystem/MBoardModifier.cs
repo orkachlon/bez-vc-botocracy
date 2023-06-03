@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Core.EventSystem;
+using ExternBoardSystem.BoardSystem.Board;
 using Main.MyHexBoardSystem.BoardElements;
+using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
 using Main.StoryPoints;
@@ -92,8 +94,11 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             var edgeHexes = _boardController.Manipulator
                 .GetEdge(ITraitAccessor.TraitToDirection(trait));
             var surroundingHexes = _boardController.Manipulator.GetSurroundingHexes(edgeHexes, true);
-            var onlyEmptySurroundingHexes = surroundingHexes.Where(h => !_boardController.Board.HasPosition(h)).ToArray();
-            var randomHex = onlyEmptySurroundingHexes[Random.Range(0, onlyEmptySurroundingHexes.Length)];
+            var onlyEmptySurroundingHexes = surroundingHexes.Where(h => !_boardController.Board.HasPosition(h));
+            var onlyContainedInTrait = onlyEmptySurroundingHexes.Where(h =>
+                    ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(h)) == trait)
+                .ToArray();
+            var randomHex = onlyContainedInTrait[Random.Range(0, onlyContainedInTrait.Length)];
             _boardController.AddTile(randomHex);
         }
     }
