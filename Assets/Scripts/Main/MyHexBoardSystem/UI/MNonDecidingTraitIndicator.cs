@@ -128,7 +128,7 @@ namespace Main.MyHexBoardSystem.UI {
             if (_previousTiles.ContainsKey(trait)) { // do not overwrite colors
                 return;
             }
-            // _previousTiles[trait] = _traitAccessor.GetTile(trait);
+            _previousTiles[trait] = _traitAccessor.GetTile(trait);
         }
 
         private void RevertColor(ETrait trait) {

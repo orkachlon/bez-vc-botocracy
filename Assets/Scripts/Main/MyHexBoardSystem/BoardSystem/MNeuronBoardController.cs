@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
@@ -18,9 +19,17 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         [Header("Event Managers"), SerializeField]
         private SEventManager externalBoardEventManager;
 
-        [Header("Tilemap"), SerializeField] private TraitTiles traitTiles;
+        [Header("Tilemap"), SerializeField] private TraitTiles traitTileBases;
 
+        protected override void CollectExistingTiles() {
+            base.CollectExistingTiles();
 
+            foreach (var hex in GetHexPoints()) {
+                var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+                tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait]);
+            }
+        }
+        
         #region UnityMethods
 
         protected override void Start() {
@@ -86,8 +95,13 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         public void AddTile(Hex hex) {
             Board.AddPosition(hex);
             // todo figure out which tile should be added using the direction
-            // tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTiles[]);
+            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+            tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait]);
             externalBoardEventManager.Raise(ExternalBoardEvents.OnAddTile, new OnTileModifyEventArgs(hex));
+        }
+
+        public TileBase GetTraitTileBase(ETrait trait) {
+            return traitTileBases[trait];
         }
 
         #endregion

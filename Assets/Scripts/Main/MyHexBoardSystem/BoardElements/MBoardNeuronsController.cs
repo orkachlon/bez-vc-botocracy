@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
+using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
@@ -99,7 +100,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             }
 
             position.AddData(element);
-            NeuronsPerTrait[ITraitAccessor.DirectionToTrait(Manipulator.GetDirection(hex))]++;
+            NeuronsPerTrait[ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex))]++;
             element.DataProvider.GetActivation().Invoke(this, GetCellCoordinate(hex));
             
             // dispatch event
@@ -112,7 +113,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
 
         public override void RemoveElement(Hex hex) {
             base.RemoveElement(hex);
-            NeuronsPerTrait[ITraitAccessor.DirectionToTrait(Manipulator.GetDirection(hex))]--;
+            NeuronsPerTrait[ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex))]--;
         }
         
         public int GetTraitCount(ETrait trait) {

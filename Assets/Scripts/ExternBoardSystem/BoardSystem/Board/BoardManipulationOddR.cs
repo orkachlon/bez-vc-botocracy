@@ -231,7 +231,23 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 .ToArray();
         }
 
-        public Hex GetDirection(Hex hex) {
+        public Hex? GetDirection(Hex hex) {
+            return Contains(hex) ? GetDirectionStatic(hex) : null;
+        }
+
+        #endregion
+
+        private bool Contains(Hex hex) {
+            return _board.HasPosition(hex);
+        }
+
+        private int? MaxCoord(Func<Position<T>,int> selector) {
+            return _board.Positions.Select(selector).OrderByDescending(c => c).FirstOrDefault();
+        }
+
+        #region StaticFunctions
+
+        public static Hex GetDirectionStatic(Hex hex) {
             return hex.r switch {
                 //                     top-right
                 > 0 when hex.q >= 0 => new Hex(0, 1),
@@ -244,12 +260,6 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 //               top-left           bot-right
                 _ => hex.q > 0 ? new Hex(1, 0) : new Hex(-1, 0)
             };
-        }
-
-        #endregion
-
-        private int? MaxCoord(Func<Position<T>,int> selector) {
-            return _board.Positions.Select(selector).OrderByDescending(c => c).FirstOrDefault();
         }
 
         /// <summary>
@@ -267,5 +277,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
         public static Vector3Int GetCellCoordinate(Hex hex) {
             return OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, hex).ToVector3Int();
         }
+
+        #endregion
     }
 }

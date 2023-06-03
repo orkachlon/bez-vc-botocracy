@@ -19,6 +19,7 @@ namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
 
         public Color GetColor(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer);
         public void SetColor(ETrait trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        public TileBase GetTile(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer);
         public void SetTiles(ETrait trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
 
         #endregion

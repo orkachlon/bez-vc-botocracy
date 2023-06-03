@@ -650,7 +650,7 @@ MonoBehaviour:
     - {fileID: 1816006970}
   innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
   externalBoardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
-  traitTiles:
+  traitTileBases:
     keys: 000000000100000002000000030000000400000005000000
     values:
     - {fileID: 11400000, guid: d231e77840242274f9db14731cfe7300, type: 2}
@@ -691,6 +691,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardController: {fileID: 615794156}
   neuronsController: {fileID: 615794154}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!114 &615794159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6489,6 +6490,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardController: {fileID: 615794156}
   neuronsController: {fileID: 615794154}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1 &1830479124
 GameObject:
   m_ObjectHideFlags: 0

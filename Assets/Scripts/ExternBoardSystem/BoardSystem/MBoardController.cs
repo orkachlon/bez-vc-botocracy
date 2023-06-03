@@ -48,14 +48,14 @@ namespace ExternBoardSystem.BoardSystem {
             innerBoardEventManager.Raise(InnerBoardEvents.OnCreateBoard, new OnBoardEventData<T>(Board, Manipulator));
         }
 
-        private void CollectExistingTiles() {
+        protected virtual void CollectExistingTiles() {
             tilemapLayers[BaseTilemapLayer].CompressBounds();
 
             var area = tilemapLayers[BaseTilemapLayer].cellBounds;
             foreach (var pos in area.allPositionsWithin) {
                 if (tilemapLayers[BaseTilemapLayer].HasTile(pos)) {
                     // convert to Hex and save Map[Hex] = tile
-                    _tiles.Add(OffsetCoordHelper.RoffsetToCube(OffsetCoord.Parity.Odd, new OffsetCoord(pos.x, pos.y)));
+                    _tiles.Add(BoardManipulationOddR<T>.GetHexCoordinate(pos));
                 }
             }
         }

@@ -20,5 +20,6 @@ namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
 
         void RemoveTile(Hex hex);
         void AddTile(Hex hex);
+        TileBase GetTraitTileBase(ETrait trait);
     }
 }
