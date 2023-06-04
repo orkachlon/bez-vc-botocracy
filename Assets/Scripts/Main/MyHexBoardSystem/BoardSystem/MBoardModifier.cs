@@ -104,7 +104,9 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         }
 
         private int GetTileAmountBasedOnNeurons(int neuronAmount) {
-            return Mathf.RoundToInt(5 * Mathf.Log(neuronAmount + 1));
+            var frac = (float) neuronAmount / _neuronsController.CountNeurons;
+            return Mathf.RoundToInt(Mathf.SmoothStep(0, 10, frac));
+            // return Mathf.RoundToInt(5 * Mathf.Log(neuronAmount + 1));
         }
     }
 }

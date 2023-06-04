@@ -232,6 +232,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
             return hexes
                 .SelectMany(h => GetNeighbours(h, includeEmpty))
                 .Where(h => !hexes.Contains(h))
+                .Distinct()
                 .ToArray();
         }
 
