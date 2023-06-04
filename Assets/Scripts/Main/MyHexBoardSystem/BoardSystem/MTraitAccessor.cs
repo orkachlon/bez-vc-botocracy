@@ -59,7 +59,13 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         #region InterfaceMethods
 
         public ETrait? HexToTrait(Hex hex) {
-            return TraitHexes.FirstOrDefault(kvp => kvp.Value.Contains(hex)).Key;
+            foreach (var trait in TraitHexes.Keys) {
+                if (TraitHexes[trait].Contains(hex)) {
+                    return trait;
+                }
+            }
+
+            return null;
         }
 
         public ETrait? WorldPosToTrait(Vector3 worldPosition) {

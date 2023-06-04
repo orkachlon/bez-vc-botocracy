@@ -91,7 +91,7 @@ namespace Main.MyHexBoardSystem.UI {
 
                 CacheTiles(trait);
                 _traitAccessor.SetTiles(trait, nonDecidingTraitTile);
-                // _traitAccessor.SetColor(trait, nonDecidingTraitColor);
+                // TraitAccessor.SetColor(trait, nonDecidingTraitColor);
             }
         }
 

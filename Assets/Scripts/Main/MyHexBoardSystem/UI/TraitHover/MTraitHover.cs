@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Core.EventSystem;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
-using Main.MyHexBoardSystem.BoardSystem;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons;
@@ -11,35 +11,39 @@ using Main.Traits;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Main.MyHexBoardSystem.UI {
+namespace Main.MyHexBoardSystem.UI.TraitHover {
     
     /// <summary>
     ///     This class highlights the traits affected by the next neuron placement
     /// </summary>
-    [RequireComponent(typeof(MTraitAccessor))]
+    [RequireComponent(typeof(ITraitAccessor))]
     public class MTraitHover : MonoBehaviour {
         
         [Header("Current Neuron"), SerializeField]
         private SNeuronData currentNeuron;
 
-        [Header("Highlighting"), SerializeField]
-        private TileBase hoverTile;
+        [Header("Highlighting"), SerializeField] private TileBase positiveTile;
+        [SerializeField] private TileBase negativeTile;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager boardEventManager;
+
         [SerializeField] private SEventManager storyEventManager;
-        
-        private ITraitAccessor _traitAccessor;
+
+        public ITraitAccessor TraitAccessor { get; private set; }
         private Camera _cam;
 
         private ETrait? _currentHighlightedTrait;
+        private readonly HashSet<ETrait> _currentPositive = new ();
+        private readonly HashSet<ETrait> _currentNegative = new ();
         private IStoryPoint _currentSP;
 
         #region UnityMethods
 
         private void Awake() {
             _cam = Camera.main;
-            _traitAccessor = GetComponent<ITraitAccessor>();
+            TraitAccessor = GetComponent<ITraitAccessor>();
+            // get the references to the effects
         }
 
         private void OnEnable() {
@@ -75,20 +79,21 @@ namespace Main.MyHexBoardSystem.UI {
             // get mouse world pos
             var mouseWorldPos = _cam.ScreenToWorldPoint(inputEventArgs.EventData.position);
             // figure out which trait the hex is in
-            var hoverTrait = _traitAccessor.WorldPosToTrait(mouseWorldPos);
+            var hoverTrait = TraitAccessor.WorldPosToTrait(mouseWorldPos);
             // only highlight deciding traits
             if (!hoverTrait.HasValue || !_currentSP.DecidingTraits.ContainsKey(hoverTrait.Value)) {
                 return;
             }
-            _currentHighlightedTrait = hoverTrait; 
-            Show(_currentHighlightedTrait.Value);
+            CacheHoverData(hoverTrait.Value);
+            Show();
         }
 
-        private void OnHide(EventArgs args) {
-            if (args is not OnBoardInputEventArgs inputEventArgs || !_currentHighlightedTrait.HasValue) {
+        private void OnHide(EventArgs _) {
+            if (!_currentHighlightedTrait.HasValue) {
                 return;
             }
-            Hide(_currentHighlightedTrait);
+            Hide();
+            ClearHoverCache();
         }
 
         private void OnUpdatePosition(EventArgs args) {
@@ -97,11 +102,39 @@ namespace Main.MyHexBoardSystem.UI {
             }
 
             var mouseWorldPos = _cam.ScreenToWorldPoint(pointerStayEventArgs.MousePosition);
-            var newTrait = _traitAccessor.WorldPosToTrait(mouseWorldPos);
-            if (!newTrait.HasValue || newTrait == _currentHighlightedTrait) {
+            var hoverTrait = TraitAccessor.WorldPosToTrait(mouseWorldPos);
+            if (hoverTrait == _currentHighlightedTrait) {
                 return;
             }
-            RefreshEffect(newTrait.Value);
+            Hide();
+            ClearHoverCache();
+            if (!hoverTrait.HasValue) { // Hex.Zero returns null so we first hide and then return
+                return;
+            }
+            if (!_currentSP.DecidingTraits.ContainsKey(hoverTrait.Value)) {
+                return;
+            }
+            CacheHoverData(hoverTrait.Value);
+            Show();
+        }
+
+        private void CacheHoverData(ETrait hoverTrait) {
+            _currentHighlightedTrait = hoverTrait;
+            var affectedTraits = _currentSP.DecidingTraits[hoverTrait].BoardEffect;
+            foreach (var trait in affectedTraits.Keys) {
+                if (affectedTraits[trait] > 0) {
+                    _currentPositive.Add(trait);
+                }
+                else if (affectedTraits[trait] < 0) {
+                    _currentNegative.Add(trait);
+                }
+            }
+        }
+
+        private void ClearHoverCache() {
+            _currentHighlightedTrait = null;
+            _currentPositive.Clear();
+            _currentNegative.Clear();
         }
 
         private void OnTileRemoved(EventArgs eventArgs) {
@@ -109,9 +142,8 @@ namespace Main.MyHexBoardSystem.UI {
                 return;
             }
 
-            if (_currentHighlightedTrait.HasValue) {
-                Hide(_currentHighlightedTrait);
-            }
+            Hide();
+            ClearHoverCache();
         }
         
         private void OnTileAdded(EventArgs eventArgs) {
@@ -120,7 +152,7 @@ namespace Main.MyHexBoardSystem.UI {
             }
 
             if (_currentHighlightedTrait.HasValue) {
-                RefreshEffect(_currentHighlightedTrait.Value);
+                Refresh();
             }
         }
 
@@ -134,28 +166,36 @@ namespace Main.MyHexBoardSystem.UI {
 
         #endregion
 
-        private void Show(ETrait? trait) {
-            if (!trait.HasValue) {
+        public void Show() {
+            if (!_currentHighlightedTrait.HasValue) {
                 return;
             }
-            _traitAccessor.SetTiles(trait.Value, hoverTile, BoardConstants.TraitHoverTileLayer);
+            // TraitAccessor.SetTiles(_currentHighlightedTrait.Value, hoverTile, BoardConstants.TraitHoverTileLayer);
+            foreach (var t in _currentPositive) {
+                TraitAccessor.SetTiles(t, positiveTile, BoardConstants.SPEffectHoverTileLayer);
+            }
+            foreach (var t in _currentNegative) {
+                TraitAccessor.SetTiles(t, negativeTile, BoardConstants.SPEffectHoverTileLayer);
+            }
         }
 
-        private void Hide(ETrait? trait) {
-            if (!trait.HasValue) {
+        public void Hide() {
+            if (!_currentHighlightedTrait.HasValue) {
                 return;
             }
-            _traitAccessor.SetTiles(trait.Value, null, BoardConstants.TraitHoverTileLayer);
-            _currentHighlightedTrait = null;
+            // TraitAccessor.SetTiles(_currentHighlightedTrait.Value, null, BoardConstants.TraitHoverTileLayer);
+            foreach (var t in _currentPositive) {
+                TraitAccessor.SetTiles(t, null, BoardConstants.SPEffectHoverTileLayer);
+            }
+            foreach (var t in _currentNegative) {
+                TraitAccessor.SetTiles(t, null, BoardConstants.SPEffectHoverTileLayer);
+            }
         }
 
-        private void RefreshEffect(ETrait newTrait) {
-            Hide(_currentHighlightedTrait);
-            if (!_currentSP.DecidingTraits.ContainsKey(newTrait)) {
-                return;
-            }
-            _currentHighlightedTrait = newTrait;
-            Show(_currentHighlightedTrait);
+        private void Refresh() {
+            Hide();
+            // not clearing cache
+            Show();
         }
     }
 }
