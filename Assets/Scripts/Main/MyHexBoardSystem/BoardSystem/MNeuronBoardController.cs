@@ -82,6 +82,10 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         public Hex WorldPosToHex(Vector3 position) {
             return BoardManipulationOddR<BoardNeuron>.GetHexCoordinate(tilemapLayers[BoardConstants.BaseTilemapLayer].WorldToCell(position));
         }
+        
+        public Vector3 HexToWorldPos(Hex hex) {
+            return BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex);
+        }
 
         public void RemoveTile(Hex hex) {
             if (!Board.HasPosition(hex)) {

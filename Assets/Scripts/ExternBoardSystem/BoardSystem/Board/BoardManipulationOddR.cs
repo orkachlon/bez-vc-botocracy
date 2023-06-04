@@ -239,6 +239,19 @@ namespace ExternBoardSystem.BoardSystem.Board {
             return Contains(hex) ? GetDirectionStatic(hex) : null;
         }
 
+        public Hex GetFarthestHex() {
+            var qMax = MaxCoord(p => p.Point.q);
+            var rMax = MaxCoord(p => p.Point.r);
+            var sMax = MaxCoord(p => p.Point.s);
+            if (qMax > rMax && qMax > sMax) {
+                return _board.Positions.First(p => p.Point.q == qMax).Point;
+            }
+
+            return rMax > sMax ? 
+                _board.Positions.First(p => p.Point.r == rMax).Point : 
+                _board.Positions.First(p => p.Point.s == sMax).Point;
+        }
+
         #endregion
 
         private bool Contains(Hex hex) {

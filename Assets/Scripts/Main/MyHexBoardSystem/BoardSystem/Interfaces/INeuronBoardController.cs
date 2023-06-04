@@ -17,6 +17,7 @@ namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
         void SetTiles(Hex[] hexTiles, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
 
         Hex WorldPosToHex(Vector3 position);
+        Vector3 HexToWorldPos(Hex hex);
 
         void RemoveTile(Hex hex);
         void AddTile(Hex hex);

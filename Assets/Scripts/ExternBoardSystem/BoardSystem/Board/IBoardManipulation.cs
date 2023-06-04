@@ -20,6 +20,8 @@ namespace ExternBoardSystem.BoardSystem.Board
         Hex[] GetEdge(Hex direction);
         Hex[] GetSurroundingHexes(Hex[] hexes, bool includeEmpty = false);
         Hex? GetDirection(Hex hex);
+        Hex GetFarthestHex();
+
 
         //TODO:
         //1. Range
