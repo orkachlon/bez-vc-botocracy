@@ -119,6 +119,9 @@ namespace Main.MyHexBoardSystem.BoardElements {
 
         public override void RemoveElement(Hex hex) {
             base.RemoveElement(hex);
+            if (!Board.HasPosition(hex) || !Board.GetPosition(hex).HasData()) {
+                return;
+            }
             var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
             if (!trait.HasValue) {
                 return;
@@ -128,11 +131,6 @@ namespace Main.MyHexBoardSystem.BoardElements {
         
         public int GetTraitCount(ETrait trait) {
             return NeuronsPerTrait[trait];
-            // var direction = ITraitAccessor.TraitToDirection(trait);
-            //
-            // return Manipulator.GetTriangle(direction)
-            //     .Select(h => Board.GetPosition(h))
-            //     .Count(p => p != null && p.HasData());
         }
 
         public IEnumerable<ETrait> GetMaxTrait(IEnumerable<ETrait> fromTraits = null) {
