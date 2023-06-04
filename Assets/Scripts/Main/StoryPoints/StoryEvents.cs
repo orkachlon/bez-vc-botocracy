@@ -1,4 +1,5 @@
 ﻿using System;
+using Main.StoryPoints.Interfaces;
 
 namespace Main.StoryPoints {
     public static class StoryEvents {

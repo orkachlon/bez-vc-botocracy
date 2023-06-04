@@ -10,14 +10,17 @@ namespace ExternBoardSystem.BoardSystem.Board {
     ///     Positions may store the game elementData. Things like monsters, items, heroes, etc.
     /// </summary>
     public class Board<T> : IBoard<T>  where T : BoardElement{
-        public IBoardController<T> Controller { get; }
         public EOrientation Orientation { get; }
         public List<Position<T>> Positions { get; private set; }
 
         public Board(IBoardController<T> controller, EOrientation orientation) {
-            Controller = controller;
             Orientation = orientation;
-            GeneratePositions();
+            GeneratePositions(controller);
+        }
+
+        public Board(IBoard<T> other) {
+            Positions = other.Positions.ConvertAll(p => new Position<T>(p.Point, p.Data));
+            Orientation = other.Orientation;
         }
         
         public bool HasPosition(Hex point) {
@@ -41,8 +44,8 @@ namespace ExternBoardSystem.BoardSystem.Board {
             Positions.Add(new Position<T>(hex));
         }
 
-        private void GeneratePositions() {
-            var points = Controller.GetHexPoints();
+        private void GeneratePositions(IBoardController<T> hexProvider) {
+            var points = hexProvider.GetHexPoints();
             Positions = new List<Position<T>>(points.Length);
             foreach (var hex in points) {
                 Positions.Add(new Position<T>(hex));
@@ -50,7 +53,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
 
             // OnCreateBoard();
         }
-        
+
         // private void OnCreateBoard() {
         //     Controller.DispatchCreateBoard(this);
         // }

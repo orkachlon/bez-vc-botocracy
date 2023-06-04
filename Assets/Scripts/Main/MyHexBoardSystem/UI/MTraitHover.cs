@@ -6,6 +6,7 @@ using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons;
 using Main.StoryPoints;
+using Main.StoryPoints.Interfaces;
 using Main.Traits;
 using UnityEngine;
 using UnityEngine.Tilemaps;

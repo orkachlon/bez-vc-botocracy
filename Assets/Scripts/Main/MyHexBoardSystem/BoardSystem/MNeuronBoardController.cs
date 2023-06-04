@@ -26,7 +26,10 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
             foreach (var hex in GetHexPoints()) {
                 var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
-                tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait]);
+                if (!trait.HasValue) {
+                    continue;
+                }
+                tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait.Value]);
             }
         }
         
@@ -93,10 +96,13 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         }
 
         public void AddTile(Hex hex) {
-            Board.AddPosition(hex);
-            // todo figure out which tile should be added using the direction
             var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
-            tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait]);
+            if (!trait.HasValue) {
+                return;
+            }
+
+            Board.AddPosition(hex);
+            tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait.Value]);
             externalBoardEventManager.Raise(ExternalBoardEvents.OnAddTile, new OnTileModifyEventArgs(hex));
         }
 

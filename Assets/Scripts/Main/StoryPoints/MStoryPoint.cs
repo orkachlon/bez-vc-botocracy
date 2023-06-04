@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Core.EventSystem;
 using Main.MyHexBoardSystem.BoardElements;
 using Main.Neurons;
+using Main.StoryPoints.Interfaces;
 using Main.StoryPoints.SPProviders;
-using Main.Traits;
-using Main.Utils;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Main.StoryPoints {
     public class MStoryPoint : MonoBehaviour, IStoryPoint {
@@ -63,13 +62,13 @@ namespace Main.StoryPoints {
                 return;
             }
             
-            var maxTraits = controller.GetMaxTrait(_spData.decidingTraits.Keys).ToArray();
+            var maxTraits = controller.GetMaxTrait(DecidingTraits.Keys).ToArray();
             var maxTrait = maxTraits[Random.Range(0, maxTraits.Length - 1)];
 
             DecisionEffects = new TraitDecisionEffects {
                 DecidingTrait = maxTrait,
-                Outcome = _spData.decidingTraits[maxTrait].Outcome,
-                BoardEffect = _spData.decidingTraits[maxTrait].BoardEffect
+                Outcome = DecidingTraits[maxTrait].Outcome,
+                BoardEffect = DecidingTraits[maxTrait].BoardEffect
             };
             Evaluated = true;
 

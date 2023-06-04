@@ -40,10 +40,14 @@ namespace ExternBoardSystem.BoardSystem.Board {
         }
 
         public Hex[] GetNeighbours(Hex hex, bool includeEmpty = false) {
-            var center = includeEmpty ? hex : GetIfExistsOrEmpty(hex)[0];
+            var center = GetIfExistsOrEmpty(hex);
+            if (center.Length == 0 && !includeEmpty) {
+                throw new ArgumentOutOfRangeException(nameof(hex), hex, "Hex out of bounds in GetNeighbours");
+            }
+            center = new[] {hex};
             var neighbours = new Hex[] { };
             foreach (var direction in NeighboursDirections) {
-                var neighbour = Hex.Add(center, direction);
+                var neighbour = Hex.Add(center[0], direction);
                 neighbours = neighbours.Append(includeEmpty ? new []{neighbour} : GetIfExistsOrEmpty(neighbour));
             }
 
@@ -257,8 +261,8 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 < 0 when hex.q <= 0 => new Hex(0, -1),
                 //                 top-left           mid-left
                 < 0 => hex.s < 0 ? new Hex(1, 0) : new Hex(1, -1),
-                //               top-left           bot-right
-                _ => hex.q > 0 ? new Hex(1, 0) : new Hex(-1, 0)
+                //               top-left                        bot-right           center
+                _ => hex.q > 0 ? new Hex(1, 0) : hex.q < 0 ? new Hex(-1, 0) : Hex.Zero
             };
         }
 

@@ -45,7 +45,7 @@ namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
             return direction;
         }
         
-        static ETrait DirectionToTrait(Hex hex) {
+        static ETrait? DirectionToTrait(Hex hex) {
             if (hex == new Hex(0, 1)) {
                 return ETrait.Entropist;
             }
@@ -63,6 +63,9 @@ namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
             }
             if (hex == new Hex(-1, 1)) {
                 return ETrait.Mediator;
+            }
+            if (hex == Hex.Zero) {
+                return null;
             }
 
             throw new ArgumentOutOfRangeException(nameof(hex), hex, null);

@@ -27,22 +27,18 @@ namespace Main.Managers {
 
         private void OnEnable() {
             neuronEvents.Register(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
-            // neuronEvents.Register(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
-            // storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, DisableBoardInteraction);
             gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnGameStateChanged);
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
         private void OnDisable() {
             neuronEvents.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeueNeuron);
-            // neuronEvents.Unregister(NeuronEvents.OnNoMoreNeurons, DisableBoardInteraction);
-            // storyEventManager.Unregister(StoryEvents.OnNoMoreStoryPoints, DisableBoardInteraction);
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
         #region EventHandlers
 
-        private void Init(EventArgs obj) {
+        private void Init(EventArgs _) {
             // add some neurons to the queue
             neuronEvents.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(10));
             // place the initial neuron
@@ -74,15 +70,14 @@ namespace Main.Managers {
         #endregion
 
         private void NextNeuron(BoardNeuron nextNeuron) {
-            // todo handle neurons being placed by other neurons correctly
+            neuronEvents.Raise(NeuronEvents.OnNeuronPlaced, new NeuronEventArgs(CurrentNeuron));
+            
             CurrentNeuron = nextNeuron;
             if (CurrentNeuron == null) {
                 currentNeuronData.Type = ENeuronType.Undefined;
                 return;
             }
-            
             currentNeuronData.SetData(CurrentNeuron.DataProvider);
-            neuronEvents.Raise(NeuronEvents.OnNeuronPlaced, new NeuronEventArgs(CurrentNeuron));
         }
         
         public static BoardNeuron GetNeuron(ENeuronType neuronType) {

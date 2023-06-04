@@ -108,7 +108,10 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
             var hex = tileModifyEventArgs.Hex;
             var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
-            TraitHexes[trait].Add(hex);
+            if (!trait.HasValue) {
+                return;
+            }
+            TraitHexes[trait.Value].Add(hex);
         }
 
         private void OnRemoveTile(EventArgs obj) {
@@ -126,10 +129,13 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         private void SaveTilesPerTrait() {
             foreach (var hex in boardController.GetHexPoints()) {
                 var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
-                if (!_traitHexes.ContainsKey(trait)) {
-                    _traitHexes[trait] = new HashSet<Hex>();
+                if (!trait.HasValue) {
+                    continue;
                 }
-                _traitHexes[trait].Add(hex);
+                if (!_traitHexes.ContainsKey(trait.Value)) {
+                    _traitHexes[trait.Value] = new HashSet<Hex>();
+                }
+                _traitHexes[trait.Value].Add(hex);
             }
         }
     }

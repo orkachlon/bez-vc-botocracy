@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Tools.Input.Mouse;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
@@ -15,7 +16,8 @@ namespace Main.MyHexBoardSystem.UI {
     public class MTileHover : MonoBehaviour {
 
         [SerializeField] private MNeuronBoardController boardController;
-        [SerializeField] private TileBase hoverTile;
+        [SerializeField] private TileBase canBePlacedTileBase;
+        [SerializeField] private TileBase cannotBePlacedTileBase;
         [SerializeField] private SNeuronData currentNeuron;
         
         private IMouseInput _mouseInput;
@@ -65,7 +67,23 @@ namespace Main.MyHexBoardSystem.UI {
         }
 
         private void Show(Hex hex) {
-            boardController.SetTile(hex, hoverTile, BoardConstants.MouseHoverTileLayer);
+            if (!boardController.Board.HasPosition(hex)) {
+                return;
+            }
+            TileBase tileToShow;
+            // current tile is occupied
+            if (boardController.Board.GetPosition(hex).HasData()) {
+                tileToShow = cannotBePlacedTileBase;
+            }
+            // current tile is empty - check if a neighbor neuron exists
+            else {
+                var neighbors = boardController.Manipulator.GetNeighbours(hex);
+                var canBePlaced = neighbors.Any(h =>
+                    boardController.Board.HasPosition(h) && boardController.Board.GetPosition(h).HasData());
+                tileToShow = canBePlaced ? canBePlacedTileBase : cannotBePlacedTileBase;
+            }
+
+            boardController.SetTile(hex, tileToShow, BoardConstants.MouseHoverTileLayer);
             _currentTile = hex;
         }
 

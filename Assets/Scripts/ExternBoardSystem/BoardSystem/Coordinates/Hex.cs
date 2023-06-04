@@ -8,6 +8,7 @@ namespace ExternBoardSystem.BoardSystem.Coordinates {
         public int r { get; } //row, Y axis
         public int s { get; } //s = -(q + r), math is great
         public int Length => (Mathf.Abs(q) + Mathf.Abs(r) + Mathf.Abs(s)) / 2;
+        public static Hex Zero => new(0, 0);
 
         //TODO: Maybe keep only one constructor to make things less confusing.
         public Hex(int q, int r) {

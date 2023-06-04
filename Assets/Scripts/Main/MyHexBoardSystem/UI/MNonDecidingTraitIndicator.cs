@@ -6,6 +6,7 @@ using Main.MyHexBoardSystem.BoardSystem;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.Neurons;
 using Main.StoryPoints;
+using Main.StoryPoints.Interfaces;
 using Main.Traits;
 using Main.Utils;
 using UnityEngine;
@@ -23,9 +24,7 @@ namespace Main.MyHexBoardSystem.UI {
 
         // maybe change the tile entirely instead of just the color
         [Header("Visuals"), SerializeField] private TileBase nonDecidingTraitTile;
-        [SerializeField] private Color currentDecidingTraitColor;
-        [SerializeField] private Color goodTraitColor;
-        [SerializeField] private Color badTraitColor;
+        [SerializeField] private Color nonDecidingTraitColor;
         
         private ITraitAccessor _traitAccessor;
         private readonly Dictionary<ETrait, Color> _previousColors = new();
@@ -72,6 +71,7 @@ namespace Main.MyHexBoardSystem.UI {
                 }
 
                 RevertTiles(trait);
+                // RevertColor(trait);
             }
         }
 
@@ -91,38 +91,11 @@ namespace Main.MyHexBoardSystem.UI {
 
                 CacheTiles(trait);
                 _traitAccessor.SetTiles(trait, nonDecidingTraitTile);
+                // _traitAccessor.SetColor(trait, nonDecidingTraitColor);
             }
-        }
-
-        private void ResetMaxTraitMarking(EventArgs args) {
-            if (args is not StoryEventArgs storyEventArgs) {
-                return;
-            }
-
-            RevertColor(_currentMaxTrait);
-            MarkMaxDecidingTrait();
-        }
-        
-        private void OnMarkMaxTraitBoardBroadcast(EventArgs args) {
-            if (args is not NeuronEventArgs neuronEventArgs) {
-                return;
-            }
-            MarkMaxDecidingTrait();
         }
 
         #endregion
-
-        private void MarkMaxDecidingTrait() {
-            var maxTraits = _traitAccessor.GetMaxNeuronsTrait(_currentSP.DecidingTraits.Keys).ToArray();
-            if (!maxTraits.Contains(_currentMaxTrait)) {
-                RevertColor(_currentMaxTrait);
-                // save new maximum
-                _currentMaxTrait = maxTraits[Random.Range(0, maxTraits.Length - 1)];
-            }
-
-            CacheTiles(_currentMaxTrait);
-            _traitAccessor.SetColor(_currentMaxTrait, currentDecidingTraitColor);
-        }
 
         private void CacheTiles(ETrait trait) {
             if (_previousTiles.ContainsKey(trait)) { // do not overwrite colors
@@ -135,7 +108,7 @@ namespace Main.MyHexBoardSystem.UI {
             if (!_previousColors.ContainsKey(trait)) {
                 return;
             }
-            _traitAccessor.SetColor(trait, _previousColors[trait]);
+            _traitAccessor.SetColor(trait, Color.white);
             _previousColors.Remove(trait);
         }
 

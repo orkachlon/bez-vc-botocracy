@@ -59,9 +59,7 @@ namespace ExternBoardSystem.BoardElements {
 
         public virtual void RemoveElement(Hex hex) {
             var position = Board.GetPosition(hex);
-            if (position == null)
-                return;
-            if (!position.HasData())
+            if (position == null || !position.HasData())
                 return;
             var data = position.Data;
             position.RemoveData();

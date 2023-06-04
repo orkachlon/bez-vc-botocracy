@@ -82,9 +82,9 @@ namespace Main.MyHexBoardSystem.BoardElements {
 
         public override bool AddElement(BoardNeuron element, Hex hex) {
             var position = Board.GetPosition(hex);
-            var cell = GetCellCoordinate(hex);
             if (position == null)
                 return false;
+            var cell = GetCellCoordinate(hex);
             if (position.HasData()) {
                 DispatchOnAddElementFailed(element, cell);
                 return false;
@@ -99,9 +99,15 @@ namespace Main.MyHexBoardSystem.BoardElements {
                 return false;
             }
 
+            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+            if (!trait.HasValue) {
+                DispatchOnAddElementFailed(element, cell);
+                return false;
+            }
+
             position.AddData(element);
-            NeuronsPerTrait[ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex))]++;
-            element.DataProvider.GetActivation().Invoke(this, GetCellCoordinate(hex));
+            NeuronsPerTrait[trait.Value]++;
+            element.DataProvider.GetActivation().Invoke(this, cell);
             
             // dispatch event
             DispatchOnAddElement(element, cell);
@@ -113,7 +119,11 @@ namespace Main.MyHexBoardSystem.BoardElements {
 
         public override void RemoveElement(Hex hex) {
             base.RemoveElement(hex);
-            NeuronsPerTrait[ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex))]--;
+            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+            if (!trait.HasValue) {
+                return;
+            }
+            NeuronsPerTrait[trait.Value]--;
         }
         
         public int GetTraitCount(ETrait trait) {
@@ -128,11 +138,12 @@ namespace Main.MyHexBoardSystem.BoardElements {
         public IEnumerable<ETrait> GetMaxTrait(IEnumerable<ETrait> fromTraits = null) {
             fromTraits ??= EnumUtil.GetValues<ETrait>();
             var traits = fromTraits as ETrait[] ?? fromTraits.ToArray();
-            return NeuronsPerTrait
+            var max = NeuronsPerTrait
                 .Where(kvp => traits.Contains(kvp.Key))
-                .OrderByDescending(kvp => kvp.Value)
-                .Select(kvp => kvp.Key)
-                .ToArray();
+                .Max(kvp => kvp.Value);
+            return NeuronsPerTrait
+                .Where(kvp => traits.Contains(kvp.Key) && kvp.Value == max)
+                .Select(kvp => kvp.Key);
         }
 
         #region EventHandlers

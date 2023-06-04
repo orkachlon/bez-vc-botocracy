@@ -1,7 +1,7 @@
 ﻿using Main.MyHexBoardSystem.BoardElements;
 using Main.StoryPoints.SPProviders;
 
-namespace Main.StoryPoints {
+namespace Main.StoryPoints.Interfaces {
     public interface IStoryPoint {
 
         #region Properties
