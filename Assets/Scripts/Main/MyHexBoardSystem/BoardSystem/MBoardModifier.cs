@@ -50,10 +50,11 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
             var boardEffect = storyEventArgs.Story.DecisionEffects.BoardEffect;
             foreach (var trait in boardEffect.Keys) {
+                var effectStrength = GetTileAmountBasedOnNeurons(_neuronsController.GetTraitCount(trait));
                 if (boardEffect[trait] < 0) {
-                    RemoveTilesFromTrait(trait, _neuronsController.GetTraitCount(trait));
+                    RemoveTilesFromTrait(trait, effectStrength);
                 } else if (boardEffect[trait] > 0) {
-                    AddTilesToTrait(trait, _neuronsController.GetTraitCount(trait));
+                    AddTilesToTrait(trait, effectStrength);
                 }
             }
         }
@@ -86,11 +87,11 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
         private void AddTilesToTrait(ETrait trait, int amount) {
             for (var i = 0; i < amount; i++) {
-                AddTraitTile(trait);
+                AddTileToTrait(trait);
             }
         }
         
-        private void AddTraitTile(ETrait trait) {
+        private void AddTileToTrait(ETrait trait) {
             var edgeHexes = _boardController.Manipulator
                 .GetEdge(ITraitAccessor.TraitToDirection(trait));
             var surroundingHexes = _boardController.Manipulator.GetSurroundingHexes(edgeHexes, true);
@@ -100,6 +101,10 @@ namespace Main.MyHexBoardSystem.BoardSystem {
                 .ToArray();
             var randomHex = onlyContainedInTrait[Random.Range(0, onlyContainedInTrait.Length)];
             _boardController.AddTile(randomHex);
+        }
+
+        private int GetTileAmountBasedOnNeurons(int neuronAmount) {
+            return Mathf.RoundToInt(5 * Mathf.Log(neuronAmount + 1));
         }
     }
 }
