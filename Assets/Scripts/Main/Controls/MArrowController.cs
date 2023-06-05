@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace Main.Controls {
-    public class CameraController : MonoBehaviour {
+    public class MArrowController : MonoBehaviour {
 
         [SerializeField] private float movementSpeed;
         [SerializeField] private MNeuronBoardController boardController;

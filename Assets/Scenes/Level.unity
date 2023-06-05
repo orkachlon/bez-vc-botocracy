@@ -1114,7 +1114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 655903660}
-  - component: {fileID: 655903661}
+  - component: {fileID: 655903662}
   m_Layer: 0
   m_Name: CameraPivot
   m_TagString: Untagged
@@ -1138,7 +1138,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &655903661
+--- !u!114 &655903662
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1147,11 +1147,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 655903659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53a55c0b063b4cd68a5bae2af3a0188a, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a48f266d78a465baa072a2155b3e760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  boardController: {fileID: 615794156}
 --- !u!1 &670050910
 GameObject:
   m_ObjectHideFlags: 0
@@ -1439,7 +1437,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Logistician
+  m_text: '0
+
+    Logistician
 
 '
   m_isRightToLeft: 0
@@ -2006,7 +2006,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Entrepreneur
+  m_text: '0
+
+    Entrepreneur'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
   m_sharedMaterial: {fileID: 8845025251329881265, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
@@ -2398,7 +2400,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mediator
+  m_text: '0
+
+    Mediator'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
   m_sharedMaterial: {fileID: 8845025251329881265, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
@@ -2657,7 +2661,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Entropist
+  m_text: '0
+
+    Entropist'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
   m_sharedMaterial: {fileID: 8845025251329881265, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
@@ -4473,7 +4479,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Defender
+  m_text: '0
+
+    Defender'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
   m_sharedMaterial: {fileID: 8845025251329881265, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
@@ -4916,7 +4924,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Commander
+  m_text: '0
+
+    Commander'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
   m_sharedMaterial: {fileID: 8845025251329881265, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
