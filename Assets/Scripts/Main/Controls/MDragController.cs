@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Main.Controls {
 
@@ -15,7 +14,6 @@ namespace Main.Controls {
         }
 
         private void LateUpdate() {
-            
             // When RMB clicked get mouse click position and set panning to true
             if (Input.GetKey(KeyCode.Mouse1)) {
                 if (_mouseClickPos == default) {

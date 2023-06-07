@@ -18,6 +18,7 @@ namespace Main.MyHexBoardSystem.UI {
         [SerializeField] private MNeuronBoardController boardController;
         [SerializeField] private TileBase canBePlacedTileBase;
         [SerializeField] private TileBase cannotBePlacedTileBase;
+        [SerializeField] private TileBase hoverOutlineTile;
         [SerializeField] private SNeuronData currentNeuron;
         
         private IMouseInput _mouseInput;
@@ -84,6 +85,7 @@ namespace Main.MyHexBoardSystem.UI {
             }
 
             boardController.SetTile(hex, tileToShow, BoardConstants.MouseHoverTileLayer);
+            boardController.SetTile(hex, hoverOutlineTile, BoardConstants.MouseHoverOutlineTileLayer);
             _currentTile = hex;
         }
 
@@ -92,6 +94,7 @@ namespace Main.MyHexBoardSystem.UI {
                 return;
             }
             boardController.SetTile(_currentTile.Value, null, BoardConstants.MouseHoverTileLayer);
+            boardController.SetTile(_currentTile.Value, null, BoardConstants.MouseHoverOutlineTileLayer);
             _currentTile = null;
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
@@ -20,6 +19,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         private SEventManager externalBoardEventManager;
 
         [Header("Tilemap"), SerializeField] private TraitTiles traitTileBases;
+        [SerializeField] private TraitTiles traitTileOutlines;
 
         protected override void CollectExistingTiles() {
             base.CollectExistingTiles();
@@ -97,6 +97,8 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
             tilemapLayers[BaseTilemapLayer].RefreshAllTiles();
             tilemapLayers[BaseTilemapLayer].CompressBounds();
+            // outlines and fills are done separately
+            tilemapLayers[BoardConstants.OutlineTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
         }
 
         public void AddTile(Hex hex) {
@@ -107,6 +109,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
             Board.AddPosition(hex);
             tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait.Value]);
+            tilemapLayers[BoardConstants.OutlineTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileOutlines[trait.Value]);
             externalBoardEventManager.Raise(ExternalBoardEvents.OnAddTile, new OnTileModifyEventArgs(hex));
         }
 

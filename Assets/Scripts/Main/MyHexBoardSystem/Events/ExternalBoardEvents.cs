@@ -1,7 +1,6 @@
 ﻿using System;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
-using ExternBoardSystem.BoardSystem.Position;
 using Main.MyHexBoardSystem.BoardElements;
 using Main.Traits;
 using UnityEngine;
