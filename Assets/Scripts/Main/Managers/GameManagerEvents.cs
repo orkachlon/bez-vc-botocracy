@@ -2,9 +2,9 @@
 
 namespace Main.Managers {
     public static class GameManagerEvents {
-        public const string OnAfterGameStateChanged = "GMOnAfterGameStateChanged";
-        public const string OnBeforeGameStateChanged = "GMOnBeforeGameStateChanged";
-        public const string OnGameLoopStart = "GMOnGameLoopStart";
+        public const string OnAfterGameStateChanged = "GM_OnAfterGameStateChanged";
+        public const string OnBeforeGameStateChanged = "GM_OnBeforeGameStateChanged";
+        public const string OnGameLoopStart = "GM_OnGameLoopStart";
     }
 
     public class GameStateEventArgs : EventArgs {

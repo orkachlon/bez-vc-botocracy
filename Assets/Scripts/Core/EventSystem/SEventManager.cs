@@ -9,7 +9,6 @@ namespace Core.EventSystem {
         [SerializeField] private bool debugMessages;
         
         private readonly Dictionary<string, Action<EventArgs>> _eventActionMap = new();
-        private readonly Dictionary<string, Func<EventArgs, EventArgs>> _eventFunctionMap = new();
 
         public virtual void Register(string eventName, Action<EventArgs> listener) {
             if (_eventActionMap.TryGetValue(eventName, out var thisEvent)) {
@@ -38,15 +37,17 @@ namespace Core.EventSystem {
                 MonoBehaviour.print($"{name} Raised {eventName}!");
             }
         }
-        
-        public virtual void Raise(string eventName, ref EventArgs eventParams) {
-            if (_eventFunctionMap.TryGetValue(eventName, out var thisEvent)) {
-                thisEvent?.Invoke(eventParams);
-            }
 
-            if (debugMessages) {
-                MonoBehaviour.print($"{name} Raised {eventName}!");
-            }
+        public virtual void BindToScene(string eventName) {
+            Register(eventName, ClearAllListeners);
+        }
+
+        public virtual void UnbindFromScene(string eventName) {
+            Unregister(eventName, ClearAllListeners);
+        }
+
+        private void ClearAllListeners(EventArgs _) {
+            _eventActionMap.Clear();
         }
     }
 }
