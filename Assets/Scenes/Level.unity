@@ -952,7 +952,7 @@ GameObject:
   - component: {fileID: 615794158}
   - component: {fileID: 615794159}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1098,6 +1098,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9274f4d3c95b4dbf9eebc0b4c686111b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxEffectStrength: 10
+  effectScale: 2
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!4 &647378601 stripped

@@ -9,6 +9,7 @@ using Main.MyHexBoardSystem.Events;
 using Main.StoryPoints;
 using Main.Traits;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 namespace Main.MyHexBoardSystem.BoardSystem {
@@ -16,20 +17,22 @@ namespace Main.MyHexBoardSystem.BoardSystem {
     [RequireComponent(typeof(INeuronBoardController)), RequireComponent(typeof(IBoardNeuronsController))]
     public class MBoardModifier : MonoBehaviour {
 
+        [Header("Modification Controls"), SerializeField]
+        private int maxEffectStrength;
+        [SerializeField, Range(1, 5)] private float effectScale;
+
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
         [SerializeField] private SEventManager boardEventManager;
 
         private INeuronBoardController _boardController;
         private IBoardNeuronsController _neuronsController;
-        private System.Random _rndGenerator;
 
         #region UnityMethods
 
         private void Awake() {
             _boardController = GetComponent<INeuronBoardController>();
             _neuronsController = GetComponent<IBoardNeuronsController>();
-            _rndGenerator = new System.Random();
         }
 
         private void OnEnable() {
@@ -50,7 +53,11 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
             var boardEffect = storyEventArgs.Story.DecisionEffects.BoardEffect;
             foreach (var trait in boardEffect.Keys) {
-                var effectStrength = GetTileAmountBasedOnNeurons(_neuronsController.GetTraitCount(trait));
+                var neuronsInTrait = _neuronsController.GetTraitCount(trait);
+                var effectStrength = GetTileAmountBasedOnNeurons(neuronsInTrait);
+#if UNITY_EDITOR
+                Assert.IsTrue(neuronsInTrait > 0 && effectStrength > 0 || neuronsInTrait == 0 && effectStrength == 0);
+#endif
                 if (boardEffect[trait] < 0) {
                     RemoveTilesFromTrait(trait, effectStrength);
                 } else if (boardEffect[trait] > 0) {
@@ -105,8 +112,8 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
         private int GetTileAmountBasedOnNeurons(int neuronAmount) {
             var frac = (float) neuronAmount / _neuronsController.CountNeurons;
-            return Mathf.RoundToInt(Mathf.SmoothStep(0, 10, frac));
-            // return Mathf.RoundToInt(5 * Mathf.Log(neuronAmount + 1));
+            // return Mathf.RoundToInt(Mathf.SmoothStep(0, maxEffectStrength, frac));
+            return Mathf.Clamp(Mathf.RoundToInt(effectScale * Mathf.Log(neuronAmount + 1)), 0, maxEffectStrength);
         }
     }
 }
