@@ -49,12 +49,14 @@ namespace Main.MyHexBoardSystem.UI.TraitHover {
         private void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnTraitCompassEnter, OnShow);
             boardEventManager.Register(ExternalBoardEvents.OnTraitCompassExit, OnHide);
+            boardEventManager.Register(ExternalBoardEvents.OnTraitCompassHide, OnHide);
             storyEventManager.Register(StoryEvents.OnInitStory, OnInitStory);
         }
 
         private void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassEnter, OnShow);
             boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassExit, OnHide);
+            boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassHide, OnHide);
             storyEventManager.Unregister(StoryEvents.OnInitStory, OnInitStory);
         }
 
@@ -70,12 +72,12 @@ namespace Main.MyHexBoardSystem.UI.TraitHover {
                 return;
             }
 
-            var hoverTrait = traitHoverArgs.highlightedTrait;
+            var hoverTrait = traitHoverArgs.HighlightedTrait;
             // only highlight deciding traits
-            if (!_currentSP.DecidingTraits.ContainsKey(hoverTrait)) {
+            if (!hoverTrait.HasValue || !_currentSP.DecidingTraits.ContainsKey(hoverTrait.Value)) {
                 return;
             }
-            CacheHoverData(hoverTrait);
+            CacheHoverData(hoverTrait.Value);
             Show();
         }
 
@@ -85,28 +87,6 @@ namespace Main.MyHexBoardSystem.UI.TraitHover {
             }
             Hide();
             ClearHoverCache();
-        }
-
-        private void OnUpdatePosition(EventArgs args) {
-            if (args is not OnBoardPointerStayEventArgs pointerStayEventArgs || _currentSP == null) {
-                return;
-            }
-
-            var mouseWorldPos = _cam.ScreenToWorldPoint(pointerStayEventArgs.MousePosition);
-            var hoverTrait = TraitAccessor.WorldPosToTrait(mouseWorldPos);
-            if (hoverTrait == _currentHighlightedTrait) {
-                return;
-            }
-            Hide();
-            ClearHoverCache();
-            if (!hoverTrait.HasValue) { // Hex.Zero returns null so we first hide and then return
-                return;
-            }
-            if (!_currentSP.DecidingTraits.ContainsKey(hoverTrait.Value)) {
-                return;
-            }
-            CacheHoverData(hoverTrait.Value);
-            Show();
         }
 
         private void CacheHoverData(ETrait hoverTrait) {
@@ -127,26 +107,7 @@ namespace Main.MyHexBoardSystem.UI.TraitHover {
             _currentPositive.Clear();
             _currentNegative.Clear();
         }
-
-        private void OnTileRemoved(EventArgs eventArgs) {
-            if (eventArgs is not OnTileModifyEventArgs tileEventArgs) {
-                return;
-            }
-
-            Hide();
-            ClearHoverCache();
-        }
         
-        private void OnTileAdded(EventArgs eventArgs) {
-            if (eventArgs is not OnTileModifyEventArgs tileEventArgs) {
-                return;
-            }
-
-            if (_currentHighlightedTrait.HasValue) {
-                Refresh();
-            }
-        }
-
         private void OnInitStory(EventArgs args) {
             if (args is not StoryEventArgs storyEventArgs) {
                 return;
@@ -181,12 +142,6 @@ namespace Main.MyHexBoardSystem.UI.TraitHover {
             foreach (var t in _currentNegative) {
                 TraitAccessor.SetTiles(t, null, BoardConstants.SPEffectHoverTileLayer);
             }
-        }
-
-        private void Refresh() {
-            Hide();
-            // not clearing cache
-            Show();
         }
     }
 }

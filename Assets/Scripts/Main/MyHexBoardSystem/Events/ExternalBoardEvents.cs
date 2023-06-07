@@ -16,6 +16,7 @@ namespace Main.MyHexBoardSystem.Events {
         
         public const string OnBoardBroadCast = "Board_OnBoardBroadCast";
 
+        public const string OnTraitCompassHide = "Board_OnTraitCompassHide";
         public const string OnTraitCompassEnter = "Board_OnTraitCompassEnter";
         public const string OnTraitCompassExit = "Board_OnTraitCompassExit";
         
@@ -91,10 +92,10 @@ namespace Main.MyHexBoardSystem.Events {
     }
 
     public class TraitCompassHoverEventArgs : EventArgs {
-        public ETrait highlightedTrait;
+        public ETrait? HighlightedTrait;
 
-        public TraitCompassHoverEventArgs(ETrait trait) {
-            highlightedTrait = trait;
+        public TraitCompassHoverEventArgs(ETrait? trait) {
+            HighlightedTrait = trait;
         }
     }
 }

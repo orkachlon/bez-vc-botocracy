@@ -92,3 +92,4 @@ MonoBehaviour:
   trait: 0
   highlightColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
