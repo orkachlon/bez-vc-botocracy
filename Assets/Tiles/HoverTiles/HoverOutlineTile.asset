@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HoverOutlineTile
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: -1919046330, guid: c261ce758905eef41a39556fd30364e9, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_Transform:
     e00: 1
     e01: 0
