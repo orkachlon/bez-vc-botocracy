@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Core.EventSystem;
 using Main.MyHexBoardSystem.Events;
 using Main.Traits;
@@ -12,9 +13,13 @@ namespace Main.MyHexBoardSystem.UI {
 
         [Header("Visuals"), SerializeField] private ETrait trait;
         [SerializeField] private TextMeshProUGUI textField;
+        [SerializeField] private Color highlightColor;
+
+        private Color _baseColor;
 
         private void Awake() {
             SetText(0);
+            _baseColor = textField.color;
         }
 
         private void OnEnable() {
@@ -30,10 +35,24 @@ namespace Main.MyHexBoardSystem.UI {
                 return;
             }
             SetText(args.ElementsController.GetTraitCount(trait));
+            if (args.ElementsController.GetMaxTrait().Contains(trait)) {
+                Highlight();
+            }
+            else {
+                Lowlight();
+            }
         }
 
         private void SetText(int amount) {
             textField.text = $"{amount}\n{trait}";
+        }
+
+        private void Highlight() {
+            textField.faceColor = highlightColor;
+        }
+
+        private void Lowlight() {
+            textField.faceColor = _baseColor;
         }
     }
 }

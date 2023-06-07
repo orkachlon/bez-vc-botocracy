@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem.Board;
 using Main.MyHexBoardSystem.BoardElements;
@@ -66,12 +67,14 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             }
         }
 
-        private void RemoveTilesFromTrait(ETrait trait, int amount) {
+        private async void RemoveTilesFromTrait(ETrait trait, int amount) {
             for(var i = 0; i < amount; i++) {
                 if (!RemoveTraitTile(trait)) {
                     // lose game
                     boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));
                 }
+
+                await Task.Delay(100);
             }
         }
         
@@ -92,9 +95,10 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             return !isLastHex;
         }
 
-        private void AddTilesToTrait(ETrait trait, int amount) {
+        private async void AddTilesToTrait(ETrait trait, int amount) {
             for (var i = 0; i < amount; i++) {
                 AddTileToTrait(trait);
+                await Task.Delay(100);
             }
         }
         

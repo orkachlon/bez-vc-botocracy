@@ -1772,6 +1772,7 @@ MonoBehaviour:
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   trait: 3
   textField: {fileID: 735814914}
+  highlightColor: {r: 0.8980392, g: 0.8156863, b: 0.43529412, a: 1}
 --- !u!1 &752548006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2101,7 +2102,7 @@ Tilemap:
   - first: {x: 3, y: -4, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 19
       m_TileMatrixIndex: 4
       m_TileColorIndex: 6
@@ -2171,7 +2172,7 @@ Tilemap:
   - first: {x: 2, y: -3, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 16
       m_TileMatrixIndex: 5
       m_TileColorIndex: 6
@@ -2181,7 +2182,7 @@ Tilemap:
   - first: {x: 3, y: -3, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 16
       m_TileMatrixIndex: 0
       m_TileColorIndex: 6
@@ -2251,7 +2252,7 @@ Tilemap:
   - first: {x: 2, y: -2, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 16
       m_TileMatrixIndex: 5
       m_TileColorIndex: 6
@@ -2261,7 +2262,7 @@ Tilemap:
   - first: {x: 3, y: -2, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 20
       m_TileMatrixIndex: 0
       m_TileColorIndex: 6
@@ -2271,7 +2272,7 @@ Tilemap:
   - first: {x: 4, y: -2, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 16
       m_TileMatrixIndex: 0
       m_TileColorIndex: 6
@@ -2341,7 +2342,7 @@ Tilemap:
   - first: {x: 1, y: -1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 16
       m_TileMatrixIndex: 5
       m_TileColorIndex: 6
@@ -2351,7 +2352,7 @@ Tilemap:
   - first: {x: 2, y: -1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 20
       m_TileMatrixIndex: 0
       m_TileColorIndex: 6
@@ -2361,7 +2362,7 @@ Tilemap:
   - first: {x: 3, y: -1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 20
       m_TileMatrixIndex: 0
       m_TileColorIndex: 6
@@ -2371,7 +2372,7 @@ Tilemap:
   - first: {x: 4, y: -1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 16
       m_TileMatrixIndex: 0
       m_TileColorIndex: 6
@@ -2441,7 +2442,7 @@ Tilemap:
   - first: {x: 1, y: 0, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 19
       m_TileMatrixIndex: 2
       m_TileColorIndex: 6
@@ -2451,7 +2452,7 @@ Tilemap:
   - first: {x: 2, y: 0, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 16
       m_TileMatrixIndex: 6
       m_TileColorIndex: 6
@@ -2461,7 +2462,7 @@ Tilemap:
   - first: {x: 3, y: 0, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 16
       m_TileMatrixIndex: 6
       m_TileColorIndex: 6
@@ -2471,7 +2472,7 @@ Tilemap:
   - first: {x: 4, y: 0, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 16
       m_TileMatrixIndex: 6
       m_TileColorIndex: 6
@@ -2481,7 +2482,7 @@ Tilemap:
   - first: {x: 5, y: 0, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
+      m_TileIndex: 3
       m_TileSpriteIndex: 19
       m_TileMatrixIndex: 3
       m_TileColorIndex: 6
@@ -2896,15 +2897,15 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 2808d625ea80314438181f51e52ac5b9, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 15
+    m_Data: {fileID: 11400000, guid: cbd93ddef94d1d84c991bbee8d4ae071, type: 2}
   - m_RefCount: 15
     m_Data: {fileID: 11400000, guid: 8b44bce4017965844b9a609ca2d5edd6, type: 2}
   - m_RefCount: 15
     m_Data: {fileID: 11400000, guid: 116ac56c5b8e4984abf8fd6c14109b09, type: 2}
   - m_RefCount: 15
     m_Data: {fileID: 11400000, guid: dc2957a95fe6f9440a270d7da9156bb0, type: 2}
-  - m_RefCount: 30
+  - m_RefCount: 15
     m_Data: {fileID: 11400000, guid: 43947d5679ed35c4ba539315d9c89518, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 0
@@ -3650,6 +3651,7 @@ MonoBehaviour:
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   trait: 2
   textField: {fileID: 1082466030}
+  highlightColor: {r: 0.8980392, g: 0.8156863, b: 0.43529412, a: 1}
 --- !u!224 &1136230835 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8630538136859855886, guid: 0bb86d3962de24e4fb346e88057b029d, type: 3}
@@ -4265,6 +4267,7 @@ MonoBehaviour:
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   trait: 5
   textField: {fileID: 1214009809}
+  highlightColor: {r: 0.8980392, g: 0.8156863, b: 0.43529412, a: 1}
 --- !u!1 &1225651724
 GameObject:
   m_ObjectHideFlags: 0
@@ -4526,6 +4529,7 @@ MonoBehaviour:
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   trait: 4
   textField: {fileID: 1330746253}
+  highlightColor: {r: 0.8980392, g: 0.8156863, b: 0.43529412, a: 1}
 --- !u!1001 &1397659071
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6478,6 +6482,7 @@ MonoBehaviour:
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   trait: 0
   textField: {fileID: 1641581102}
+  highlightColor: {r: 0.8980392, g: 0.8156863, b: 0.43529412, a: 1}
 --- !u!1 &1648069766
 GameObject:
   m_ObjectHideFlags: 0
@@ -7319,6 +7324,7 @@ MonoBehaviour:
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   trait: 1
   textField: {fileID: 1795018048}
+  highlightColor: {r: 0.8962264, g: 0.8158844, b: 0.43683988, a: 1}
 --- !u!1 &1803447949 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5589631878319523306, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
