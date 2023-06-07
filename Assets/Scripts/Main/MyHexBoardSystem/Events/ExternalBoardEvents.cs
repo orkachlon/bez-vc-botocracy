@@ -16,7 +16,8 @@ namespace Main.MyHexBoardSystem.Events {
         
         public const string OnBoardBroadCast = "Board_OnBoardBroadCast";
 
-        public const string OnBoardEffect = "Board_OnBoardEffect";
+        public const string OnTraitCompassEnter = "Board_OnTraitCompassEnter";
+        public const string OnTraitCompassExit = "Board_OnTraitCompassExit";
         
         // by click
         public const string OnPlaceElement = "Board_OnPlaceElement";
@@ -86,6 +87,14 @@ namespace Main.MyHexBoardSystem.Events {
         public ETrait Trait;
         public TraitOutOfTilesEventArgs(ETrait trait) {
             Trait = trait;
+        }
+    }
+
+    public class TraitCompassHoverEventArgs : EventArgs {
+        public ETrait highlightedTrait;
+
+        public TraitCompassHoverEventArgs(ETrait trait) {
+            highlightedTrait = trait;
         }
     }
 }

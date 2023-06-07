@@ -16,11 +16,9 @@ namespace Main.Controls {
 
         private void LateUpdate() {
             
-            // When LMB clicked get mouse click position and set panning to true
-            if (Input.GetKey(KeyCode.Mouse2))
-            {
-                if (_mouseClickPos == default)
-                {
+            // When RMB clicked get mouse click position and set panning to true
+            if (Input.GetKey(KeyCode.Mouse1)) {
+                if (_mouseClickPos == default) {
                     _mouseClickPos = _camera.ScreenToWorldPoint(Input.mousePosition);
                 }
  
@@ -29,9 +27,10 @@ namespace Main.Controls {
                 transform.position += new Vector3(-distance.x, -distance.y, 0);
             }
  
-            // If LMB is released, stop moving the camera
-            if (Input.GetKeyUp(KeyCode.Mouse2))
+            // If RMB is released, stop moving the camera
+            if (Input.GetKeyUp(KeyCode.Mouse1)) {
                 _mouseClickPos = default;
+            }
         }
     }
 }

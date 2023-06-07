@@ -30,7 +30,7 @@ namespace Main.MyHexBoardSystem.UI.TraitHover {
 
         [SerializeField] private SEventManager storyEventManager;
 
-        public ITraitAccessor TraitAccessor { get; private set; }
+        private ITraitAccessor TraitAccessor { get; set; }
         private Camera _cam;
 
         private ETrait? _currentHighlightedTrait;
@@ -47,20 +47,14 @@ namespace Main.MyHexBoardSystem.UI.TraitHover {
         }
 
         private void OnEnable() {
-            boardEventManager.Register(ExternalBoardEvents.OnPointerEnter, OnShow);
-            boardEventManager.Register(ExternalBoardEvents.OnPointerStay, OnUpdatePosition);
-            boardEventManager.Register(ExternalBoardEvents.OnPointerExit, OnHide);
-            boardEventManager.Register(ExternalBoardEvents.OnAddTile, OnTileAdded);
-            boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
+            boardEventManager.Register(ExternalBoardEvents.OnTraitCompassEnter, OnShow);
+            boardEventManager.Register(ExternalBoardEvents.OnTraitCompassExit, OnHide);
             storyEventManager.Register(StoryEvents.OnInitStory, OnInitStory);
         }
 
         private void OnDisable() {
-            boardEventManager.Unregister(ExternalBoardEvents.OnPointerEnter, OnShow);
-            boardEventManager.Unregister(ExternalBoardEvents.OnPointerStay, OnUpdatePosition);
-            boardEventManager.Unregister(ExternalBoardEvents.OnPointerExit, OnHide);
-            boardEventManager.Unregister(ExternalBoardEvents.OnAddTile, OnTileAdded);
-            boardEventManager.Unregister(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
+            boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassEnter, OnShow);
+            boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassExit, OnHide);
             storyEventManager.Unregister(StoryEvents.OnInitStory, OnInitStory);
         }
 
@@ -69,22 +63,19 @@ namespace Main.MyHexBoardSystem.UI.TraitHover {
         #region EventHandlers
 
         private void OnShow(EventArgs eventData) {
-            if (eventData is not OnBoardInputEventArgs inputEventArgs ||
+            if (eventData is not TraitCompassHoverEventArgs traitHoverArgs ||
                 // when board is disabled don't show this effect
                 ENeuronType.Undefined.Equals(currentNeuron.Type) ||
                 _currentSP == null) {
                 return;
             }
-            
-            // get mouse world pos
-            var mouseWorldPos = _cam.ScreenToWorldPoint(inputEventArgs.EventData.position);
-            // figure out which trait the hex is in
-            var hoverTrait = TraitAccessor.WorldPosToTrait(mouseWorldPos);
+
+            var hoverTrait = traitHoverArgs.highlightedTrait;
             // only highlight deciding traits
-            if (!hoverTrait.HasValue || !_currentSP.DecidingTraits.ContainsKey(hoverTrait.Value)) {
+            if (!_currentSP.DecidingTraits.ContainsKey(hoverTrait)) {
                 return;
             }
-            CacheHoverData(hoverTrait.Value);
+            CacheHoverData(hoverTrait);
             Show();
         }
 
