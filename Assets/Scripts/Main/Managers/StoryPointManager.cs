@@ -1,6 +1,6 @@
 ﻿using System;
 using Core.EventSystem;
-using Main.MyHexBoardSystem.BoardElements;
+using Core.Utils;
 using Main.MyHexBoardSystem.Events;
 using Main.StoryPoints;
 using Main.StoryPoints.Interfaces;
@@ -8,7 +8,7 @@ using Main.StoryPoints.SPProviders;
 using UnityEngine;
 
 namespace Main.Managers {
-    public class StoryPointManager : MonoBehaviour, IGameStateResponder {
+    public class StoryPointManager : MonoBehaviour {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
@@ -27,53 +27,35 @@ namespace Main.Managers {
         }
 
         private void OnEnable() {
-            gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
+            storyEventManager.Register(StoryEvents.OnEvaluate, StoryTurn);
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
         private void OnDisable() {
-            gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
+            storyEventManager.Unregister(StoryEvents.OnEvaluate, StoryTurn);
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
         #endregion
 
-        public void HandleAfterGameStateChanged(GameState state, EventArgs customArgs = null) {
-            if (state != GameState.StoryTurn) {
-                return;
-            }
-
-            if (customArgs is OnBoardStateBroadcastEventArgs boardState) {
-                StoryTurn(boardState.ElementsController);
-            }
-
-            storyEventManager.Raise(StoryEvents.OnStoryTurn, EventArgs.Empty);
-        }
-
         private void Init(EventArgs obj) {
             NextStoryPoint();
         }
 
-        private void StoryTurn(IBoardNeuronsController elementsController) {
-            // first SP
-            if (_currentStory == null) {
-                NextStoryPoint();
+        private void StoryTurn(EventArgs eventArgs) {
+            if (eventArgs is not StoryEventArgs) {
                 return;
             }
-
-            // in the middle of SP
-            _currentStory.Decrement();
-            // SP reached evaluation
-            if (_currentStory.TurnsToEvaluation == 0) {
-                _currentStory.Evaluate(elementsController);
-                // current SP is done - next event
+            // first SP
+            if (_currentStory == null || _currentStory.Evaluated) {
                 NextStoryPoint();
             }
+            storyEventManager.Raise(StoryEvents.OnStoryTurn, EventArgs.Empty);
         }
 
         private void NextStoryPoint() {
             if (_spProvider.IsEmpty() && _currentStory.Evaluated) {
-                Debug.Log("No more story points in queue!");
+                MLogger.LogEditor("No more story points in queue!");
                 storyEventManager.Raise(StoryEvents.OnNoMoreStoryPoints, EventArgs.Empty);
                 return;
             }
@@ -85,16 +67,5 @@ namespace Main.Managers {
             _currentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
             _currentStory.InitData(storyPointData);
         }
-
-        #region EventHandlers
-
-        private void OnAfterGameState(EventArgs eventData) {
-            if (eventData is GameStateEventArgs stateData) {
-                HandleAfterGameStateChanged(stateData.State, stateData.CustomArgs);
-            }
-        }
-
-
-        #endregion
     }
 }

@@ -901,7 +901,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
-  neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  gmEventManager: {fileID: 11400000, guid: da5fbe8daab46c14780444ed40e883a7, type: 2}
 --- !u!114 &2095970892637761780
 MonoBehaviour:
   m_ObjectHideFlags: 0

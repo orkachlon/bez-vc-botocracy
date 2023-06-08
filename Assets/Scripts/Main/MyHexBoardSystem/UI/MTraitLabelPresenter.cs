@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Core.EventSystem;
-using DG.DemiEditor;
+using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.Events;
+using Main.StoryPoints;
+using Main.StoryPoints.SPProviders;
 using Main.Traits;
 using TMPro;
 using UnityEngine;
@@ -11,12 +13,15 @@ namespace Main.MyHexBoardSystem.UI {
     public class MTraitLabelPresenter : MonoBehaviour {
         [Header("Event Managers"), SerializeField]
         private SEventManager boardEventManager;
+        [SerializeField] private SEventManager storyEventManager;
 
         [Header("Visuals"), SerializeField] private ETrait trait;
         [SerializeField] private TextMeshProUGUI textField;
         [SerializeField] private Color highlightColor;
 
         private Color _baseColor;
+        private IBoardNeuronsController _neuronController;
+        private DecidingTraits _currentDecidingTraits;
 
         private void Awake() {
             SetText(0);
@@ -25,18 +30,35 @@ namespace Main.MyHexBoardSystem.UI {
 
         private void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateCounter);
+            storyEventManager.Register(StoryEvents.OnInitStory, SetIsDeciding);
         }
 
         private void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, UpdateCounter);
+            storyEventManager.Unregister(StoryEvents.OnInitStory, SetIsDeciding);
+        }
+
+        private void SetIsDeciding(EventArgs obj) {
+            if (obj is not StoryEventArgs storyEventArgs) {
+                return;
+            }
+
+            _currentDecidingTraits = storyEventArgs.Story.DecidingTraits;
+            UpdateHighlightState();
         }
 
         private void UpdateCounter(EventArgs eventArgs) {
             if (eventArgs is not OnBoardStateBroadcastEventArgs args) {
                 return;
             }
-            SetText(args.ElementsController.GetTraitCount(trait));
-            if (args.ElementsController.GetMaxTrait().Contains(trait)) {
+
+            _neuronController = args.ElementsController;
+            SetText(_neuronController.GetTraitCount(trait));
+            UpdateHighlightState();
+        }
+
+        private void UpdateHighlightState() {
+            if (IsCurrentlyDeciding() && IsMaxTrait()) {
                 Highlight();
             }
             else {
@@ -54,6 +76,14 @@ namespace Main.MyHexBoardSystem.UI {
 
         private void Lowlight() {
             textField.color = _baseColor;
+        }
+
+        private bool IsCurrentlyDeciding() {
+            return _currentDecidingTraits != null && _currentDecidingTraits.ContainsKey(trait);
+        }
+
+        private bool IsMaxTrait() {
+            return _neuronController != null && _neuronController.GetMaxTrait(_currentDecidingTraits.Keys).Contains(trait);
         }
     }
 }

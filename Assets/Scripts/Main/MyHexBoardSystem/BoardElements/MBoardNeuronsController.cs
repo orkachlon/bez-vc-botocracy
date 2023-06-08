@@ -78,6 +78,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             position.AddData(neuronData.Element);
             DispatchOnAddElement(neuronData.Element, GetCellCoordinate(neuronData.Hex));
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData); // ?
+            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new OnBoardStateBroadcastEventArgs(this));
         }
 
         public override bool AddElement(BoardNeuron element, Hex hex) {
@@ -114,6 +115,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             
             var eventData = new OnPlaceElementEventArgs<BoardNeuron>(element, hex);
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
+            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new OnBoardStateBroadcastEventArgs(this));
             return true;
         }
 
@@ -127,6 +129,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
                 return;
             }
             NeuronsPerTrait[trait.Value]--;
+            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new OnBoardStateBroadcastEventArgs(this));
         }
         
         public int GetTraitCount(ETrait trait) {

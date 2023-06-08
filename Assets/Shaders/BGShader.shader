@@ -43,7 +43,7 @@
                         return _ColorA;
                     }
                 } 
-                if (1.0/6.0 <= angle && angle <= 3.0/6.0 || 5.0/6.0 <= angle && angle < 1) {
+                if (1.0/6.0 <= angle && angle <= 3.0/6.0 || 5.0/6.0 <= angle && angle <= 1) {
                     return _ColorB;
                 }
                 return _ColorA;

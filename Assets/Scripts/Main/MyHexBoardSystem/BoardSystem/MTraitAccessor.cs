@@ -144,5 +144,12 @@ namespace Main.MyHexBoardSystem.BoardSystem {
                 _traitHexes[trait.Value].Add(hex);
             }
         }
+
+        public Hex[] GetEmptyTiles(ETrait trait) {
+            return TraitHexes[trait]
+                .Where(h => neuronsController.Board.HasPosition(h) && 
+                            !neuronsController.Board.GetPosition(h).HasData())
+                .ToArray();
+        }
     }
 }

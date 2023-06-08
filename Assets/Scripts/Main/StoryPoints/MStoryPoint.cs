@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Core.EventSystem;
+using Core.Utils;
+using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements;
-using Main.Neurons;
+using Main.MyHexBoardSystem.Events;
 using Main.StoryPoints.Interfaces;
 using Main.StoryPoints.SPProviders;
 using UnityEngine;
@@ -14,7 +17,8 @@ namespace Main.StoryPoints {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
-        [SerializeField] private SEventManager neuronEventManager;
+        [SerializeField] private SEventManager boardEventManager;
+        [SerializeField] private SEventManager gmEventManager;
 
         public string Description => _spData.description;
         public int TurnsToEvaluation { get; private set; }
@@ -25,7 +29,58 @@ namespace Main.StoryPoints {
 
         
         private StoryPointData _spData;
+        private IBoardNeuronsController _neuronsController;
+
+        #region UnityMethods
+
+        private void OnEnable() {
+            boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateBoardState);
+            gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
+        }
+
+        private void OnDisable() {
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, UpdateBoardState);
+            gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState);
+        }
+
+        public void Destroy() {
+            Destroy(gameObject);
+        }
+
+        #endregion
         
+        #region EventHandlers
+
+        private void OnAfterGameState(EventArgs obj) {
+            if (obj is not GameStateEventArgs {State: GameState.StoryTurn}) {
+                return;
+            }
+
+            HandleStoryTurn();
+        }
+
+        private void UpdateBoardState(EventArgs obj) {
+            if (obj is not OnBoardStateBroadcastEventArgs boardArgs) {
+                return;
+            }
+
+            _neuronsController = boardArgs.ElementsController;
+        }
+
+        #endregion
+
+        private void HandleStoryTurn() {
+            Decrement();
+            if (TurnsToEvaluation > 0) {
+                return;
+            }
+
+            if (_neuronsController == null) {
+                MLogger.LogEditor("Couldn't evaluate SP: board state dependency wasn't injected");
+                return;
+            }
+            Evaluate();
+        }
 
         public void InitData(StoryPointData spData) {
             // set data
@@ -36,33 +91,25 @@ namespace Main.StoryPoints {
             storyEventManager.Raise(StoryEvents.OnInitStory, new StoryEventArgs(this));
         }
 
-        public void Destroy() {
-            Destroy(gameObject);
-        }
-
-        public void Decrement() {
-#if UNITY_EDITOR
+        private void Decrement() {
             if (TurnsToEvaluation == 0) {
-                Debug.Log("Event turn counter < 0 !!!");
+                MLogger.LogEditor("Event turn counter < 0 !!!");
             }
-#endif
             TurnsToEvaluation--;
             storyEventManager.Raise(StoryEvents.OnDecrement, new StoryEventArgs(this));
         }
 
-        public void Evaluate(IBoardNeuronsController controller) {
+        private void Evaluate() {
             if (Evaluated) {
-#if UNITY_EDITOR
-                Debug.Log("Event already evaluated!");
+                MLogger.LogEditor("Event already evaluated!");
                 return;
-#endif
             }
             // shouldn't happen because we always have the first neuron
-            if (controller.CountNeurons == 0) {
+            if (_neuronsController.CountNeurons == 0) {
                 return;
             }
             
-            var maxTraits = controller.GetMaxTrait(DecidingTraits.Keys).ToArray();
+            var maxTraits = _neuronsController.GetMaxTrait(DecidingTraits.Keys).ToArray();
             var maxTrait = maxTraits[Random.Range(0, maxTraits.Length - 1)];
 
             DecisionEffects = new TraitDecisionEffects {
@@ -71,10 +118,17 @@ namespace Main.StoryPoints {
                 BoardEffect = DecidingTraits[maxTrait].BoardEffect
             };
             Evaluated = true;
+            storyEventManager.Raise(StoryEvents.OnEvaluate, new StoryEventArgs(this));
+            
+            // NEURON REWARDS HAS BEEN MOVED TO MNeuronRewarder.cs
+            // neuron reward
+            // var neuronReward = 0;
+            // foreach (var (trait, effect) in DecidingTraits[maxTrait].BoardEffect) {
+            //     neuronReward += controller.GetTraitCount(trait) * effect;
+            // }
 
             // dispatch events
-            storyEventManager.Raise(StoryEvents.OnEvaluate, new StoryEventArgs(this));
-            neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(Reward));
+            // neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(neuronReward));
 
         }
     }

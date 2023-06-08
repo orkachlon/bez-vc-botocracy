@@ -24,8 +24,7 @@ namespace Main.Neurons.NeuronQueue {
             neuronEventManager.Register(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Register(NeuronEvents.OnDequeueNeuron, OnDequeue);
         }
-
-
+        
         private void OnDestroy() {
             neuronEventManager.Unregister(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeue);
