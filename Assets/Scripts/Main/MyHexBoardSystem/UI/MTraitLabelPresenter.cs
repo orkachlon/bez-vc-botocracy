@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Core.EventSystem;
+using DG.DemiEditor;
 using Main.MyHexBoardSystem.Events;
 using Main.Traits;
 using TMPro;
@@ -48,11 +49,11 @@ namespace Main.MyHexBoardSystem.UI {
         }
 
         private void Highlight() {
-            textField.faceColor = highlightColor;
+            textField.color = highlightColor;
         }
 
         private void Lowlight() {
-            textField.faceColor = _baseColor;
+            textField.color = _baseColor;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Main.StoryPoints {
     public class MUIStoryPoint : MonoBehaviour {
         [Header("Visuals"), SerializeField] private TextMeshProUGUI description;
         [SerializeField] private TextMeshProUGUI turnCounter;
-        [SerializeField] private TextMeshProUGUI rewardText;
+        // [SerializeField] private TextMeshProUGUI rewardText;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
@@ -31,7 +31,7 @@ namespace Main.StoryPoints {
 
             var story = storyEventArgs.Story;
             description.text = story.Description;
-            UpdateRewardAmount(story.Reward);
+            // UpdateRewardAmount(story.Reward);
             UpdateTurnCounter(story.TurnsToEvaluation);
         }
 
@@ -46,11 +46,11 @@ namespace Main.StoryPoints {
         #endregion
 
         private void UpdateTurnCounter(int turns) {
-            turnCounter.text = $"Turns: {turns}";
+            turnCounter.text = $"{turns}";
         }
 
-        private void UpdateRewardAmount(int reward) {
-            rewardText.text = $"Reward: {reward}";
-        }
+        // private void UpdateRewardAmount(int reward) {
+            // rewardText.text = $"Reward: {reward}";
+        // }
     }
 }
