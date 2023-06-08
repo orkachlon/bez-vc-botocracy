@@ -38,7 +38,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 150, y: 120}
+  m_AnchoredPosition: {x: 50, y: 50}
   m_SizeDelta: {x: 863.41943, y: 461.57288}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &832328189
@@ -916,7 +916,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: {fileID: 1104837736630167951}
   turnCounter: {fileID: 2200908992639875707}
-  rewardText: {fileID: 0}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!1 &7216911643145633279
 GameObject:
