@@ -11,7 +11,7 @@ namespace ExternBoardSystem.BoardElements.Example.Creature {
             return new BoardCreature(this);
         }
 
-        public Sprite GetArtwork() {
+        public Sprite GetBoardArtwork() {
             return artwork;
         }
 

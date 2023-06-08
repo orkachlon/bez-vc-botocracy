@@ -1,86 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.EventSystem;
-using ExternBoardSystem.Tools;
-using Main.MyHexBoardSystem.BoardElements.Neuron;
+using Main.Neurons.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Main.Neurons.NeuronQueue {
     public class MUINeuronQueue : MonoBehaviour {
 
+        [SerializeField] private NeuronQueueController controller;
+        [SerializeField, Range(3, 10)] private int neuronsToShow = 7;
+        [SerializeField] private TextMeshProUGUI neuronCountDisplay;
+        [SerializeField] private VerticalLayoutGroup stack, stackParent;
+        [SerializeField] private MUINeuron uiNeuronPrefab;
+        
         [Header("Event Managers"), SerializeField]
         private SEventManager neuronEventManager;
         
-        [SerializeField] private NeuronQueueController controller;
-        [SerializeField] private float neuronSpacing;
-        [SerializeField] private int neuronsToShow = 5;
 
-        [SerializeField] private TextMeshPro neuronCountDisplay;
-
-        private readonly Dictionary<BoardNeuron, MUIBoardNeuron> _registerUiElements = new();
+        private readonly List<MUINeuron> _registerUiElements = new ();
 
         private void Awake() {
+            InitializeEmptyQueue();
+        }
+
+        private void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Register(NeuronEvents.OnDequeueNeuron, OnDequeue);
         }
-        
-        private void OnDestroy() {
+
+        private void OnDisable() {
             neuronEventManager.Unregister(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeue);
         }
 
-        private void OnEnqueue(BoardNeuron neuron) {
+        private void InitializeEmptyQueue() {
+            for (var i = 0; i < 3; i++) {
+                var model = Instantiate(uiNeuronPrefab, stackParent.transform, true);
+                _registerUiElements.Add(model);
+                model.transform.SetSiblingIndex(i);
+                model.SetPlaceInQueue(neuronsToShow - 1 - i);
+                model.gameObject.SetActive(false);
+            }
+
+            for (var i = 0; i < neuronsToShow - 3; i++) {
+                var model = Instantiate(uiNeuronPrefab, stack.transform, true);
+                _registerUiElements.Add(model);
+                model.transform.SetSiblingIndex(i);
+                model.SetPlaceInQueue(neuronsToShow - 4 - i);
+                model.gameObject.SetActive(false);
+            }
+        }
+
+        private void OnEnqueue(Neuron neuron) {
             neuronCountDisplay.text = $"{controller.Count}";
-            if (_registerUiElements.Count >= neuronsToShow) {
+            if (_registerUiElements.All(n => n.gameObject.activeInHierarchy)) {
                 return;
             }
+            
             ShowNeuron(neuron);
         }
-        
-        private void OnDequeue(BoardNeuron neuron) {
-            neuronCountDisplay.text = $"{controller.Count}";
-            // release the dequeued neuron ?
-            MObjectPooler.Instance.Release(_registerUiElements[neuron].gameObject);
-            _registerUiElements.Remove(neuron);
 
-            // shift neurons
-            foreach (var n in _registerUiElements.Values) {
-                n.transform.position += Vector3.left * neuronSpacing;
-            }
-            
+        private void OnDequeue(Neuron neuron) {
+            neuronCountDisplay.text = $"{controller.Count}";
+            ShiftNeuronsInQueue();
+
             // show the next neuron in queue
-            if (_registerUiElements.Count >= neuronsToShow)
-                return;
-            
             var lastNeuron = controller.Peek(neuronsToShow - 1);
             
             // we have less than 'neuronsToShow' neurons
             if (lastNeuron == null) {
                 return;
             }
-            
             ShowNeuron(lastNeuron);
         }
 
-        private void ShowNeuron(BoardNeuron neuron) {
-            var uiElement = MObjectPooler.Instance.Get<MUIBoardNeuron>(neuron.DataProvider.GetModel().gameObject);
+        private void ShowNeuron(Neuron neuron) {
+            var uiElement = _registerUiElements.First(n => !n.gameObject.activeInHierarchy);
+            uiElement.gameObject.SetActive(true);
+            neuron.UIState = ENeuronUIState.Stack;
             uiElement.SetRuntimeElementData(neuron);
-            uiElement.SetWorldPosition(transform.position + Vector3.right * (_registerUiElements.Count * neuronSpacing));
-            _registerUiElements.Add(neuron, uiElement);
+        }
+
+        private void ShiftNeuronsInQueue() {
+            for (var i = 0; i < _registerUiElements.Count - 1; i++) {
+                var uin = _registerUiElements[i];
+                var nextUin = _registerUiElements[i + 1];
+                if (i < 3) {
+                    nextUin.RuntimeData.UIState = (ENeuronUIState) i;
+                }
+                else {
+                    nextUin.RuntimeData.UIState = ENeuronUIState.Stack;
+                }
+                uin.SetRuntimeElementData(nextUin.RuntimeData);
+            }
+            _registerUiElements[^1].gameObject.SetActive(false);
         }
 
         #region EventHandlers
 
         private void OnEnqueue(EventArgs eventData) {
-            if (eventData is NeuronEventArgs neuronData) {
-                OnEnqueue(neuronData.Neuron);
+            if (eventData is UINeuronEventArgs neuronData) {
+                OnEnqueue(neuronData.UINeuron);
             }
         }
         
         private void OnDequeue(EventArgs eventData) {
-            if (eventData is NeuronEventArgs neuronData) {
-                OnDequeue(neuronData.Neuron);
+            if (eventData is UINeuronEventArgs neuronData) {
+                OnDequeue(neuronData.UINeuron);
             }
         }
 

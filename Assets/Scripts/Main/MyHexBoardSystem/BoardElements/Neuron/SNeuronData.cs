@@ -1,7 +1,7 @@
 ﻿using System;
 using ExternBoardSystem.BoardElements;
-using Main.MyHexBoardSystem.UI;
 using Main.Neurons;
+using Main.Neurons.UI;
 using UnityEngine;
 
 namespace Main.MyHexBoardSystem.BoardElements.Neuron {
@@ -13,17 +13,21 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
             get => neuronType;
             set => neuronType = value;
         }
+
         
-        [Header("Sprite")]
-        [SerializeField] private Sprite artwork;
+        [Header("Sprites"), SerializeField] private Sprite boardArtwork;
+        [SerializeField] private Sprite UIStackArtwork;
+        [SerializeField] private Sprite UIThirdArtwork;
+        [SerializeField] private Sprite UISecondArtwork;
+        [SerializeField] private Sprite UIFirstArtwork;
         
-        [Header("Pooling Model")]
-        [SerializeField] private MUIBoardNeuron model;
+        [Header("Prefab  Models"), SerializeField] private MUIBoardNeuron boardModel;
+        [Header("UI Model"), SerializeField] private MUINeuron UIModel;
 
         public void SetData(SNeuronData other) {
             Type = other.Type;
-            artwork = other.artwork;
-            model = other.model;
+            boardArtwork = other.boardArtwork;
+            boardModel = other.boardModel;
         }
 
         public BoardNeuron GetElement() {
@@ -31,12 +35,28 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
         }
 
         public MUIBoardNeuron GetModel() {
-            return model;
+            return boardModel;
         }
 
-        public Sprite GetArtwork() {
-            return artwork;
+        public MUINeuron GetUIModel() {
+            return UIModel;
         }
+
+        public Sprite GetBoardArtwork() {
+            return boardArtwork;
+        }
+
+        public Sprite GetUIArtwork(ENeuronUIState uiState) {
+            return uiState switch {
+                ENeuronUIState.Stack => UIStackArtwork,
+                ENeuronUIState.Third => UIThirdArtwork,
+                ENeuronUIState.Second => UISecondArtwork,
+                ENeuronUIState.First => UIFirstArtwork,
+                _ => throw new ArgumentOutOfRangeException(nameof(uiState), uiState, null)
+            };
+        }
+
+        #region ActivationFunctions
 
         public Action<IBoardElementsController<BoardNeuron>, Vector3Int> GetActivation() {
             return Type switch {
@@ -68,6 +88,8 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
                 elementsController.RemoveElement(neighbour);
             }
         }
+
+        #endregion
 
         public override string ToString() {
             return $"{neuronType}";

@@ -55,7 +55,7 @@ namespace Main.Managers {
         }
 
         private void OnDequeueNeuron(EventArgs eventParams) {
-            if (eventParams is NeuronEventArgs data) {
+            if (eventParams is BoardNeuronEventArgs data) {
                 NextNeuron(data.Neuron);
             }
         }
@@ -70,7 +70,7 @@ namespace Main.Managers {
         #endregion
 
         private void NextNeuron(BoardNeuron nextNeuron) {
-            neuronEvents.Raise(NeuronEvents.OnNeuronPlaced, new NeuronEventArgs(CurrentNeuron));
+            neuronEvents.Raise(NeuronEvents.OnNeuronPlaced, new BoardNeuronEventArgs(CurrentNeuron));
             
             CurrentNeuron = nextNeuron;
             if (CurrentNeuron == null) {

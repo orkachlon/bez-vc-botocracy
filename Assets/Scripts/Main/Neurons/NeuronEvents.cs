@@ -16,15 +16,27 @@ namespace Main.Neurons {
         public const string OnRewardTilePicked = "Neurons_OnRewardTilePicked";
     }
 
-    public class NeuronEventArgs : EventArgs {
+    public class BoardNeuronEventArgs : EventArgs {
         public readonly BoardNeuron Neuron;
 
-        public NeuronEventArgs(BoardNeuron neuron) {
+        public BoardNeuronEventArgs(BoardNeuron neuron) {
             Neuron = neuron;
         }
         
-        public NeuronEventArgs() {
+        public BoardNeuronEventArgs() {
             Neuron = null;
+        }
+    }
+
+    public class UINeuronEventArgs : BoardNeuronEventArgs {
+        public readonly Neuron UINeuron;
+
+        public UINeuronEventArgs(Neuron uiNeuron) : base(new BoardNeuron(uiNeuron.DataProvider)){
+            UINeuron = uiNeuron;
+        }
+
+        public UINeuronEventArgs() {
+            UINeuron = null;
         }
     }
 

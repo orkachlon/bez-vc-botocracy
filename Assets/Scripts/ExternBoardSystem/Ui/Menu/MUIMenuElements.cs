@@ -37,12 +37,12 @@ namespace ExternBoardSystem.Ui.Menu
 
         private void BindArtwork()
         {
-            jellyfishButton.image.sprite = jellyfish.GetArtwork();
-            octopusButton.image.sprite = octopus.GetArtwork();
-            turtleButton.image.sprite = turtle.GetArtwork();
-            bananaButton.image.sprite = banana.GetArtwork();
-            appleButton.image.sprite = apple.GetArtwork();
-            grapeButton.image.sprite = grape.GetArtwork();
+            jellyfishButton.image.sprite = jellyfish.GetBoardArtwork();
+            octopusButton.image.sprite = octopus.GetBoardArtwork();
+            turtleButton.image.sprite = turtle.GetBoardArtwork();
+            bananaButton.image.sprite = banana.GetBoardArtwork();
+            appleButton.image.sprite = apple.GetBoardArtwork();
+            grapeButton.image.sprite = grape.GetBoardArtwork();
         }
 
         private void BindClickEvents()

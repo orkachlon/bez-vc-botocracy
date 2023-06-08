@@ -22,6 +22,6 @@ namespace ExternBoardSystem.BoardElements
     public interface IElementDataProvider<out TElement, out TUIElement> where TElement : BoardElement {
         TElement GetElement();
         TUIElement GetModel();
-        Sprite GetArtwork();
+        Sprite GetBoardArtwork();
     }
 }

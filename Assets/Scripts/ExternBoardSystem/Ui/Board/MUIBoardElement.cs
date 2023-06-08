@@ -28,7 +28,7 @@ namespace ExternBoardSystem.Ui.Board {
         }
 
         protected virtual void UpdateView() {
-            SpriteRenderer.sprite = RuntimeData.DataProvider.GetArtwork();
+            SpriteRenderer.sprite = RuntimeData.DataProvider.GetBoardArtwork();
         }
     }
 }
