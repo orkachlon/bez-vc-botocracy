@@ -32,6 +32,8 @@ namespace Main.MyHexBoardSystem.BoardElements {
         // For faster access to max trait
         private IDictionary<ETrait, int> NeuronsPerTrait { get; } = new Dictionary<ETrait, int>();
 
+        #region UnityMethods
+
         protected override void Awake() {
             base.Awake();
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
@@ -48,6 +50,8 @@ namespace Main.MyHexBoardSystem.BoardElements {
             externalEventManager.Unregister(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
             gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnBoardStateBroadcast);
         }
+
+        #endregion
 
         protected override void OnClickTile(Vector3Int cell) {
             var hex = GetHexCoordinate(cell);

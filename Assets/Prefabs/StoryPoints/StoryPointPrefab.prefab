@@ -39,7 +39,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 50, y: 50}
-  m_SizeDelta: {x: 863.41943, y: 461.57288}
+  m_SizeDelta: {x: 1076.9554, y: 575.7264}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &832328189
 CanvasRenderer:
@@ -345,7 +345,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 365.7536, y: 372.0878}
+  m_SizeDelta: {x: 405.7006, y: 404.2149}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7851008335004072122
 CanvasRenderer:
@@ -437,7 +437,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 338.3587, y: 372.09}
+  m_SizeDelta: {x: 435.4198, y: 404.21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3842335137139768442
 CanvasRenderer:
@@ -808,9 +808,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 45
+    m_Left: 80
     m_Right: 0
-    m_Top: 45
+    m_Top: 80
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -951,10 +951,10 @@ RectTransform:
   m_Father: {fileID: 7788316780726353590}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -4.2201e-10}
-  m_SizeDelta: {x: 382.2917, y: 382.2917}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2423197916808515812
 CanvasRenderer:
@@ -1005,6 +1005,7 @@ GameObject:
   - component: {fileID: 7798681706854352313}
   - component: {fileID: 8302061289498029650}
   - component: {fileID: 1104837736630167951}
+  - component: {fileID: 3358033036836283783}
   m_Layer: 5
   m_Name: SPText
   m_TagString: Untagged
@@ -1087,8 +1088,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1129,3 +1130,23 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3358033036836283783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551807184818645237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: 287.38
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1

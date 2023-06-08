@@ -3,7 +3,7 @@ using Core.EventSystem;
 using TMPro;
 using UnityEngine;
 
-namespace Main.StoryPoints {
+namespace Main.StoryPoints.UI {
     public class MUIStoryPoint : MonoBehaviour {
         [Header("Visuals"), SerializeField] private TextMeshProUGUI description;
         [SerializeField] private TextMeshProUGUI turnCounter;

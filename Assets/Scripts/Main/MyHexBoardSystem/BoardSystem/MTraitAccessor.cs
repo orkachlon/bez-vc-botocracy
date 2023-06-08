@@ -8,11 +8,10 @@ using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
+using Main.StoryPoints;
 using Main.Traits;
-using Main.Utils;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Random = UnityEngine.Random;
 
 
 namespace Main.MyHexBoardSystem.BoardSystem {
@@ -27,6 +26,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager boardEventManager;
+        [SerializeField] private SEventManager storyEventManager;
         
         // lazy
         private readonly Dictionary<ETrait, HashSet<Hex>> _traitHexes = new();
@@ -45,11 +45,13 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         #region UnityMethods
 
         private void OnEnable() {
+            storyEventManager.Register(StoryEvents.OnInitStory, CheckForFullBoard);
             boardEventManager.Register(ExternalBoardEvents.OnAddTile, OnAddTile);
             boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnRemoveTile);
         }
 
         private void OnDisable() {
+            storyEventManager.Unregister(StoryEvents.OnInitStory, CheckForFullBoard);
             boardEventManager.Unregister(ExternalBoardEvents.OnAddTile, OnAddTile);
             boardEventManager.Unregister(ExternalBoardEvents.OnRemoveTile, OnRemoveTile);
         }
@@ -106,6 +108,15 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         #endregion
 
         #region EventHandlers
+
+        private void CheckForFullBoard(EventArgs obj) {
+            if (TraitHexes.Keys
+                .All(t => TraitHexes[t]
+                    .All(h => neuronsController.Board.HasPosition(h) && 
+                              neuronsController.Board.GetPosition(h).HasData()))) {
+                boardEventManager.Raise(ExternalBoardEvents.OnBoardFull, EventArgs.Empty);
+            }
+        }
 
         private void OnAddTile(EventArgs eventArgs) {
             if (eventArgs is not OnTileModifyEventArgs tileModifyEventArgs) {

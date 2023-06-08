@@ -5,8 +5,6 @@ using Main.MyHexBoardSystem.BoardElements.Neuron;
 
 namespace Main.Neurons {
     public static class NeuronEvents {
-        public const string OnRewardTileReached = "Neurons_OnRewardTileReached";
-        public const string OnRewardTilePicked = "Neurons_OnRewardTilePicked";
         public const string OnNeuronPlaced = "Neurons_OnNeuronPlaced";
         public const string OnNoMoreNeurons = "Neurons_OnNoMoreNeurons";
         
@@ -14,6 +12,8 @@ namespace Main.Neurons {
         public const string OnEnqueueNeuron = "Neurons_OnEnqueueNeuron";
         public const string OnDequeueNeuron = "Neurons_OnDequeueNeuron";
         public const string OnRewardNeurons = "Neurons_OnRewardNeurons";
+        public const string OnRewardTileReached = "Neurons_OnRewardTileReached";
+        public const string OnRewardTilePicked = "Neurons_OnRewardTilePicked";
     }
 
     public class NeuronEventArgs : EventArgs {

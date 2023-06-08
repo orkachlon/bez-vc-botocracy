@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace Main.MyHexBoardSystem.Events {
     public static class ExternalBoardEvents {
+        public const string OnBoardFull = "Board_OnBoardFull";
         public const string OnRemoveTile = "Board_OnRemoveTile";
         public const string OnAddTile = "Board_OnAddTile";
 
@@ -15,6 +16,7 @@ namespace Main.MyHexBoardSystem.Events {
         
         public const string OnBoardBroadCast = "Board_OnBoardBroadCast";
 
+        // trait compass
         public const string OnTraitCompassHide = "Board_OnTraitCompassHide";
         public const string OnTraitCompassEnter = "Board_OnTraitCompassEnter";
         public const string OnTraitCompassExit = "Board_OnTraitCompassExit";

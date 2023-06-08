@@ -21,7 +21,7 @@ namespace Main.Managers {
             // todo should these be methods and unsubscribe on destroy?
             gmEventManager.Register(GameManagerEvents.OnGameLoopStart, e => ChangeState(GameState.PlayerTurn, e));
             neuronEventManager.Register(NeuronEvents.OnNeuronPlaced, e => ChangeState(GameState.StoryTurn, e));
-            // boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, e => ChangeState(GameState.StoryTurn, e));
+            boardEventManager.Register(ExternalBoardEvents.OnBoardFull, e => ChangeState(GameState.Lose, e));
             neuronEventManager.Register(NeuronEvents.OnNoMoreNeurons, e => ChangeState(GameState.Lose, e));
             storyEventManager.Register(StoryEvents.OnStoryTurn, e => ChangeState(GameState.PlayerTurn, e));
             storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, e => ChangeState(GameState.Win, e));
