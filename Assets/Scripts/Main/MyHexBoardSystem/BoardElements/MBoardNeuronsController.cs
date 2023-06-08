@@ -120,10 +120,10 @@ namespace Main.MyHexBoardSystem.BoardElements {
         }
 
         public override void RemoveElement(Hex hex) {
-            base.RemoveElement(hex);
             if (!Board.HasPosition(hex) || !Board.GetPosition(hex).HasData()) {
                 return;
             }
+            base.RemoveElement(hex);
             var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
             if (!trait.HasValue) {
                 return;
