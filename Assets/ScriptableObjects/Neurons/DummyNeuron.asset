@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DummyNeuron
   m_EditorClassIdentifier: 
   neuronType: 4
-  boardArtwork: {fileID: 21300000, guid: 937aa8807eaf5034fbef86f4d7c9a348, type: 3}
+  boardArtwork: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}
   UIStackArtwork: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}
   UIThirdArtwork: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}
   UISecondArtwork: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}

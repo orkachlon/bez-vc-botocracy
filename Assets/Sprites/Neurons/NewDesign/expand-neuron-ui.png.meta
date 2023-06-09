@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2eab4bf1a3719e24db1faee56dcca28d
+guid: bd33d22de780cf34cb08c1ca8fe6b062
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 192
-  spriteBorder: {x: 24, y: 0, z: 24, w: 24}
+  spriteBorder: {x: 24, y: 45, z: 24, w: 72}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -105,22 +105,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dummy-neuron-ui_0
+      name: expand-neuron-ui_0
       rect:
         serializedVersion: 2
-        x: 24
-        y: 0
-        width: 209
-        height: 233
+        x: 0
+        y: 45
+        width: 257
+        height: 228
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 23, y: 0, z: 24, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6bb7745cfc39a474b8c347d18969728f
-      internalID: -1155075034
+      spriteID: 79ea0e23813443f4d9de9c1f672c9a42
+      internalID: -757270668
       vertices: []
       indices: 
       edges: []
@@ -136,7 +136,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      dummy-neuron-ui_0: -1155075034
+      expand-neuron-ui_0: -757270668
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
