@@ -62,14 +62,14 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
             return Type switch {
                 ENeuronType.Expanding => ExpandNeuron,
                 ENeuronType.Exploding => ExplodeNeuron,
-                _ => (_, _) => { }
+                _ => null
             };
         }
 
         private static void ExpandNeuron(IBoardElementsController<BoardNeuron> elementsController, Vector3Int cell) {
             var neighbours = elementsController.Manipulator.GetNeighbours(cell);
             foreach (var neighbour in neighbours) {
-                if (elementsController.Board.GetPosition(neighbour).HasData())
+                if (!elementsController.Board.HasPosition(neighbour) || elementsController.Board.GetPosition(neighbour).HasData())
                     continue;
                 // expand to this hex
                 var newElement =
@@ -81,6 +81,9 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
         private static void ExplodeNeuron(IBoardElementsController<BoardNeuron> elementsController, Vector3Int cell) {
             var neighbours = elementsController.Manipulator.GetNeighbours(cell);
             foreach (var neighbour in neighbours) {
+                if (!elementsController.Board.HasPosition(neighbour)) {
+                    continue;
+                }
                 var neighbourPos = elementsController.Board.GetPosition(neighbour);
                 if (!neighbourPos.HasData() || ENeuronType.Invulnerable.Equals(neighbourPos.Data.DataProvider.Type))
                     continue;

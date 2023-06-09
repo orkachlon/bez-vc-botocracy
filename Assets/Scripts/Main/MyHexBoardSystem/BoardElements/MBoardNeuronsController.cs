@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
@@ -112,10 +113,13 @@ namespace Main.MyHexBoardSystem.BoardElements {
 
             position.AddData(element);
             NeuronsPerTrait[trait.Value]++;
-            element.DataProvider.GetActivation().Invoke(this, cell);
-            
-            // dispatch event
+            // dispatch inner event
             DispatchOnAddElement(element, cell);
+            
+            if (element.DataProvider.GetActivation() != null) {
+                element.DataProvider.GetActivation().Invoke(this, cell);
+                //     ActivateNeuron(element.DataProvider.GetActivation(), cell);
+            }
             
             var eventData = new OnPlaceElementEventArgs<BoardNeuron>(element, hex);
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
@@ -161,5 +165,9 @@ namespace Main.MyHexBoardSystem.BoardElements {
         }
 
         #endregion
+
+        private async void ActivateNeuron(Func<IBoardElementsController<BoardNeuron>,Vector3Int,Task> activation, Vector3Int cell) {
+            await activation.Invoke(this, cell);
+        }
     }
 }
