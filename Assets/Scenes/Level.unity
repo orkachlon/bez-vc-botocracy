@@ -1970,14 +1970,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a81264b789484c32bcf27cacf0dbc58a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxZoom: 0
-  minZoom: 0
-  zoomSpeed: 0.1
+  maxZoomIn: 3
+  maxZoomOut: 15
+  zoomSpeed: 30
 --- !u!1 &615794147
 GameObject:
   m_ObjectHideFlags: 0
@@ -5750,7 +5750,7 @@ Transform:
   m_GameObject: {fileID: 1209675624}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 36.46289, y: 21.264511, z: 1}
+  m_LocalScale: {x: 103.06601, y: 60.10627, z: 2.8266}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 655903660}
@@ -11575,11 +11575,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1927605572318816973, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 87.90335
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1927605572318816973, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2188692648715282050, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 116.89404
       objectReference: {fileID: 0}
     - target: {fileID: 2600771411153055064, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchorMax.y
