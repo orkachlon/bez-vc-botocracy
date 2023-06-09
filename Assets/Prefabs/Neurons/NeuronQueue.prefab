@@ -67,7 +67,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: -116
   m_ChildAlignment: 7
-  m_Spacing: -314.1
+  m_Spacing: -362
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -232,7 +232,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 7
-  m_Spacing: -346.4
+  m_Spacing: -389.49
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -567,7 +567,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 7
-  m_Spacing: -342.9
+  m_Spacing: -313.3
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -600,6 +600,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7596957820100421789, guid: 91d9a07677642314e97721ef65a31996, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e598e17c160c23645a6a49ebd1db003e, type: 3}
     - target: {fileID: 7821100136101001195, guid: 91d9a07677642314e97721ef65a31996, type: 3}
       propertyPath: m_Name
       value: UINeuron (4)
@@ -812,6 +816,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7596957820100421789, guid: 91d9a07677642314e97721ef65a31996, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7596957820100421789, guid: 91d9a07677642314e97721ef65a31996, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e598e17c160c23645a6a49ebd1db003e, type: 3}
     - target: {fileID: 7821100136101001195, guid: 91d9a07677642314e97721ef65a31996, type: 3}
       propertyPath: m_Name
       value: UINeuron (3)
@@ -918,6 +930,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7596957820100421789, guid: 91d9a07677642314e97721ef65a31996, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bd33d22de780cf34cb08c1ca8fe6b062, type: 3}
     - target: {fileID: 7821100136101001195, guid: 91d9a07677642314e97721ef65a31996, type: 3}
       propertyPath: m_Name
       value: UINeuron (5)
@@ -1130,10 +1146,6 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 7596957820100421789, guid: 91d9a07677642314e97721ef65a31996, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: bd33d22de780cf34cb08c1ca8fe6b062, type: 3}
     - target: {fileID: 7821100136101001195, guid: 91d9a07677642314e97721ef65a31996, type: 3}
       propertyPath: m_Name
       value: UINeuron

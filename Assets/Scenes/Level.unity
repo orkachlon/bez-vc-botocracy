@@ -8004,7 +8004,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 15
+      m_TileSpriteIndex: 16
       m_TileMatrixIndex: 0
       m_TileColorIndex: 3
       m_TileObjectToInstantiateIndex: 65535
@@ -8525,10 +8525,10 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 45
     m_Data: {fileID: -523898421, guid: 61ea47db324ade04a89a16ff26dc483a, type: 3}
-  - m_RefCount: 46
+  - m_RefCount: 45
     m_Data: {fileID: -641427171, guid: 24eab1ab5a45c5a4ebace3ac54c70200, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: -630139053, guid: 24eab1ab5a45c5a4ebace3ac54c70200, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 91
     m_Data:
@@ -11808,10 +11808,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3513153772679594873, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: e598e17c160c23645a6a49ebd1db003e, type: 3}
     - target: {fileID: 4494851188792914557, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
