@@ -16,10 +16,12 @@ namespace Main.StoryPoints.SPProviders {
     
     [Serializable]
     public struct StoryPointData {
+        public int id;
         public string description;
         public int reward;
         public int turnsToEvaluation;
         public DecidingTraits decidingTraits;
+        public int[] prerequisites;
     }
 
     #region Wrappers

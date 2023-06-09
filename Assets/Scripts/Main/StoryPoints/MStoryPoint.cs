@@ -20,6 +20,7 @@ namespace Main.StoryPoints {
         [SerializeField] private SEventManager boardEventManager;
         [SerializeField] private SEventManager gmEventManager;
 
+        public int Id => _spData.id;
         public string Description => _spData.description;
         public int TurnsToEvaluation { get; private set; }
         public int Reward => _spData.reward;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Core.EventSystem;
 using Core.Utils;
 using Main.MyHexBoardSystem.Events;
@@ -19,6 +20,8 @@ namespace Main.Managers {
         
         private IStoryPoint _currentStory;
         private ISPProvider _spProvider;
+
+        private readonly List<int> _completedSPs = new();
 
         #region UnityMethods
 
@@ -43,9 +46,11 @@ namespace Main.Managers {
         }
 
         private void StoryTurn(EventArgs eventArgs) {
-            if (eventArgs is not StoryEventArgs) {
+            if (eventArgs is not StoryEventArgs storyEventArgs) {
                 return;
             }
+            // add to completed SPs
+            _completedSPs.Add(storyEventArgs.Story.Id);
             // first SP
             if (_currentStory == null || _currentStory.Evaluated) {
                 NextStoryPoint();

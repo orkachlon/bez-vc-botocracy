@@ -89,6 +89,7 @@ namespace Main.StoryPoints.SPProviders {
 
         private StoryPointData TryParse(List<Dictionary<string, object>> entries) {
             var newSPData = new StoryPointData {
+                id = (int) entries[0][_header.id],
                 description = (string) entries[0][_header.description],
                 reward = (int) entries[0][_header.reward],
                 turnsToEvaluation = (int) entries[0][_header.turnsToEvaluation]
@@ -101,9 +102,24 @@ namespace Main.StoryPoints.SPProviders {
 
             newSPData.decidingTraits = decidingTraits;
 
+            // doesn't work yet. Delayed to later date
+            var prerequisites = GetPrerequisites(entries);
+            if (prerequisites != null) {
+                newSPData.prerequisites = prerequisites;
+            }
+
             return newSPData;
         }
-        
+
+        private int[] GetPrerequisites(List<Dictionary<string,object>> entries) {
+            var preString = (string) entries[0][_header.prerequisites];
+            if (string.IsNullOrEmpty(preString)) {
+                return null;
+            }
+
+            return null;
+        }
+
         private DecidingTraits GetDecidingTraits(List<Dictionary<string, object>> entries) {
             var deciders = new DecidingTraits();
             foreach (var entry in entries) {
