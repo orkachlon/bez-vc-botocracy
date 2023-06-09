@@ -66,13 +66,13 @@ namespace Main.MyHexBoardSystem.BoardElements {
             if (!AddElement(element, hex)) {
                 return;
             }
-            var eventData = new OnPlaceElementEventArgs<BoardNeuron>(element, hex);
+            var eventData = new BoardElementEventArgs<BoardNeuron>(element, hex);
             externalEventManager.Raise(ExternalBoardEvents.OnPlaceElement, eventData);
             // base.OnClickTile(cell);
         }
 
         public void OnSetFirstNeuron(EventArgs eventData) {
-            if (eventData is not OnPlaceElementEventArgs<BoardNeuron> neuronData) {
+            if (eventData is not BoardElementEventArgs<BoardNeuron> neuronData) {
                 return;
             }
             var position = Board.GetPosition(neuronData.Hex);
@@ -121,7 +121,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
                 //     ActivateNeuron(element.DataProvider.GetActivation(), cell);
             }
             
-            var eventData = new OnPlaceElementEventArgs<BoardNeuron>(element, hex);
+            var eventData = new BoardElementEventArgs<BoardNeuron>(element, hex);
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
             externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new OnBoardStateBroadcastEventArgs(this));
             return true;
@@ -131,12 +131,15 @@ namespace Main.MyHexBoardSystem.BoardElements {
             if (!Board.HasPosition(hex) || !Board.GetPosition(hex).HasData()) {
                 return;
             }
+
+            var element = Board.GetPosition(hex).Data;
             base.RemoveElement(hex);
             var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
             if (!trait.HasValue) {
                 return;
             }
             NeuronsPerTrait[trait.Value]--;
+            externalEventManager.Raise(ExternalBoardEvents.OnRemoveElement, new BoardElementEventArgs<BoardNeuron>(element, hex));
             externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new OnBoardStateBroadcastEventArgs(this));
         }
         

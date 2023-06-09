@@ -19,14 +19,16 @@ namespace Main.Neurons.Rewarder {
 
         private void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnRewardTilePicked, PlaceRewardTile);
-            neuronEventManager.Register(NeuronEvents.OnRewardTileReached, RemoveRewardTile);
+            // neuronEventManager.Register(NeuronEvents.OnRewardTileReached, RemoveRewardTile);
         }
 
         private void OnDisable() {
             neuronEventManager.Unregister(NeuronEvents.OnRewardTilePicked, PlaceRewardTile);
-            neuronEventManager.Unregister(NeuronEvents.OnRewardTileReached, RemoveRewardTile);
+            // neuronEventManager.Unregister(NeuronEvents.OnRewardTileReached, RemoveRewardTile);
         }
 
+        // tiles are automatically changed to pressed tiles when a neuron is placed on them.
+        // no need to change them from here.
         private void RemoveRewardTile(EventArgs obj) {
             if (obj is not RewardTileArgs rewardArgs) {
                 return;
@@ -43,7 +45,7 @@ namespace Main.Neurons.Rewarder {
                 MLogger.LogEditor($"Trait not found for hex {rewardArgs.RewardHex}");
                 return;
             }
-            boardController.SetTile(rewardArgs.RewardHex, boardController.GetTraitTileBase(trait.Value));
+            // boardController.SetTile(rewardArgs.RewardHex, boardController.GetTraitTileBase(trait.Value));
         }
 
         private void PlaceRewardTile(EventArgs obj) {

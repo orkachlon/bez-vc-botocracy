@@ -101,7 +101,7 @@ namespace Main.Neurons.NeuronQueue {
         #region EventHandlers
 
         private void OnBoardElementPlaced(EventArgs eventData) {
-            if (eventData is OnPlaceElementEventArgs<BoardNeuron> neuronEventData) {
+            if (eventData is BoardElementEventArgs<BoardNeuron> neuronEventData) {
                 Dequeue();
             }
         }

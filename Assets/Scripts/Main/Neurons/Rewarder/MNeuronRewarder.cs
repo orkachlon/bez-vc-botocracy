@@ -73,7 +73,7 @@ namespace Main.Neurons.Rewarder {
         }
 
         private void CheckForRewardTiles(EventArgs obj) {
-            if (obj is not OnPlaceElementEventArgs<BoardNeuron> addEventArgs) {
+            if (obj is not BoardElementEventArgs<BoardNeuron> addEventArgs) {
                 return;
             }
 

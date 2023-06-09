@@ -44,7 +44,7 @@ namespace Main.Managers {
             // place the initial neuron
             var invulnerableBoardNeuron = GetNeuron(ENeuronType.Invulnerable);
             currentNeuronData.SetData(invulnerableBoardNeuron.DataProvider);
-            var firstNeuronEventData = new OnPlaceElementEventArgs<BoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
+            var firstNeuronEventData = new BoardElementEventArgs<BoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
             boardEventManager.Raise(ExternalBoardEvents.OnSetFirstElement, firstNeuronEventData);
             gmEventManager.Raise(GameManagerEvents.OnGameLoopStart, EventArgs.Empty);
         }

@@ -19,6 +19,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         private SEventManager externalBoardEventManager;
 
         [Header("Tilemap"), SerializeField] private TraitTiles traitTileBases;
+        [SerializeField] private TraitTiles pressedTileBases;
         [SerializeField] private TraitTiles traitTileOutlines;
 
         protected override void CollectExistingTiles() {
@@ -38,6 +39,16 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         protected override void Start() {
             base.Start();
             externalBoardEventManager.Raise(ExternalBoardEvents.OnBoardSetupComplete, EventArgs.Empty);
+        }
+
+        private void OnEnable() {
+            externalBoardEventManager.Register(ExternalBoardEvents.OnAddElement, PressTile);
+            externalBoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, UnpressTile);
+        }
+
+        private void OnDisable() {
+            externalBoardEventManager.Unregister(ExternalBoardEvents.OnAddElement, PressTile);
+            externalBoardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, UnpressTile);
         }
 
         #endregion
@@ -82,7 +93,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         public Hex WorldPosToHex(Vector3 position) {
             return BoardManipulationOddR<BoardNeuron>.GetHexCoordinate(tilemapLayers[BoardConstants.BaseTilemapLayer].WorldToCell(position));
         }
-        
+
         public Vector3 HexToWorldPos(Hex hex) {
             return BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex);
         }
@@ -118,6 +129,46 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         }
 
         #endregion
+
+        private void PressTile(EventArgs obj) {
+            if (obj is not BoardElementEventArgs<BoardNeuron> neuronData) {
+                return;
+            }
+
+            if (!Board.HasPosition(neuronData.Hex)) {
+                return;
+            }
+            var dir = Manipulator.GetDirection(neuronData.Hex);
+            if (!dir.HasValue) {
+                return;
+            }
+
+            var trait = ITraitAccessor.DirectionToTrait(dir.Value);
+            if (!trait.HasValue) {
+                return;
+            }
+            SetTile(neuronData.Hex, pressedTileBases[trait.Value]);
+        }
+
+        private void UnpressTile(EventArgs obj) {
+            if (obj is not BoardElementEventArgs<BoardNeuron> neuronData) {
+                return;
+            }
+
+            if (!Board.HasPosition(neuronData.Hex)) {
+                return;
+            }
+            var dir = Manipulator.GetDirection(neuronData.Hex);
+            if (!dir.HasValue) {
+                return;
+            }
+
+            var trait = ITraitAccessor.DirectionToTrait(dir.Value);
+            if (!trait.HasValue) {
+                return;
+            }
+            SetTile(neuronData.Hex, traitTileBases[trait.Value]);
+        }
     }
     
     [Serializable]

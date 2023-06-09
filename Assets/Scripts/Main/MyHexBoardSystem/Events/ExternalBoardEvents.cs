@@ -43,11 +43,11 @@ namespace Main.MyHexBoardSystem.Events {
         public const string OnTraitOutOfTiles = "Board_OnTraitOutOfTiles";
     }
 
-    public class OnPlaceElementEventArgs<TElement> : EventArgs where TElement : BoardElement {
+    public class BoardElementEventArgs<TElement> : EventArgs where TElement : BoardElement {
         public readonly TElement Element;
         public Hex Hex;
 
-        public OnPlaceElementEventArgs(TElement element, Hex hex) {
+        public BoardElementEventArgs(TElement element, Hex hex) {
             Element = element;
             Hex = hex;
         }
