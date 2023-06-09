@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
-using Main.MyHexBoardSystem.BoardSystem;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
 using Main.StoryPoints;
@@ -37,12 +37,14 @@ namespace Main.Neurons.Rewarder {
         private void OnEnable() {
             // boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateEmptyTiles);
             boardEventManager.Register(ExternalBoardEvents.OnAddElement, CheckForRewardTiles);
+            boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
             storyEventManager.Register(StoryEvents.OnInitStory, PickRewardTilesRandomly);
         }
 
         private void OnDisable() {
             // boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, UpdateEmptyTiles);
             boardEventManager.Unregister(ExternalBoardEvents.OnAddElement, CheckForRewardTiles);
+            boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
             storyEventManager.Unregister(StoryEvents.OnInitStory, PickRewardTilesRandomly);
         }
 
@@ -51,8 +53,9 @@ namespace Main.Neurons.Rewarder {
         #region EVentHandlers
 
         private void PickRewardTilesRandomly(EventArgs obj) {
-            var currentAmount = _rewardHexes.Count;
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
+                // each trait has a separate chance to get a reward tile
+                var currentAmount = _rewardHexes.Keys.Count(h => trait.Equals(_traitAccessor.HexToTrait(h)));
                 var rewardTileChance = 1f / (1 + currentAmount);
                 if (rewardTileChance < Random.value) {
                     continue;
@@ -83,7 +86,17 @@ namespace Main.Neurons.Rewarder {
             neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(_rewardHexes[hex]));
             _rewardHexes.Remove(hex);
         }
-        
+
+        private void OnTileRemoved(EventArgs obj) {
+            if (obj is not OnTileModifyEventArgs tileArgs) {
+                return;
+            }
+
+            if (_rewardHexes.ContainsKey(tileArgs.Hex)) {
+                _rewardHexes.Remove(tileArgs.Hex);
+            }
+        }
+
         // might not need this if i have trait accessor
         // private void UpdateEmptyTiles(EventArgs obj) {
         //     
