@@ -2179,7 +2179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aa522f871ec4735a0888541a0a62e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardTile: {fileID: 11400000, guid: a51057307d7c33f4b9cd067199285c94, type: 2}
+  rewardTile: {fileID: 11400000, guid: 21c445ce253f9a04ba465f2cea281b34, type: 2}
   boardController: {fileID: 615794156}
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
 --- !u!114 &615794161
