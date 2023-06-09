@@ -38,14 +38,12 @@ namespace Main.Neurons.Rewarder {
             // boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateEmptyTiles);
             boardEventManager.Register(ExternalBoardEvents.OnAddElement, CheckForRewardTiles);
             storyEventManager.Register(StoryEvents.OnInitStory, PickRewardTilesRandomly);
-            neuronEventManager.Register(NeuronEvents.OnRewardTileReached, RemoveRewardTile);
         }
 
         private void OnDisable() {
             // boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, UpdateEmptyTiles);
             boardEventManager.Unregister(ExternalBoardEvents.OnAddElement, CheckForRewardTiles);
             storyEventManager.Unregister(StoryEvents.OnInitStory, PickRewardTilesRandomly);
-            neuronEventManager.Unregister(NeuronEvents.OnRewardTileReached, RemoveRewardTile);
         }
 
         #endregion
@@ -83,16 +81,9 @@ namespace Main.Neurons.Rewarder {
             // reward neurons!
             neuronEventManager.Raise(NeuronEvents.OnRewardTileReached, new RewardTileArgs(hex));
             neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(_rewardHexes[hex]));
+            _rewardHexes.Remove(hex);
         }
-
-        private void RemoveRewardTile(EventArgs eventArgs) {
-            if (eventArgs is not RewardTileArgs rewardArgs) {
-                return;
-            }
-
-            _rewardHexes.Remove(rewardArgs.RewardHex);
-        }
-
+        
         // might not need this if i have trait accessor
         // private void UpdateEmptyTiles(EventArgs obj) {
         //     
