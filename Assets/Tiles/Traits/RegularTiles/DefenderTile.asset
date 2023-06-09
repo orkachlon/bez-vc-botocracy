@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: DefenderTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 2747690628134850419, guid: a6f1d59c3bd2fd44abda8117a6eb085e, type: 3}
-  m_Color: {r: 0.32941177, g: 0.37254903, b: 0.4, a: 1}
+  m_Sprite: {fileID: 1202681029, guid: 842388f7dbf56e24f9204d8bba2d41c2, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
     e01: 0

@@ -13,7 +13,7 @@ namespace Main.Neurons.NeuronQueue {
         [SerializeField] private NeuronQueueController controller;
         [SerializeField, Range(3, 10)] private int neuronsToShow = 7;
         [SerializeField] private TextMeshProUGUI neuronCountDisplay;
-        [SerializeField] private VerticalLayoutGroup stack, stackParent;
+        [SerializeField] private VerticalLayoutGroup stack, top3;
         [SerializeField] private MUINeuron uiNeuronPrefab;
         
         [Header("Event Managers"), SerializeField]
@@ -38,7 +38,7 @@ namespace Main.Neurons.NeuronQueue {
 
         private void InitializeEmptyQueue() {
             for (var i = 0; i < 3; i++) {
-                var model = Instantiate(uiNeuronPrefab, stackParent.transform, true);
+                var model = Instantiate(uiNeuronPrefab, top3.transform, true);
                 _registerUiElements.Add(model);
                 model.transform.SetSiblingIndex(i);
                 model.SetPlaceInQueue(neuronsToShow - 1 - i);
