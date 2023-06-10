@@ -35,12 +35,19 @@ namespace Main.MyHexBoardSystem.UI {
             _mouseInput.OnPointerEnter += OnShow;
             _mouseInput.OnPointerStay += UpdatePosition;
             _mouseInput.OnPointerExit += OnHide;
+            _mouseInput.OnPointerClick += OnPointerClick;
         }
 
         private void OnDisable() {
             _mouseInput.OnPointerEnter -= OnShow;
             _mouseInput.OnPointerStay -= UpdatePosition;
             _mouseInput.OnPointerExit -= OnHide;
+            _mouseInput.OnPointerClick -= OnPointerClick;
+        }
+
+        private void OnPointerClick(PointerEventData obj) {
+            OnHide(obj);
+            OnShow(obj);
         }
 
         private void OnShow(PointerEventData eventData) {

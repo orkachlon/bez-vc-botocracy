@@ -1,5 +1,7 @@
-﻿using ExternBoardSystem.Tools;
+﻿using System.Linq;
+using ExternBoardSystem.Tools;
 using ExternBoardSystem.Tools.Input.Mouse;
+using Main.MyHexBoardSystem.BoardSystem;
 using Main.Neurons;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,13 +14,16 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
     [RequireComponent(typeof(IMouseInput))]
     public class MNeuronHover : MonoBehaviour {
 
-        [Header("Current Neuron"), SerializeField]
+        [Header("Board Data"), SerializeField]
         private SNeuronData currentNeuron;
+        [SerializeField] private MNeuronBoardController boardController;
         
         private IMouseInput _mouseInput;
         private Camera _cam;
         private MUIBoardNeuron _currentUINeuron;
 
+
+        #region UnityMethods
 
         private void Awake() {
             _cam = Camera.main;
@@ -26,20 +31,64 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
         }
 
         private void OnEnable() {
-            _mouseInput.OnPointerEnter += Show;
-            _mouseInput.OnPointerStay += UpdatePosition;
-            _mouseInput.OnPointerExit += Hide;
+            _mouseInput.OnPointerEnter += OnShow;
+            _mouseInput.OnPointerStay += OnUpdatePosition;
+            _mouseInput.OnPointerExit += OnHide;
             _mouseInput.OnPointerClick += OnPointerClick;
         }
 
         private void OnDisable() {
-            _mouseInput.OnPointerEnter -= Show;
-            _mouseInput.OnPointerStay -= UpdatePosition;
-            _mouseInput.OnPointerExit -= Hide;
+            _mouseInput.OnPointerEnter -= OnShow;
+            _mouseInput.OnPointerStay -= OnUpdatePosition;
+            _mouseInput.OnPointerExit -= OnHide;
         }
 
-        private void Show(PointerEventData eventData) {
+        #endregion
+
+        #region EventHandlers
+
+        private void OnShow(PointerEventData eventData) {
+            // check that we have a neuron
             if (ENeuronType.Undefined.Equals(currentNeuron.Type)) {
+                return;
+            }
+            // check if placement is legal
+            if (!IsLegalPlacement(eventData.position)) {
+                return;
+            }
+            // show neuron
+            Show();
+        }
+
+        private void OnUpdatePosition(Vector2 screenPos) {
+            // check that we have a neuron
+            if (ENeuronType.Undefined.Equals(currentNeuron.Type)) {
+                return;
+            }
+            // check if placement is legal
+            if (!IsLegalPlacement(screenPos)) {
+                Hide();
+                return;
+            }
+            
+            Show();
+            var newPos = _cam.ScreenToWorldPoint(screenPos);
+            _currentUINeuron.SetWorldPosition(new Vector3(newPos.x, newPos.y, 0));
+        }
+
+        private void OnHide(PointerEventData eventData) {
+            Hide();
+        }
+
+        private void OnPointerClick(PointerEventData eventData) {
+            OnHide(eventData);
+            OnShow(eventData);
+        }
+
+        #endregion
+
+        private void Show() {
+            if (_currentUINeuron != null) {
                 return;
             }
             var neuronModel = currentNeuron.GetModel();
@@ -48,26 +97,23 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
             _currentUINeuron.ToFront();
         }
 
-        private void UpdatePosition(Vector2 screenPos) {
-            if (ENeuronType.Undefined.Equals(currentNeuron.Type)) {
-                return;
-            }
-
-            var newPos = _cam.ScreenToWorldPoint(screenPos);
-            _currentUINeuron.SetWorldPosition(new Vector3(newPos.x, newPos.y, 0));
-        }
-
-        private void Hide(PointerEventData eventData) {
+        private void Hide() {
             if (_currentUINeuron == null) {
                 return;
             }
             _currentUINeuron.ToBack();
             MObjectPooler.Instance.Release(_currentUINeuron.gameObject);
+            _currentUINeuron = null;
         }
 
-        private void OnPointerClick(PointerEventData eventData) {
-            Hide(eventData);
-            Show(eventData);
+        private bool IsLegalPlacement(Vector2 screenPos) {
+            var mouseWorld = _cam.ScreenToWorldPoint(screenPos);
+            var mouseHex = boardController.WorldPosToHex(mouseWorld);
+            return boardController.Board.HasPosition(mouseHex) &&
+                   !boardController.Board.GetPosition(mouseHex).HasData() &&
+                   boardController.Manipulator.GetNeighbours(mouseHex)
+                       .Any(h => boardController.Board.HasPosition(h) 
+                                 && boardController.Board.GetPosition(h).HasData());
         }
     }
 }

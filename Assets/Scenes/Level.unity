@@ -8760,6 +8760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentNeuron: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
+  boardController: {fileID: 615794156}
 --- !u!114 &1609176196
 MonoBehaviour:
   m_ObjectHideFlags: 0
