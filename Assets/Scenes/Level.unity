@@ -2001,7 +2001,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxZoomIn: 3
   maxZoomOut: 15
-  zoomSpeed: 30
+  zoomSpeed: 50
+  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!1 &615794147
 GameObject:
   m_ObjectHideFlags: 0
@@ -2822,8 +2823,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284835151
-  m_fontColor: {r: 0.30980393, g: 0.39607847, b: 0.39607847, a: 1}
+    rgba: 4281016606
+  m_fontColor: {r: 0.11764707, g: 0.12941177, b: 0.16862746, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2906,7 +2907,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 3
   textField: {fileID: 735814914}
-  highlightColor: {r: 0.8980392, g: 0.8156863, b: 0.43529412, a: 1}
+  highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
 --- !u!1 &752548006
 GameObject:
   m_ObjectHideFlags: 0
@@ -5352,8 +5353,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284835151
-  m_fontColor: {r: 0.30980393, g: 0.39607847, b: 0.39607847, a: 1}
+    rgba: 4281016606
+  m_fontColor: {r: 0.11764707, g: 0.12941177, b: 0.16862746, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5436,7 +5437,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 2
   textField: {fileID: 1082466030}
-  highlightColor: {r: 0.8980392, g: 0.8156863, b: 0.43529412, a: 1}
+  highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
 --- !u!224 &1136230835 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8630538136859855886, guid: 0bb86d3962de24e4fb346e88057b029d, type: 3}
@@ -5969,8 +5970,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284835151
-  m_fontColor: {r: 0.30980393, g: 0.39607847, b: 0.39607847, a: 1}
+    rgba: 4281016606
+  m_fontColor: {r: 0.11764707, g: 0.12941177, b: 0.16862746, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6053,7 +6054,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 5
   textField: {fileID: 1214009809}
-  highlightColor: {r: 0.8980392, g: 0.8156863, b: 0.43529412, a: 1}
+  highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
 --- !u!1 &1225651724
 GameObject:
   m_ObjectHideFlags: 0
@@ -6232,8 +6233,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284835151
-  m_fontColor: {r: 0.30980393, g: 0.39607847, b: 0.39607847, a: 1}
+    rgba: 4281016606
+  m_fontColor: {r: 0.11764707, g: 0.12941177, b: 0.16862746, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6316,7 +6317,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 4
   textField: {fileID: 1330746253}
-  highlightColor: {r: 0.8980392, g: 0.8156863, b: 0.43529412, a: 1}
+  highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
 --- !u!1001 &1373745001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8919,8 +8920,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284835151
-  m_fontColor: {r: 0.30980393, g: 0.39607847, b: 0.39607847, a: 1}
+    rgba: 4281016606
+  m_fontColor: {r: 0.11764707, g: 0.12941177, b: 0.16862746, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -9003,7 +9004,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 0
   textField: {fileID: 1641581102}
-  highlightColor: {r: 0.8980392, g: 0.8156863, b: 0.43529412, a: 1}
+  highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
 --- !u!1 &1648069766
 GameObject:
   m_ObjectHideFlags: 0
@@ -10136,8 +10137,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284835151
-  m_fontColor: {r: 0.30980393, g: 0.39607847, b: 0.39607847, a: 1}
+    rgba: 4281016606
+  m_fontColor: {r: 0.11764707, g: 0.12941177, b: 0.16862746, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10220,7 +10221,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 1
   textField: {fileID: 1795018048}
-  highlightColor: {r: 0.8962264, g: 0.8158844, b: 0.43683988, a: 1}
+  highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
 --- !u!1 &1803447949 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5589631878319523306, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}

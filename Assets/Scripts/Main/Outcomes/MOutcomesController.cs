@@ -4,9 +4,10 @@ using Core.EventSystem;
 using Main.StoryPoints;
 using Main.StoryPoints.SPProviders;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Main.Outcomes {
-    public class MOutcomesController : MonoBehaviour {
+    public class MOutcomesController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
         [Header("Outcome Prefab"), SerializeField]
         private MUIOutcome outcomePrefab;
 
@@ -43,6 +44,14 @@ namespace Main.Outcomes {
             newOutcome.SetDecider(storyEffects.DecidingTrait.ToString());
             newOutcome.SetText(storyEffects.Outcome);
             _outcomeQueue.Enqueue(newOutcome);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData) {
+            storyEventManager.Raise(StoryEvents.OnOutcomesEnter, EventArgs.Empty);
+        }
+
+        public void OnPointerExit(PointerEventData eventData) {
+            storyEventManager.Raise(StoryEvents.OnOutcomesExit, EventArgs.Empty);
         }
 
         #endregion
