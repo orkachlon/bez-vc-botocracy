@@ -2,6 +2,7 @@
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
+using Main.Neurons.Interfaces;
 
 namespace Main.Neurons {
     public static class NeuronEvents {
@@ -16,6 +17,14 @@ namespace Main.Neurons {
         public const string OnRewardTilePicked = "Neurons_OnRewardTilePicked";
     }
 
+    public class NeuronQueueEventArgs : EventArgs {
+        public INeuronQueue NeuronQueue;
+
+        public NeuronQueueEventArgs(INeuronQueue neuronQueue) {
+            NeuronQueue = neuronQueue;
+        }
+    }
+    
     public class BoardNeuronEventArgs : EventArgs {
         public readonly BoardNeuron Neuron;
 

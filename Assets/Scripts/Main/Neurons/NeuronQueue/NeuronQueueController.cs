@@ -7,10 +7,11 @@ using Main.GameModifications;
 using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.Events;
+using Main.Neurons.Interfaces;
 using UnityEngine;
 
 namespace Main.Neurons.NeuronQueue {
-    public class NeuronQueueController : MonoBehaviour, IEnumerable<Neuron> {
+    public class NeuronQueueController : MonoBehaviour, INeuronQueue, IEnumerable<Neuron> {
 
         [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager boardEventManager;
@@ -20,6 +21,8 @@ namespace Main.Neurons.NeuronQueue {
 
         private Queue<Neuron> _neurons;
         private bool _isInfinite;
+
+        #region UnityMethods
 
         private void Awake() {
             _neurons = new Queue<Neuron>();
@@ -37,15 +40,17 @@ namespace Main.Neurons.NeuronQueue {
             modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
         }
 
-        public void Enqueue(IEnumerable<BoardNeuron> neurons) {
+        #endregion
+
+        public void Enqueue(IEnumerable<Neuron> neurons) {
             foreach (var neuron in neurons) {
-                Enqueue(new Neuron(neuron));
+                Enqueue(neuron);
             }
         }
         
         public void Enqueue(Neuron neuron) {
             _neurons.Enqueue(neuron);
-            neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, new UINeuronEventArgs(neuron));
+            neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, new NeuronQueueEventArgs(this));
         }
 
         public void Enqueue(int amount) {
@@ -57,7 +62,7 @@ namespace Main.Neurons.NeuronQueue {
             
         public Neuron Dequeue() {
             if (_neurons.Count == 0) {
-                neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new UINeuronEventArgs());
+                neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronQueueEventArgs(this));
                 return null;
             }
             _neurons.TryDequeue(out var nextNeuron);
@@ -69,12 +74,12 @@ namespace Main.Neurons.NeuronQueue {
             if (_isInfinite) {
                 Enqueue(1);
             }
-            neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new UINeuronEventArgs(nextNeuron));
+            neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronQueueEventArgs(this));
             return nextNeuron;
         }
 
         public Neuron Peek() {
-            return _neurons.Peek();
+            return Count == 0 ? null : _neurons.Peek();
         }
 
         public Neuron PeekLast() {

@@ -55,8 +55,8 @@ namespace Main.Managers {
         }
 
         private void OnDequeueNeuron(EventArgs eventParams) {
-            if (eventParams is BoardNeuronEventArgs data) {
-                NextNeuron(data.Neuron);
+            if (eventParams is NeuronQueueEventArgs data) {
+                NextNeuron(data.NeuronQueue.Peek());
             }
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
+using Main.Neurons.Interfaces;
 using Main.Neurons.UI;
 using TMPro;
 using UnityEngine;
@@ -54,21 +55,21 @@ namespace Main.Neurons.NeuronQueue {
             }
         }
 
-        private void OnEnqueue(Neuron neuron) {
-            neuronCountDisplay.text = $"{controller.Count}";
+        private void Enqueue(INeuronQueue neuronQueue) {
+            neuronCountDisplay.text = $"{neuronQueue.Count}";
             if (_registerUiElements.All(n => n.gameObject.activeInHierarchy)) {
                 return;
             }
             
-            ShowNeuron(neuron);
+            ShowNeuron(neuronQueue.PeekLast());
         }
 
-        private void OnDequeue(Neuron neuron) {
+        private void Dequeue(INeuronQueue neuronQueue) {
             neuronCountDisplay.text = $"{controller.Count}";
             ShiftNeuronsInQueue();
 
             // show the next neuron in queue
-            var lastNeuron = controller.Peek(neuronsToShow - 1);
+            var lastNeuron = neuronQueue.Peek(neuronsToShow - 1);
             
             // we have less than 'neuronsToShow' neurons
             if (lastNeuron == null) {
@@ -102,14 +103,14 @@ namespace Main.Neurons.NeuronQueue {
         #region EventHandlers
 
         private void OnEnqueue(EventArgs eventData) {
-            if (eventData is UINeuronEventArgs neuronData) {
-                OnEnqueue(neuronData.UINeuron);
+            if (eventData is NeuronQueueEventArgs neuronData) {
+                Enqueue(neuronData.NeuronQueue);
             }
         }
         
         private void OnDequeue(EventArgs eventData) {
-            if (eventData is UINeuronEventArgs neuronData) {
-                OnDequeue(neuronData.UINeuron);
+            if (eventData is NeuronQueueEventArgs neuronData) {
+                Dequeue(neuronData.NeuronQueue);
             }
         }
 
