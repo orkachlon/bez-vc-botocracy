@@ -61,9 +61,13 @@ namespace Main.Neurons.Rewarder {
                     continue;
                 }
 
-                var emptyTiles = _traitAccessor.GetEmptyTiles(trait);
-                if (emptyTiles.Length == 0) {
+                var rewardPossibleTiles = _traitAccessor.GetTraitEdgeHexes(trait);     
+                if (rewardPossibleTiles.Length == 0) {
                     continue;
+                }
+                var emptyTiles = _traitAccessor.GetTraitEmptyHexes(trait, rewardPossibleTiles);
+                if (emptyTiles.Length == 0) {
+                    return;
                 }
 
                 var randomEmptyTile = emptyTiles[Random.Range(0, emptyTiles.Length)];

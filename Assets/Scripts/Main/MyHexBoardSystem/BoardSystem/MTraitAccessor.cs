@@ -87,18 +87,22 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             return boardController.GetColor(traitHexes[0]);
         }
 
-        public void SetColor(ETrait trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
+        public void SetTraitColor(ETrait trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
             var traitHexes = GetTraitHexes(trait);
             boardController.SetColor(traitHexes, color);
         }
 
-        public TileBase GetTile(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
+        public TileBase GetTraitTile(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
             return boardController.GetTraitTileBase(trait);
         }
 
-        public void SetTiles(ETrait trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
+        public void SetTraitTiles(ETrait trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
             var traitHexes = GetTraitHexes(trait);
             boardController.SetTiles(traitHexes, tile, tilemapLayer);
+        }
+
+        public Hex[] GetTraitEdgeHexes(ETrait trait) {
+            return boardController.Manipulator.GetEdge(ITraitAccessor.TraitToDirection(trait));
         }
 
         public IEnumerable<ETrait> GetMaxNeuronsTrait(IEnumerable<ETrait> fromTraits = null) {
@@ -156,8 +160,9 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             }
         }
 
-        public Hex[] GetEmptyTiles(ETrait trait) {
-            return TraitHexes[trait]
+        public Hex[] GetTraitEmptyHexes(ETrait trait, IEnumerable<Hex> fromHexes = null) {
+            fromHexes ??= TraitHexes[trait];
+            return fromHexes
                 .Where(h => neuronsController.Board.HasPosition(h) && 
                             !neuronsController.Board.GetPosition(h).HasData())
                 .ToArray();

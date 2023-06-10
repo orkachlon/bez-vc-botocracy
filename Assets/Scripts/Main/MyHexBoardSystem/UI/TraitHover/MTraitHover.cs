@@ -124,10 +124,10 @@ namespace Main.MyHexBoardSystem.UI.TraitHover {
             }
             // TraitAccessor.SetTiles(_currentHighlightedTrait.Value, hoverTile, BoardConstants.TraitHoverTileLayer);
             foreach (var t in _currentPositive) {
-                TraitAccessor.SetTiles(t, positiveTile, BoardConstants.SPEffectHoverTileLayer);
+                TraitAccessor.SetTraitTiles(t, positiveTile, BoardConstants.SPEffectHoverTileLayer);
             }
             foreach (var t in _currentNegative) {
-                TraitAccessor.SetTiles(t, negativeTile, BoardConstants.SPEffectHoverTileLayer);
+                TraitAccessor.SetTraitTiles(t, negativeTile, BoardConstants.SPEffectHoverTileLayer);
             }
         }
 
@@ -137,10 +137,10 @@ namespace Main.MyHexBoardSystem.UI.TraitHover {
             }
             // TraitAccessor.SetTiles(_currentHighlightedTrait.Value, null, BoardConstants.TraitHoverTileLayer);
             foreach (var t in _currentPositive) {
-                TraitAccessor.SetTiles(t, null, BoardConstants.SPEffectHoverTileLayer);
+                TraitAccessor.SetTraitTiles(t, null, BoardConstants.SPEffectHoverTileLayer);
             }
             foreach (var t in _currentNegative) {
-                TraitAccessor.SetTiles(t, null, BoardConstants.SPEffectHoverTileLayer);
+                TraitAccessor.SetTraitTiles(t, null, BoardConstants.SPEffectHoverTileLayer);
             }
         }
     }

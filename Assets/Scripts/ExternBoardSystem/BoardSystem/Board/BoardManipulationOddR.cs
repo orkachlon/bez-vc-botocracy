@@ -158,64 +158,73 @@ namespace ExternBoardSystem.BoardSystem.Board {
             
             var hexes = new List<Hex>();
             
-            int sign1, sign2;
+            // querying direction.X directly because Sign(0) returns 1
             if (direction.q == 0) { // s outer loop
-                sign1 = rSign;
-                sign2 = sSign;
-                var i1 = sign1;
-                var i2 = sign2;
-                var lastI = sign2 * MaxCoord(p => sign2 * p.Point.s);
-                while (lastI.HasValue && Mathf.Abs(i2) <= Mathf.Abs(lastI.Value)) {
-                    i1 = sign1;
-                    while (Mathf.Abs(i1) <= Mathf.Abs(i2)) {
-                        var hexToAdd = new Hex(-i1 - i2, i1);
-                        if (Contains(GetCellCoordinate(hexToAdd))) {
-                            hexes.Add(hexToAdd);
-                        }
-                        i1 += sign1;
-                    }
-
-                    i2 += sign2;
-                }
+                GetQ0Triangle(rSign, sSign, hexes);
             } else if (direction.r == 0) { // q outer loop
-                sign1 = qSign;
-                sign2 = sSign;
-                var i1 = sign1;
-                var i2 = sign2;
-                var lastI = sign1 * MaxCoord(p => sign1 * p.Point.q);
-                while (lastI.HasValue && Mathf.Abs(i1) <= Mathf.Abs(lastI.Value)) {
-                    i2 = sign2;
-                    while (Mathf.Abs(i2) <= Mathf.Abs(i1)) {
-                        var hexToAdd = new Hex(i1, -i1 - i2);
-                        if (Contains(GetCellCoordinate(hexToAdd))) {
-                            hexes.Add(hexToAdd);
-                        }
-                        i2 += sign2;
-                    }
-
-                    i1 += sign1;
-                }
+                GetR0Triangle(qSign, sSign, hexes);
             }
             else { // r outer loop
-                sign1 = qSign;
-                sign2 = rSign;
-                var i1 = sign1;
-                var i2 = sign2;
-                var lastI = sign2 * MaxCoord(p => sign2 * p.Point.r);
-                while (lastI.HasValue && Mathf.Abs(i2) <= Mathf.Abs(lastI.Value)) {
-                    i1 = sign1;
-                    while (Mathf.Abs(i1) <= Mathf.Abs(i2)) {
-                        var hexToAdd = new Hex(i1, i2);
-                        if (Contains(GetCellCoordinate(hexToAdd))) {
-                            hexes.Add(hexToAdd);
-                        }
-                        i1 += sign1;
-                    }
-
-                    i2 += sign2;
-                }
+                GetS0Triangle(qSign, rSign, hexes);
             }
             return hexes.ToArray();
+        }
+
+        private void GetS0Triangle(int qSign, int rSign, ICollection<Hex> hexes) {
+            var sign2 = rSign;
+            var i2 = sign2;
+            var lastI = sign2 * MaxCoord(p => sign2 * p.Point.r);
+            while (lastI.HasValue && Mathf.Abs(i2) <= Mathf.Abs(lastI.Value)) {
+                var i1 = qSign;
+                while (Mathf.Abs(i1) <= Mathf.Abs(i2)) {
+                    var hexToAdd = new Hex(i1, i2);
+                    if (Contains(GetCellCoordinate(hexToAdd))) {
+                        hexes.Add(hexToAdd);
+                    }
+
+                    i1 += qSign;
+                }
+
+                i2 += sign2;
+            }
+        }
+
+        private void GetR0Triangle(int qSign, int sSign, ICollection<Hex> hexes) {
+            var sign1 = qSign;
+            var i1 = sign1;
+            var lastI = sign1 * MaxCoord(p => sign1 * p.Point.q);
+            while (lastI.HasValue && Mathf.Abs(i1) <= Mathf.Abs(lastI.Value)) {
+                var i2 = sSign;
+                while (Mathf.Abs(i2) <= Mathf.Abs(i1)) {
+                    var hexToAdd = new Hex(i1, -i1 - i2);
+                    if (Contains(GetCellCoordinate(hexToAdd))) {
+                        hexes.Add(hexToAdd);
+                    }
+
+                    i2 += sSign;
+                }
+
+                i1 += sign1;
+            }
+        }
+
+        private void GetQ0Triangle(int rSign, int sSign, ICollection<Hex> hexes) {
+            var sign2 = sSign;
+            var i2 = sign2;
+            var lastI = sign2 * MaxCoord(p => sign2 * p.Point.s);
+            while (lastI.HasValue && Mathf.Abs(i2) <= Mathf.Abs(lastI.Value)) {
+                var i1 = rSign;
+                while (Mathf.Abs(i1) <= Mathf.Abs(i2)) {
+                    var hexToAdd = new Hex(-i1 - i2, i1);
+                    if (Contains(GetCellCoordinate(hexToAdd))) {
+                        hexes.Add(hexToAdd);
+                    }
+
+                    i1 += rSign;
+                }
+
+                i2 += sign2;
+            }
         }
 
         public Hex[] GetEdge(Hex direction) {

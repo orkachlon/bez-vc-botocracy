@@ -90,7 +90,7 @@ namespace Main.MyHexBoardSystem.UI {
                 }
 
                 CacheTiles(trait);
-                _traitAccessor.SetTiles(trait, nonDecidingTraitTile);
+                _traitAccessor.SetTraitTiles(trait, nonDecidingTraitTile);
                 // TraitAccessor.SetColor(trait, nonDecidingTraitColor);
             }
         }
@@ -101,14 +101,14 @@ namespace Main.MyHexBoardSystem.UI {
             if (_previousTiles.ContainsKey(trait)) { // do not overwrite colors
                 return;
             }
-            _previousTiles[trait] = _traitAccessor.GetTile(trait);
+            _previousTiles[trait] = _traitAccessor.GetTraitTile(trait);
         }
 
         private void RevertColor(ETrait trait) {
             if (!_previousColors.ContainsKey(trait)) {
                 return;
             }
-            _traitAccessor.SetColor(trait, Color.white);
+            _traitAccessor.SetTraitColor(trait, Color.white);
             _previousColors.Remove(trait);
         }
 
@@ -116,7 +116,7 @@ namespace Main.MyHexBoardSystem.UI {
             if (!_previousTiles.ContainsKey(trait)) {
                 return;
             }
-            _traitAccessor.SetTiles(trait, _previousTiles[trait]);
+            _traitAccessor.SetTraitTiles(trait, _previousTiles[trait]);
             _previousTiles.Remove(trait);
         }
     }

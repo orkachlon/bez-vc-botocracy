@@ -16,12 +16,13 @@ namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
         #region Tiles
 
         public Hex[] GetTraitHexes(ETrait trait);
-        public Hex[] GetEmptyTiles(ETrait trait);
+        public Hex[] GetTraitEmptyHexes(ETrait trait, IEnumerable<Hex> fromHexes = null);
 
         public Color GetColor(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer);
-        public void SetColor(ETrait trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
-        public TileBase GetTile(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer);
-        public void SetTiles(ETrait trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        public void SetTraitColor(ETrait trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        public TileBase GetTraitTile(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        public void SetTraitTiles(ETrait trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
+        public Hex[] GetTraitEdgeHexes(ETrait trait);
 
         #endregion
 
