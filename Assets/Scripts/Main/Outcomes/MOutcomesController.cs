@@ -41,8 +41,10 @@ namespace Main.Outcomes {
 
             var storyEffects = storyEventArgs.Story.DecisionEffects;
             var newOutcome = Instantiate(outcomePrefab, verticalContainer);
+            newOutcome.SetSPTitle(storyEventArgs.Story.Title);
             newOutcome.SetDecider(storyEffects.DecidingTrait.ToString());
-            newOutcome.SetText(storyEffects.Outcome);
+            newOutcome.SetDecision(storyEffects.Decision);
+            newOutcome.SetOutcomeText(storyEffects.Outcome);
             _outcomeQueue.Enqueue(newOutcome);
         }
 

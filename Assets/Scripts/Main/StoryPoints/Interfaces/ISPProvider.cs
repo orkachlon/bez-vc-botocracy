@@ -40,7 +40,7 @@ namespace Main.StoryPoints.Interfaces {
         public static readonly TraitDecisionEffects NoDecision = new();
 
         public ETrait DecidingTrait;
-        public string Action;
+        public string Decision;
         public string Outcome;
         public Dictionary<ETrait, int> BoardEffect;
     }

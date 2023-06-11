@@ -64,7 +64,7 @@ namespace Main.StoryPoints.SPProviders {
 
         private TraitDecisionEffects GetTraitDecisionEffects(IReadOnlyDictionary<string, object> entry) {
             var deciderEffects = new TraitDecisionEffects {
-                Action = (string) entry[((CSVHeaderWithActions) Header).actions],
+                Decision = (string) entry[((CSVHeaderWithActions) Header).actions],
                 Outcome = (string) entry[Header.outcomes],
                 BoardEffect = new Dictionary<ETrait, int>()
             };

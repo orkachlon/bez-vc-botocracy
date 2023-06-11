@@ -113,11 +113,7 @@ namespace Main.StoryPoints {
             var maxTraits = _neuronsController.GetMaxTrait(DecidingTraits.Keys).ToArray();
             var maxTrait = maxTraits[Random.Range(0, maxTraits.Length - 1)];
 
-            DecisionEffects = new TraitDecisionEffects {
-                DecidingTrait = maxTrait,
-                Outcome = DecidingTraits[maxTrait].Outcome,
-                BoardEffect = DecidingTraits[maxTrait].BoardEffect
-            };
+            DecisionEffects = DecidingTraits[maxTrait];
             Evaluated = true;
             storyEventManager.Raise(StoryEvents.OnEvaluate, new StoryEventArgs(this));
             
