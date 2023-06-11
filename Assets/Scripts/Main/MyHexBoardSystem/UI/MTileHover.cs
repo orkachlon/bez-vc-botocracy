@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Tools.Input.Mouse;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem;
-using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.Neurons;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -51,10 +49,6 @@ namespace Main.MyHexBoardSystem.UI {
         }
 
         private void OnShow(PointerEventData eventData) {
-            if (ENeuronType.Undefined.Equals(currentNeuron.Type)) {
-                return;
-            }
-
             var mouseWorld = _cam.ScreenToWorldPoint(eventData.position);
             var mouseHex = boardController.WorldPosToHex(mouseWorld);
             Show(mouseHex);
@@ -79,8 +73,8 @@ namespace Main.MyHexBoardSystem.UI {
                 return;
             }
             TileBase tileToShow;
-            // current tile is occupied
-            if (boardController.Board.GetPosition(hex).HasData()) {
+            // no neurons or current tile is occupied
+            if (ENeuronType.Undefined.Equals(currentNeuron.Type) || boardController.Board.GetPosition(hex).HasData()) {
                 tileToShow = cannotBePlacedTileBase;
             }
             // current tile is empty - check if a neighbor neuron exists
