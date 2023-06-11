@@ -6,7 +6,6 @@ using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.Events;
 using Main.StoryPoints.Interfaces;
-using Main.StoryPoints.SPProviders;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,6 +20,7 @@ namespace Main.StoryPoints {
         [SerializeField] private SEventManager gmEventManager;
 
         public int Id => _spData.id;
+        public string Title => _spData.title;
         public string Description => _spData.description;
         public int TurnsToEvaluation { get; private set; }
         public int Reward => _spData.reward;

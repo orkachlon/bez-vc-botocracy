@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Main.StoryPoints.UI {
     public class MUIStoryPoint : MonoBehaviour {
-        [Header("Visuals"), SerializeField] private TextMeshProUGUI description;
+        [Header("Visuals"), SerializeField] private TextMeshProUGUI title;
+        [SerializeField] private TextMeshProUGUI description;
         [SerializeField] private TextMeshProUGUI turnCounter;
-        // [SerializeField] private TextMeshProUGUI rewardText;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
@@ -30,8 +30,8 @@ namespace Main.StoryPoints.UI {
             }
 
             var story = storyEventArgs.Story;
+            title.text = story.Title;
             description.text = story.Description;
-            // UpdateRewardAmount(story.Reward);
             UpdateTurnCounter(story.TurnsToEvaluation);
         }
 
@@ -48,9 +48,5 @@ namespace Main.StoryPoints.UI {
         private void UpdateTurnCounter(int turns) {
             turnCounter.text = $"{turns}";
         }
-
-        // private void UpdateRewardAmount(int reward) {
-            // rewardText.text = $"Reward: {reward}";
-        // }
     }
 }

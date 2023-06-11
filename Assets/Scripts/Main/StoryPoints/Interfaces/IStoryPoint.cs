@@ -7,6 +7,7 @@ namespace Main.StoryPoints.Interfaces {
         #region Properties
 
         public int Id { get; }
+        public string Title { get; }
         public string Description { get; }
         public int TurnsToEvaluation { get; }
         public int Reward { get; }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Core.EventSystem;
 using Main.StoryPoints;
 using Main.StoryPoints.Interfaces;
-using Main.StoryPoints.SPProviders;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
