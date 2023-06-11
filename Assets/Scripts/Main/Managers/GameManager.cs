@@ -18,18 +18,26 @@ namespace Main.Managers {
         private void OnEnable() {
             // game state loop:
             // initGrid > playerTurn > eventTurn( > evaluation > outcome) > statTurn > playerTurn ...
-            // todo should these be methods and unsubscribe on destroy?
-            gmEventManager.Register(GameManagerEvents.OnGameLoopStart, e => ChangeState(GameState.PlayerTurn, e));
-            neuronEventManager.Register(NeuronEvents.OnNeuronPlaced, e => ChangeState(GameState.StoryTurn, e));
-            boardEventManager.Register(ExternalBoardEvents.OnBoardFull, e => ChangeState(GameState.Lose, e));
-            neuronEventManager.Register(NeuronEvents.OnNoMoreNeurons, e => ChangeState(GameState.Lose, e));
-            storyEventManager.Register(StoryEvents.OnStoryTurn, e => ChangeState(GameState.PlayerTurn, e));
-            storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, e => ChangeState(GameState.Win, e));
-            boardEventManager.Register(ExternalBoardEvents.OnTraitOutOfTiles, e => ChangeState(GameState.Lose, e));
+            gmEventManager.Register(GameManagerEvents.OnGameLoopStart, PlayerTurn);
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, StoryTurn);
+            storyEventManager.Register(StoryEvents.OnStoryTurn, PlayerTurn);
+            
+            // end of game
+            boardEventManager.Register(ExternalBoardEvents.OnBoardFull, Lose);
+            boardEventManager.Register(ExternalBoardEvents.OnTraitOutOfTiles, Lose);
+            neuronEventManager.Register(NeuronEvents.OnNoMoreNeurons, Lose);
+            storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, Win);
         }
 
-        private void Start() {
-            ChangeState(GameState.InitGrid);
+        private void OnDisable() {
+            gmEventManager.Unregister(GameManagerEvents.OnGameLoopStart, PlayerTurn);
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, StoryTurn);
+            storyEventManager.Unregister(StoryEvents.OnStoryTurn, PlayerTurn);
+            
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardFull, Lose);
+            boardEventManager.Unregister(ExternalBoardEvents.OnTraitOutOfTiles, Lose);
+            neuronEventManager.Unregister(NeuronEvents.OnNoMoreNeurons, Lose);
+            storyEventManager.Unregister(StoryEvents.OnNoMoreStoryPoints, Win);
         }
 
         #region EventHandlers
@@ -39,15 +47,9 @@ namespace Main.Managers {
             gmEventManager.Raise(GameManagerEvents.OnBeforeGameStateChanged, EventArgs.Empty);
             
             switch (newState) {
-                case GameState.InitGrid:
-                    break;
                 case GameState.StoryTurn:
                     break;
                 case GameState.PlayerTurn:
-                    break;
-                case GameState.BoardStateBroadcast:
-                    break;
-                case GameState.BoardEffectTurn:
                     break;
                 case GameState.Win:
                     print("You win!");
@@ -63,15 +65,28 @@ namespace Main.Managers {
         }
 
         #endregion
+
+        private void Lose(EventArgs customArgs) {
+            ChangeState(GameState.Lose, customArgs);
+        }
+
+        private void Win(EventArgs customArgs) {
+            ChangeState(GameState.Win, customArgs);
+        }
+
+        private void PlayerTurn(EventArgs customArgs) {
+            ChangeState(GameState.PlayerTurn, customArgs);
+        }
+        
+        private void StoryTurn(EventArgs customArgs) {
+            ChangeState(GameState.StoryTurn, customArgs);
+        }
     }
 
     public enum GameState {
-        InitGrid,
         StoryTurn,
         PlayerTurn,
-        BoardEffectTurn,
         Win,
-        Lose,
-        BoardStateBroadcast
+        Lose
     }
 }

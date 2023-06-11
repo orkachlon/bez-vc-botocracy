@@ -11914,10 +11914,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4815216580729228891, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
-      propertyPath: neuronsToShow
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 6458936107166784432, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

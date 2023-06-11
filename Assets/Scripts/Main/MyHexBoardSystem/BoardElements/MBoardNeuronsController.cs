@@ -44,12 +44,10 @@ namespace Main.MyHexBoardSystem.BoardElements {
 
         private void OnEnable() {
             externalEventManager.Register(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
-            gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnBoardStateBroadcast);
         }
 
         private void OnDisable() {
             externalEventManager.Unregister(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
-            gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnBoardStateBroadcast);
         }
 
         #endregion
@@ -118,7 +116,6 @@ namespace Main.MyHexBoardSystem.BoardElements {
             
             if (element.DataProvider.GetActivation() != null) {
                 element.DataProvider.GetActivation().Invoke(this, cell);
-                //     ActivateNeuron(element.DataProvider.GetActivation(), cell);
             }
             
             var eventData = new BoardElementEventArgs<BoardNeuron>(element, hex);
@@ -156,21 +153,6 @@ namespace Main.MyHexBoardSystem.BoardElements {
             return NeuronsPerTrait
                 .Where(kvp => traits.Contains(kvp.Key) && kvp.Value == max)
                 .Select(kvp => kvp.Key);
-        }
-
-        #region EventHandlers
-
-        private void OnBoardStateBroadcast(EventArgs args) {
-            if (args is not GameStateEventArgs {State: GameState.BoardStateBroadcast}) {
-                return;
-            }
-            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new OnBoardStateBroadcastEventArgs(this));
-        }
-
-        #endregion
-
-        private async void ActivateNeuron(Func<IBoardElementsController<BoardNeuron>,Vector3Int,Task> activation, Vector3Int cell) {
-            await activation.Invoke(this, cell);
         }
     }
 }

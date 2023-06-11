@@ -63,16 +63,15 @@ namespace OldGridSystem.Grid {
 
         public void HandleAfterGameStateChanged(GameState state, EventArgs customArgs = null) {
             switch (state) {
-                case GameState.InitGrid:
-                    CreateGrid();
-                    break;
+                // case GameState.InitGrid:
+                //     CreateGrid();
+                    // break;
                 case GameState.PlayerTurn:
                     EnableGridInteractions();
                     break;
                 case GameState.StoryTurn:
                 case GameState.Win:
                 case GameState.Lose:
-                case GameState.BoardEffectTurn:
                     DisableGridInteractions();
                     break;
                 default:

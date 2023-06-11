@@ -56,7 +56,7 @@ namespace Main.Neurons.NeuronQueue {
 
         private void Enqueue(INeuronQueue neuronQueue) {
             neuronCountDisplay.text = $"{neuronQueue.Count}";
-            if (_registerUiElements.All(n => n.gameObject.activeInHierarchy)) {
+            if (neuronQueue.Count > neuronsToShow) {
                 return;
             }
             
@@ -92,7 +92,13 @@ namespace Main.Neurons.NeuronQueue {
         private void ShowNeuron(Neuron neuron) {
             var uiElement = _registerUiElements.First(n => !n.gameObject.activeInHierarchy);
             uiElement.gameObject.SetActive(true);
-            neuron.UIState = ENeuronUIState.Stack;
+            var placeInQueue = _registerUiElements.IndexOf(uiElement);
+            if (placeInQueue >= 3) {
+                neuron.UIState = ENeuronUIState.Stack;
+            }
+            else {
+                neuron.UIState = (ENeuronUIState) placeInQueue;
+            }
             uiElement.SetRuntimeElementData(neuron);
         }
 

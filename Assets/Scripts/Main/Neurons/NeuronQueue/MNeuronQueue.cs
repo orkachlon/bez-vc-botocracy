@@ -12,6 +12,9 @@ using UnityEngine;
 
 namespace Main.Neurons.NeuronQueue {
     public class MNeuronQueue : MonoBehaviour, INeuronQueue, IEnumerable<Neuron> {
+        
+        [Header("Current Neuron Data"), SerializeField]
+        private SNeuronData currentNeuronData;
 
         [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager boardEventManager;
@@ -50,6 +53,7 @@ namespace Main.Neurons.NeuronQueue {
         
         public void Enqueue(Neuron neuron) {
             _neurons.Enqueue(neuron);
+            currentNeuronData.SetData(Peek().DataProvider);
             neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, new NeuronQueueEventArgs(this));
         }
 
@@ -59,22 +63,25 @@ namespace Main.Neurons.NeuronQueue {
                 Enqueue(new Neuron(NeuronManager.GetRandomNeuron()));
             }
         }
-            
+        
         public Neuron Dequeue() {
-            if (_neurons.Count == 0) {
-                neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronQueueEventArgs(this));
-                return null;
-            }
             _neurons.TryDequeue(out var nextNeuron);
             if (nextNeuron == null) {
+                currentNeuronData.Type = ENeuronType.Undefined; // shouldn't happen, just to be sure
                 return null;
             }
-
             // never run out of neurons but keep visibility and functionality the same
             if (_isInfinite) {
                 Enqueue(1);
             }
             neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronQueueEventArgs(this));
+            
+            if (_neurons.Count == 0) {
+                currentNeuronData.Type = ENeuronType.Undefined;
+                neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronQueueEventArgs(this));
+                return null;
+            }
+            currentNeuronData.SetData(Peek().DataProvider);
             return nextNeuron;
         }
 
