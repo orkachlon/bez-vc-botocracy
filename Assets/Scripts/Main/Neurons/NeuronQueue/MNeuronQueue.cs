@@ -11,7 +11,7 @@ using Main.Neurons.Interfaces;
 using UnityEngine;
 
 namespace Main.Neurons.NeuronQueue {
-    public class NeuronQueueController : MonoBehaviour, INeuronQueue, IEnumerable<Neuron> {
+    public class MNeuronQueue : MonoBehaviour, INeuronQueue, IEnumerable<Neuron> {
 
         [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager boardEventManager;

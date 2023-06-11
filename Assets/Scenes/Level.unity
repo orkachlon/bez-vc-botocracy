@@ -12080,15 +12080,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8309717948803149595, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 420
-      objectReference: {fileID: 0}
-    - target: {fileID: 8309717948803149595, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
-      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8309717948803149595, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 633.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309717948803149595, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 210
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8309717948803149595, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchoredPosition.y

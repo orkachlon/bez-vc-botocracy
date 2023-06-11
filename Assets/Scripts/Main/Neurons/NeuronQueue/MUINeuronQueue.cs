@@ -11,7 +11,6 @@ using UnityEngine.UI;
 namespace Main.Neurons.NeuronQueue {
     public class MUINeuronQueue : MonoBehaviour {
 
-        [SerializeField] private NeuronQueueController controller;
         [SerializeField, Range(3, 10)] private int neuronsToShow = 7;
         [SerializeField] private TextMeshProUGUI neuronCountDisplay;
         [SerializeField] private VerticalLayoutGroup stack, top3;
@@ -65,8 +64,9 @@ namespace Main.Neurons.NeuronQueue {
         }
 
         private void Dequeue(INeuronQueue neuronQueue) {
-            neuronCountDisplay.text = $"{controller.Count}";
+            neuronCountDisplay.text = $"{neuronQueue.Count}";
             ShiftNeuronsInQueue();
+            HideExcessNeurons(neuronQueue);
 
             // show the next neuron in queue
             var lastNeuron = neuronQueue.Peek(neuronsToShow - 1);
@@ -76,6 +76,17 @@ namespace Main.Neurons.NeuronQueue {
                 return;
             }
             ShowNeuron(lastNeuron);
+        }
+
+        private void HideExcessNeurons(INeuronQueue neuronQueue) {
+            var excess = neuronsToShow - neuronQueue.Count;
+            if (excess <= 0) {
+                return;
+            }
+
+            for (var i = 1; i <= excess; i++) {
+                _registerUiElements[^i].gameObject.SetActive(false);
+            }
         }
 
         private void ShowNeuron(Neuron neuron) {
