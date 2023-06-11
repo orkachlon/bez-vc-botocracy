@@ -513,7 +513,7 @@ RectTransform:
   m_Children:
   - {fileID: 361977598}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -567,7 +567,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &168493727 stripped
 Transform:
@@ -944,37 +944,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bb86d3962de24e4fb346e88057b029d, type: 3}
---- !u!1 &253270003
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 253270004}
-  m_Layer: 0
-  m_Name: ----------------------------
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &253270004
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 253270003}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 17
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &284030053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,7 +973,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &287797716 stripped
 GameObject:
@@ -1120,6 +1089,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338035997}
   m_CullTransparentMesh: 1
+--- !u!1 &347942107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 347942108}
+  m_Layer: 0
+  m_Name: ----------------------------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &347942108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347942107}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &361977597
 GameObject:
   m_ObjectHideFlags: 0
@@ -2057,7 +2057,7 @@ Transform:
   - {fileID: 454915835}
   - {fileID: 418282756}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &615794154
 MonoBehaviour:
@@ -2344,10 +2344,10 @@ RectTransform:
   m_Father: {fileID: 1880496810}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 66.905, y: -17.505}
-  m_SizeDelta: {x: 133.81, y: 35.01}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670050912
 MonoBehaviour:
@@ -2378,8 +2378,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284835151
-  m_fontColor: {r: 0.30980393, g: 0.39607847, b: 0.39607847, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2396,8 +2396,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2432,7 +2432,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 15, y: 5, z: 15, w: 0}
+  m_margin: {x: 25, y: 5, z: 25, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2691,7 +2691,7 @@ Transform:
   - {fileID: 752548008}
   - {fileID: 1197666191}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &735814908
 GameObject:
@@ -2788,8 +2788,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e4f60f67d94341a52bdef0bbdc7727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: Efficiency is king.
   header: Logistician
+  content: Detail-oriented and organized, focusing on practicality and smooth operations.
 --- !u!114 &735814914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3148,7 +3148,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &838982550
 GameObject:
@@ -3192,7 +3192,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &844212887
 PrefabInstance:
@@ -4618,7 +4618,7 @@ Transform:
   - {fileID: 296610568}
   - {fileID: 656508648}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &934932037
 GameObject:
@@ -5218,7 +5218,7 @@ RectTransform:
   m_Children:
   - {fileID: 1777256714}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5320,8 +5320,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e4f60f67d94341a52bdef0bbdc7727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: Profit from every opportunity.
   header: Entrepreneur
+  content: Innovative and business-minded, seeking opportunities for growth and profit.
 --- !u!114 &1082466030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5531,7 +5531,7 @@ RectTransform:
   m_Children:
   - {fileID: 1880496810}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5937,8 +5937,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e4f60f67d94341a52bdef0bbdc7727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: A good compromise means everyone wins.
   header: Mediator
+  content: Diplomatic, focuses on fostering harmony and understanding.
 --- !u!114 &1214009809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6200,8 +6200,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e4f60f67d94341a52bdef0bbdc7727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: Always protect the underdog.
-  header: Defender
+  header: Entropist
+  content: Spontaneous and open-minded, embracing unpredictability and creative chaos.
 --- !u!114 &1330746253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7106,7 +7106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7757088680232381460, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7757088680232381460, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7244,7 +7244,7 @@ Transform:
   m_Children:
   - {fileID: 1225651725}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1530710549
 GameObject:
@@ -8807,7 +8807,7 @@ GameObject:
   - component: {fileID: 1641581102}
   - component: {fileID: 1641581104}
   m_Layer: 0
-  m_Name: Defender
+  m_Name: Protector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8887,8 +8887,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e4f60f67d94341a52bdef0bbdc7727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: The universe knows best.
-  header: Entropist
+  header: Protector
+  content: Compassionate and values safety and well-being.
 --- !u!114 &1641581102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9103,7 +9103,7 @@ Transform:
   m_Children:
   - {fileID: 1684135681}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1670902519
 GameObject:
@@ -10019,8 +10019,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1795018043}
   - component: {fileID: 1795018045}
-  - component: {fileID: 1795018046}
   - component: {fileID: 1795018049}
+  - component: {fileID: 1795018046}
   - component: {fileID: 1795018048}
   - component: {fileID: 1795018050}
   m_Layer: 0
@@ -10104,8 +10104,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e4f60f67d94341a52bdef0bbdc7727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: Treat everything as a threat.
   header: Commander
+  content: Assertive and results-oriented, focusing on efficiency and productivity.
 --- !u!114 &1795018048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10381,7 +10381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1880496810
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10401,8 +10401,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -106.59326, y: 617.74854}
-  m_SizeDelta: {x: 154.87, y: 64.02}
+  m_AnchoredPosition: {x: 2146.4587, y: 1404.4797}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1880496811
 MonoBehaviour:
@@ -10419,7 +10419,7 @@ MonoBehaviour:
   header: {fileID: 670050912}
   content: {fileID: 2088536134}
   layoutElement: {fileID: 1880496812}
-  characterWrapLimit: 80
+  characterWrapLimit: 50
 --- !u!114 &1880496812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10435,7 +10435,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 500
+  m_PreferredWidth: 750
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -10493,14 +10493,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.11764707, g: 0.12941177, b: 0.16862746, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: cb76b0fc6771dc44d9123f3e4523871e, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11077,10 +11077,10 @@ RectTransform:
   m_Father: {fileID: 1880496810}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 77.435, y: -49.515}
-  m_SizeDelta: {x: 154.87, y: 29.01}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2088536134
 MonoBehaviour:
@@ -11111,8 +11111,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284835151
-  m_fontColor: {r: 0.30980393, g: 0.39607847, b: 0.39607847, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -11129,8 +11129,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -11165,7 +11165,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 15, y: 0, z: 15, w: 5}
+  m_margin: {x: 25, y: 0, z: 25, w: 21.27}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

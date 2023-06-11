@@ -5,8 +5,8 @@ using UnityEngine.EventSystems;
 namespace Core.UI.Tooltip {
     public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
-        [SerializeField] private string content;
         [SerializeField] private string header;
+        [TextArea(5, 8), SerializeField] private string content;
 
         private Sequence _showSequence;
         
