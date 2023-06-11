@@ -6,7 +6,7 @@
     }
     
     public enum ETrait {
-        Defender,
+        Protector,
         Commander,
         Entrepreneur,
         Logistician,

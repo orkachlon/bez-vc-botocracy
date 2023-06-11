@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.EventSystem;
 using Core.Utils;
+using JetBrains.Annotations;
 using Main.GameModifications;
+using Main.StoryPoints.Interfaces;
 using Main.Traits;
 using Main.Utils;
 using UnityEngine;
@@ -10,46 +13,43 @@ using UnityEngine;
 namespace Main.StoryPoints.SPProviders {
     public class CSVSPProvider : MonoBehaviour, ISPProvider {
 
-        [SerializeField] private TextAsset StoryPointsCSV;
+        [SerializeField] protected TextAsset StoryPointsCSV;
         
-        [Header("Event Managers"), SerializeField] private SEventManager modificationsEventManager;
+        [Header("Event Managers"), SerializeField] protected SEventManager modificationsEventManager;
 
         private const int RowsPerSP = 6;
 
         private IEnumerator<Dictionary<string, object>> _spEnumerator;
-        private (
-            string id,
-            string description,
-            string decidingTraits,
-            string cmmndr,
-            string ntrpnr,
-            string mdtr,
-            string dfndr,
-            string ntrpst,
-            string lgstcn,
-            string outcomes,
-            string outcomeID,
-            string turnsToEvaluation,
-            string reward,
-            string prerequisites
-            ) _header;
-        
+        protected virtual CSVHeader Header { get; set; }
+
         private bool _isInfinite;
 
         public int Count { get; private set; }
 
+        private int[] _outcomeIDs;
+
+        // we store SPs which haven't met their prerequisites yet to try them again later.
+        private readonly HashSet<StoryPointData> _unusedSPs = new HashSet<StoryPointData>();
+
+        #region UnityMethods
+
         private void Awake() {
             InitHeader();
             Reset();
-            
+        }
+
+        private void OnEnable() {
             modificationsEventManager.Register(GameModificationEvents.OnInfiniteSP, OnInfiniteStoryPoints);
         }
 
-        private void OnDestroy() {
+        private void OnDisable() {
             modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteSP, OnInfiniteStoryPoints);
         }
 
-        public StoryPointData Next() {
+        #endregion
+
+        [CanBeNull]
+        public virtual StoryPointData? Next() {
             if (IsEmpty()) {
                 throw new IndexOutOfRangeException("No more events in queue!");
             }
@@ -57,6 +57,33 @@ namespace Main.StoryPoints.SPProviders {
             if (Count == 0 && _isInfinite) {
                 Reset();
             }
+
+            // try to get event from previously unused
+            if (_unusedSPs.Any(sp => Prerequisite.Evaluate(sp.prerequisites, _outcomeIDs))) {
+                Count--;
+                return _unusedSPs.First(sp => Prerequisite.Evaluate(sp.prerequisites, _outcomeIDs));
+            }
+            
+            // read from file - I think that we can be sure we have more to read from file because we asked IsEmpty
+            var currentStoryEntries = ReadNextStoryEntriesFromFile();
+            var nextSP = TryParse(currentStoryEntries);
+
+            // if this SP's prerequisites aren't answered yet, and we haven't reached EOF. 
+            while (nextSP.HasValue && !string.IsNullOrEmpty(nextSP.Value.prerequisites) && !Prerequisite.Evaluate(nextSP.Value.prerequisites, _outcomeIDs)) {
+                // save it for later
+                _unusedSPs.Add(nextSP.Value);
+                // read the next one from file
+                currentStoryEntries = ReadNextStoryEntriesFromFile();
+                nextSP = TryParse(currentStoryEntries);
+            }
+
+            if (nextSP.HasValue) {
+                Count--;
+            }
+            return nextSP;
+        }
+
+        private List<Dictionary<string, object>> ReadNextStoryEntriesFromFile() {
             var currentStoryEntries = new List<Dictionary<string, object>>();
 
             var i = 0;
@@ -65,14 +92,11 @@ namespace Main.StoryPoints.SPProviders {
                 i++;
             }
 
-            var nextSP = TryParse(currentStoryEntries);
-            Count--;
-
-            return nextSP;
+            return currentStoryEntries;
         }
 
         public bool IsEmpty() {
-            return !_isInfinite && Count == 0;
+            return !_isInfinite && Count == 0 && _unusedSPs.All(sp => !Prerequisite.Evaluate(sp.prerequisites, _outcomeIDs));
         }
 
         public void Reset() {
@@ -85,14 +109,23 @@ namespace Main.StoryPoints.SPProviders {
             else {
                 Count = allSPs.Count / RowsPerSP;
             }
+            _outcomeIDs = new int[] { };
         }
 
-        private StoryPointData TryParse(List<Dictionary<string, object>> entries) {
+        public void AddOutcome(int outcomeID) {
+             _outcomeIDs ??= _outcomeIDs.Append(outcomeID) as int[];
+        }
+
+        protected virtual StoryPointData? TryParse(List<Dictionary<string, object>> entries) {
+            if (entries == null || entries.Count == 0) {
+                return null;
+            }
             var newSPData = new StoryPointData {
-                id = (int) entries[0][_header.id],
-                description = (string) entries[0][_header.description],
-                reward = (int) entries[0][_header.reward],
-                turnsToEvaluation = (int) entries[0][_header.turnsToEvaluation]
+                id = (int) entries[0][Header.id],
+                description = (string) entries[0][Header.description],
+                reward = (int) entries[0][Header.reward],
+                turnsToEvaluation = (int) entries[0][Header.turnsToEvaluation],
+                prerequisites = (string) entries[0][Header.prerequisites]
             };
 
             var decidingTraits = GetDecidingTraits(entries);
@@ -101,29 +134,13 @@ namespace Main.StoryPoints.SPProviders {
             }
 
             newSPData.decidingTraits = decidingTraits;
-
-            // doesn't work yet. Delayed to later date
-            var prerequisites = GetPrerequisites(entries);
-            if (prerequisites != null) {
-                newSPData.prerequisites = prerequisites;
-            }
-
             return newSPData;
         }
 
-        private int[] GetPrerequisites(List<Dictionary<string,object>> entries) {
-            var preString = (string) entries[0][_header.prerequisites];
-            if (string.IsNullOrEmpty(preString)) {
-                return null;
-            }
-
-            return null;
-        }
-
-        private DecidingTraits GetDecidingTraits(List<Dictionary<string, object>> entries) {
+        protected virtual DecidingTraits GetDecidingTraits(List<Dictionary<string, object>> entries) {
             var deciders = new DecidingTraits();
             foreach (var entry in entries) {
-                if ((string) entry[_header.outcomes] == "-") {
+                if ((string) entry[Header.outcomes] == "-") {
                     continue;
                 }
 
@@ -132,7 +149,7 @@ namespace Main.StoryPoints.SPProviders {
                     return null;
                 }
 
-                var traitString = (string) entry[_header.decidingTraits];
+                var traitString = (string) entry[Header.decidingTraits];
                 if (Enum.TryParse<ETrait>(traitString, out var trait)) {
                     deciders[trait] = deciderEffects;
                 }
@@ -146,7 +163,7 @@ namespace Main.StoryPoints.SPProviders {
 
         private TraitDecisionEffects GetDeciderEffects(IReadOnlyDictionary<string, object> entry) {
             var effects = new TraitDecisionEffects {
-                Outcome = (string) entry[_header.outcomes],
+                Outcome = (string) entry[Header.outcomes],
                 BoardEffect = new Dictionary<ETrait, int>()
             };
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
@@ -177,7 +194,7 @@ namespace Main.StoryPoints.SPProviders {
         // private TraitWeights GetTraitWeightsForStat(List<Dictionary<string, object>> entries, EStatType stat) {
         //     var weights = new TraitWeights();
         //     foreach (var entry in entries) {
-        //         var traitString = (string) entry[_header.traits];
+        //         var traitString = (string) entry[Header.traits];
         //         var weight = (int) entry[stat.ToString()];
         //         if (Enum.TryParse<ETrait>(traitString, out var trait)) {
         //             weights[trait] = weight;
@@ -189,22 +206,24 @@ namespace Main.StoryPoints.SPProviders {
         //     return weights;
         // }
 
-        private void InitHeader() {
+        protected virtual  void InitHeader() {
             var headerAsArray = CSVReader.GetHeader(StoryPointsCSV);
-            _header.id = headerAsArray[0];
-            _header.description = headerAsArray[1];
-            _header.decidingTraits = headerAsArray[2];
-            _header.cmmndr = headerAsArray[3];
-            _header.ntrpnr = headerAsArray[4];
-            _header.mdtr = headerAsArray[5];
-            _header.dfndr = headerAsArray[6];
-            _header.ntrpst = headerAsArray[7];
-            _header.lgstcn = headerAsArray[8];
-            _header.outcomes = headerAsArray[9];
-            _header.outcomeID = headerAsArray[10];
-            _header.turnsToEvaluation = headerAsArray[11];
-            _header.reward = headerAsArray[12];
-            _header.prerequisites = headerAsArray[13];
+            Header = new CSVHeader {
+                id = headerAsArray[0],
+                description = headerAsArray[1],
+                decidingTraits = headerAsArray[2],
+                cmmndr = headerAsArray[3],
+                ntrpnr = headerAsArray[4],
+                mdtr = headerAsArray[5],
+                dfndr = headerAsArray[6],
+                ntrpst = headerAsArray[7],
+                lgstcn = headerAsArray[8],
+                outcomes = headerAsArray[9],
+                outcomeID = headerAsArray[10],
+                turnsToEvaluation = headerAsArray[11],
+                reward = headerAsArray[12],
+                prerequisites = headerAsArray[13]
+            };
         }
 
         #region EventHandlers
@@ -218,6 +237,23 @@ namespace Main.StoryPoints.SPProviders {
         }
 
         #endregion
+
+        protected class CSVHeader {
+            public string id;
+            public string description;
+            public string decidingTraits;
+            public string cmmndr;
+            public string ntrpnr;
+            public string mdtr;
+            public string dfndr;
+            public string ntrpst;
+            public string lgstcn;
+            public string outcomes;
+            public string outcomeID;
+            public string turnsToEvaluation;
+            public string reward;
+            public string prerequisites;
+        }
 
     }
 }

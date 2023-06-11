@@ -4,6 +4,7 @@ using Core.EventSystem;
 using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.Events;
 using Main.StoryPoints;
+using Main.StoryPoints.Interfaces;
 using Main.StoryPoints.SPProviders;
 using Main.Traits;
 using TMPro;

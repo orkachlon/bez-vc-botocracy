@@ -19,28 +19,33 @@ namespace Main.Neurons.NeuronQueue {
         [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager boardEventManager;
         [SerializeField] private SEventManager modificationsEventManager;
+        [SerializeField] private SEventManager gmEventManager;
 
         public int Count => _isInfinite ? int.MaxValue : _neurons.Count;
 
         private Queue<Neuron> _neurons;
         private bool _isInfinite;
+        private bool _isProviding;
 
         #region UnityMethods
 
         private void Awake() {
             _neurons = new Queue<Neuron>();
+            _isProviding = true;
         }
 
         private void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, OnBoardElementPlaced);
             neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Register(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
+            gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnGameWin);
         }
 
         private void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, OnBoardElementPlaced);
             neuronEventManager.Unregister(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
+            gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnGameWin);
         }
 
         #endregion
@@ -50,10 +55,12 @@ namespace Main.Neurons.NeuronQueue {
                 Enqueue(neuron);
             }
         }
-        
+
         public void Enqueue(Neuron neuron) {
             _neurons.Enqueue(neuron);
-            currentNeuronData.SetData(Peek().DataProvider);
+            if (_isProviding) {
+                currentNeuronData.SetData(Peek().DataProvider);
+            }
             neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, new NeuronQueueEventArgs(this));
         }
 
@@ -63,11 +70,11 @@ namespace Main.Neurons.NeuronQueue {
                 Enqueue(new Neuron(NeuronManager.GetRandomNeuron()));
             }
         }
-        
+
         public Neuron Dequeue() {
             _neurons.TryDequeue(out var nextNeuron);
             if (nextNeuron == null) {
-                currentNeuronData.Type = ENeuronType.Undefined; // shouldn't happen, just to be sure
+                StopProvidingNeurons(); // shouldn't happen, just to be sure
                 return null;
             }
             // never run out of neurons but keep visibility and functionality the same
@@ -77,11 +84,14 @@ namespace Main.Neurons.NeuronQueue {
             neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronQueueEventArgs(this));
             
             if (_neurons.Count == 0) {
-                currentNeuronData.Type = ENeuronType.Undefined;
+                StopProvidingNeurons();
                 neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronQueueEventArgs(this));
                 return null;
             }
-            currentNeuronData.SetData(Peek().DataProvider);
+
+            if (_isProviding) {
+                currentNeuronData.SetData(Peek().DataProvider);
+            }
             return nextNeuron;
         }
 
@@ -132,7 +142,20 @@ namespace Main.Neurons.NeuronQueue {
             _isInfinite = infiniteNeurons.IsInfinite;
         }
 
+        private void OnGameWin(EventArgs obj) {
+            if (obj is not GameStateEventArgs { State: GameState.Win }) {
+                return;
+            }
+
+            StopProvidingNeurons();
+        }
+
         #endregion
+
+        private void StopProvidingNeurons() {
+            _isProviding = false;
+            currentNeuronData.Type = ENeuronType.Undefined;
+        }
 
         public IEnumerator<Neuron> GetEnumerator() => _neurons.GetEnumerator();
 

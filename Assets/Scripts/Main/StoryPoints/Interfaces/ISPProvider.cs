@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using Main.Traits;
 using Main.Utils;
 
-namespace Main.StoryPoints.SPProviders {
+namespace Main.StoryPoints.Interfaces {
     
     public interface ISPProvider {
         int Count { get; }
         
-        StoryPointData Next();
+        StoryPointData? Next();
         bool IsEmpty();
-
         void Reset();
+        void AddOutcome(int outcomeID);
     }
     
     [Serializable]
     public struct StoryPointData {
         public int id;
+        public string title;
         public string description;
         public int reward;
         public int turnsToEvaluation;
         public DecidingTraits decidingTraits;
-        public int[] prerequisites;
+        public string prerequisites;
     }
 
     #region Wrappers
@@ -39,6 +40,7 @@ namespace Main.StoryPoints.SPProviders {
         public static readonly TraitDecisionEffects NoDecision = new();
 
         public ETrait DecidingTrait;
+        public string Action;
         public string Outcome;
         public Dictionary<ETrait, int> BoardEffect;
     }

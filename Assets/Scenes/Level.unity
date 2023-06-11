@@ -8983,7 +8983,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: '0
 
-    Defender'
+    Protector'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
   m_sharedMaterial: {fileID: 8845025251329881265, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
@@ -10335,7 +10335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39cd528a08d04ef3856f97c058dbc417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infiniteStoryPoints: 1
+  infiniteStoryPoints: 0
   infiniteNeurons: 0
   modificationEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
 --- !u!1 &1811897069 stripped
@@ -10619,7 +10619,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2883184648831337487, guid: 0672931386439804ab244e309a06f42f, type: 3}
   m_PrefabInstance: {fileID: 2883184649275028136}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1971986115
+--- !u!114 &1971986117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10628,11 +10628,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1971986112}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a10b94bde644443ba46799b877283996, type: 3}
+  m_Script: {fileID: 11500000, guid: 99ba819906534b5eb0900a91bae5cc3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StoryPointsCSV: {fileID: 4900000, guid: 45cfc3fe0f01d3a4887776f636db4395, type: 3}
+  StoryPointsCSV: {fileID: 4900000, guid: 7dfc532387f41e240ba2a2f953b7c66c, type: 3}
   modificationsEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
+  numberOfDecidingTraits: 3
 --- !u!224 &2001157229 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8630538136859855886, guid: 0bb86d3962de24e4fb346e88057b029d, type: 3}

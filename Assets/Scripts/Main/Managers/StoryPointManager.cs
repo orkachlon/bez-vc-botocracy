@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.EventSystem;
 using Core.Utils;
 using Main.MyHexBoardSystem.Events;
@@ -13,7 +14,6 @@ namespace Main.Managers {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
-        [SerializeField] private SEventManager gmEventManager;
         [SerializeField] private SEventManager boardEventManager;
 
         [Header("Visuals")] [SerializeField] private MStoryPoint storyPointPrefab;
@@ -60,17 +60,25 @@ namespace Main.Managers {
 
         private void NextStoryPoint() {
             if (_spProvider.IsEmpty() && _currentStory.Evaluated) {
-                MLogger.LogEditor("No more story points in queue!");
-                storyEventManager.Raise(StoryEvents.OnNoMoreStoryPoints, EventArgs.Empty);
+                DispatchNoMoreSPs();
                 return;
             }
 
             // var storyPointData = ReadStoryPointFromJson();
             var storyPointData = _spProvider.Next();
+            if (!storyPointData.HasValue) {
+                DispatchNoMoreSPs();
+                return;
+            }
 
             _currentStory?.Destroy();
             _currentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
-            _currentStory.InitData(storyPointData);
+            _currentStory.InitData(storyPointData.Value);
+        }
+
+        private void DispatchNoMoreSPs() {
+            MLogger.LogEditor("No more story points in queue!");
+            storyEventManager.Raise(StoryEvents.OnNoMoreStoryPoints, EventArgs.Empty);
         }
     }
 }

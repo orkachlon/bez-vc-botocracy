@@ -40,7 +40,7 @@ namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
                 ETrait.Commander => new Hex(1, 0),
                 ETrait.Entrepreneur => new Hex(1, -1),
                 ETrait.Logistician => new Hex(0, -1),
-                ETrait.Defender => new Hex(-1, 0),
+                ETrait.Protector => new Hex(-1, 0),
                 ETrait.Mediator => new Hex(-1, 1),
                 _ => throw new ArgumentOutOfRangeException(nameof(trait), trait, null)
             };
@@ -61,7 +61,7 @@ namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
                 return ETrait.Logistician;
             }
             if (hex == new Hex(-1, 0)) {
-                return ETrait.Defender;
+                return ETrait.Protector;
             }
             if (hex == new Hex(-1, 1)) {
                 return ETrait.Mediator;

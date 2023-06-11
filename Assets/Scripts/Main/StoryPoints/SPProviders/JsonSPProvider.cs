@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Main.StoryPoints.Interfaces;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -11,6 +13,7 @@ namespace Main.StoryPoints.SPProviders {
         public int Count => _spQueue.Count;
 
         private Queue<TextAsset> _spQueue;
+        private int[] _outcomeIDs;
 
         private void Awake() {
             UnityEditor.AssetDatabase.Refresh();
@@ -27,7 +30,7 @@ namespace Main.StoryPoints.SPProviders {
             }
         }
 
-        public StoryPointData Next() {
+        public StoryPointData? Next() {
             return ReadStoryPointFromJson();
         }
 
@@ -38,6 +41,10 @@ namespace Main.StoryPoints.SPProviders {
         public void Reset() {
             _spQueue.Clear();
             EnqueueStoryPoints(storyTextAssets);
+        }
+
+        public void AddOutcome(int outcomeID) {
+            _outcomeIDs ??= _outcomeIDs.Append(outcomeID) as int[];
         }
 
         private StoryPointData ReadStoryPointFromJson() {
