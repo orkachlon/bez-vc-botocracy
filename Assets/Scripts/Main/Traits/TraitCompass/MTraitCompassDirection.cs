@@ -9,6 +9,7 @@ namespace Main.Traits.TraitCompass {
 
         [SerializeField] private ETrait trait;
         [SerializeField] private Color highlightColor;
+        [SerializeField] private Color noEffectColor;
         
         [Header("Event Managers"), SerializeField]
         private SEventManager boardEventManager;
@@ -25,7 +26,7 @@ namespace Main.Traits.TraitCompass {
         }
         
         private void OnEnable() {
-            _currentSPColor = HasEffect ? _baseColor : Color.gray;
+            _currentSPColor = HasEffect ? _baseColor : noEffectColor;
             _image.color = _currentSPColor;
         }
         
