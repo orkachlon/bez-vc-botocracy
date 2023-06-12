@@ -27,10 +27,16 @@ namespace Main.Neurons.Runtime {
             _position = BoardManipulationOddR<BoardNeuron>.GetHexCoordinate(cell);
             _boardEventManager = boardEventManager;
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, Travel);
+            MonoBehaviour.print("Registered!");
         }
         
         private void Travel(EventArgs obj) {
             if (obj is not BoardElementEventArgs<BoardNeuron> placementData || placementData.Element.Equals(this)) {
+                return;
+            }
+
+            if (!_controller.Board.HasPosition(_position)) {
+                UnregisterFromBoard();
                 return;
             }
 
@@ -40,13 +46,19 @@ namespace Main.Neurons.Runtime {
                 .ToArray();
             if (neighbours.Length > 0) {
                 var randomNeighbor = neighbours[Random.Range(0, neighbours.Length)];
-                _controller.AddElement(NeuronFactory.GetBoardNeuron(ENeuronType.Dummy), randomNeighbor);
+                _controller.RemoveElement(_position);
+                _controller.AddElement(NeuronFactory.GetBoardNeuron(ENeuronType.Dummy), _position);
+                _controller.AddNeuron(this, randomNeighbor, false);
                 _position = randomNeighbor;
             }
             _turnsToStop--;
             if (_turnsToStop > 0) {
                 return;
             }
+            UnregisterFromBoard();
+        }
+
+        private void UnregisterFromBoard() {
             _boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, Travel);
         }
     }

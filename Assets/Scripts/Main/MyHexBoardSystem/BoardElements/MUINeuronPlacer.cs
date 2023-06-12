@@ -49,6 +49,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             await Task.Delay(100);
             var uiElement = _registerUiElements[element];
             MObjectPooler.Instance.Release(uiElement.gameObject);
+            _registerUiElements.Remove(element);
         }
 
         private async Task AwaitCurrentUITask() {

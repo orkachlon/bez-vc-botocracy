@@ -82,41 +82,14 @@ namespace Main.MyHexBoardSystem.BoardElements {
         }
 
         public override bool AddElement(BoardNeuron element, Hex hex) {
-            var position = Board.GetPosition(hex);
-            if (position == null)
-                return false;
-            var cell = GetCellCoordinate(hex);
-            if (position.HasData()) {
-                DispatchOnAddElementFailed(element, cell);
-                return false;
-            }
+            return AddNeuron(element, hex);
+        }
 
-            // check if any neighbors exist
+        private bool HasNeighbors(Vector3Int cell) {
             var neighbours = Manipulator.GetNeighbours(cell);
-            var hasNeighbour = neighbours.Any(neighbour => Board.HasPosition(neighbour) && 
+            var hasNeighbour = neighbours.Any(neighbour => Board.HasPosition(neighbour) &&
                                                            Board.GetPosition(neighbour).HasData());
-            if (!hasNeighbour) {
-                DispatchOnAddElementFailed(element, cell);
-                return false;
-            }
-
-            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
-            if (!trait.HasValue) {
-                DispatchOnAddElementFailed(element, cell);
-                return false;
-            }
-
-            position.AddData(element);
-            NeuronsPerTrait[trait.Value]++;
-            // dispatch inner event
-            DispatchOnAddElement(element, cell);
-            
-            element.Activate(externalEventManager, this, cell);
-            
-            var eventData = new BoardElementEventArgs<BoardNeuron>(element, hex);
-            externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
-            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new OnBoardStateBroadcastEventArgs(this));
-            return true;
+            return hasNeighbour;
         }
 
         public override void RemoveElement(Hex hex) {
@@ -148,6 +121,43 @@ namespace Main.MyHexBoardSystem.BoardElements {
             return NeuronsPerTrait
                 .Where(kvp => traits.Contains(kvp.Key) && kvp.Value == max)
                 .Select(kvp => kvp.Key);
+        }
+
+        public bool AddNeuron(BoardNeuron neuron, Hex hex, bool activate = true) {
+            var position = Board.GetPosition(hex);
+            if (position == null)
+                return false;
+            var cell = GetCellCoordinate(hex);
+            if (position.HasData()) {
+                DispatchOnAddElementFailed(neuron, cell);
+                return false;
+            }
+
+            // check if any neighbors exist
+            if (!HasNeighbors(cell)) {
+                DispatchOnAddElementFailed(neuron, cell);
+                return false;
+            }
+
+            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+            if (!trait.HasValue) {
+                DispatchOnAddElementFailed(neuron, cell);
+                return false;
+            }
+            NeuronsPerTrait[trait.Value]++;
+
+            position.AddData(neuron);
+            // dispatch inner event
+            DispatchOnAddElement(neuron, cell);
+
+            if (activate) {
+                neuron.Activate(externalEventManager, this, cell);
+            }
+            
+            var eventData = new BoardElementEventArgs<BoardNeuron>(neuron, hex);
+            externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
+            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new OnBoardStateBroadcastEventArgs(this));
+            return true;
         }
     }
 }

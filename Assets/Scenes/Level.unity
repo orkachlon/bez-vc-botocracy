@@ -1297,7 +1297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ca6b71b68a4dde81da5ace71d19e76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentNeuron: {fileID: 0}
+  currentNeuron: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
   positiveTile: {fileID: 11400000, guid: 4c226b16a161d72478f39d460b7deeed, type: 2}
   negativeTile: {fileID: 11400000, guid: 9cdc0f39ddb2370448d94d08b5ecdd7d, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
