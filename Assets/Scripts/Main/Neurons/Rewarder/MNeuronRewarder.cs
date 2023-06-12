@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
-using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons.Runtime;
@@ -35,18 +34,20 @@ namespace Main.Neurons.Rewarder {
             _traitAccessor = GetComponent<ITraitAccessor>();
         }
 
+        private void Start() {
+            PickRewardTilesRandomly(EventArgs.Empty);
+        }
+
         private void OnEnable() {
-            // boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateEmptyTiles);
             boardEventManager.Register(ExternalBoardEvents.OnAddElement, CheckForRewardTiles);
             boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
-            storyEventManager.Register(StoryEvents.OnInitStory, PickRewardTilesRandomly);
+            boardEventManager.Register(ExternalBoardEvents.OnBoardModified, PickRewardTilesRandomly);
         }
 
         private void OnDisable() {
-            // boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, UpdateEmptyTiles);
             boardEventManager.Unregister(ExternalBoardEvents.OnAddElement, CheckForRewardTiles);
-            boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
-            storyEventManager.Unregister(StoryEvents.OnInitStory, PickRewardTilesRandomly);
+            boardEventManager.Unregister(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, PickRewardTilesRandomly);
         }
 
         #endregion
@@ -67,9 +68,14 @@ namespace Main.Neurons.Rewarder {
                     continue;
                 }
                 var emptyTiles = _traitAccessor.GetTraitEmptyHexes(trait, rewardPossibleTiles);
-                if (emptyTiles.Length == 0) {
-                    return;
+                if (emptyTiles.Length == 0 && currentAmount == 0) {
+                    // try to use any empty tile
+                    emptyTiles = _traitAccessor.GetTraitEmptyHexes(trait);
                 }
+                if (emptyTiles.Length == 0) {
+                    continue;
+                }
+
 
                 var randomEmptyTile = emptyTiles[Random.Range(0, emptyTiles.Length)];
                 _rewardHexes[randomEmptyTile] = Random.Range(minReward, maxReward);

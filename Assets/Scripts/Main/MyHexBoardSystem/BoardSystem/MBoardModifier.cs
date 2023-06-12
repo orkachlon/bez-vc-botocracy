@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem.Board;
 using Main.MyHexBoardSystem.BoardElements;
-using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons.Runtime;
@@ -66,6 +65,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
                     AddTilesToTrait(trait, effectStrength);
                 }
             }
+            boardEventManager.Raise(ExternalBoardEvents.OnBoardModified, EventArgs.Empty);
         }
 
         private async void RemoveTilesFromTrait(ETrait trait, int amount) {

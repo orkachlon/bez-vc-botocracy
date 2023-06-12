@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace Main.MyHexBoardSystem.Events {
     public static class ExternalBoardEvents {
+        public const string OnBoardModified = "Board_OnBoardModified";
         public const string OnBoardFull = "Board_OnBoardFull";
         public const string OnRemoveTile = "Board_OnRemoveTile";
         public const string OnAddTile = "Board_OnAddTile";

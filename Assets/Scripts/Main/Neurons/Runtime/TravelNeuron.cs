@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Core.EventSystem;
-using Core.Utils;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements;
@@ -17,6 +16,7 @@ namespace Main.Neurons.Runtime {
         private SEventManager _boardEventManager;
         private IBoardNeuronsController _controller;
         private Hex _position;
+        private bool _moving;
 
         public TravelNeuron() : base(MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Travelling)) {
             _turnsToStop = ((STravelNeuronData) DataProvider).TurnsToStop;
@@ -46,7 +46,9 @@ namespace Main.Neurons.Runtime {
                 .ToArray();
             if (neighbours.Length > 0) {
                 var randomNeighbor = neighbours[Random.Range(0, neighbours.Length)];
+                _moving = true;
                 _controller.RemoveElement(_position);
+                _moving = false;
                 _controller.AddElement(NeuronFactory.GetBoardNeuron(ENeuronType.Dummy), _position);
                 _controller.AddNeuron(this, randomNeighbor, false);
                 _position = randomNeighbor;
@@ -64,7 +66,7 @@ namespace Main.Neurons.Runtime {
         }
 
         private void Die(EventArgs obj) {
-            if (obj is not BoardElementEventArgs<BoardNeuron> args || args.Element != this) {
+            if (obj is not BoardElementEventArgs<BoardNeuron> args || args.Element != this || _moving) {
                 return;
             }
             UnregisterFromBoard();
