@@ -10,6 +10,7 @@ using Core.Utils.DataStructures;
 using ExternBoardSystem.BoardSystem.Board;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
+using Main.Neurons.Runtime;
 using UnityEngine.Tilemaps;
 
 namespace Main.MyHexBoardSystem.BoardSystem {

@@ -24,30 +24,6 @@ namespace Main.Neurons {
             NeuronQueue = neuronQueue;
         }
     }
-    
-    public class BoardNeuronEventArgs : EventArgs {
-        public readonly BoardNeuron Neuron;
-
-        public BoardNeuronEventArgs(BoardNeuron neuron) {
-            Neuron = neuron;
-        }
-        
-        public BoardNeuronEventArgs() {
-            Neuron = null;
-        }
-    }
-
-    public class UINeuronEventArgs : BoardNeuronEventArgs {
-        public readonly Neuron UINeuron;
-
-        public UINeuronEventArgs(Neuron uiNeuron) : base(new BoardNeuron(uiNeuron.DataProvider)){
-            UINeuron = uiNeuron;
-        }
-
-        public UINeuronEventArgs() {
-            UINeuron = null;
-        }
-    }
 
     public class NeuronRewardEventArgs : EventArgs {
         public int Amount;
@@ -55,11 +31,6 @@ namespace Main.Neurons {
         public NeuronRewardEventArgs(int amount) {
             Amount = amount;
         }
-    }
-
-    public class NeuronTurnEventArgs : EventArgs {
-        public BoardNeuron Neuron;
-        public IBoardManipulation BoardManipulation;
     }
 
     public class RewardTileArgs : EventArgs {

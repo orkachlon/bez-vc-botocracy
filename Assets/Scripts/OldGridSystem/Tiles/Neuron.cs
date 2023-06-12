@@ -1,11 +1,13 @@
 ﻿using Main.MyHexBoardSystem.BoardElements.Neuron;
+using Main.Neurons;
+using Main.Neurons.Data;
 
 namespace OldGridSystem.Tiles {
     public class Neuron {
-        public Neuron(SNeuronData dataProvider) {
+        public Neuron(SNeuronDataBase dataProvider) {
             NeuronData = dataProvider;
         }
         
-        public SNeuronData NeuronData { get; }
+        public SNeuronDataBase NeuronData { get; }
     }
 }

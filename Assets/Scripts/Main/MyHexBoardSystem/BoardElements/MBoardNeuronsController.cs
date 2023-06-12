@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
-using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
-using Main.MyHexBoardSystem.BoardSystem;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
-using Main.MyHexBoardSystem.UI;
 using Main.Neurons;
+using Main.Neurons.Data;
+using Main.Neurons.Runtime;
 using Main.Traits;
 using Main.Utils;
 using UnityEngine;
@@ -21,12 +19,12 @@ namespace Main.MyHexBoardSystem.BoardElements {
     public class MBoardNeuronsController : MBoardElementsController<BoardNeuron, MUIBoardNeuron> , IBoardNeuronsController {
 
         [Header("Neuron Data Provider"), SerializeField]
-        private SNeuronData currentNeuronData;
+        private SNeuronDataBase currentNeuronData;
 
         [Header("Neuron Board Event Managers"), SerializeField]
         private SEventManager gmEventManager;
         
-        protected SNeuronData CurrentProvider => currentNeuronData;
+        protected SNeuronDataBase CurrentProvider => currentNeuronData;
 
 
         public int CountNeurons => Board.Positions.Count(p => p.HasData());
@@ -59,8 +57,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             }
 
             // use the static data instead of the CurrentProvider data which is going to change every time
-            var dataCopy = MNeuronTypeToBoardData.GetNeuronData(CurrentProvider.Type);
-            var element = new BoardNeuron(dataCopy);
+            var element = NeuronFactory.GetBoardNeuron(CurrentProvider.Type);
             if (!AddElement(element, hex)) {
                 return;
             }
@@ -114,9 +111,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             // dispatch inner event
             DispatchOnAddElement(element, cell);
             
-            if (element.DataProvider.GetActivation() != null) {
-                element.DataProvider.GetActivation().Invoke(this, cell);
-            }
+            element.Activate(externalEventManager, this, cell);
             
             var eventData = new BoardElementEventArgs<BoardNeuron>(element, hex);
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);

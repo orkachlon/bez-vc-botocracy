@@ -3,6 +3,7 @@ using ExternBoardSystem.Tools;
 using ExternBoardSystem.Tools.Input.Mouse;
 using Main.MyHexBoardSystem.BoardSystem;
 using Main.Neurons;
+using Main.Neurons.Data;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,7 +16,7 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
     public class MNeuronHover : MonoBehaviour {
 
         [Header("Board Data"), SerializeField]
-        private SNeuronData currentNeuron;
+        private SNeuronDataBase currentNeuron;
         [SerializeField] private MNeuronBoardController boardController;
         
         private IMouseInput _mouseInput;

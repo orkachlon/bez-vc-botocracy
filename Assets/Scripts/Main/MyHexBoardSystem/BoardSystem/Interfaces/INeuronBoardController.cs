@@ -1,6 +1,7 @@
 ﻿using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
+using Main.Neurons.Runtime;
 using Main.Traits;
 using UnityEngine;
 using UnityEngine.Tilemaps;

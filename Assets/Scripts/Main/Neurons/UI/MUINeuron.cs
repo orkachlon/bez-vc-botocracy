@@ -1,11 +1,9 @@
-﻿using Core.Utils;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Main.Neurons.UI {
     public class MUINeuron : MonoBehaviour {
         public Neuron RuntimeData { get; set; }
-        
         protected Image UIImage { get; set; }
         protected Transform Transform { get; set; }
         protected Canvas Canvas { get; set; }

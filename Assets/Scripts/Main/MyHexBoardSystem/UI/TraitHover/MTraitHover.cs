@@ -5,6 +5,7 @@ using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons;
+using Main.Neurons.Data;
 using Main.StoryPoints;
 using Main.StoryPoints.Interfaces;
 using Main.Traits;
@@ -20,7 +21,7 @@ namespace Main.MyHexBoardSystem.UI.TraitHover {
     public class MTraitHover : MonoBehaviour {
         
         [Header("Current Neuron"), SerializeField]
-        private SNeuronData currentNeuron;
+        private SNeuronDataBase currentNeuron;
 
         [Header("Highlighting"), SerializeField] private TileBase positiveTile;
         [SerializeField] private TileBase negativeTile;

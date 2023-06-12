@@ -8,6 +8,7 @@ using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
+using Main.Neurons.Runtime;
 using Main.StoryPoints;
 using Main.Traits;
 using UnityEngine;

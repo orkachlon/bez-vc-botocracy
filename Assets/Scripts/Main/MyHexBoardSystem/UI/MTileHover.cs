@@ -4,6 +4,7 @@ using ExternBoardSystem.Tools.Input.Mouse;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem;
 using Main.Neurons;
+using Main.Neurons.Data;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
@@ -17,7 +18,7 @@ namespace Main.MyHexBoardSystem.UI {
         [SerializeField] private TileBase canBePlacedTileBase;
         [SerializeField] private TileBase cannotBePlacedTileBase;
         [SerializeField] private TileBase hoverOutlineTile;
-        [SerializeField] private SNeuronData currentNeuron;
+        [SerializeField] private SNeuronDataBase currentNeuron;
         
         private IMouseInput _mouseInput;
         private Camera _cam;

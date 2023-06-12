@@ -7,14 +7,16 @@ using Main.GameModifications;
 using Main.Managers;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.Events;
+using Main.Neurons.Data;
 using Main.Neurons.Interfaces;
+using Main.Neurons.Runtime;
 using UnityEngine;
 
 namespace Main.Neurons.NeuronQueue {
     public class MNeuronQueue : MonoBehaviour, INeuronQueue, IEnumerable<Neuron> {
         
         [Header("Current Neuron Data"), SerializeField]
-        private SNeuronData currentNeuronData;
+        private SNeuronDataBase currentNeuronData;
 
         [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager boardEventManager;
@@ -67,7 +69,7 @@ namespace Main.Neurons.NeuronQueue {
         public void Enqueue(int amount) {
             for (var i = 0; i < amount; i++) {
                 // todo actually implement a neuron providing system
-                Enqueue(new Neuron(NeuronManager.GetRandomNeuron()));
+                Enqueue(new Neuron(NeuronFactory.GetRandomPlaceableNeuron()));
             }
         }
 

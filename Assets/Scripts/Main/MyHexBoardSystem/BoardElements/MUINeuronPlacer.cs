@@ -5,6 +5,7 @@ using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.Tools;
 using ExternBoardSystem.Ui.Board;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
+using Main.Neurons.Runtime;
 using UnityEngine;
 
 namespace Main.MyHexBoardSystem.BoardElements {

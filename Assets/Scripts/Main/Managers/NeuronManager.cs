@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Linq;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem.Coordinates;
-using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons;
-using Main.Utils;
+using Main.Neurons.Runtime;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Main.Managers {
     public class NeuronManager : MonoBehaviour {
@@ -31,7 +28,7 @@ namespace Main.Managers {
 
         private void Init(EventArgs _) {
             // place the initial neuron
-            var invulnerableBoardNeuron = GetNeuron(ENeuronType.Invulnerable);
+            var invulnerableBoardNeuron = NeuronFactory.GetBoardNeuron(ENeuronType.Invulnerable);
             var firstNeuronEventData = new BoardElementEventArgs<BoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
             boardEventManager.Raise(ExternalBoardEvents.OnSetFirstElement, firstNeuronEventData);
             // add some neurons to the queue
@@ -41,19 +38,5 @@ namespace Main.Managers {
         }
 
         #endregion
-
-        public static BoardNeuron GetNeuron(ENeuronType neuronType) {
-            var data = MNeuronTypeToBoardData.GetNeuronData(neuronType);
-            return new BoardNeuron(data);
-        }
-
-        public static BoardNeuron GetRandomNeuron() {
-            var asArray = EnumUtil.GetValues<ENeuronType>()
-                .Where(t => t != ENeuronType.Undefined)
-                .ToArray();
-            var rnd = asArray[Random.Range(0, asArray.Length)];
-            var data = MNeuronTypeToBoardData.GetNeuronData(rnd);
-            return new BoardNeuron(data);
-        }
     }
 }

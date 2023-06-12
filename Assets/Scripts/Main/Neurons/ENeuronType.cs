@@ -4,6 +4,8 @@
         Invulnerable,
         Exploding,
         Expanding,
-        Dummy
+        Dummy,
+        Decaying,
+        Travelling
     }
 }

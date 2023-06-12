@@ -1297,7 +1297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ca6b71b68a4dde81da5ace71d19e76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentNeuron: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
+  currentNeuron: {fileID: 0}
   positiveTile: {fileID: 11400000, guid: 4c226b16a161d72478f39d460b7deeed, type: 2}
   negativeTile: {fileID: 11400000, guid: 9cdc0f39ddb2370448d94d08b5ecdd7d, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
@@ -5544,10 +5544,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDontDestroyOnLoad: 0
   isSilent: 1
-  dummy: {fileID: 11400000, guid: 43019039964cae543a975dc0b3104112, type: 2}
-  invulnerable: {fileID: 11400000, guid: ae9a45f6f194f004fb01dff566e6d386, type: 2}
-  expand: {fileID: 11400000, guid: 6791cfb0064bdd54a85fc01199d2db77, type: 2}
-  explode: {fileID: 11400000, guid: b4a27fc5267b68945b3a2b2aea49bfe8, type: 2}
+  invulnerable: {fileID: 11400000, guid: 7cdc965a6ee903a4dabfbd3433f247b0, type: 2}
+  dummy: {fileID: 11400000, guid: 1eb209a9217f1cf428f91a7277a4b040, type: 2}
+  expand: {fileID: 11400000, guid: b9e8b49c4c955cf48a319a070ad44155, type: 2}
+  explode: {fileID: 11400000, guid: b91ca266c06d2d049a5b1e398d1d96b6, type: 2}
+  decay: {fileID: 11400000, guid: 52ff26ba0aacdc448b4aae81f569daca, type: 2}
+  travel: {fileID: 11400000, guid: fd82234b5dc957949875455aaeb4f6b1, type: 2}
 --- !u!1 &1330746247
 GameObject:
   m_ObjectHideFlags: 0
@@ -9377,26 +9379,6 @@ MonoBehaviour:
   trait: 1
   textField: {fileID: 1795018048}
   highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
---- !u!1 &1803447949 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5589631878319523306, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
-  m_PrefabInstance: {fileID: 5589631879776718406}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1803447951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1803447949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39cd528a08d04ef3856f97c058dbc417, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infiniteStoryPoints: 0
-  infiniteNeurons: 0
-  modificationEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
 --- !u!1001 &1804513604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11238,6 +11220,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6915579192277995953, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3ee08a1ccc4a9b34a9be0531fe7d9528, type: 3}
     - target: {fileID: 7251021837091731247, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -11444,25 +11430,9 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5589631878319523307, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
-      propertyPath: gmEventManager
-      value: 
-      objectReference: {fileID: 11400000, guid: da5fbe8daab46c14780444ed40e883a7, type: 2}
-    - target: {fileID: 5589631878319523307, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
       propertyPath: statEventManager
       value: 
       objectReference: {fileID: 11400000, guid: 3d64763052712ea43ae964e2b427999c, type: 2}
-    - target: {fileID: 5589631878319523307, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
-      propertyPath: boardEventManager
-      value: 
-      objectReference: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
-    - target: {fileID: 5589631878319523307, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
-      propertyPath: storyEventManager
-      value: 
-      objectReference: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
-    - target: {fileID: 5589631878319523307, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
-      propertyPath: neuronEventManager
-      value: 
-      objectReference: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
     - target: {fileID: 5589631878319523307, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
       propertyPath: innerBoardEventManager
       value: 
