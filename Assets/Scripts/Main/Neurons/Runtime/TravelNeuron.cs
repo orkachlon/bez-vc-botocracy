@@ -27,7 +27,6 @@ namespace Main.Neurons.Runtime {
             _position = BoardManipulationOddR<BoardNeuron>.GetHexCoordinate(cell);
             _boardEventManager = boardEventManager;
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, Travel);
-            MonoBehaviour.print("Registered!");
         }
         
         private void Travel(EventArgs obj) {

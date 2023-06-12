@@ -16,7 +16,7 @@ namespace Main.Controls {
         private SEventManager storyEventManager;
 
         private Camera _camera;
-        private bool _zoomEnabled;
+        private bool _zoomEnabled = true;
         
         private void Awake() {
             _camera = GetComponent<Camera>();
