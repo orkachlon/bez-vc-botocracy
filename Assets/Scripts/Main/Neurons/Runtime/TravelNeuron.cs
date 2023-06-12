@@ -27,6 +27,7 @@ namespace Main.Neurons.Runtime {
             _position = BoardManipulationOddR<BoardNeuron>.GetHexCoordinate(cell);
             _boardEventManager = boardEventManager;
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, Travel);
+            boardEventManager.Register(ExternalBoardEvents.OnRemoveElement, Die);
         }
         
         private void Travel(EventArgs obj) {
@@ -59,6 +60,14 @@ namespace Main.Neurons.Runtime {
 
         private void UnregisterFromBoard() {
             _boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, Travel);
+            _boardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, Die);
+        }
+
+        private void Die(EventArgs obj) {
+            if (obj is not BoardElementEventArgs<BoardNeuron> args || args.Element != this) {
+                return;
+            }
+            UnregisterFromBoard();
         }
     }
 }
