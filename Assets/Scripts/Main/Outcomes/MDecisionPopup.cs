@@ -28,6 +28,11 @@ namespace Main.Outcomes {
 
         private const int StartXAnchoredPos = -50;
 
+        private const string DeciderPrefix =
+            "<size=50%><font=\"EzerBlockTRIALONLY-Regular SDF\">Decided by:\n</size></font>";
+        private const string ActionPrefix = "<font=\"EzerBlock Bold SDF\">Action: </font>";
+        private const string OutcomePrefix = "<font=\"EzerBlock Bold SDF\">Outcome: </font>";
+
         private void Awake() {
             _rt = bg.GetComponent<RectTransform>();
         }
@@ -65,10 +70,11 @@ namespace Main.Outcomes {
             if (_currentAnimation != null && _currentAnimation.IsPlaying()) {
                 await _currentAnimation.AsyncWaitForCompletion();
             }
+
             storyPointTitle.text = _currentSP.Title;
-            deciderText.text = _currentSP.DecisionEffects.DecidingTrait.ToString();
-            decisionText.text = _currentSP.DecisionEffects.Decision;
-            outcomeText.text = _currentSP.DecisionEffects.Outcome;
+            deciderText.text = $"{DeciderPrefix}{_currentSP.DecisionEffects.DecidingTrait.ToString()}";
+            decisionText.text = $"{ActionPrefix}{_currentSP.DecisionEffects.Decision}";
+            outcomeText.text = $"{OutcomePrefix}{_currentSP.DecisionEffects.Outcome}";
             spImage.sprite = _currentSP.Artwork;
             _isShowing = true;
             _currentAnimation = _rt.DOAnchorPosX(StartXAnchoredPos, 0.5f).Play();
