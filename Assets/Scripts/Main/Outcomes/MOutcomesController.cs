@@ -45,6 +45,7 @@ namespace Main.Outcomes {
             newOutcome.SetDecider(storyEffects.DecidingTrait.ToString());
             newOutcome.SetDecision(storyEffects.Decision);
             newOutcome.SetOutcomeText(storyEffects.Outcome);
+            newOutcome.SetArtwork(storyEventArgs.Story.Artwork);
             _outcomeQueue.Enqueue(newOutcome);
         }
 

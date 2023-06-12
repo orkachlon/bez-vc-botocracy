@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Core.Utils;
 using Main.StoryPoints.Interfaces;
@@ -12,6 +13,8 @@ namespace Main.StoryPoints.SPProviders {
     public class MCSVSPRandomWeightsProvider : CSVSPProvider {
 
         [SerializeField, Range(0, 7)] private int numberOfDecidingTraits;
+        [SerializeField] private string spImagesPath;
+
         protected override CSVHeader Header { 
             get => base.Header as CSVHeaderWithActions;
             set => base.Header = value;
@@ -23,6 +26,7 @@ namespace Main.StoryPoints.SPProviders {
             }
             var newSPData = new StoryPointData {
                 id = (int) entries[0][Header.id],
+                title = (string) entries[0][((CSVHeaderWithActions) Header).title],
                 description = (string) entries[0][Header.description],
                 turnsToEvaluation = (int) entries[0][Header.turnsToEvaluation],
                 prerequisites = (string) entries[0][Header.prerequisites]
@@ -32,10 +36,19 @@ namespace Main.StoryPoints.SPProviders {
             if (decidingTraits == null) {
                 throw new Exception($"SP data couldn't be read correctly! SP: {newSPData.title}");
             }
-
             newSPData.decidingTraits = decidingTraits;
-            newSPData.title = (string) entries[0][((CSVHeaderWithActions) Header).title];
+
+            var image = GetImage(newSPData.id);
+            if (image == null) {
+                throw new Exception($"SP image missing! SP: {newSPData.title}");
+            }
+            newSPData.image = image;
+
             return newSPData;
+        }
+
+        private Sprite GetImage(int id) {
+            return Resources.Load<Sprite>(Path.Join(spImagesPath, id.ToString()));
         }
 
         protected override DecidingTraits GetDecidingTraits(List<Dictionary<string, object>> entries) {

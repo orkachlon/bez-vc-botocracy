@@ -2,12 +2,14 @@
 using Core.EventSystem;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Main.StoryPoints.UI {
     public class MUIStoryPoint : MonoBehaviour {
         [Header("Visuals"), SerializeField] private TextMeshProUGUI title;
         [SerializeField] private TextMeshProUGUI description;
         [SerializeField] private TextMeshProUGUI turnCounter;
+        [SerializeField] private Image artwork;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
@@ -32,6 +34,7 @@ namespace Main.StoryPoints.UI {
             var story = storyEventArgs.Story;
             title.text = story.Title;
             description.text = story.Description;
+            artwork.sprite = story.Artwork;
             UpdateTurnCounter(story.TurnsToEvaluation);
         }
 

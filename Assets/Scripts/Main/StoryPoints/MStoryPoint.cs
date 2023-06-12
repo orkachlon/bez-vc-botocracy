@@ -25,6 +25,7 @@ namespace Main.StoryPoints {
         public int TurnsToEvaluation { get; private set; }
         public int Reward => _spData.reward;
         public DecidingTraits DecidingTraits => _spData.decidingTraits;
+        public Sprite Artwork => _spData.image;
         public TraitDecisionEffects DecisionEffects { get; private set; }
         public bool Evaluated { get; private set; } = false;
 

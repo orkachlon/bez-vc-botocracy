@@ -1013,6 +1013,7 @@ MonoBehaviour:
   title: {fileID: 3417930191036935737}
   description: {fileID: 1104837736630167951}
   turnCounter: {fileID: 2200908992639875707}
+  artwork: {fileID: 6628845489067233804}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!1 &7216911643145633279
 GameObject:

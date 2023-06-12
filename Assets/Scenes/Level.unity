@@ -1561,6 +1561,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6222795082455945166, guid: 8d74a662ac73c4f4b886900babc0febf, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e65763f0b9721db4c83ae82225fe6f81, type: 3}
     - target: {fileID: 6764859751346049508, guid: 8d74a662ac73c4f4b886900babc0febf, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5158,7 +5162,7 @@ GameObject:
   - component: {fileID: 1209675625}
   - component: {fileID: 1209675626}
   m_Layer: 0
-  m_Name: Square
+  m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6277,6 +6281,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6628845489067233804, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0173afbb2631d2c4b9d61a6de49538f5, type: 3}
     - target: {fileID: 7031859087748310436, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
       propertyPath: m_Name
       value: StoryPointPlaceholder
@@ -6562,6 +6570,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6222795082455945166, guid: 8d74a662ac73c4f4b886900babc0febf, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fab69c348a61a8a4abb831e741c4da49, type: 3}
     - target: {fileID: 6764859751346049508, guid: 8d74a662ac73c4f4b886900babc0febf, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9894,6 +9906,7 @@ MonoBehaviour:
   StoryPointsCSV: {fileID: 4900000, guid: 7dfc532387f41e240ba2a2f953b7c66c, type: 3}
   modificationsEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
   numberOfDecidingTraits: 3
+  spImagesPath: StoryPointsSprites
 --- !u!224 &2001157229 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8630538136859855886, guid: 0bb86d3962de24e4fb346e88057b029d, type: 3}
@@ -11258,6 +11271,18 @@ PrefabInstance:
     - target: {fileID: 8309717948803149595, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8888015303850376492, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8888015303850376492, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8888015303850376492, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}

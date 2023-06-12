@@ -465,7 +465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5098851ba2ecd5446b26ba37cab51a67, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0173afbb2631d2c4b9d61a6de49538f5, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1024,6 +1024,7 @@ MonoBehaviour:
   spDeciderText: {fileID: 634490738056131225}
   spDecisionText: {fileID: 7546648959889847388}
   outcomeText: {fileID: 7430523027713377302}
+  artwork: {fileID: 6222795082455945166}
 --- !u!222 &7430523028275659483
 CanvasRenderer:
   m_ObjectHideFlags: 0

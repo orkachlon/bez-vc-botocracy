@@ -1,5 +1,6 @@
 ﻿using Main.MyHexBoardSystem.BoardElements;
 using Main.StoryPoints.SPProviders;
+using UnityEngine;
 
 namespace Main.StoryPoints.Interfaces {
     public interface IStoryPoint {
@@ -12,6 +13,7 @@ namespace Main.StoryPoints.Interfaces {
         public int TurnsToEvaluation { get; }
         public int Reward { get; }
         public DecidingTraits DecidingTraits { get; }
+        public Sprite Artwork { get; }
         
         // for after SP evaluation
         public TraitDecisionEffects DecisionEffects { get; }

@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Main.Outcomes {
     public class MUIOutcome : MonoBehaviour {
@@ -7,6 +8,7 @@ namespace Main.Outcomes {
         [SerializeField] private TextMeshProUGUI spDeciderText;
         [SerializeField] private TextMeshProUGUI spDecisionText;
         [SerializeField] private TextMeshProUGUI outcomeText;
+        [SerializeField] private Image artwork;
 
         public void SetSPTitle(string title) {
             spTitleText.text = title;
@@ -22,6 +24,10 @@ namespace Main.Outcomes {
         
         public void SetOutcomeText(string text) {
             outcomeText.text = text;
+        }
+
+        public void SetArtwork(Sprite image) {
+            artwork.sprite = image;
         }
     }
 }

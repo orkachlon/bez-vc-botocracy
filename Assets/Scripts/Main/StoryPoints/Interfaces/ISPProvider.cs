@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Main.Traits;
 using Main.Utils;
+using UnityEngine;
 
 namespace Main.StoryPoints.Interfaces {
     
@@ -23,6 +24,7 @@ namespace Main.StoryPoints.Interfaces {
         public int turnsToEvaluation;
         public DecidingTraits decidingTraits;
         public string prerequisites;
+        public Sprite image;
     }
 
     #region Wrappers
