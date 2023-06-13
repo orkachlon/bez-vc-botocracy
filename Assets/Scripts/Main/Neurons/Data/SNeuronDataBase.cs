@@ -13,12 +13,15 @@ namespace Main.Neurons.Data {
             get => neuronType;
             set => neuronType = value;
         }
-        
+
+        public Color ConnectionColor => connectionColor;
+
         [Header("Sprites"), SerializeField] private Sprite boardArtwork;
         [SerializeField] private Sprite UIStackArtwork;
         [SerializeField] private Sprite UIThirdArtwork;
         [SerializeField] private Sprite UISecondArtwork;
         [SerializeField] private Sprite UIFirstArtwork;
+        [SerializeField] private Color connectionColor;
         
         [Header("Prefab  Models"), SerializeField] private MUIBoardNeuron boardModel;
         [Header("UI Model"), SerializeField] private MUINeuron UIModel;

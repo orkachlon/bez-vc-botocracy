@@ -1,48 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.EventSystem;
+using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
+using ExternBoardSystem.Tools;
+using Main.MyHexBoardSystem.BoardSystem;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons.Runtime;
 using UnityEngine;
 
 namespace Main.Neurons.Connections {
     public class MConnectionManager : MonoBehaviour {
-        
-        
+
+        [SerializeField] private MNeuronConnection connectionPrefab;
+        [SerializeField] private MNeuronBoardController controller;
         
         [Header("Event Managers"), SerializeField]
-        private SEventManager boardEventManager;
+        private SEventManager neuronEventManager;
 
-        private HashSet<Connection> _connections = new HashSet<Connection>();
+        private readonly Dictionary<BoardNeuron, MNeuronConnection> _connections = new Dictionary<BoardNeuron, MNeuronConnection>();
 
         private void OnEnable() {
-            boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateConnections);
+            neuronEventManager.Register(NeuronEvents.OnConnectNeurons, AddConnection);
+            neuronEventManager.Register(NeuronEvents.OnDisconnectNeurons, RemoveConnection);
         }
 
         private void OnDisable() {
-            boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, UpdateConnections);
+            neuronEventManager.Unregister(NeuronEvents.OnConnectNeurons, AddConnection);
+            neuronEventManager.Unregister(NeuronEvents.OnDisconnectNeurons, RemoveConnection);
         }
 
-        private void UpdateConnections(EventArgs obj) {
-            if (obj is BoardElementEventArgs<BoardNeuron> addArgs) {
-                
+        private void AddConnection(EventArgs obj) {
+            if (obj is not NeuronConnectionArgs connectionArgs) {
+                return;
             }
             
+            var newConnection = MObjectPooler.Instance.Get(connectionPrefab.gameObject).GetComponent<MNeuronConnection>();
+            _connections[connectionArgs.Neuron1] = newConnection;
+            newConnection.Connect(controller, connectionArgs.Neuron1, connectionArgs.Neuron2);
         }
-    }
+        
+        private void RemoveConnection(EventArgs args) {
+            if (args is not NeuronConnectionArgs connectionArgs) {
+                return;
+            }
 
-    internal struct Connection {
-        public Hex Pos1;
-        public Hex Pos2;
-        public BoardNeuron Neuron1;
-        public BoardNeuron Neuron2;
-
-        public Connection(Hex pos1, Hex pos2, BoardNeuron neuron1, BoardNeuron neuron2) {
-            Pos1 = pos1;
-            Pos2 = pos2;
-            Neuron1 = neuron1;
-            Neuron2 = neuron2;
+            var connection = _connections[connectionArgs.Neuron1];
+            MObjectPooler.Instance.Release(connection.gameObject);
+            _connections.Remove(connectionArgs.Neuron1);
         }
     }
 }

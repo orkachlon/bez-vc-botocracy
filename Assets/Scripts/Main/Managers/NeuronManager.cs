@@ -19,12 +19,12 @@ namespace Main.Managers {
         
         private void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
-            neuronEventManager.Register(NeuronEvents.OnDequeueNeuron, BindNeuronToEvents);
+            // neuronEventManager.Register(NeuronEvents.OnDequeueNeuron, BindNeuronToEvents);
         }
 
         private void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, Init);
-            neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, BindNeuronToEvents);
+            // neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, BindNeuronToEvents);
         }
 
         #region EventHandlers

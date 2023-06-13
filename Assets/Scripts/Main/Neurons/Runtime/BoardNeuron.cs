@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Main.Neurons.Runtime {
     public abstract class BoardNeuron : BoardElement {
 
-        protected Hex Position;
+        public Hex Position { get; protected set; }
 
         protected SEventManager NeuronEventManager;
         protected SEventManager BoardEventManager;
@@ -36,6 +36,9 @@ namespace Main.Neurons.Runtime {
         }
 
         protected void Connect(BoardNeuron other) {
+            if (!Controller.Board.HasPosition(Position)) {
+                return;
+            }
             var neighbors = Controller.Manipulator.GetNeighbours(Position);
             if (!neighbors.Contains(other.Position)) {
                 return;

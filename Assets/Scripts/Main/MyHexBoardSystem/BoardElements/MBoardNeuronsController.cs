@@ -22,7 +22,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
         private SNeuronDataBase currentNeuronData;
 
         [Header("Neuron Board Event Managers"), SerializeField]
-        private SEventManager gmEventManager;
+        private SEventManager neuronEventManager;
         
         protected SNeuronDataBase CurrentProvider => currentNeuronData;
 
@@ -151,6 +151,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             DispatchOnAddElement(neuron, cell);
 
             // initialize neuron
+            neuron.BindToNeuronManager(neuronEventManager);
             neuron.BindToBoard(externalEventManager, this, hex);
             if (activate) {
                 neuron.Activate();
