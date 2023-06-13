@@ -96,7 +96,8 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         }
 
         public Vector3 HexToWorldPos(Hex hex) {
-            return BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex);
+            var cell = BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex);
+            return tilemapLayers[BaseTilemapLayer].CellToWorld(cell);
         }
 
         public void RemoveTile(Hex hex) {

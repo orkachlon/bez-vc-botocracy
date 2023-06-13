@@ -24,6 +24,7 @@ namespace Main.Neurons.Connections {
                 new GradientColorKey[] { new(first.DataProvider.ConnectionColor, 0), new(second.DataProvider.ConnectionColor, 1)},
                 new GradientAlphaKey[] { new(1, 0), new(1, 1)}
             );
+            Line.colorGradient = grad;
         }
     }
 }
