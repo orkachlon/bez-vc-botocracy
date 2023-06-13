@@ -29,7 +29,7 @@ namespace Main.Neurons.UI {
         #endregion
         
         private void UpdateNeuronCount(EventArgs obj) {
-            if (obj is not OnBoardStateBroadcastEventArgs boardArgs) {
+            if (obj is not BoardStateEventArgs boardArgs) {
                 return;
             }
 

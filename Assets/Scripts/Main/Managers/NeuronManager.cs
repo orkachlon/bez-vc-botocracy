@@ -5,6 +5,7 @@ using Main.MyHexBoardSystem.Events;
 using Main.Neurons;
 using Main.Neurons.Runtime;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Main.Managers {
     public class NeuronManager : MonoBehaviour {
@@ -14,14 +15,16 @@ namespace Main.Managers {
         [Header("Event Managers"), SerializeField]
         private SEventManager gmEventManager;
         [SerializeField] private SEventManager boardEventManager;
-        [SerializeField] private SEventManager neuronEvents;
+        [FormerlySerializedAs("neuronEvents")] [SerializeField] private SEventManager neuronEventManager;
         
         private void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
+            neuronEventManager.Register(NeuronEvents.OnDequeueNeuron, BindNeuronToEvents);
         }
 
         private void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, Init);
+            neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, BindNeuronToEvents);
         }
 
         #region EventHandlers
@@ -32,9 +35,16 @@ namespace Main.Managers {
             var firstNeuronEventData = new BoardElementEventArgs<BoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
             boardEventManager.Raise(ExternalBoardEvents.OnSetFirstElement, firstNeuronEventData);
             // add some neurons to the queue
-            neuronEvents.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs((int) startNeuronAmount));
+            neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs((int) startNeuronAmount));
             // start game loop
             gmEventManager.Raise(GameManagerEvents.OnGameLoopStart, EventArgs.Empty);
+        }
+
+        private void BindNeuronToEvents(EventArgs args) {
+            if (args is not NeuronQueueEventArgs queueEventArgs) {
+                return;
+            }
+            queueEventArgs.NeuronQueue.Peek().BindToNeuronManager(neuronEventManager);
         }
 
         #endregion

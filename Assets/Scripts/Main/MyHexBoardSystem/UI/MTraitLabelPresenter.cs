@@ -49,7 +49,7 @@ namespace Main.MyHexBoardSystem.UI {
         }
 
         private void UpdateCounter(EventArgs eventArgs) {
-            if (eventArgs is not OnBoardStateBroadcastEventArgs args) {
+            if (eventArgs is not BoardStateEventArgs args) {
                 return;
             }
 

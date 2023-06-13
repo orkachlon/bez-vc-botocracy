@@ -54,10 +54,10 @@ namespace Main.MyHexBoardSystem.Events {
         }
     }
 
-    public class OnBoardStateBroadcastEventArgs : EventArgs {
+    public class BoardStateEventArgs : EventArgs {
         public readonly IBoardNeuronsController ElementsController;
 
-        public OnBoardStateBroadcastEventArgs(IBoardNeuronsController controller) {
+        public BoardStateEventArgs(IBoardNeuronsController controller) {
             ElementsController = controller;
         }
     }

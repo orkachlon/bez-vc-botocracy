@@ -1,9 +1,6 @@
-﻿using Core.EventSystem;
-using Core.Utils;
-using Main.MyHexBoardSystem.BoardElements;
+﻿using Core.Utils;
 using Main.Neurons.Data;
 using Main.Neurons.Runtime;
-using UnityEngine;
 
 namespace Main.Neurons {
     public class Neuron : BoardNeuron {
@@ -14,9 +11,8 @@ namespace Main.Neurons {
         public ENeuronUIState UIState { get; set; }
         
         
-        public override void Activate(SEventManager boardEventManager, IBoardNeuronsController controller, Vector3Int cell) {
+        public override void Activate() {
             MLogger.LogEditor("Tried to activate UI neuron!!!");
-            return;
         }
     }
     

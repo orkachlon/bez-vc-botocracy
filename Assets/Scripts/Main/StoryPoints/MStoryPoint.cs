@@ -62,7 +62,7 @@ namespace Main.StoryPoints {
         }
 
         private void UpdateBoardState(EventArgs obj) {
-            if (obj is not OnBoardStateBroadcastEventArgs boardArgs) {
+            if (obj is not BoardStateEventArgs boardArgs) {
                 return;
             }
 

@@ -78,7 +78,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             position.AddData(neuronData.Element);
             DispatchOnAddElement(neuronData.Element, GetCellCoordinate(neuronData.Hex));
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData); // ?
-            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new OnBoardStateBroadcastEventArgs(this));
+            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
         }
 
         public override bool AddElement(BoardNeuron element, Hex hex) {
@@ -105,7 +105,7 @@ namespace Main.MyHexBoardSystem.BoardElements {
             }
             NeuronsPerTrait[trait.Value]--;
             externalEventManager.Raise(ExternalBoardEvents.OnRemoveElement, new BoardElementEventArgs<BoardNeuron>(element, hex));
-            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new OnBoardStateBroadcastEventArgs(this));
+            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
         }
         
         public int GetTraitCount(ETrait trait) {
@@ -150,13 +150,15 @@ namespace Main.MyHexBoardSystem.BoardElements {
             // dispatch inner event
             DispatchOnAddElement(neuron, cell);
 
+            // initialize neuron
+            neuron.BindToBoard(externalEventManager, this, hex);
             if (activate) {
-                neuron.Activate(externalEventManager, this, cell);
+                neuron.Activate();
             }
             
             var eventData = new BoardElementEventArgs<BoardNeuron>(neuron, hex);
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
-            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new OnBoardStateBroadcastEventArgs(this));
+            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
             return true;
         }
     }

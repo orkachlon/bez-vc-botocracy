@@ -1,21 +1,18 @@
-﻿using Core.EventSystem;
-using Main.MyHexBoardSystem.BoardElements;
-using Main.Neurons.Data;
-using UnityEngine;
+﻿using Main.Neurons.Data;
 
 namespace Main.Neurons.Runtime {
     public class ExpandNeuron : BoardNeuron {
         public ExpandNeuron() : base(MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Expanding)) {
         }
         
-        public override void Activate(SEventManager _, IBoardNeuronsController controller, Vector3Int cell) {
-            var neighbours = controller.Manipulator.GetNeighbours(cell);
+        public override void Activate() {
+            var neighbours = Controller.Manipulator.GetNeighbours(Position);
             foreach (var neighbour in neighbours) {
-                if (!controller.Board.HasPosition(neighbour) || controller.Board.GetPosition(neighbour).HasData())
+                if (!Controller.Board.HasPosition(neighbour) || Controller.Board.GetPosition(neighbour).HasData())
                     continue;
                 // expand to this hex
                 var newElement = NeuronFactory.GetBoardNeuron(ENeuronType.Dummy);
-                controller.AddElement(newElement, neighbour);
+                Controller.AddElement(newElement, neighbour);
             }
         }
     }

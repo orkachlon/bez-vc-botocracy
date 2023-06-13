@@ -1,25 +1,22 @@
-﻿using Core.EventSystem;
-using Main.MyHexBoardSystem.BoardElements;
-using Main.Neurons.Data;
-using UnityEngine;
+﻿using Main.Neurons.Data;
 
 namespace Main.Neurons.Runtime {
     public class ExplodeNeuron : BoardNeuron {
         public ExplodeNeuron() : base(MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Exploding)) { }
 
-        public override void Activate(SEventManager boardEventManager, IBoardNeuronsController controller, Vector3Int cell) {
-            var neighbours = controller.Manipulator.GetNeighbours(cell);
+        public override void Activate() {
+            var neighbours = Controller.Manipulator.GetNeighbours(Position);
             foreach (var neighbour in neighbours) {
-                if (!controller.Board.HasPosition(neighbour)) {
+                if (!Controller.Board.HasPosition(neighbour)) {
                     continue;
                 }
-                var neighbourPos = controller.Board.GetPosition(neighbour);
+                var neighbourPos = Controller.Board.GetPosition(neighbour);
                 if (!neighbourPos.HasData() || 
                     ENeuronType.Decaying.Equals(neighbourPos.Data.DataProvider.Type) || 
                     ENeuronType.Invulnerable.Equals(neighbourPos.Data.DataProvider.Type))
                     continue;
                 // explode this neuron
-                controller.RemoveElement(neighbour);
+                Controller.RemoveElement(neighbour);
             }
         }
     }

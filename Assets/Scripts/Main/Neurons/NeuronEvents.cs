@@ -3,10 +3,12 @@ using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.Neurons.Interfaces;
+using Main.Neurons.Runtime;
 
 namespace Main.Neurons {
     public static class NeuronEvents {
-        public const string OnNeuronPlaced = "Neurons_OnNeuronPlaced";
+        public const string OnDisconnectNeurons = "Neurons_OnDisconnectNeurons";
+        public const string OnConnectNeurons = "Neurons_OnConnectNeurons";
         public const string OnNoMoreNeurons = "Neurons_OnNoMoreNeurons";
         
         // queue events
@@ -38,6 +40,16 @@ namespace Main.Neurons {
 
         public RewardTileArgs(Hex rewardHex) {
             RewardHex = rewardHex;
+        }
+    }
+
+    public class NeuronConnectionArgs : EventArgs {
+        public BoardNeuron Neuron1;
+        public BoardNeuron Neuron2;
+
+        public NeuronConnectionArgs(BoardNeuron neuron1, BoardNeuron neuron2) {
+            Neuron1 = neuron1;
+            Neuron2 = neuron2;
         }
     }
 }
