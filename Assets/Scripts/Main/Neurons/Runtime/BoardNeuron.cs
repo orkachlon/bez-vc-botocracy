@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
+using Core.Utils;
 using ExternBoardSystem.BoardElements;
+using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.Events;
@@ -13,11 +16,15 @@ namespace Main.Neurons.Runtime {
 
         public Hex Position { get; protected set; }
 
+        protected bool Connectable;
+
         protected SEventManager NeuronEventManager;
         protected SEventManager BoardEventManager;
         protected IBoardNeuronsController Controller;
-        
-        protected BoardNeuron(SNeuronDataBase dataProvider) : base(dataProvider) { }
+
+        protected BoardNeuron(SNeuronDataBase dataProvider) : base(dataProvider) {
+            Connectable = true;
+        }
 
         public new SNeuronDataBase DataProvider => base.DataProvider as SNeuronDataBase;
 
@@ -35,32 +42,25 @@ namespace Main.Neurons.Runtime {
             Position = position;
         }
 
-        protected void Connect(BoardNeuron other) {
+        protected virtual void Connect(BoardNeuron other) {
             if (!Controller.Board.HasPosition(Position)) {
+                MLogger.LogEditor("Tried to connect from position that doesn't exist");
                 return;
             }
             var neighbors = Controller.Manipulator.GetNeighbours(Position);
-            if (!neighbors.Contains(other.Position)) {
+            if (!neighbors.Contains(other.Position) || !other.Connectable) {
                 return;
             }
 
-            if (!IsHoldingConnectionTo(other)) {
-                return;
-            }
-            
-            // either our q < other q or (our q == other q && our r < other r)
             NeuronEventManager.Raise(NeuronEvents.OnConnectNeurons, new NeuronConnectionArgs(this, other));
         }
 
-        protected void Disconnect() {
+        protected virtual void Disconnect() {
             var neighbors = Controller.Manipulator.GetNeighbours(Position)
                 .Where(h => Controller.Board.GetPosition(h).HasData())
                 .Select(h => Controller.Board.GetPosition(h).Data);
 
             foreach (var other in neighbors) {
-                if (!IsHoldingConnectionTo(other)) {
-                    continue;
-                }
                 NeuronEventManager.Raise(NeuronEvents.OnDisconnectNeurons, new NeuronConnectionArgs(this, other));
             }
         }
@@ -90,18 +90,14 @@ namespace Main.Neurons.Runtime {
                 return;
             }
 
-            var other = addArgs.Element;
-            Connect(other);
+            Connect(addArgs.Element);
         }
 
         private void Disconnect(EventArgs obj) {
             if (obj is not BoardElementEventArgs<BoardNeuron> addArgs || addArgs.Element != this) {
                 return;
             }
-
             Disconnect();
-
-            
         }
 
         #endregion

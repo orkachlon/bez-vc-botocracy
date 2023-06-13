@@ -13,7 +13,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
     ///     TODO: Open for many memory/cache optimizations and algorithms improvements.
     /// </summary>
     public class BoardManipulationOddR<T> : IBoardManipulation where T : BoardElement {
-        private static readonly Hex[] NeighboursDirections = {
+        public static readonly Hex[] NeighboursDirections = {
             new Hex(1, 0), new Hex(1, -1), new Hex(0, -1),
             new Hex(-1, 0), new Hex(-1, 1), new Hex(0, 1)
         };

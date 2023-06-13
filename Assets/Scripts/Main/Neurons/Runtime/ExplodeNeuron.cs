@@ -2,7 +2,9 @@
 
 namespace Main.Neurons.Runtime {
     public class ExplodeNeuron : BoardNeuron {
-        public ExplodeNeuron() : base(MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Exploding)) { }
+        public ExplodeNeuron() : base(MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Exploding)) {
+            Connectable = false;
+        }
 
         public override void Activate() {
             var neighbours = Controller.Manipulator.GetNeighbours(Position);
@@ -19,5 +21,7 @@ namespace Main.Neurons.Runtime {
                 Controller.RemoveElement(neighbour);
             }
         }
+
+        protected override void Connect(BoardNeuron other) { }
     }
 }

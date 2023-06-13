@@ -17,14 +17,11 @@ namespace Main.Neurons.Runtime {
             _turnsToStop = ((STravelNeuronData) DataProvider).TurnsToStop;
         }
 
-        public override void Activate() { }
-
-        public override void BindToBoard(SEventManager boardEventManager, IBoardNeuronsController controller, Hex position) {
-            base.BindToBoard(boardEventManager, controller, position);
+        public override void Activate() {
             BoardEventManager.Register(ExternalBoardEvents.OnPlaceElement, Travel);
             BoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, Die);
         }
-
+        
         private void Travel(EventArgs obj) {
             if (obj is not BoardElementEventArgs<BoardNeuron> placementData || placementData.Element.Equals(this)) {
                 return;

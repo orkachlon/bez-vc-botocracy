@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.EventSystem;
+using Core.Utils;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Tools;
@@ -18,7 +19,7 @@ namespace Main.Neurons.Connections {
         [Header("Event Managers"), SerializeField]
         private SEventManager neuronEventManager;
 
-        private readonly Dictionary<BoardNeuron, MNeuronConnection> _connections = new Dictionary<BoardNeuron, MNeuronConnection>();
+        private readonly Dictionary<int, MNeuronConnection> _connections = new();
 
         private void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnConnectNeurons, AddConnection);
@@ -34,9 +35,13 @@ namespace Main.Neurons.Connections {
             if (obj is not NeuronConnectionArgs connectionArgs) {
                 return;
             }
-            
+
+            var key = GetConnectionKey(connectionArgs.Neuron1, connectionArgs.Neuron2);
+            if (_connections.ContainsKey(key)) {
+                return;
+            }
             var newConnection = MObjectPooler.Instance.Get(connectionPrefab.gameObject).GetComponent<MNeuronConnection>();
-            _connections[connectionArgs.Neuron1] = newConnection;
+            _connections[key] = newConnection;
             newConnection.Connect(controller, connectionArgs.Neuron1, connectionArgs.Neuron2);
         }
         
@@ -45,9 +50,18 @@ namespace Main.Neurons.Connections {
                 return;
             }
 
-            var connection = _connections[connectionArgs.Neuron1];
+            var key = GetConnectionKey(connectionArgs.Neuron1, connectionArgs.Neuron2);
+            if (!_connections.ContainsKey(key)) {
+                MLogger.LogEditor("Tried to remove connection that doesn't exist");
+                return;
+            }
+            var connection = _connections[key];
             MObjectPooler.Instance.Release(connection.gameObject);
-            _connections.Remove(connectionArgs.Neuron1);
+            _connections.Remove(key);
+        }
+
+        private int GetConnectionKey(BoardNeuron n1, BoardNeuron n2) {
+            return n1.Position.GetHashCode() + n2.Position.GetHashCode();
         }
     }
 }
