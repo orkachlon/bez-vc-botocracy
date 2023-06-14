@@ -9,6 +9,9 @@ namespace Main.Outcomes {
         [SerializeField] private TextMeshProUGUI spDecisionText;
         [SerializeField] private TextMeshProUGUI outcomeText;
         [SerializeField] private Image artwork;
+        [SerializeField] private GameObject descriptionArea;
+
+        public bool IsExpanded => descriptionArea.activeInHierarchy;
 
         public void SetSPTitle(string title) {
             spTitleText.text = title;

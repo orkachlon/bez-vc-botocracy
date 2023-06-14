@@ -809,6 +809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outcomeDescription: {fileID: 1692901225181992691}
+  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
 --- !u!1 &7430523027713377304
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,6 +1026,7 @@ MonoBehaviour:
   spDecisionText: {fileID: 7546648959889847388}
   outcomeText: {fileID: 7430523027713377302}
   artwork: {fileID: 6222795082455945166}
+  descriptionArea: {fileID: 0}
 --- !u!222 &7430523028275659483
 CanvasRenderer:
   m_ObjectHideFlags: 0
