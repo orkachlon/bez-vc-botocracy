@@ -613,7 +613,7 @@ RectTransform:
   m_Children:
   - {fileID: 361977598}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -668,7 +668,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &168493727 stripped
 Transform:
@@ -1187,7 +1187,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &287797716 stripped
 GameObject:
@@ -1347,7 +1347,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &361977597
 GameObject:
@@ -2392,7 +2392,7 @@ Transform:
   - {fileID: 454915835}
   - {fileID: 418282756}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &615794154
 MonoBehaviour:
@@ -2858,7 +2858,7 @@ Transform:
   - {fileID: 752548008}
   - {fileID: 1197666191}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &735814908
 GameObject:
@@ -2874,6 +2874,7 @@ GameObject:
   - component: {fileID: 735814915}
   - component: {fileID: 735814914}
   - component: {fileID: 735814916}
+  - component: {fileID: 735814917}
   m_Layer: 0
   m_Name: Logistician
   m_TagString: Untagged
@@ -3075,6 +3076,23 @@ MonoBehaviour:
   trait: 3
   textField: {fileID: 735814914}
   highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
+--- !u!114 &735814917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735814908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60bb2de08d564b3b9e363b3aab3f2c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 3
+  labelBufferFromBoard: 3.1
+  traitAccessor: {fileID: 615794158}
+  controller: {fileID: 615794156}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1 &752548006
 GameObject:
   m_ObjectHideFlags: 0
@@ -3315,7 +3333,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &838982550
 GameObject:
@@ -3359,7 +3377,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &899616612
 GameObject:
@@ -4573,7 +4591,7 @@ Transform:
   - {fileID: 296610568}
   - {fileID: 656508648}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &934932037
 GameObject:
@@ -4754,7 +4772,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
+  m_SortingLayerID: 447066225
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!1 &986644072
@@ -4982,6 +5000,7 @@ GameObject:
   - component: {fileID: 1082466031}
   - component: {fileID: 1082466030}
   - component: {fileID: 1082466032}
+  - component: {fileID: 1082466033}
   m_Layer: 0
   m_Name: Entrepreneur
   m_TagString: Untagged
@@ -5181,6 +5200,23 @@ MonoBehaviour:
   trait: 2
   textField: {fileID: 1082466030}
   highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
+--- !u!114 &1082466033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082466024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60bb2de08d564b3b9e363b3aab3f2c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 2
+  labelBufferFromBoard: 3.1
+  traitAccessor: {fileID: 615794158}
+  controller: {fileID: 615794156}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!224 &1136230835 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8630538136859855886, guid: 0bb86d3962de24e4fb346e88057b029d, type: 3}
@@ -5274,7 +5310,7 @@ RectTransform:
   m_Children:
   - {fileID: 1880496810}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5639,6 +5675,7 @@ GameObject:
   - component: {fileID: 1214009810}
   - component: {fileID: 1214009809}
   - component: {fileID: 1214009811}
+  - component: {fileID: 1214009812}
   m_Layer: 0
   m_Name: Mediator
   m_TagString: Untagged
@@ -5663,7 +5700,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 864, y: -0}
+  m_AnchoredPosition: {x: 864, y: 0}
   m_SizeDelta: {x: 474.8842, y: 164.3846}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1214009806
@@ -5838,6 +5875,23 @@ MonoBehaviour:
   trait: 5
   textField: {fileID: 1214009809}
   highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
+--- !u!114 &1214009812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214009803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60bb2de08d564b3b9e363b3aab3f2c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 5
+  labelBufferFromBoard: 3.1
+  traitAccessor: {fileID: 615794158}
+  controller: {fileID: 615794156}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1 &1225651724
 GameObject:
   m_ObjectHideFlags: 0
@@ -5904,6 +5958,7 @@ GameObject:
   - component: {fileID: 1330746254}
   - component: {fileID: 1330746253}
   - component: {fileID: 1330746255}
+  - component: {fileID: 1330746256}
   m_Layer: 0
   m_Name: Entropist
   m_TagString: Untagged
@@ -6103,6 +6158,23 @@ MonoBehaviour:
   trait: 4
   textField: {fileID: 1330746253}
   highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
+--- !u!114 &1330746256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330746247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60bb2de08d564b3b9e363b3aab3f2c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 4
+  labelBufferFromBoard: 3.1
+  traitAccessor: {fileID: 615794158}
+  controller: {fileID: 615794156}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1001 &1397659071
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7273,7 +7345,7 @@ Transform:
   m_Children:
   - {fileID: 1225651725}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1530710549
 GameObject:
@@ -8414,8 +8486,8 @@ Tilemap:
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -15, y: -6, z: 0}
-  m_Size: {x: 23, y: 27, z: 1}
+  m_Origin: {x: -15, y: -8, z: 0}
+  m_Size: {x: 23, y: 29, z: 1}
   m_TileAnchor: {x: 0, y: 0, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -8623,6 +8695,7 @@ GameObject:
   - component: {fileID: 1641581103}
   - component: {fileID: 1641581102}
   - component: {fileID: 1641581104}
+  - component: {fileID: 1641581105}
   m_Layer: 0
   m_Name: Protector
   m_TagString: Untagged
@@ -8822,6 +8895,23 @@ MonoBehaviour:
   trait: 0
   textField: {fileID: 1641581102}
   highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
+--- !u!114 &1641581105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641581096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60bb2de08d564b3b9e363b3aab3f2c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 0
+  labelBufferFromBoard: 3.1
+  traitAccessor: {fileID: 615794158}
+  controller: {fileID: 615794156}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1 &1648069766
 GameObject:
   m_ObjectHideFlags: 0
@@ -8920,7 +9010,7 @@ Transform:
   m_Children:
   - {fileID: 1684135681}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1670902519
 GameObject:
@@ -9666,6 +9756,7 @@ GameObject:
   - component: {fileID: 1795018046}
   - component: {fileID: 1795018048}
   - component: {fileID: 1795018050}
+  - component: {fileID: 1795018051}
   m_Layer: 0
   m_Name: Commander
   m_TagString: Untagged
@@ -9865,6 +9956,23 @@ MonoBehaviour:
   trait: 1
   textField: {fileID: 1795018048}
   highlightColor: {r: 0.244927, g: 0.5900901, b: 0.754717, a: 1}
+--- !u!114 &1795018051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795018042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60bb2de08d564b3b9e363b3aab3f2c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 1
+  labelBufferFromBoard: 3.1
+  traitAccessor: {fileID: 615794158}
+  controller: {fileID: 615794156}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1001 &1804513604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12030,7 +12138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4264169465771184075, guid: a37b9f89a73e8094690069e5da8e6f85, type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4264169465771184075, guid: a37b9f89a73e8094690069e5da8e6f85, type: 3}
       propertyPath: m_LocalPosition.x

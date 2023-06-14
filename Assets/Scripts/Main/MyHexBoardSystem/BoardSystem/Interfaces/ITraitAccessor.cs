@@ -73,6 +73,19 @@ namespace Main.MyHexBoardSystem.BoardSystem.Interfaces {
             throw new ArgumentOutOfRangeException(nameof(hex), hex, null);
         }
 
+        static Vector3 TraitToVectorDirection(ETrait trait) {
+            var direction = trait switch {
+                ETrait.Commander => Quaternion.AngleAxis(30, Vector3.forward) * Vector3.up,
+                ETrait.Entrepreneur => Quaternion.AngleAxis(90, Vector3.forward) * Vector3.up,
+                ETrait.Logistician => Quaternion.AngleAxis(150, Vector3.forward) * Vector3.up,
+                ETrait.Protector => Quaternion.AngleAxis(210, Vector3.forward) * Vector3.up,
+                ETrait.Mediator => Quaternion.AngleAxis(270, Vector3.forward) * Vector3.up,
+                ETrait.Entropist => Quaternion.AngleAxis(330, Vector3.forward) * Vector3.up,
+                _ => throw new ArgumentOutOfRangeException(nameof(trait), trait, null)
+            };
+            return direction;
+        }
+        
         #endregion
     }
 }

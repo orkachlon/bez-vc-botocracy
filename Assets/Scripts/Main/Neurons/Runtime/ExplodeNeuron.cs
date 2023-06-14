@@ -18,7 +18,7 @@ namespace Main.Neurons.Runtime {
                     ENeuronType.Invulnerable.Equals(neighbourPos.Data.DataProvider.Type))
                     continue;
                 // explode this neuron
-                Controller.RemoveElement(neighbour);
+                Controller.RemoveNeuron(neighbour);
             }
         }
 

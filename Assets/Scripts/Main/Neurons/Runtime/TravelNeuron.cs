@@ -39,7 +39,7 @@ namespace Main.Neurons.Runtime {
             if (neighbours.Length > 0) {
                 var randomNeighbor = neighbours[Random.Range(0, neighbours.Length)];
                 _moving = true;
-                Controller.RemoveElement(Position);
+                Controller.RemoveNeuron(Position);
                 _moving = false;
                 Controller.AddElement(NeuronFactory.GetBoardNeuron(ENeuronType.Dummy), Position);
                 Controller.AddNeuron(this, randomNeighbor, false);

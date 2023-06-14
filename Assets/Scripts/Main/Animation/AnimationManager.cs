@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Core.Utils;
 
 namespace Main.Animation {
     public static class AnimationManager {
@@ -12,7 +11,6 @@ namespace Main.Animation {
             switch (queue) {
                 case EAnimationQueue.Neurons:
                     NeuronAnimations.Enqueue(animation);
-                    MLogger.LogEditor("Registered neuron!");
                     break;
                 case EAnimationQueue.Tiles:
                     TileAnimations.Enqueue(animation);
@@ -31,7 +29,6 @@ namespace Main.Animation {
             };
             PlayQueueAnimations(queue);
             await Task.WhenAll(queue);
-            MLogger.LogEditor($"Waited for {eQueue} queue");
         }
 
         private static async void PlayQueueAnimations(AnimationQueue queue) {
@@ -42,7 +39,6 @@ namespace Main.Animation {
                 }
 
                 await Task.Run(() => animation);
-                // await Task.Yield();
             }
         }
     }

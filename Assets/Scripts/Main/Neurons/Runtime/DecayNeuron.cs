@@ -28,7 +28,7 @@ namespace Main.Neurons.Runtime {
                 return;
             }
             BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, Decay);
-            Controller.RemoveElement(Position);
+            Controller.RemoveNeuron(Position);
         }
     }
 }

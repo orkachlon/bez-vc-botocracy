@@ -82,6 +82,8 @@ namespace Main.Neurons.NeuronQueue {
             if (IsInfinite) {
                 Enqueue(1);
             }
+
+            // _isProviding = true;
             neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronQueueEventArgs(this));
             
             if (_neurons.Count == 0) {
@@ -123,10 +125,13 @@ namespace Main.Neurons.NeuronQueue {
 
         #region EventHandlers
 
-        private void OnBoardElementPlaced(EventArgs eventData) {
-            if (eventData is BoardElementEventArgs<BoardNeuron> neuronEventData) {
-                Dequeue();
+        private async void OnBoardElementPlaced(EventArgs eventData) {
+            if (eventData is not BoardElementEventArgs<BoardNeuron> neuronEventData) {
+                return;
             }
+            // StopProvidingNeurons();
+            // await neuronEventData.Element.AwaitNeuronRemoval();
+            Dequeue();
         }
 
         private void OnRewardNeurons(EventArgs eventArgs) {
