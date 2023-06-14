@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Core.EventSystem;
 using Core.Utils;
@@ -19,7 +20,7 @@ namespace Main.Neurons.Connections {
         [Header("Event Managers"), SerializeField]
         private SEventManager neuronEventManager;
 
-        private readonly Dictionary<int, MNeuronConnection> _connections = new();
+        private readonly ConcurrentDictionary<string, MNeuronConnection> _connections = new();
 
         private void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnConnectNeurons, AddConnection);
@@ -35,14 +36,16 @@ namespace Main.Neurons.Connections {
             if (obj is not NeuronConnectionArgs connectionArgs) {
                 return;
             }
+            var n1 = connectionArgs.Neuron1;
+            var n2 = connectionArgs.Neuron2;
 
-            var key = GetConnectionKey(connectionArgs.Neuron1, connectionArgs.Neuron2);
-            if (_connections.ContainsKey(key)) {
+            var key = GetConnectionKey(n1, n2);
+            if (DoesConnectionExist(n1, n2)) {
                 return;
             }
             var newConnection = MObjectPooler.Instance.Get(connectionPrefab.gameObject).GetComponent<MNeuronConnection>();
             _connections[key] = newConnection;
-            newConnection.Connect(controller, connectionArgs.Neuron1, connectionArgs.Neuron2);
+            newConnection.Connect(controller, n1, n2);
         }
         
         private void RemoveConnection(EventArgs args) {
@@ -50,18 +53,45 @@ namespace Main.Neurons.Connections {
                 return;
             }
 
-            var key = GetConnectionKey(connectionArgs.Neuron1, connectionArgs.Neuron2);
-            if (!_connections.ContainsKey(key)) {
-                MLogger.LogEditor("Tried to remove connection that doesn't exist");
+            var n1 = connectionArgs.Neuron1;
+            var n2 = connectionArgs.Neuron2;
+
+            if (!DoesConnectionExist(n1, n2)) {
                 return;
             }
-            var connection = _connections[key];
+            var connection = GetConnection(n1, n2);
             MObjectPooler.Instance.Release(connection.gameObject);
-            _connections.Remove(key);
+            RemoveConnection(n1, n2);
         }
 
-        private int GetConnectionKey(BoardNeuron n1, BoardNeuron n2) {
-            return n1.Position.GetHashCode() + n2.Position.GetHashCode();
+        private string GetConnectionKey(BoardNeuron n1, BoardNeuron n2) {
+            return $"{n1.Position} - {n2.Position}";
+        }
+
+        private bool DoesConnectionExist(BoardNeuron n1, BoardNeuron n2) {
+            return _connections.ContainsKey(GetConnectionKey(n1, n2)) || _connections.ContainsKey(GetConnectionKey(n2, n1));
+        }
+
+        private MNeuronConnection GetConnection(BoardNeuron n1, BoardNeuron n2) {
+            if (!DoesConnectionExist(n1, n2)) {
+                return null;
+            }
+        
+            var key = GetConnectionKey(n1, n2);
+            return _connections.ContainsKey(key) ? _connections[key] : _connections[GetConnectionKey(n2, n1)];
+        }
+
+        private void RemoveConnection(BoardNeuron n1, BoardNeuron n2) {
+            if (!DoesConnectionExist(n1, n2)) {
+                return;
+            }
+            var key = GetConnectionKey(n1, n2);
+            if (_connections.ContainsKey(key)) {
+                _connections.Remove(key, out _);
+                return;
+            }
+
+            _connections.Remove(GetConnectionKey(n2, n1), out _);
         }
     }
 }

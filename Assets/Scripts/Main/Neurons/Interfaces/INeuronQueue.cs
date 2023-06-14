@@ -4,6 +4,7 @@ namespace Main.Neurons.Interfaces {
     public interface INeuronQueue {
 
         public int Count { get; }
+        public bool IsInfinite { get; }
 
         void Enqueue(IEnumerable<Neuron> neurons);
         void Enqueue(Neuron neuron);

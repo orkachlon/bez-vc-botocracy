@@ -19,7 +19,7 @@ namespace Main.Neurons.Runtime {
 
         public override void Activate() {
             BoardEventManager.Register(ExternalBoardEvents.OnPlaceElement, Travel);
-            BoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, Die);
+            BoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, StopTravelling);
         }
         
         private void Travel(EventArgs obj) {
@@ -54,10 +54,10 @@ namespace Main.Neurons.Runtime {
 
         private void UnregisterFromBoard() {
             BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, Travel);
-            BoardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, Die);
+            BoardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, StopTravelling);
         }
 
-        private void Die(EventArgs obj) {
+        private void StopTravelling(EventArgs obj) {
             if (obj is not BoardElementEventArgs<BoardNeuron> args || args.Element != this || _moving) {
                 return;
             }

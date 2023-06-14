@@ -55,8 +55,12 @@ namespace Main.Neurons.NeuronQueue {
         }
 
         private void Enqueue(INeuronQueue neuronQueue) {
-            neuronCountDisplay.text = $"{neuronQueue.Count}";
-            if (neuronQueue.Count > neuronsToShow) {
+            
+            if (!neuronQueue.IsInfinite && neuronQueue.Count > neuronsToShow) {
+                return;
+            }
+
+            if (neuronQueue.IsInfinite && _registerUiElements.TrueForAll(n => n.gameObject.activeInHierarchy)) {
                 return;
             }
             
@@ -64,7 +68,7 @@ namespace Main.Neurons.NeuronQueue {
         }
 
         private void Dequeue(INeuronQueue neuronQueue) {
-            neuronCountDisplay.text = $"{neuronQueue.Count}";
+            SetNeuronCounterText(neuronQueue.IsInfinite, neuronQueue.Count);
             ShiftNeuronsInQueue();
             HideExcessNeurons(neuronQueue);
 
@@ -115,6 +119,10 @@ namespace Main.Neurons.NeuronQueue {
                 uin.SetRuntimeElementData(nextUin.RuntimeData);
             }
             _registerUiElements[^1].gameObject.SetActive(false);
+        }
+
+        private void SetNeuronCounterText(bool isInfinite, int amount = 0) {
+            neuronCountDisplay.text = isInfinite ? "-" :$"{amount}";
         }
 
         #region EventHandlers

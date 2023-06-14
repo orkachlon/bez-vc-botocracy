@@ -97,6 +97,9 @@ namespace Main.Neurons.Runtime {
             if (obj is not BoardElementEventArgs<BoardNeuron> addArgs || addArgs.Element != this) {
                 return;
             }
+            BoardEventManager.Unregister(ExternalBoardEvents.OnAddElement, Connect);
+            BoardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, Disconnect);
+
             Disconnect();
         }
 

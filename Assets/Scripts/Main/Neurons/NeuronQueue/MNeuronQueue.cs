@@ -5,7 +5,6 @@ using Core.EventSystem;
 using JetBrains.Annotations;
 using Main.GameModifications;
 using Main.Managers;
-using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons.Data;
 using Main.Neurons.Interfaces;
@@ -23,10 +22,10 @@ namespace Main.Neurons.NeuronQueue {
         [SerializeField] private SEventManager modificationsEventManager;
         [SerializeField] private SEventManager gmEventManager;
 
-        public int Count => _isInfinite ? int.MaxValue : _neurons.Count;
+        public int Count => IsInfinite ? int.MaxValue : _neurons.Count;
+        public bool IsInfinite { get; private set; }
 
         private Queue<Neuron> _neurons;
-        private bool _isInfinite;
         private bool _isProviding;
 
         #region UnityMethods
@@ -80,7 +79,7 @@ namespace Main.Neurons.NeuronQueue {
                 return null;
             }
             // never run out of neurons but keep visibility and functionality the same
-            if (_isInfinite) {
+            if (IsInfinite) {
                 Enqueue(1);
             }
             neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronQueueEventArgs(this));
@@ -141,7 +140,7 @@ namespace Main.Neurons.NeuronQueue {
                 return;
             }
 
-            _isInfinite = infiniteNeurons.IsInfinite;
+            IsInfinite = infiniteNeurons.IsInfinite;
         }
 
         private void OnGameWin(EventArgs obj) {

@@ -77,6 +77,8 @@ namespace Main.MyHexBoardSystem.BoardElements {
                 return;
             position.AddData(neuronData.Element);
             DispatchOnAddElement(neuronData.Element, GetCellCoordinate(neuronData.Hex));
+            neuronData.Element.BindToNeuronManager(neuronEventManager);
+            neuronData.Element.BindToBoard(externalEventManager, this, neuronData.Hex);
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData); // ?
             externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
         }
