@@ -28,6 +28,7 @@ namespace Main.MyHexBoardSystem.Events {
         public const string OnAddElement = "Board_OnAddElement";
         public const string OnRemoveElement = "Board_OnRemoveElement";
         public const string OnSetFirstElement = "Board_OnSetFirstElement";
+        public const string OnAllNeuronsDone = "Board_OnAllNeuronsDone";
         
         
         // input events

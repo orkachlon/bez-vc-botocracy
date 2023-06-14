@@ -3,11 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.EventSystem;
 using ExternBoardSystem.BoardSystem.Board;
+using ExternBoardSystem.BoardSystem.Coordinates;
+using Main.Animation;
 using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons.Runtime;
 using Main.StoryPoints;
+using Main.StoryPoints.Interfaces;
 using Main.Traits;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -28,6 +31,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
 
         private INeuronBoardController _boardController;
         private IBoardNeuronsController _neuronsController;
+        private IStoryPoint _currentSP;
 
         #region UnityMethods
 
@@ -37,11 +41,15 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         }
 
         private void OnEnable() {
+            // storyEventManager.Register(StoryEvents.OnInitStory, UpdateCurrentSP);
             storyEventManager.Register(StoryEvents.OnEvaluate, OnBoardEffect);
+            // boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, OnBoardEffect);
         }
 
         private void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnEvaluate, OnBoardEffect);
+            // storyEventManager.Unregister(StoryEvents.OnInitStory, UpdateCurrentSP);
+            // boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, OnBoardEffect);
         }
 
         #endregion
@@ -91,8 +99,7 @@ namespace Main.MyHexBoardSystem.BoardSystem {
             var isLastHex = edgeHexes.Length == 1;
             
             var randomHex = edgeHexes[Random.Range(0, edgeHexes.Length)];
-            _neuronsController.RemoveElement(randomHex);
-            _boardController.RemoveTile(randomHex);
+            AnimationManager.Register(RemoveTile(randomHex), EAnimationQueue.Tiles);
             return !isLastHex;
         }
 
@@ -112,13 +119,25 @@ namespace Main.MyHexBoardSystem.BoardSystem {
                     ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(h)) == trait)
                 .ToArray();
             var randomHex = onlyContainedInTrait[Random.Range(0, onlyContainedInTrait.Length)];
-            _boardController.AddTile(randomHex);
+            AnimationManager.Register(AddTile(randomHex), EAnimationQueue.Tiles);
         }
 
         private int GetTileAmountBasedOnNeurons(int neuronAmount) {
             var frac = (float) neuronAmount / _neuronsController.CountNeurons;
             // return Mathf.RoundToInt(Mathf.SmoothStep(0, maxEffectStrength, frac));
             return Mathf.Clamp(Mathf.RoundToInt(effectScale * Mathf.Log(neuronAmount + 1)), 0, maxEffectStrength);
+        }
+
+        private async Task RemoveTile(Hex hex) {
+            await Task.Delay(30);
+            await _neuronsController.RemoveNeuron(hex);
+            _boardController.RemoveTile(hex);
+        }
+
+        private async Task AddTile(Hex hex) {
+            await Task.Delay(30);
+            _boardController.AddTile(hex);
+
         }
     }
 }

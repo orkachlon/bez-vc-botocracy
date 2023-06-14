@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Core.EventSystem;
 using Core.Utils;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements;
+using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons.Data;
 using UnityEngine;
@@ -15,6 +17,7 @@ namespace Main.Neurons.Runtime {
     public abstract class BoardNeuron : BoardElement {
 
         public Hex Position { get; protected set; }
+        public MUIBoardNeuron UINeuron { get; protected set; }
 
         protected bool Connectable;
 
@@ -42,6 +45,18 @@ namespace Main.Neurons.Runtime {
             Position = position;
         }
 
+        public void BindToModel(MUIBoardNeuron muiBoardNeuron) {
+            UINeuron = muiBoardNeuron;
+        }
+
+        public async Task AwaitNeuronRemoval() {
+            if (UINeuron == null) {
+                MLogger.LogEditor("Tried to await remove animation of null ui neuron");
+                return;
+            }
+            await UINeuron.PlayRemoveAnimation();
+        }
+
         protected virtual void Connect(BoardNeuron other) {
             if (!Controller.Board.HasPosition(Position)) {
                 MLogger.LogEditor("Tried to connect from position that doesn't exist");
@@ -63,12 +78,6 @@ namespace Main.Neurons.Runtime {
             foreach (var other in neighbors) {
                 NeuronEventManager.Raise(NeuronEvents.OnDisconnectNeurons, new NeuronConnectionArgs(this, other));
             }
-        }
-
-        protected int GetDistanceFromCenter() {
-            return new []{
-                Mathf.Abs(Position.q), Mathf.Abs(Position.r), Mathf.Abs(Position.s)
-            }.Max();
         }
 
         protected bool IsHoldingConnectionTo(BoardNeuron other) {

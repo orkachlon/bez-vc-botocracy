@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Core.EventSystem;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
+using Main.Animation;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.BoardSystem.Interfaces;
 using Main.MyHexBoardSystem.Events;
@@ -63,7 +65,13 @@ namespace Main.MyHexBoardSystem.BoardElements {
             }
             var eventData = new BoardElementEventArgs<BoardNeuron>(element, hex);
             externalEventManager.Raise(ExternalBoardEvents.OnPlaceElement, eventData);
+            DispatchNeuronsAdded();
             // base.OnClickTile(cell);
+        }
+
+        private async void DispatchNeuronsAdded() {
+            await AnimationManager.WaitForQueue(EAnimationQueue.Neurons);
+            externalEventManager.Raise(ExternalBoardEvents.OnAllNeuronsDone, EventArgs.Empty);
         }
 
         public void OnSetFirstNeuron(EventArgs eventData) {
@@ -163,6 +171,16 @@ namespace Main.MyHexBoardSystem.BoardElements {
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
             externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
             return true;
+        }
+
+        public async Task RemoveNeuron(Hex hex) {
+            if (!Board.HasPosition(hex) || !Board.GetPosition(hex).HasData()) {
+                return;
+            }
+
+            var element = Board.GetPosition(hex).Data;
+            await element.AwaitNeuronRemoval();
+            RemoveElement(hex);
         }
     }
 }

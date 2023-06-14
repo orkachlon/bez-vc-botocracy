@@ -19,7 +19,7 @@ namespace Main.Managers {
             // game state loop:
             // initGrid > playerTurn > eventTurn( > evaluation > outcome) > statTurn > playerTurn ...
             gmEventManager.Register(GameManagerEvents.OnGameLoopStart, PlayerTurn);
-            boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, StoryTurn);
+            boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, StoryTurn);
             storyEventManager.Register(StoryEvents.OnStoryTurn, PlayerTurn);
             
             // end of game
@@ -31,7 +31,7 @@ namespace Main.Managers {
 
         private void OnDisable() {
             gmEventManager.Unregister(GameManagerEvents.OnGameLoopStart, PlayerTurn);
-            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, StoryTurn);
+            boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, StoryTurn);
             storyEventManager.Unregister(StoryEvents.OnStoryTurn, PlayerTurn);
             
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardFull, Lose);

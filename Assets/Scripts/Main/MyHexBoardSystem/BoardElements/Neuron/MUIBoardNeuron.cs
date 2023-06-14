@@ -1,4 +1,5 @@
-﻿using ExternBoardSystem.Ui.Board;
+﻿using System.Threading.Tasks;
+using ExternBoardSystem.Ui.Board;
 using UnityEngine;
 
 namespace Main.MyHexBoardSystem.BoardElements.Neuron {
@@ -12,6 +13,10 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
         public void ToBack() {
             SpriteRenderer.sortingOrder = 0;
             transform.localScale = Vector3.one;
+        }
+
+        public async Task PlayRemoveAnimation() {
+            await Task.Delay(1000);
         }
     }
 }

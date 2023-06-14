@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.Neurons.Runtime;
@@ -18,6 +19,8 @@ namespace Main.MyHexBoardSystem.BoardElements {
         IEnumerable<ETrait> GetMaxTrait(IEnumerable<ETrait> fromTraits = null);
 
         bool AddNeuron(BoardNeuron neuron, Hex hex, bool activate = true);
+
+        Task RemoveNeuron(Hex hex);
 
         #endregion
     }
