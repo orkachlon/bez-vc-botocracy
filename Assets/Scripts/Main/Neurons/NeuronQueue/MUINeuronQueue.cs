@@ -55,6 +55,7 @@ namespace Main.Neurons.NeuronQueue {
         }
 
         private void Enqueue(INeuronQueue neuronQueue) {
+            SetNeuronCounterText(neuronQueue.IsInfinite, neuronQueue.Count);
             
             if (!neuronQueue.IsInfinite && neuronQueue.Count > neuronsToShow) {
                 return;

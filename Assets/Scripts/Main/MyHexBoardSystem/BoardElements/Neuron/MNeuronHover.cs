@@ -95,14 +95,14 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
             var neuronModel = currentNeuron.GetModel();
             _currentUINeuron = MObjectPooler.Instance.Get<MUIBoardNeuron>(neuronModel.gameObject);
             _currentUINeuron.SetRuntimeElementData(currentNeuron.GetElement());
-            _currentUINeuron.ToFront();
+            _currentUINeuron.ToHoverLayer();
         }
 
         private void Hide() {
             if (_currentUINeuron == null) {
                 return;
             }
-            _currentUINeuron.ToBack();
+            _currentUINeuron.ToBoardLayer();
             MObjectPooler.Instance.Release(_currentUINeuron.gameObject);
             _currentUINeuron = null;
         }
