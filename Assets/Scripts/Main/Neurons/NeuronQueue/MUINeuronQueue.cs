@@ -105,7 +105,6 @@ namespace Main.Neurons.NeuronQueue {
                 neuron.UIState = (ENeuronUIState) placeInQueue;
             }
             uiElement.SetRuntimeElementData(neuron);
-            
         }
 
         private void ShiftNeuronsInQueue() {

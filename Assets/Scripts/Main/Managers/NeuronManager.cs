@@ -40,13 +40,6 @@ namespace Main.Managers {
             gmEventManager.Raise(GameManagerEvents.OnGameLoopStart, EventArgs.Empty);
         }
 
-        private void BindNeuronToEvents(EventArgs args) {
-            if (args is not NeuronQueueEventArgs queueEventArgs) {
-                return;
-            }
-            queueEventArgs.NeuronQueue.Peek().BindToNeuronManager(neuronEventManager);
-        }
-
         #endregion
     }
 }

@@ -41,7 +41,7 @@ namespace Main.MyHexBoardSystem.UI {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, RepositionLabel);
         }
 
-        private void Update() {
+        private void LateUpdate() {
             var screenPos = _camera.WorldToScreenPoint(_worldPos + _traitDirection * labelBufferFromBoard);
             _rt.position = screenPos;
         }
