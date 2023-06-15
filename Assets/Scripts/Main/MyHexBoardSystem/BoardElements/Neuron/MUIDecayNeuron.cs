@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DG.Tweening;
+using ExternBoardSystem.BoardElements;
 using UnityEngine;
 
 namespace Main.MyHexBoardSystem.BoardElements.Neuron {
@@ -16,6 +17,12 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
 
         protected override void UpdateView() {
             dots.ForEach(d => { d.gameObject.SetActive(true); d.transform.localScale = Vector3.one; });
+        }
+
+        public override void SetRuntimeElementData(BoardElement data) {
+            base.SetRuntimeElementData(data);
+            _turnCounter = 0;
+            _hoverAnimation = null;
         }
 
         public override void ToHoverLayer() {
@@ -37,7 +44,7 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
 
         public override async Task PlayTurnAnimation() {
             if (_turnCounter >= dots.Count) {
-                Task.Yield();
+                return;
             }
 
             await dots[_turnCounter].transform.DOScale(0, dotSpawnDuration).AsyncWaitForCompletion();
