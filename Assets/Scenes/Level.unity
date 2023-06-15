@@ -2377,8 +2377,8 @@ MonoBehaviour:
   vignetteShader: {fileID: 4800000, guid: 9c7043498e444498a94fe9b013aa286d, type: 3}
   radius: 0.73
   feather: 1.07
-  tint: {r: 1, g: 1, b: 1, a: 1}
-  invertColor: 1
+  tint: {r: 0.3372549, g: 0.47450984, b: 0.69803923, a: 1}
+  invertColor: 0
 --- !u!1 &615794147
 GameObject:
   m_ObjectHideFlags: 0
@@ -3152,7 +3152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trait: 3
-  labelBufferFromBoard: 3.1
+  labelBufferFromBoard: 4
   traitAccessor: {fileID: 615794158}
   controller: {fileID: 615794156}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
@@ -5276,7 +5276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trait: 2
-  labelBufferFromBoard: 3.1
+  labelBufferFromBoard: 4
   traitAccessor: {fileID: 615794158}
   controller: {fileID: 615794156}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
@@ -5951,7 +5951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trait: 5
-  labelBufferFromBoard: 3.1
+  labelBufferFromBoard: 4
   traitAccessor: {fileID: 615794158}
   controller: {fileID: 615794156}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
@@ -6234,7 +6234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trait: 4
-  labelBufferFromBoard: 3.1
+  labelBufferFromBoard: 4
   traitAccessor: {fileID: 615794158}
   controller: {fileID: 615794156}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
@@ -9165,7 +9165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trait: 0
-  labelBufferFromBoard: 3.1
+  labelBufferFromBoard: 4
   traitAccessor: {fileID: 615794158}
   controller: {fileID: 615794156}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
@@ -9508,6 +9508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   traitCompass: {fileID: 1793478627}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!224 &1694303232 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8630538136859855886, guid: 0bb86d3962de24e4fb346e88057b029d, type: 3}
@@ -10226,7 +10227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trait: 1
-  labelBufferFromBoard: 3.1
+  labelBufferFromBoard: 4
   traitAccessor: {fileID: 615794158}
   controller: {fileID: 615794156}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
@@ -11841,7 +11842,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1927605572318816973, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 420
       objectReference: {fileID: 0}
     - target: {fileID: 1927605572318816973, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_SizeDelta.y
@@ -11849,7 +11850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1927605572318816973, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 210
       objectReference: {fileID: 0}
     - target: {fileID: 1927605572318816973, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchoredPosition.y

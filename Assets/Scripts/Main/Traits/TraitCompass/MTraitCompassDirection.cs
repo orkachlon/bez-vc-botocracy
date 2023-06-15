@@ -10,6 +10,7 @@ namespace Main.Traits.TraitCompass {
         [SerializeField] private ETrait trait;
         [SerializeField] private Color highlightColor;
         [SerializeField] private Color noEffectColor;
+        [SerializeField] private SpriteRenderer currentlyDecidingSprite;
         
         [Header("Event Managers"), SerializeField]
         private SEventManager boardEventManager;

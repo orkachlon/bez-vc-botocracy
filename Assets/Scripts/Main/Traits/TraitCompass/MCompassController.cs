@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.EventSystem;
+using Main.MyHexBoardSystem.Events;
 using Main.StoryPoints;
 using UnityEngine;
 
@@ -10,14 +11,18 @@ namespace Main.Traits.TraitCompass {
         
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
+
+        [SerializeField] private SEventManager boardEventManager;
         
         
         private void OnEnable() {
             storyEventManager.Register(StoryEvents.OnInitStory, OnInitStory);
+            boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, SetCurrentDecidingTrait);
         }
 
         private void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnInitStory, OnInitStory);
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, SetCurrentDecidingTrait);
         }
 
         private void Update() {
@@ -33,6 +38,14 @@ namespace Main.Traits.TraitCompass {
             }
             var sp = args.Story;
             traitCompass.SetDecidingTraits(sp.DecidingTraits.Keys);
+        }
+
+        private void SetCurrentDecidingTrait(EventArgs obj) {
+            if (obj is not BoardStateEventArgs boardArgs) {
+                return;
+            }
+
+            traitCompass.SetCurrentDecidingTraits(boardArgs.ElementsController.GetMaxTrait());
         }
     }
 }

@@ -45,6 +45,10 @@ namespace Main.Traits.TraitCompass {
                 compassDirections[trait].HasEffect = true;
             }
         }
+
+        public void SetCurrentDecidingTraits(IEnumerable<ETrait> traits) {
+            
+        }
     }
     
     [Serializable]
