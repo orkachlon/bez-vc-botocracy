@@ -30,5 +30,9 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
         public virtual Task PlayTurnAnimation() {
             return Task.Delay(50);
         }
+
+        public virtual void PlayHoverAnimation() { }
+
+        public virtual void StopHoverAnimation() { }
     }
 }

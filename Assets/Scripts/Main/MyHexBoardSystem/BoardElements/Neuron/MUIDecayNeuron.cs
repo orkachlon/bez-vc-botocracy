@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
         [SerializeField] private float dotSpawnDuration;
 
         private int _turnCounter;
+        private Sequence _hoverAnimation;
+        private readonly CancellationTokenSource _hoverCts = new();
 
         protected override void UpdateView() {
             dots.ForEach(d => { d.gameObject.SetActive(true); d.transform.localScale = Vector3.one; });
@@ -40,6 +43,28 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
             await dots[_turnCounter].transform.DOScale(0, dotSpawnDuration).AsyncWaitForCompletion();
             dots[_turnCounter].gameObject.SetActive(false);
             _turnCounter++;
+        }
+
+        public override void PlayHoverAnimation() {
+            if (_hoverAnimation != null && _hoverAnimation.IsPlaying()) {
+                StopHoverAnimation();
+            }
+            _hoverAnimation = DOTween.Sequence();
+            foreach (var dot in dots) {
+                _hoverAnimation.Append(dot.transform.DOScale(0, dotSpawnDuration * 2));
+            }
+
+            foreach (var dot in dots) {
+                _hoverAnimation.Append(dot.transform.DOScale(1, dotSpawnDuration * 2));
+            }
+
+            _hoverAnimation.SetAutoKill(false);
+            _hoverAnimation.OnComplete(() => _hoverAnimation.Restart());
+        }
+
+        public override void StopHoverAnimation() {
+            _hoverAnimation?.Complete();
+            _hoverAnimation?.Kill();
         }
     }
 }

@@ -95,6 +95,7 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
 
             _currentUINeuron = MObjectPooler.Instance.Get(currentNeuron.GetModel());
             _currentUINeuron.SetRuntimeElementData(currentNeuron.GetElement());
+            _currentUINeuron.PlayHoverAnimation();
             _currentUINeuron.ToHoverLayer();
         }
 
@@ -102,6 +103,7 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
             if (_currentUINeuron == null) {
                 return;
             }
+            _currentUINeuron.StopHoverAnimation();
             _currentUINeuron.ToBoardLayer();
             MObjectPooler.Instance.Release(_currentUINeuron.gameObject);
             _currentUINeuron = null;
