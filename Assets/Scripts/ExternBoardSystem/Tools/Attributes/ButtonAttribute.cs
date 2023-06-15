@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+
+using System;
 
 namespace ExternBoardSystem.Tools.Attributes {
     /// <summary>
@@ -20,3 +22,4 @@ namespace ExternBoardSystem.Tools.Attributes {
         public string Label { get; }
     }
 }
+#endif

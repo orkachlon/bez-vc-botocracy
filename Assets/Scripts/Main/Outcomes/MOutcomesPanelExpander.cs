@@ -18,7 +18,6 @@ namespace Main.Outcomes {
 
         private void Start() {
             _outcomesContainer = transform.parent.GetComponent<MOutcomesController>();
-            UpdateSize();
         }
 
         private void OnEnable() {

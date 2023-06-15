@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿#if UNITY_EDITOR
+
+using System.Linq;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
@@ -111,3 +113,4 @@ namespace ExternBoardSystem.Ui.Board {
         }
     }
 }
+#endif

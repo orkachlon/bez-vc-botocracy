@@ -16,7 +16,9 @@ namespace Main.StoryPoints.SPProviders {
         private int[] _outcomeIDs;
 
         private void Awake() {
+#if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
+#endif
             _spQueue = new Queue<TextAsset>();
         }
 

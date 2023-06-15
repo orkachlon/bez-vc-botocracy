@@ -1,5 +1,6 @@
-﻿using ExternBoardSystem.Ui.Board;
-using Main.MyHexBoardSystem.BoardElements.Neuron;
+﻿#if UNITY_EDITOR
+
+using ExternBoardSystem.Ui.Board;
 using Main.Neurons.Runtime;
 
 namespace Main.MyHexBoardSystem.BoardSystem {
@@ -7,3 +8,4 @@ namespace Main.MyHexBoardSystem.BoardSystem {
         
     }
 }
+#endif

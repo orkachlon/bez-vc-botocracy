@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core.EventSystem;
+using DG.Tweening;
 using Main.StoryPoints;
 using Main.StoryPoints.Interfaces;
 using Main.Utils;
@@ -17,10 +18,6 @@ namespace Main.Outcomes {
         private RectTransform verticalContainer;
         [SerializeField] private RectTransform scrollArea;
 
-        // [Header("Outcome Interactables"), SerializeField]
-        // private MOutcomesPanelExpander expandButton;
-        // [SerializeField] private 
-        
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
         [SerializeField] private SEventManager uiEventManager;
@@ -32,7 +29,11 @@ namespace Main.Outcomes {
             _outcomeQueue = new Queue<MUIOutcome>();
             _rt = GetComponent<RectTransform>();
         }
-        
+
+        private void Start() {
+            CollapseOnGameStart();
+        }
+
         private void OnEnable() {
             storyEventManager.Register(StoryEvents.OnEvaluate, OnStoryEvaluated);
         }
@@ -43,7 +44,7 @@ namespace Main.Outcomes {
 
 
         public void Expand() {
-            _rt.sizeDelta = new Vector2(_rt.sizeDelta.x, 2060);
+            _rt.DOSizeDelta(new Vector2(_rt.sizeDelta.x, 2060), 0.5f);
             foreach (var uiOutcome in _outcomeQueue) {
                 uiOutcome.gameObject.SetActive(true);
             }
@@ -55,16 +56,25 @@ namespace Main.Outcomes {
                 sizeDelta = new Vector2(sizeDelta.x,
                     outcomePrefab.GetComponent<RectTransform>().rect.height - scrollArea.sizeDelta.y);
             } else {
-                foreach (var uiOutcome in _outcomeQueue) {
-                    uiOutcome.gameObject.SetActive(false);
-                }
                 var latestOutcome = _outcomeQueue.ToArray()[^1];
                 latestOutcome.gameObject.SetActive(true);
                 
                 sizeDelta = new Vector2(sizeDelta.x,
                     latestOutcome.GetComponent<RectTransform>().rect.height - scrollArea.sizeDelta.y);
             }
-            _rt.sizeDelta = sizeDelta;
+            // scale
+            _rt.DOSizeDelta(sizeDelta, 0.5f);
+
+            // disable all but most recent outcome
+            var outcomesArray = _outcomeQueue.ToArray();
+            for (var i = 0; i< _outcomeQueue.Count - 1; i++) {
+                outcomesArray[i].gameObject.SetActive(false);
+            }
+        }
+
+        private void CollapseOnGameStart() {
+            _rt.sizeDelta = new Vector2(_rt.sizeDelta.x,
+                outcomePrefab.GetComponent<RectTransform>().rect.height - scrollArea.sizeDelta.y);
         }
 
         private IEnumerator UpdateUI() {

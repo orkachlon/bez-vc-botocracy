@@ -21,9 +21,14 @@ namespace Main.Managers {
         }
 
         private void Update() {
-            if (Input.GetKey(KeyCode.R)) {
+            if (Input.GetKeyDown(KeyCode.R)) {
                 ResetAllEventManagers();
                 SceneManager.LoadScene("Level");
+                return;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                Application.Quit();
             }
         }
 
