@@ -123,11 +123,28 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &73377831 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4560526914762693488, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+  m_PrefabInstance: {fileID: 1461444735}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &73377832 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1876659394254917801, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
   m_PrefabInstance: {fileID: 1461444735}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &73377834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73377831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91271c9e269240dba7e97f4d3f001ac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &75655757 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7430523028275659486, guid: 8d74a662ac73c4f4b886900babc0febf, type: 3}
@@ -1169,23 +1186,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bb86d3962de24e4fb346e88057b029d, type: 3}
---- !u!1 &258430001 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4203978395081274472, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
-  m_PrefabInstance: {fileID: 1461444735}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &258430003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 258430001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91271c9e269240dba7e97f4d3f001ac6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &284030053
 GameObject:
   m_ObjectHideFlags: 0
@@ -2606,11 +2606,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91271c9e269240dba7e97f4d3f001ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &629799011 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4560526914762693488, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+  m_PrefabInstance: {fileID: 1540177627}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &629799012 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1876659394254917801, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
   m_PrefabInstance: {fileID: 1540177627}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &629799014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629799011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91271c9e269240dba7e97f4d3f001ac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &647378601 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2883184648831337473, guid: 0672931386439804ab244e309a06f42f, type: 3}
@@ -10812,23 +10829,6 @@ MonoBehaviour:
   modificationsEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
   numberOfDecidingTraits: 3
   spImagesPath: StoryPointsSprites
---- !u!1 &1980241985 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4203978395081274472, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
-  m_PrefabInstance: {fileID: 1540177627}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1980241987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1980241985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91271c9e269240dba7e97f4d3f001ac6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &2001157229 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8630538136859855886, guid: 0bb86d3962de24e4fb346e88057b029d, type: 3}
