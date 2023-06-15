@@ -680,6 +680,7 @@ MonoBehaviour:
   models:
   - {fileID: 4560526914762693488, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
   - {fileID: 1007146923831804764, guid: aafb0714c0f3a9840aa55d65ab30cc7d, type: 3}
+  - {fileID: 1626168141997595193, guid: 6a0594c135e95b545a01d86a51e92807, type: 3}
   startSize: 10
 --- !u!4 &156121577
 Transform:
@@ -11840,7 +11841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1927605572318816973, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 420
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1927605572318816973, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_SizeDelta.y
@@ -11848,7 +11849,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1927605572318816973, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 210
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1927605572318816973, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
       propertyPath: m_AnchoredPosition.y

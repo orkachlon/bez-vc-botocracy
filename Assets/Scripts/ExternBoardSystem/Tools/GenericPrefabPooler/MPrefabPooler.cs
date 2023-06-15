@@ -72,8 +72,8 @@ namespace ExternBoardSystem.Tools.GenericPrefabPooler
             return pooledObj;
         }
 
-        public virtual T1 Get<T1>(GameObject prefabModel) where T1 : class {
-            var obj = Get(prefabModel);
+        public virtual T1 Get<T1>(T1 prefabModel) where T1 : Component {
+            var obj = Get(prefabModel.gameObject);
             return obj.GetComponent<T1>();
         }
 

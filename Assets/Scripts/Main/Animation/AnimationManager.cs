@@ -34,7 +34,8 @@ namespace Main.Animation {
         private static async void PlayQueueAnimations(AnimationQueue queue) {
             while (queue.Count > 0) {
                 queue.TryDequeue(out var animation);
-                if (animation == null) {
+                // check if this status check is correct
+                if (animation is not {Status: TaskStatus.WaitingToRun}) {
                     continue;
                 }
 

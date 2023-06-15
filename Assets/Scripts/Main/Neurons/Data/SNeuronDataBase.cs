@@ -36,7 +36,7 @@ namespace Main.Neurons.Data {
             return NeuronFactory.GetBoardNeuron(Type);
         }
 
-        public MUIBoardNeuron GetModel() {
+        public virtual MUIBoardNeuron GetModel() {
             return boardModel;
         }
 

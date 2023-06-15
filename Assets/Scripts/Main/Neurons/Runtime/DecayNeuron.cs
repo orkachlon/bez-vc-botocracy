@@ -1,6 +1,5 @@
 ﻿using System;
 using Core.EventSystem;
-using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.Events;
@@ -23,7 +22,11 @@ namespace Main.Neurons.Runtime {
         }
 
         private void Decay(EventArgs args) {
+            if (args is not BoardElementEventArgs<BoardNeuron> placementArgs || placementArgs.Element == this) {
+                return;
+            }
             _turnsToDeath--;
+            UINeuron.PlayTurnAnimation();
             if (_turnsToDeath > 0) {
                 return;
             }

@@ -1,5 +1,6 @@
 using System;
 using Core.EventSystem;
+using Core.Utils;
 using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Events;
@@ -89,6 +90,7 @@ namespace ExternBoardSystem.BoardElements {
         }
 
         protected void DispatchOnAddElementFailed(TElement element, Vector3Int cell) {
+            MLogger.LogEditor($"Failed to add element! {element} in cell {cell}");
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementAddFailed, new OnElementEventData<TElement>(element, cell));
         }
 

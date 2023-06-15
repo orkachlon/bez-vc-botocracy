@@ -38,15 +38,12 @@ namespace Main.MyHexBoardSystem.BoardElements {
 
         private async Task AddElementAsync(BoardNeuron element, Vector3Int cell) {
             // await AwaitCurrentUITask();
-            await Task.Delay(1000);
-            var data = element.DataProvider;
-            var model = data.GetModel();
-            var uiBoardElement = MObjectPooler.Instance.Get<MUIBoardNeuron>(model.gameObject);
+            var uiBoardElement = element.Pool();
             var worldPosition = TileMap.CellToWorld(cell);
             uiBoardElement.SetRuntimeElementData(element);
             uiBoardElement.SetWorldPosition(worldPosition);
+            await uiBoardElement.PlayAddAnimation();
             _registerUiElements.Add(element, uiBoardElement);
-            MLogger.LogEditor("Added neuron!");
         }
 
         private async Task RemoveElementAsync(BoardNeuron element) {

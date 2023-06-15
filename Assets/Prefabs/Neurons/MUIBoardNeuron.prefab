@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 453f9299101f4ae8b9ac9cf4190422db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverSortingOrder: 3
+  hoverSortingOrder: 10
   boardSortingOrder: 1
 --- !u!1 &5294456984961881701
 GameObject:

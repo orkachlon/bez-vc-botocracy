@@ -92,8 +92,8 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
             if (_currentUINeuron != null) {
                 return;
             }
-            var neuronModel = currentNeuron.GetModel();
-            _currentUINeuron = MObjectPooler.Instance.Get<MUIBoardNeuron>(neuronModel.gameObject);
+
+            _currentUINeuron = MObjectPooler.Instance.Get(currentNeuron.GetModel());
             _currentUINeuron.SetRuntimeElementData(currentNeuron.GetElement());
             _currentUINeuron.ToHoverLayer();
         }

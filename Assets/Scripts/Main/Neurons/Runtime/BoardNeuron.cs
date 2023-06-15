@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.EventSystem;
 using Core.Utils;
 using ExternBoardSystem.BoardElements;
-using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.BoardSystem.Coordinates;
+using ExternBoardSystem.Tools;
 using Main.MyHexBoardSystem.BoardElements;
 using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons.Data;
-using UnityEngine;
 
 namespace Main.Neurons.Runtime {
     public abstract class BoardNeuron : BoardElement {
@@ -45,8 +43,9 @@ namespace Main.Neurons.Runtime {
             Position = position;
         }
 
-        public void BindToModel(MUIBoardNeuron muiBoardNeuron) {
-            UINeuron = muiBoardNeuron;
+        public virtual MUIBoardNeuron Pool() {
+            UINeuron = MObjectPooler.Instance.Get(DataProvider.GetModel());
+            return UINeuron;
         }
 
         public async Task AwaitNeuronRemoval() {
@@ -78,18 +77,6 @@ namespace Main.Neurons.Runtime {
             foreach (var other in neighbors) {
                 NeuronEventManager.Raise(NeuronEvents.OnDisconnectNeurons, new NeuronConnectionArgs(this, other));
             }
-        }
-
-        protected bool IsHoldingConnectionTo(BoardNeuron other) {
-            var absQ = Mathf.Abs(Position.q);
-            var otherAbsQ = Mathf.Abs(other.Position.q);
-            if (absQ != otherAbsQ) {
-                return absQ < otherAbsQ;
-            }
-            
-            var absR = Mathf.Abs(Position.r);
-            var otherAbsR = Mathf.Abs(other.Position.r);
-            return absR < otherAbsR;
         }
 
         #region EventHandlers

@@ -1,0 +1,45 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using DG.Tweening;
+using UnityEngine;
+
+namespace Main.MyHexBoardSystem.BoardElements.Neuron {
+    public class MUIDecayNeuron : MUIBoardNeuron {
+        [Header("Dots"), SerializeField] private List<SpriteRenderer> dots;
+        [SerializeField] private AnimationCurve dotSpawnEasing;
+        [SerializeField] private float dotSpawnDuration;
+
+        private int _turnCounter;
+
+        protected override void UpdateView() {
+            dots.ForEach(d => { d.gameObject.SetActive(true); d.transform.localScale = Vector3.one; });
+        }
+
+        public override void ToHoverLayer() {
+            base.ToHoverLayer();
+            dots.ForEach(d => d.sortingOrder = hoverSortingOrder + 1);
+        }
+
+        public override void ToBoardLayer() {
+            base.ToBoardLayer();
+            dots.ForEach(d => d.sortingOrder = boardSortingOrder + 2);
+        }
+
+        public override async Task PlayAddAnimation() {
+            dots.ForEach(d => d.transform.localScale = Vector3.zero);
+            foreach (var dot in dots) {
+                await dot.transform.DOScale(Vector3.one, dotSpawnDuration).SetEase(dotSpawnEasing).AsyncWaitForCompletion();
+            }
+        }
+
+        public override async Task PlayTurnAnimation() {
+            if (_turnCounter >= dots.Count) {
+                Task.Yield();
+            }
+
+            await dots[_turnCounter].transform.DOScale(0, dotSpawnDuration).AsyncWaitForCompletion();
+            dots[_turnCounter].gameObject.SetActive(false);
+            _turnCounter++;
+        }
+    }
+}

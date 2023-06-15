@@ -22,7 +22,7 @@ namespace Main.Neurons.Runtime {
             BoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, StopTravelling);
         }
         
-        private void Travel(EventArgs obj) {
+        private async void Travel(EventArgs obj) {
             if (obj is not BoardElementEventArgs<BoardNeuron> placementData || placementData.Element.Equals(this)) {
                 return;
             }
@@ -39,7 +39,7 @@ namespace Main.Neurons.Runtime {
             if (neighbours.Length > 0) {
                 var randomNeighbor = neighbours[Random.Range(0, neighbours.Length)];
                 _moving = true;
-                Controller.RemoveNeuron(Position);
+                await Controller.RemoveNeuron(Position);
                 _moving = false;
                 Controller.AddElement(NeuronFactory.GetBoardNeuron(ENeuronType.Dummy), Position);
                 Controller.AddNeuron(this, randomNeighbor, false);

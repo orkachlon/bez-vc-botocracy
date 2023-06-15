@@ -1,5 +1,4 @@
 ﻿using ExternBoardSystem.BoardElements;
-using ExternBoardSystem.BoardSystem.Position;
 using UnityEngine;
 
 namespace ExternBoardSystem.Ui.Board {
@@ -14,7 +13,6 @@ namespace ExternBoardSystem.Ui.Board {
 
         protected virtual void Awake() {
             SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
             Transform = transform;
         }
 

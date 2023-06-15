@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Core.EventSystem;
 using JetBrains.Annotations;
+using Main.Animation;
 using Main.GameModifications;
 using Main.Managers;
 using Main.MyHexBoardSystem.Events;
@@ -83,7 +84,7 @@ namespace Main.Neurons.NeuronQueue {
                 Enqueue(1);
             }
 
-            // _isProviding = true;
+            // StartProvidingNeurons(nextNeuron.DataProvider.Type);
             neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronQueueEventArgs(this));
             
             if (_neurons.Count == 0) {
@@ -130,7 +131,7 @@ namespace Main.Neurons.NeuronQueue {
                 return;
             }
             // StopProvidingNeurons();
-            // await neuronEventData.Element.AwaitNeuronRemoval();
+            // await AnimationManager.WaitForQueue(EAnimationQueue.Neurons);
             Dequeue();
         }
 
@@ -161,6 +162,11 @@ namespace Main.Neurons.NeuronQueue {
         private void StopProvidingNeurons() {
             _isProviding = false;
             currentNeuronData.Type = ENeuronType.Undefined;
+        }
+
+        private void StartProvidingNeurons(ENeuronType neuronType) {
+            _isProviding = true;
+            currentNeuronData.Type = neuronType;
         }
 
         public IEnumerator<Neuron> GetEnumerator() => _neurons.GetEnumerator();
