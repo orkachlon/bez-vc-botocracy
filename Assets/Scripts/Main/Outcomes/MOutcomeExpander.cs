@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Core.EventSystem;
 using DG.Tweening;
 using Main.Utils;
