@@ -15,7 +15,7 @@ namespace Main.Neurons.Runtime {
     public abstract class BoardNeuron : BoardElement {
 
         public Hex Position { get; protected set; }
-        public MUIBoardNeuron UINeuron { get; protected set; }
+        // public MUIBoardNeuron UINeuron { get; protected set; }
 
         protected bool Connectable;
 
@@ -43,18 +43,20 @@ namespace Main.Neurons.Runtime {
             Position = position;
         }
 
-        public virtual MUIBoardNeuron Pool() {
-            UINeuron = MObjectPooler.Instance.Get(DataProvider.GetModel());
-            return UINeuron;
-        }
+        public abstract MUIBoardNeuron Pool();
+        // {
+        //     UINeuron = MObjectPooler.Instance.Get(DataProvider.GetModel());
+        //     return UINeuron;
+        // }
 
-        public async Task AwaitNeuronRemoval() {
-            if (UINeuron == null) {
-                MLogger.LogEditor("Tried to await remove animation of null ui neuron");
-                return;
-            }
-            await UINeuron.PlayRemoveAnimation();
-        }
+        public abstract Task AwaitNeuronRemoval();
+        // {
+        //     if (UINeuron == null) {
+        //         MLogger.LogEditor("Tried to await remove animation of null ui neuron");
+        //         return;
+        //     }
+        //     await UINeuron.PlayRemoveAnimation();
+        // }
 
         protected virtual void Connect(BoardNeuron other) {
             if (!Controller.Board.HasPosition(Position)) {

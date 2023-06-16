@@ -24,7 +24,7 @@ namespace Main.Neurons.Data {
         [SerializeField] private Color connectionColor;
         
         [Header("Prefab  Models"), SerializeField] private MUIBoardNeuron boardModel;
-        [Header("UI Model"), SerializeField] private MUINeuron UIModel;
+        [SerializeField] private MUINeuron UIModel;
 
         public void SetData(SNeuronDataBase other) {
             Type = other.Type;

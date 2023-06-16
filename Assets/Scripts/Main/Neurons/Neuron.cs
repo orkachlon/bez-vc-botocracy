@@ -1,4 +1,7 @@
-﻿using Core.Utils;
+﻿using System.Threading.Tasks;
+using Core.Utils;
+using ExternBoardSystem.Tools;
+using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.Neurons.Data;
 using Main.Neurons.Runtime;
 
@@ -13,6 +16,14 @@ namespace Main.Neurons {
         
         public override void Activate() {
             MLogger.LogEditor("Tried to activate UI neuron!!!");
+        }
+
+        public override MUIBoardNeuron Pool() {
+            return MObjectPooler.Instance.Get(DataProvider.GetModel());
+        }
+
+        public override Task AwaitNeuronRemoval() {
+            return Task.Delay(0);
         }
     }
     

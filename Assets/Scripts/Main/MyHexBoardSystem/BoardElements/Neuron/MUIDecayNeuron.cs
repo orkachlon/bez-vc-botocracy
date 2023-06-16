@@ -36,6 +36,7 @@ namespace Main.MyHexBoardSystem.BoardElements.Neuron {
         }
 
         public override async Task PlayAddAnimation() {
+            base.PlayAddAnimation();
             dots.ForEach(d => d.transform.localScale = Vector3.zero);
             foreach (var dot in dots) {
                 await dot.transform.DOScale(Vector3.one, dotSpawnDuration).SetEase(dotSpawnEasing).AsyncWaitForCompletion();

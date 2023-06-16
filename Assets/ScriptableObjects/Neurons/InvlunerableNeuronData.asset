@@ -19,5 +19,5 @@ MonoBehaviour:
   UISecondArtwork: {fileID: 21300000, guid: 5b852fdc78b011b4e9f606f02d0d1f5a, type: 3}
   UIFirstArtwork: {fileID: 21300000, guid: 5b852fdc78b011b4e9f606f02d0d1f5a, type: 3}
   connectionColor: {r: 0.96470594, g: 0.90196085, b: 0.7607844, a: 1}
-  boardModel: {fileID: 4623728799522052598, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+  boardModel: {fileID: 6160607038901236365, guid: 9b699b4fd8696d045b10cc0c4f66a5a5, type: 3}
   UIModel: {fileID: 3697331408924041040, guid: 91d9a07677642314e97721ef65a31996, type: 3}

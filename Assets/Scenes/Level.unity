@@ -678,9 +678,13 @@ MonoBehaviour:
   isDontDestroyOnLoad: 0
   isSilent: 1
   models:
-  - {fileID: 4560526914762693488, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
   - {fileID: 1007146923831804764, guid: aafb0714c0f3a9840aa55d65ab30cc7d, type: 3}
   - {fileID: 1626168141997595193, guid: 6a0594c135e95b545a01d86a51e92807, type: 3}
+  - {fileID: 5871134358847149559, guid: 44a4258fd4e58a947966b2f4bf4ca078, type: 3}
+  - {fileID: 3422297826162314504, guid: a83696864905b8342a1a6ad8542cf89e, type: 3}
+  - {fileID: 2723136154835139595, guid: b95662072859e624bad3c828ec587a81, type: 3}
+  - {fileID: 4533615392470120718, guid: 9b699b4fd8696d045b10cc0c4f66a5a5, type: 3}
+  - {fileID: 2312583815424487005, guid: dd051a3e8ee95134d8139c18e2318669, type: 3}
   startSize: 10
 --- !u!4 &156121577
 Transform:
@@ -2299,7 +2303,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -6731,22 +6735,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3802732429819209080, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 3802732429819209080, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 3802732429819209080, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 3802732429819209080, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4560526914762693488, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
       propertyPath: m_Name
       value: MUIBoardNeuron
@@ -6755,22 +6743,6 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 5b852fdc78b011b4e9f606f02d0d1f5a, type: 3}
-    - target: {fileID: 4706389093889264935, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 4706389093889264935, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 4706389093889264935, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 4706389093889264935, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
 --- !u!1001 &1468060276
@@ -12224,6 +12196,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: e598e17c160c23645a6a49ebd1db003e, type: 3}
+    - target: {fileID: 8888015303850376492, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8888015303850376492, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8888015303850376492, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
 --- !u!1001 &5589631879776718406

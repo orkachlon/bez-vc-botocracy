@@ -1,7 +1,13 @@
-﻿using Main.Neurons.Data;
+﻿using System.Threading.Tasks;
+using ExternBoardSystem.Tools;
+using Main.MyHexBoardSystem.BoardElements.Neuron;
+using Main.Neurons.Data;
 
 namespace Main.Neurons.Runtime {
     public class ExplodeNeuron : BoardNeuron {
+
+        private MUIExplodeNeuron _uiNeuron;
+        
         public ExplodeNeuron() : base(MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Exploding)) {
             Connectable = false;
         }
@@ -20,6 +26,15 @@ namespace Main.Neurons.Runtime {
                 // explode this neuron
                 Controller.RemoveNeuron(neighbour);
             }
+        }
+
+        public override MUIBoardNeuron Pool() {
+            _uiNeuron = MObjectPooler.Instance.Get(DataProvider.GetModel()) as MUIExplodeNeuron;
+            return _uiNeuron;
+        }
+
+        public override async Task AwaitNeuronRemoval() {
+            await _uiNeuron.PlayRemoveAnimation();
         }
 
         protected override void Connect(BoardNeuron other) { }

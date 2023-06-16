@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
-using Core.EventSystem;
-using ExternBoardSystem.BoardSystem.Coordinates;
-using Main.MyHexBoardSystem.BoardElements;
+using System.Threading.Tasks;
+using ExternBoardSystem.Tools;
+using Main.MyHexBoardSystem.BoardElements.Neuron;
 using Main.MyHexBoardSystem.Events;
 using Main.Neurons.Data;
 using Random = UnityEngine.Random;
 
 namespace Main.Neurons.Runtime {
     public class TravelNeuron : BoardNeuron {
-        
+
+        private MUITravelNeuron _uiNeuron;
         private int _turnsToStop;
         private bool _moving;
 
@@ -21,7 +22,16 @@ namespace Main.Neurons.Runtime {
             BoardEventManager.Register(ExternalBoardEvents.OnPlaceElement, Travel);
             BoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, StopTravelling);
         }
-        
+
+        public override MUIBoardNeuron Pool() {
+            _uiNeuron = MObjectPooler.Instance.Get(DataProvider.GetModel()) as MUITravelNeuron;
+            return _uiNeuron;
+        }
+
+        public override async Task AwaitNeuronRemoval() {
+            await _uiNeuron.PlayRemoveAnimation();
+        }
+
         private async void Travel(EventArgs obj) {
             if (obj is not BoardElementEventArgs<BoardNeuron> placementData || placementData.Element.Equals(this)) {
                 return;
