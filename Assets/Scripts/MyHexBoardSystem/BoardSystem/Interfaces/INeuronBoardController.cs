@@ -1,7 +1,4 @@
-﻿using ExternBoardSystem.BoardSystem;
-using MyHexBoardSystem.BoardElements.Neuron.Runtime;
-using MyHexBoardSystem.Traits;
-using Types.Board;
+﻿using Types.Board;
 using Types.Hex.Coordinates;
 using Types.Neuron.Runtime;
 using Types.Trait;

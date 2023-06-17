@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Core.EventSystem;
 using ExternBoardSystem.Tools.Input.Mouse;
-using MyHexBoardSystem.BoardElements.Neuron.Data;
 using MyHexBoardSystem.BoardSystem;
+using Neurons;
 using Types.Hex.Coordinates;
-using Types.Neuron;
+using Types.Neuron.Runtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
@@ -17,8 +19,11 @@ namespace MyHexBoardSystem.UI {
         [SerializeField] private TileBase canBePlacedTileBase;
         [SerializeField] private TileBase cannotBePlacedTileBase;
         [SerializeField] private TileBase hoverOutlineTile;
-        [SerializeField] private SNeuronDataBase currentNeuron;
+
+        [Header("Event Managers"), SerializeField]
+        private SEventManager neuronEventManager;
         
+        private IBoardNeuron _currentNeuron;
         private IMouseInput _mouseInput;
         private Camera _cam;
         
@@ -34,6 +39,7 @@ namespace MyHexBoardSystem.UI {
             _mouseInput.OnPointerStay += UpdatePosition;
             _mouseInput.OnPointerExit += OnHide;
             _mouseInput.OnPointerClick += OnPointerClick;
+            neuronEventManager.Register(NeuronEvents.OnQueueStateChanged, UpdateCurrentNeuron);
         }
 
         private void OnDisable() {
@@ -41,7 +47,18 @@ namespace MyHexBoardSystem.UI {
             _mouseInput.OnPointerStay -= UpdatePosition;
             _mouseInput.OnPointerExit -= OnHide;
             _mouseInput.OnPointerClick -= OnPointerClick;
+            neuronEventManager.Unregister(NeuronEvents.OnQueueStateChanged, UpdateCurrentNeuron);
         }
+
+        private void UpdateCurrentNeuron(EventArgs obj) {
+            if (obj is not NeuronQueueEventArgs queueArgs) {
+                return;
+            }
+
+            _currentNeuron = queueArgs.NeuronQueue.NextBoardNeuron;
+        }
+
+        #region EventHandlers
 
         private void OnPointerClick(PointerEventData obj) {
             OnHide(obj);
@@ -68,13 +85,15 @@ namespace MyHexBoardSystem.UI {
             Hide();
         }
 
+        #endregion
+
         private void Show(Hex hex) {
             if (!boardController.Board.HasPosition(hex)) {
                 return;
             }
             TileBase tileToShow;
             // no neurons or current tile is occupied
-            if (ENeuronType.Undefined.Equals(currentNeuron.Type) || boardController.Board.GetPosition(hex).HasData()) {
+            if (_currentNeuron == null || boardController.Board.GetPosition(hex).HasData()) {
                 tileToShow = cannotBePlacedTileBase;
             }
             // current tile is empty - check if a neighbor neuron exists

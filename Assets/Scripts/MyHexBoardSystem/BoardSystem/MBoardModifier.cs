@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.EventSystem;
@@ -41,15 +42,11 @@ namespace MyHexBoardSystem.BoardSystem {
         }
 
         private void OnEnable() {
-            // storyEventManager.Register(StoryEvents.OnInitStory, UpdateCurrentSP);
             storyEventManager.Register(StoryEvents.OnEvaluate, OnBoardEffect);
-            // boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, OnBoardEffect);
         }
 
         private void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnEvaluate, OnBoardEffect);
-            // storyEventManager.Unregister(StoryEvents.OnInitStory, UpdateCurrentSP);
-            // boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, OnBoardEffect);
         }
 
         #endregion
@@ -61,22 +58,33 @@ namespace MyHexBoardSystem.BoardSystem {
             }
 
             var boardEffect = storyEventArgs.Story.DecisionEffects.BoardEffect;
+            ModifyBoard(boardEffect);
+        }
+
+        private async void ModifyBoard(Dictionary<ETrait, int> boardEffect) {
+            var tileEffectTasks = new List<Task>();
             foreach (var trait in boardEffect.Keys) {
                 var neuronsInTrait = _neuronsController.GetTraitCount(trait);
                 var effectStrength = GetTileAmountBasedOnNeurons(neuronsInTrait);
 #if UNITY_EDITOR
                 Assert.IsTrue(neuronsInTrait > 0 && effectStrength > 0 || neuronsInTrait == 0 && effectStrength == 0);
 #endif
+                if (effectStrength > _boardController.GetTraitTileCount(trait)) {
+                    boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));
+                }
                 if (boardEffect[trait] < 0) {
-                    RemoveTilesFromTrait(trait, effectStrength);
-                } else if (boardEffect[trait] > 0) {
-                    AddTilesToTrait(trait, effectStrength);
+                    tileEffectTasks.Add(RemoveTilesFromTrait(trait, effectStrength));
+                }
+                else if (boardEffect[trait] > 0) {
+                    tileEffectTasks.Add(AddTilesToTrait(trait, effectStrength));
                 }
             }
+
+            await Task.WhenAll(tileEffectTasks);
             boardEventManager.Raise(ExternalBoardEvents.OnBoardModified, EventArgs.Empty);
         }
 
-        private async void RemoveTilesFromTrait(ETrait trait, int amount) {
+        private async Task RemoveTilesFromTrait(ETrait trait, int amount) {
             for(var i = 0; i < amount; i++) {
                 if (!RemoveTraitTile(trait)) {
                     // lose game
@@ -103,7 +111,7 @@ namespace MyHexBoardSystem.BoardSystem {
             return !isLastHex;
         }
 
-        private async void AddTilesToTrait(ETrait trait, int amount) {
+        private async Task AddTilesToTrait(ETrait trait, int amount) {
             for (var i = 0; i < amount; i++) {
                 AddTileToTrait(trait);
                 await Task.Delay(100);

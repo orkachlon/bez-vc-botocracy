@@ -8891,7 +8891,7 @@ MonoBehaviour:
   canBePlacedTileBase: {fileID: 11400000, guid: 5934d8d534040ef448cabdf5df2b9f38, type: 2}
   cannotBePlacedTileBase: {fileID: 11400000, guid: e02de212b123e6143aa8b52e7291d19e, type: 2}
   hoverOutlineTile: {fileID: 11400000, guid: b06008abbe989e6458007abc2bc534fc, type: 2}
-  currentNeuron: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
+  neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
 --- !u!1 &1641581096
 GameObject:
   m_ObjectHideFlags: 0

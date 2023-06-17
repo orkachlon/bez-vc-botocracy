@@ -51,6 +51,10 @@ namespace MyHexBoardSystem.UI {
 
         private void RepositionLabel(EventArgs obj = null) {
             var edgeHexes = traitAccessor.GetTraitEdgeHexes(trait);
+            if (edgeHexes.Length == 0) {
+                _worldPos = _traitDirection * labelBufferFromBoard;
+                return;
+            }
             var asVectors = edgeHexes.Select(h => controller.HexToWorldPos(h)).ToArray();
             var maxMag = asVectors.Max(v => v.magnitude);
             var maxVec = asVectors.First(v => Math.Abs(v.magnitude - maxMag) < 0.1f);
