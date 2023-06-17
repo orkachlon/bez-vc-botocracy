@@ -1,6 +1,6 @@
 ﻿using System;
 using Core.Utils.DataStructures;
-using Main.Traits;
+using Types.Trait;
 using UnityEngine;
 
 namespace Main.StoryPoints.SOVersion {

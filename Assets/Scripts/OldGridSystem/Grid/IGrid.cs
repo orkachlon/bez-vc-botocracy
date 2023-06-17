@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Main.Traits;
 using OldGridSystem.Tiles;
+using Types.Trait;
 
 namespace OldGridSystem.Grid {
     public interface IGrid {

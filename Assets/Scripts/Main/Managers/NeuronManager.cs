@@ -1,9 +1,12 @@
 ﻿using System;
 using Core.EventSystem;
-using ExternBoardSystem.BoardSystem.Coordinates;
-using Main.MyHexBoardSystem.Events;
-using Main.Neurons;
-using Main.Neurons.Runtime;
+using Events.General;
+using MyHexBoardSystem.Events;
+using Neurons;
+using Neurons.Runtime;
+using Types.Hex.Coordinates;
+using Types.Neuron;
+using Types.Neuron.Runtime;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -32,7 +35,7 @@ namespace Main.Managers {
         private void Init(EventArgs _) {
             // place the initial neuron
             var invulnerableBoardNeuron = NeuronFactory.GetBoardNeuron(ENeuronType.Invulnerable);
-            var firstNeuronEventData = new BoardElementEventArgs<BoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
+            var firstNeuronEventData = new BoardElementEventArgs<IBoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
             boardEventManager.Raise(ExternalBoardEvents.OnSetFirstElement, firstNeuronEventData);
             // add some neurons to the queue
             neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs((int) startNeuronAmount));

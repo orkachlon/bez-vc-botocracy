@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Core.EventSystem;
+﻿using System.Collections.Generic;
+using Core.Tools.Pooling;
 using ExternBoardSystem.BoardElements;
-using ExternBoardSystem.BoardSystem.Board;
-using ExternBoardSystem.Events;
-using ExternBoardSystem.Tools;
+using Types.Board;
 using UnityEngine;
 
 namespace ExternBoardSystem.Ui.Board {
@@ -28,12 +25,17 @@ namespace ExternBoardSystem.Ui.Board {
         protected override void OnAddElement(BoardElement element, Vector3Int cell) {
             var data = element.DataProvider;
             var model = data.GetModel();
-            var obj = MObjectPooler.Instance.Get(model.gameObject);
+            var obj = MObjectPooler.Instance.Get(model.GO);
             var uiBoardElement = obj.GetComponent<MUIBoardElement>();
             var worldPosition = TileMap.CellToWorld(cell);
             uiBoardElement.SetRuntimeElementData(element);
             uiBoardElement.SetWorldPosition(worldPosition);
             _registerUiElements.Add(element, uiBoardElement);
+        }
+
+        protected override void OnMoveElement(BoardElement element, Vector3Int fromCell, Vector3Int toCell) {
+            OnRemoveElement(element, fromCell);
+            OnAddElement(element, toCell);
         }
 
         private void CreateBoardUi() {

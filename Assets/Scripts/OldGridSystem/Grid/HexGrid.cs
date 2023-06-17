@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Main.Traits;
-using Main.Utils;
+using Core.Utils;
 using OldGridSystem.Tiles;
 using TMPro;
+using Types.Trait;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -58,11 +58,11 @@ namespace OldGridSystem.Grid {
         #endregion
 
         #region NeuronCounting
-
+        
         public override int CountNeurons(ETrait trait) {
             return _tilesByTrait[trait].Count(t => !t.IsEmpty());
         }
-
+        
         public override int MaxNeuronsPerTrait() {
             return _tilesByTrait[0].Count;
         }

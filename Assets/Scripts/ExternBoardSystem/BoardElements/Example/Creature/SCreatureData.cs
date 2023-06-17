@@ -1,4 +1,5 @@
 ﻿using ExternBoardSystem.Ui.Board;
+using Types.Board;
 using UnityEngine;
 
 namespace ExternBoardSystem.BoardElements.Example.Creature {

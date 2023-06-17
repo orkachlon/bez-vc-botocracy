@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ExternBoardSystem.BoardSystem.Coordinates;
+using Types.Hex.Coordinates;
 using UnityEngine;
 
 namespace ExternBoardSystem.BoardSystem.BoardShape

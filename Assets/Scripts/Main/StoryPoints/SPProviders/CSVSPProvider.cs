@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using Core.Utils;
+using Events.General;
 using JetBrains.Annotations;
 using Main.GameModifications;
 using Main.StoryPoints.Interfaces;
-using Main.Traits;
-using Main.Utils;
+using Types.StoryPoint;
+using Types.Trait;
 using UnityEngine;
 
 namespace Main.StoryPoints.SPProviders {

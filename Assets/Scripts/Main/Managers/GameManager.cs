@@ -1,14 +1,16 @@
 ﻿using System;
 using Core.EventSystem;
-using Main.MyHexBoardSystem.Events;
-using Main.Neurons;
-using Main.StoryPoints;
+using Events.General;
+using Events.SP;
+using MyHexBoardSystem.Events;
+using Neurons;
+using Types.GameState;
 using UnityEngine;
 
 namespace Main.Managers {
     public class GameManager : MonoBehaviour {
 
-        private GameState _currentState;
+        private EGameState _currentState;
 
         [Header("Event Managers"), SerializeField] private SEventManager gmEventManager;
         [SerializeField] private SEventManager neuronEventManager;
@@ -42,19 +44,19 @@ namespace Main.Managers {
 
         #region EventHandlers
 
-        private void ChangeState(GameState newState, EventArgs customArgs = null) {
+        private void ChangeState(EGameState newState, EventArgs customArgs = null) {
             _currentState = newState;
             gmEventManager.Raise(GameManagerEvents.OnBeforeGameStateChanged, EventArgs.Empty);
             
             switch (newState) {
-                case GameState.StoryTurn:
+                case EGameState.StoryTurn:
                     break;
-                case GameState.PlayerTurn:
+                case EGameState.PlayerTurn:
                     break;
-                case GameState.Win:
+                case EGameState.Win:
                     print("You win!");
                     break;
-                case GameState.Lose:
+                case EGameState.Lose:
                     print("You lose!");
                     break;
                 default:
@@ -67,26 +69,19 @@ namespace Main.Managers {
         #endregion
 
         private void Lose(EventArgs customArgs) {
-            ChangeState(GameState.Lose, customArgs);
+            ChangeState(EGameState.Lose, customArgs);
         }
 
         private void Win(EventArgs customArgs) {
-            ChangeState(GameState.Win, customArgs);
+            ChangeState(EGameState.Win, customArgs);
         }
 
         private void PlayerTurn(EventArgs customArgs) {
-            ChangeState(GameState.PlayerTurn, customArgs);
+            ChangeState(EGameState.PlayerTurn, customArgs);
         }
         
         private void StoryTurn(EventArgs customArgs) {
-            ChangeState(GameState.StoryTurn, customArgs);
+            ChangeState(EGameState.StoryTurn, customArgs);
         }
-    }
-
-    public enum GameState {
-        StoryTurn,
-        PlayerTurn,
-        Win,
-        Lose
     }
 }

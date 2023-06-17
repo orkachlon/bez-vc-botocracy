@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Core.EventSystem;
 using DG.Tweening;
-using Main.StoryPoints;
-using Main.StoryPoints.Interfaces;
-using Main.Utils;
+using Events.SP;
+using Events.UI;
+using Types.StoryPoint;
+using Types.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

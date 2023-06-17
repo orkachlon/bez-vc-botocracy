@@ -1,6 +1,7 @@
 ﻿using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
+using Types.Board;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

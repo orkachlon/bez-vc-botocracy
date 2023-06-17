@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Core.EventSystem;
 using Core.Utils;
-using Main.MyHexBoardSystem.Events;
+using Events.SP;
 using Main.StoryPoints;
-using Main.StoryPoints.Interfaces;
-using Main.StoryPoints.SPProviders;
+using MyHexBoardSystem.Events;
+using Types.StoryPoint;
 using UnityEngine;
 
 namespace Main.Managers {

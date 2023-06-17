@@ -4,9 +4,10 @@ using System.Linq;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
-using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Tools.Attributes;
 using TMPro;
+using Types.Board;
+using Types.Hex.Coordinates;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -15,7 +16,7 @@ namespace ExternBoardSystem.Ui.Board {
     /// <summary>
     ///     A component to show each tile's coordinates.
     /// </summary>
-    public class MUIBoardDebug<T> : MonoBehaviour where T : BoardElement {
+    public class MUIBoardDebug<T> : MonoBehaviour where T : IBoardElement {
         private GameObject[] _positions;
         private GameObject[] _triangle;
         [SerializeField] private MBoardController<T> controller;
@@ -25,6 +26,7 @@ namespace ExternBoardSystem.Ui.Board {
         private IBoard<T> CurrentBoard { get; set; }
 
         protected void Awake() {
+            controller = GetComponent<MBoardController<T>>();
             controller.OnCreateBoard += OnCreateBoard;
         }
 

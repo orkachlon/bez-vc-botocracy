@@ -2,8 +2,9 @@
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
-using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Ui.Particles;
+using Types.Board;
+using Types.Hex.Coordinates;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

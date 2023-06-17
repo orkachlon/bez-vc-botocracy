@@ -1,5 +1,5 @@
-﻿using ExternBoardSystem.BoardElements;
-using ExternBoardSystem.BoardSystem.Coordinates;
+﻿using Types.Board;
+using Types.Hex.Coordinates;
 
 namespace ExternBoardSystem.BoardSystem.Position
 {
@@ -9,8 +9,9 @@ namespace ExternBoardSystem.BoardSystem.Position
     ///     <remarks> If this structure grow consider make it a class and pool it, instead. </remarks>
     ///     >
     /// </summary>
-    public class Position <T> where T : BoardElement {
-        public Position(Hex point, T baseData = null) {
+    public class Position <T> : IPosition<T> 
+        where T : IBoardElement {
+        public Position(Hex point, T baseData = default) {
             Point = point;
             Data = baseData;
         }
@@ -28,7 +29,7 @@ namespace ExternBoardSystem.BoardSystem.Position
         }
 
         public void RemoveData() {
-            Data = null;
+            Data = default;
         }
 
         public bool HasData() {

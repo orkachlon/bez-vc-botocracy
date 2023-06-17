@@ -1,9 +1,9 @@
 ﻿using System;
 using Core.EventSystem;
 using DG.Tweening;
-using Main.StoryPoints;
-using Main.StoryPoints.Interfaces;
+using Events.SP;
 using TMPro;
+using Types.StoryPoint;
 using UnityEngine;
 using UnityEngine.UI;
 

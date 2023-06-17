@@ -1,10 +1,10 @@
 using System;
 using Core.EventSystem;
 using Core.Utils;
-using ExternBoardSystem.BoardSystem.Board;
-using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Events;
-using ExternBoardSystem.Ui.Board;
+using Types.Board;
+using Types.Board.UI;
+using Types.Hex.Coordinates;
 using UnityEngine;
 
 namespace ExternBoardSystem.BoardElements {
@@ -14,8 +14,8 @@ namespace ExternBoardSystem.BoardElements {
     /// </summary>
     public class MBoardElementsController<TElement, TUIElement> : 
         MonoBehaviour, IBoardElementsController<TElement> 
-        where TElement : BoardElement
-        where TUIElement : MUIBoardElement {
+        where TElement : IBoardElement
+        where TUIElement : IUIBoardElement {
         
         public IBoardManipulation Manipulator { get; private set; }
         public IBoard<TElement> Board { get; private set; }
@@ -65,6 +65,18 @@ namespace ExternBoardSystem.BoardElements {
             var data = position.Data;
             position.RemoveData();
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementRemoved, new OnElementEventData<TElement>(data, GetCellCoordinate(hex)));
+        }
+
+        public virtual void MoveElement(Hex from, Hex to) {
+            if (!Board.HasPosition(from) || !Board.GetPosition(from).HasData() ||
+                !Board.HasPosition(to) || Board.GetPosition(to).HasData()) {
+                return;
+            }
+
+            var element = Board.GetPosition(from).Data;
+            Board.GetPosition(from).RemoveData();
+            Board.GetPosition(to).AddData(element);
+            innerBoardEventManager.Raise(InnerBoardEvents.OnElementMoved, new OnElementMovedEventData<TElement>(element, GetCellCoordinate(from), GetCellCoordinate(to)));
         }
 
         #region EventHandlers

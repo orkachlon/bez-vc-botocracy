@@ -1,6 +1,6 @@
 ﻿using System;
 using Core.EventSystem;
-using Main.StoryPoints;
+using Events.SP;
 using UnityEngine;
 
 namespace Main.Controls {

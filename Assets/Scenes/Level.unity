@@ -2395,7 +2395,6 @@ GameObject:
   - component: {fileID: 615794149}
   - component: {fileID: 615794156}
   - component: {fileID: 615794154}
-  - component: {fileID: 615794155}
   - component: {fileID: 615794158}
   - component: {fileID: 615794159}
   - component: {fileID: 615794161}
@@ -2453,24 +2452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   externalEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
-  currentNeuronData: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
---- !u!114 &615794155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 615794147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b634f30c8f24ca3b7aeb242a1e61941, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 615794156}
-  textPosition: {fileID: 3841204323083488389, guid: c6485be8551d4dd45b6f34b1f8de7156, type: 3}
-  tileMap: {fileID: 1609176185}
-  direction: 0
 --- !u!114 &615794156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2497,7 +2479,6 @@ MonoBehaviour:
     - {fileID: 454915837}
     - {fileID: 418282752}
   innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
-  externalBoardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   traitTileBases:
     keys: 000000000100000002000000030000000400000005000000
     values:
@@ -2525,6 +2506,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 116ac56c5b8e4984abf8fd6c14109b09, type: 2}
     - {fileID: 11400000, guid: 8b44bce4017965844b9a609ca2d5edd6, type: 2}
     - {fileID: 11400000, guid: dc2957a95fe6f9440a270d7da9156bb0, type: 2}
+  externalBoardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!114 &615794158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8878,8 +8860,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17e6c73dcba4089b5b17c089e54a885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentNeuron: {fileID: 11400000, guid: 31efa1b7f77472e43875a57fe584726e, type: 2}
   boardController: {fileID: 615794156}
+  neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
 --- !u!114 &1609176196
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Main.StoryPoints.Interfaces;
 using Newtonsoft.Json;
+using Types.StoryPoint;
 using UnityEngine;
 
 namespace Main.StoryPoints.SPProviders {

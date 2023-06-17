@@ -1,0 +1,181 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Core.EventSystem;
+using Events.General;
+using JetBrains.Annotations;
+using MyHexBoardSystem.BoardElements.Neuron.Data;
+using MyHexBoardSystem.BoardElements.Neuron.Runtime;
+using MyHexBoardSystem.Events;
+using Neurons.Data;
+using Neurons.Runtime;
+using Types.GameState;
+using Types.Neuron;
+using Types.Neuron.Runtime;
+using UnityEngine;
+
+namespace Neurons.NeuronQueue {
+    public class MNeuronQueue : MonoBehaviour, INeuronQueue, IEnumerable<IStackNeuron> {
+        
+        [Header("Current Neuron Data"), SerializeField]
+        private SNeuronDataBase currentNeuronData;
+
+        [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
+        [SerializeField] private SEventManager boardEventManager;
+        [SerializeField] private SEventManager modificationsEventManager;
+        [SerializeField] private SEventManager gmEventManager;
+
+        public int Count => IsInfinite ? int.MaxValue : _neurons.Count;
+        public bool IsInfinite { get; private set; }
+        public IBoardNeuron NextBoardNeuron => Count > 0 ? Peek().BoardNeuron : null;
+
+        private Queue<IStackNeuron> _neurons;
+        private bool _isProviding;
+
+        #region UnityMethods
+
+        private void Awake() {
+            _neurons = new Queue<IStackNeuron>();
+            _isProviding = true;
+        }
+        
+        private void OnEnable() {
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, OnBoardElementPlaced);
+            neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
+            modificationsEventManager.Register(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
+            gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnGameWin);
+        }
+
+        private void OnDisable() {
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, OnBoardElementPlaced);
+            neuronEventManager.Unregister(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
+            modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
+            gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnGameWin);
+        }
+
+        #endregion
+
+        public void Enqueue(IEnumerable<IStackNeuron> neurons) {
+            foreach (var neuron in neurons) {
+                Enqueue(neuron);
+            }
+        }
+
+        public void Enqueue(IStackNeuron stackNeuron) {
+            _neurons.Enqueue(stackNeuron);
+            if (_isProviding) {
+                currentNeuronData.SetData(Peek().DataProvider);
+            }
+            neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, new NeuronQueueEventArgs(this));
+            neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
+        }
+
+        public void Enqueue(int amount) {
+            for (var i = 0; i < amount; i++) {
+                // todo actually implement a neuron providing system
+                Enqueue(new StackNeuron(NeuronFactory.GetRandomPlaceableNeuron()));
+            }
+        }
+
+        public IStackNeuron Dequeue() {
+            _neurons.TryDequeue(out var nextNeuron);
+            if (nextNeuron == null) {
+                StopProvidingNeurons(); // shouldn't happen, just to be sure
+                return null;
+            }
+            // never run out of neurons but keep visibility and functionality the same
+            if (IsInfinite) {
+                Enqueue(1);
+            }
+
+            // StartProvidingNeurons(nextNeuron.DataProvider.Type);
+            neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronQueueEventArgs(this));
+            neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
+            
+            if (_neurons.Count == 0) {
+                StopProvidingNeurons();
+                neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronQueueEventArgs(this));
+                return null;
+            }
+
+            if (_isProviding) {
+                currentNeuronData.SetData(Peek().DataProvider);
+            }
+            return nextNeuron;
+        }
+
+        public IStackNeuron Peek() {
+            return Count == 0 ? null : _neurons.Peek();
+        }
+
+        public IStackNeuron PeekLast() {
+            return _neurons.ToArray()[_neurons.Count - 1];
+        }
+
+        public IStackNeuron[] PeekFirst(int number) {
+            if (number > _neurons.Count) {
+                number = _neurons.Count;
+            }
+
+            return _neurons.ToArray()[Range.EndAt(number)];
+        }
+
+        [CanBeNull]
+        public IStackNeuron Peek(int index) {
+            if (0 <= index && index < _neurons.Count) {
+                return _neurons.ToArray()[index];
+            }
+
+            return null;
+        }
+
+        #region EventHandlers
+
+        private async void OnBoardElementPlaced(EventArgs eventData) {
+            if (eventData is not BoardElementEventArgs<IBoardNeuron> neuronEventData) {
+                return;
+            }
+            // StopProvidingNeurons();
+            // await AnimationManager.WaitForQueue(EAnimationQueue.Neurons);
+            Dequeue();
+        }
+
+        private void OnRewardNeurons(EventArgs eventArgs) {
+            if (eventArgs is NeuronRewardEventArgs reward) {
+                Enqueue(reward.Amount);
+            }
+        }
+
+        private void OnInfiniteNeurons(EventArgs eventArgs) {
+            if (eventArgs is not IsInfiniteNeuronsEventArgs infiniteNeurons) {
+                return;
+            }
+
+            IsInfinite = infiniteNeurons.IsInfinite;
+        }
+
+        private void OnGameWin(EventArgs obj) {
+            if (obj is not GameStateEventArgs { State: EGameState.Win }) {
+                return;
+            }
+
+            StopProvidingNeurons();
+        }
+
+        #endregion
+
+        private void StopProvidingNeurons() {
+            _isProviding = false;
+            currentNeuronData.Type = ENeuronType.Undefined;
+        }
+
+        private void StartProvidingNeurons(ENeuronType neuronType) {
+            _isProviding = true;
+            currentNeuronData.Type = neuronType;
+        }
+
+        public IEnumerator<IStackNeuron> GetEnumerator() => _neurons.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+}

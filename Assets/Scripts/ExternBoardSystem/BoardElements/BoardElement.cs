@@ -1,5 +1,5 @@
-﻿using ExternBoardSystem.Ui.Board;
-using UnityEngine;
+﻿using Types.Board;
+using Types.Board.UI;
 
 namespace ExternBoardSystem.BoardElements
 {
@@ -7,21 +7,15 @@ namespace ExternBoardSystem.BoardElements
     ///     Any kind of elementData which can be positioned onto the board.
     ///     <remarks> Inherit this class to create items, monsters and stuff to populate the board. </remarks>
     /// </summary>
-    public abstract class BoardElement {
-        protected BoardElement(IElementDataProvider<BoardElement, MUIBoardElement> dataProvider) {
+    public abstract class BoardElement : IBoardElement {
+        protected BoardElement(IElementDataProvider<IBoardElement, IUIBoardElement> dataProvider) {
             DataProvider = dataProvider;
         }
 
-        public IElementDataProvider<BoardElement, MUIBoardElement> DataProvider { get; }
+        public IElementDataProvider<IBoardElement, IUIBoardElement> DataProvider { get; }
 
         public override string ToString() {
             return DataProvider.ToString();
         }
-    }
-
-    public interface IElementDataProvider<out TElement, out TUIElement> where TElement : BoardElement {
-        TElement GetElement();
-        TUIElement GetModel();
-        Sprite GetBoardArtwork();
     }
 }

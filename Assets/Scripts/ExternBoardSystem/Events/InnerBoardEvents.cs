@@ -1,11 +1,10 @@
 ﻿using System;
-using Core.EventSystem;
-using ExternBoardSystem.BoardElements;
-using ExternBoardSystem.BoardSystem.Board;
+using Types.Board;
 using UnityEngine;
 
 namespace ExternBoardSystem.Events {
     internal static class InnerBoardEvents {
+        public const string OnElementMoved = "InnerBoard_OnElementMoved";
 
         // element events
         public const string OnElementAdded = "InnerBoard_OnElementAdded";
@@ -20,7 +19,7 @@ namespace ExternBoardSystem.Events {
     }
 
     internal class OnElementEventData<TElement> : EventArgs 
-    where TElement : BoardElement {
+    where TElement : IBoardElement {
         public TElement Element;
         public Vector3Int Cell;
 
@@ -30,8 +29,17 @@ namespace ExternBoardSystem.Events {
         }
     }
 
+    internal class OnElementMovedEventData<TElement> : OnElementEventData<TElement> 
+        where TElement : IBoardElement {
+        public Vector3Int ToCell;
+
+        public OnElementMovedEventData(TElement element, Vector3Int fromCell, Vector3Int toCell) : base(element, fromCell) {
+            ToCell = toCell;
+        }
+    }
+
     internal class OnBoardEventData<TElement> : EventArgs
-    where TElement : BoardElement {
+    where TElement : IBoardElement {
         public IBoard<TElement> Board;
         public IBoardManipulation Manipulator;
 
@@ -48,4 +56,5 @@ namespace ExternBoardSystem.Events {
             Cell = cell;
         }
     }
+    
 }

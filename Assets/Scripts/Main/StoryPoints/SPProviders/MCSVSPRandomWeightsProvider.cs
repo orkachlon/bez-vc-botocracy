@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Core.Utils;
-using Main.StoryPoints.Interfaces;
-using Main.Traits;
-using Main.Utils;
+using Types.StoryPoint;
+using Types.Trait;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

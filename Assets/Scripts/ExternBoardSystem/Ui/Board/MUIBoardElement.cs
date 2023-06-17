@@ -1,4 +1,6 @@
 ﻿using ExternBoardSystem.BoardElements;
+using Types.Board;
+using Types.Board.UI;
 using UnityEngine;
 
 namespace ExternBoardSystem.Ui.Board {
@@ -6,8 +8,8 @@ namespace ExternBoardSystem.Ui.Board {
     /// <summary>
     ///     A board element's visual appearance. This is also used as a container for pooling board elements.
     /// </summary>
-    public class MUIBoardElement : MonoBehaviour {
-        protected BoardElement RuntimeData { get; set; }
+    public class MUIBoardElement : MonoBehaviour, IUIBoardElement {
+        protected IBoardElement RuntimeData { get; set; }
         protected SpriteRenderer SpriteRenderer { get; set; }
         protected Transform Transform { get; set; }
 
@@ -16,7 +18,7 @@ namespace ExternBoardSystem.Ui.Board {
             Transform = transform;
         }
 
-        public virtual void SetRuntimeElementData(BoardElement data) {
+        public virtual void SetRuntimeElementData(IBoardElement data) {
             RuntimeData = data;
             UpdateView();
         }
@@ -28,5 +30,7 @@ namespace ExternBoardSystem.Ui.Board {
         protected virtual void UpdateView() {
             SpriteRenderer.sprite = RuntimeData.DataProvider.GetBoardArtwork();
         }
+
+        public GameObject GO => gameObject;
     }
 }

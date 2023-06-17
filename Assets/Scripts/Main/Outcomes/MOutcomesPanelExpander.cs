@@ -1,7 +1,8 @@
 ﻿using System;
 using Core.EventSystem;
 using DG.Tweening;
-using Main.Utils;
+using Events.UI;
+using Types.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

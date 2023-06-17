@@ -2,10 +2,12 @@
 using System.Linq;
 using Core.EventSystem;
 using Core.Utils;
-using Main.Managers;
-using Main.MyHexBoardSystem.BoardElements;
-using Main.MyHexBoardSystem.Events;
-using Main.StoryPoints.Interfaces;
+using Events.General;
+using Events.SP;
+using MyHexBoardSystem.Events;
+using Types.Board;
+using Types.GameState;
+using Types.StoryPoint;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -54,7 +56,7 @@ namespace Main.StoryPoints {
         #region EventHandlers
 
         private void OnAfterGameState(EventArgs obj) {
-            if (obj is not GameStateEventArgs {State: GameState.StoryTurn}) {
+            if (obj is not GameStateEventArgs {State: EGameState.StoryTurn}) {
                 return;
             }
 

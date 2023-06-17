@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ExternBoardSystem.BoardElements;
-using ExternBoardSystem.BoardSystem.Coordinates;
-using ExternBoardSystem.BoardSystem.Position;
 using ExternBoardSystem.Tools.Extensions;
+using Types.Board;
+using Types.Hex.Coordinates;
 using UnityEngine;
 
 namespace ExternBoardSystem.BoardSystem.Board {
@@ -12,7 +11,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
     ///     The way to manipulate a board in the Odd-Row layout.
     ///     TODO: Open for many memory/cache optimizations and algorithms improvements.
     /// </summary>
-    public class BoardManipulationOddR<T> : IBoardManipulation where T : BoardElement {
+    public class BoardManipulationOddR<T> : IBoardManipulation where T : IBoardElement {
         public static readonly Hex[] NeighboursDirections = {
             new Hex(1, 0), new Hex(1, -1), new Hex(0, -1),
             new Hex(-1, 0), new Hex(-1, 1), new Hex(0, 1)
@@ -268,7 +267,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
             return _board.HasPosition(hex);
         }
 
-        private int? MaxCoord(Func<Position<T>,int> selector) {
+        private int? MaxCoord(Func<IPosition<T>,int> selector) {
             return _board.Positions.Select(selector).OrderByDescending(c => c).FirstOrDefault();
         }
 

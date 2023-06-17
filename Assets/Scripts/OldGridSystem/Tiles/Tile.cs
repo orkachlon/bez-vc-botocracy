@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Main.Neurons;
 using UnityEngine;
 
 namespace OldGridSystem.Tiles {

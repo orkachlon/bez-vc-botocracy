@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Main.Managers;
-using Main.Traits;
 using OldGridSystem.Tiles;
+using Types.GameState;
+using Types.Trait;
 using UnityEngine;
 
 namespace OldGridSystem.Grid {
@@ -61,17 +62,17 @@ namespace OldGridSystem.Grid {
             // GameManager.OnAfterGameStateChanged -= HandleAfterGameStateChanged;
         }
 
-        public void HandleAfterGameStateChanged(GameState state, EventArgs customArgs = null) {
+        public void HandleAfterGameStateChanged(EGameState state, EventArgs customArgs = null) {
             switch (state) {
-                // case GameState.InitGrid:
+                // case EGameState.InitGrid:
                 //     CreateGrid();
                     // break;
-                case GameState.PlayerTurn:
+                case EGameState.PlayerTurn:
                     EnableGridInteractions();
                     break;
-                case GameState.StoryTurn:
-                case GameState.Win:
-                case GameState.Lose:
+                case EGameState.StoryTurn:
+                case EGameState.Win:
+                case EGameState.Lose:
                     DisableGridInteractions();
                     break;
                 default:

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Core.Utils;
-using Main.MyHexBoardSystem.BoardSystem;
+using MyHexBoardSystem.BoardSystem;
 using UnityEngine;
 
 namespace Main.Tests {

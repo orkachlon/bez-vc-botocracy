@@ -1,6 +1,7 @@
 ﻿using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem;
 using TMPro;
+using Types.Board;
 using UnityEngine;
 
 namespace ExternBoardSystem.Ui.Util {

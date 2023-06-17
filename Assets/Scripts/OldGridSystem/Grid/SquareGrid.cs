@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Main.Traits;
 using OldGridSystem.Tiles;
+using Types.Trait;
 using UnityEngine;
 
 namespace OldGridSystem.Grid {

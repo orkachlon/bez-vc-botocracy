@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using Core.Utils.DataStructures;
-using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
-using ExternBoardSystem.BoardSystem.Coordinates;
 using ExternBoardSystem.Events;
+using Types.Board;
+using Types.Hex.Coordinates;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
@@ -17,10 +17,10 @@ namespace ExternBoardSystem.BoardSystem {
     ///     The board controller creates the board on startup, and through its board manipulation other
     ///     classes can ask for hex board algorithms (e.g. getNeighbors)
     /// </summary>
-    public class MBoardController<T> : MonoBehaviour, IBoardController<T> where T : BoardElement {
-        [SerializeField] protected TilemapLayers tilemapLayers;
+    public class MBoardController<T> : MonoBehaviour, IBoardController<T> where T : IBoardElement {
+        [Header("Base Tilemap"), SerializeField] protected TilemapLayers tilemapLayers;
 
-        [Header("Event Managers"), SerializeField]
+        [Header("Base Event Managers"), SerializeField]
         private SEventManager innerBoardEventManager;
         
         private readonly HashSet<Hex> _tiles = new();

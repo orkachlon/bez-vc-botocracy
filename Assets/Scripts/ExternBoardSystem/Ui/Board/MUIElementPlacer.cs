@@ -1,16 +1,15 @@
 ﻿using System;
 using Core.EventSystem;
-using ExternBoardSystem.BoardElements;
-using ExternBoardSystem.BoardSystem;
-using ExternBoardSystem.BoardSystem.Board;
 using ExternBoardSystem.Events;
+using Types.Board;
+using Types.Board.UI;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace ExternBoardSystem.Ui.Board {
     public abstract class MUIElementPlacer<T, TUI> : MonoBehaviour 
-        where T : BoardElement
-        where TUI : MUIBoardElement {
+        where T : IBoardElement
+        where TUI : IUIBoardElement {
         
         [Header("Event Managers"), SerializeField] private SEventManager innerBoardEventManager;
 
@@ -23,6 +22,7 @@ namespace ExternBoardSystem.Ui.Board {
         protected virtual void OnEnable() {
             innerBoardEventManager.Register(InnerBoardEvents.OnElementAdded, OnAddElement);
             innerBoardEventManager.Register(InnerBoardEvents.OnElementRemoved, OnRemoveElement);
+            innerBoardEventManager.Register(InnerBoardEvents.OnElementMoved, OnMoveElement);
             innerBoardEventManager.Register(InnerBoardEvents.OnCreateBoard, OnCreateBoard);
         }
 
@@ -51,11 +51,18 @@ namespace ExternBoardSystem.Ui.Board {
                 OnRemoveElement(elementEventData.Element, elementEventData.Cell);
             }
         }
+        
+        protected virtual void OnMoveElement(EventArgs eventData) {
+            if (eventData is OnElementMovedEventData<T> elementEventData) {
+                OnMoveElement(elementEventData.Element, elementEventData.Cell, elementEventData.ToCell);
+            }
+        }
 
         #endregion
 
         protected abstract void OnCreateBoard(IBoard<T> board);
         protected abstract void OnRemoveElement(T element, Vector3Int cell);
         protected abstract void OnAddElement(T element, Vector3Int cell);
+        protected abstract void OnMoveElement(T element, Vector3Int fromCell, Vector3Int toCell);
     }
 }

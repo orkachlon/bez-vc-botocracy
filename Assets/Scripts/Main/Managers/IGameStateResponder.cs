@@ -1,8 +1,9 @@
 ﻿using System;
+using Types.GameState;
 
 namespace Main.Managers {
     public interface IGameStateResponder {
-        // void HandleBeforeGameStateChanged(GameManager.GameState state);
-        void HandleAfterGameStateChanged(GameState state, EventArgs customArgs = null);
+        // void HandleBeforeGameStateChanged(GameManager.EGameState state);
+        void HandleAfterGameStateChanged(EGameState state, EventArgs customArgs = null);
     }
 }

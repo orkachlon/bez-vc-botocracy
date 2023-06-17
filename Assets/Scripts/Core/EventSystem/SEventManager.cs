@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Types.Events;
 using UnityEngine;
 
 namespace Core.EventSystem {
     [CreateAssetMenu(menuName = "Events/Event Manager", order = 0)]
-    public class SEventManager : ScriptableObject {
+    public class SEventManager : ScriptableObject, IEventManager {
 
         [SerializeField] private bool debugMessages;
         
