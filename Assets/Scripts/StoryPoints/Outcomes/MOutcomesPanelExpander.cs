@@ -6,7 +6,7 @@ using Types.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Main.Outcomes {
+namespace StoryPoints.Outcomes {
     public class MOutcomesPanelExpander : MonoBehaviour, IPointerClickHandler {
 
         [Header("Event Managers"), SerializeField]

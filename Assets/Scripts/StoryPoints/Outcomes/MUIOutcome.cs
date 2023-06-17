@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Main.Outcomes {
+namespace StoryPoints.Outcomes {
     public class MUIOutcome : MonoBehaviour {
         [Header("Visuals"), SerializeField] private TextMeshProUGUI spTitleText;
         [SerializeField] private TextMeshProUGUI spDeciderText;

@@ -5,7 +5,7 @@ using Events.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Main.Outcomes {
+namespace StoryPoints.Outcomes {
     public class MOutcomeExpander : MonoBehaviour, IPointerClickHandler {
 
         [SerializeField] private GameObject outcomeDescription;

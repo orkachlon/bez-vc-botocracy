@@ -7,7 +7,7 @@ using Types.StoryPoint;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Main.Outcomes {
+namespace StoryPoints.Outcomes {
     public class MDecisionPopup : MonoBehaviour {
 
         [Header("Visuals"), SerializeField] private TextMeshProUGUI storyPointTitle; 

@@ -4,7 +4,7 @@ using Events.SP;
 using TMPro;
 using UnityEngine;
 
-namespace Main.StoryPoints.UI {
+namespace StoryPoints.UI {
     public class MUIStoryPointCounter : MonoBehaviour {
 
         [Header("Event Managers"), SerializeField]

@@ -8,7 +8,7 @@ using Types.Trait;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Main.StoryPoints.SPProviders {
+namespace StoryPoints.SPProviders {
     public class MCSVSPRandomWeightsProvider : CSVSPProvider {
 
         [SerializeField, Range(0, 7)] private int numberOfDecidingTraits;

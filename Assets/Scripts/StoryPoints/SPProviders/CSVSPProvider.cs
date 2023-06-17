@@ -5,13 +5,12 @@ using Core.EventSystem;
 using Core.Utils;
 using Events.General;
 using JetBrains.Annotations;
-using Main.GameModifications;
-using Main.StoryPoints.Interfaces;
+using StoryPoints.Interfaces;
 using Types.StoryPoint;
 using Types.Trait;
 using UnityEngine;
 
-namespace Main.StoryPoints.SPProviders {
+namespace StoryPoints.SPProviders {
     public class CSVSPProvider : MonoBehaviour, ISPProvider {
 
         [SerializeField] protected TextAsset StoryPointsCSV;

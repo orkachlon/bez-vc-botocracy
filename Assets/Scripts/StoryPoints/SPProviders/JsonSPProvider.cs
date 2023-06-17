@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Types.StoryPoint;
 using UnityEngine;
 
-namespace Main.StoryPoints.SPProviders {
+namespace StoryPoints.SPProviders {
     public class JsonSPProvider : MonoBehaviour, ISPProvider {
         
         [Header("Story Points")]

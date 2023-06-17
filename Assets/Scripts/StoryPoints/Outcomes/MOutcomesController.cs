@@ -10,7 +10,7 @@ using Types.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Main.Outcomes {
+namespace StoryPoints.Outcomes {
     public class MOutcomesController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IExpandable {
         [Header("Outcome Prefab"), SerializeField]
         private MUIOutcome outcomePrefab;

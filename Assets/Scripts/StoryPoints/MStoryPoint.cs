@@ -11,7 +11,7 @@ using Types.StoryPoint;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Main.StoryPoints {
+namespace StoryPoints {
     public class MStoryPoint : MonoBehaviour, IStoryPoint {
         
         [SerializeField] private AnimationCurve neuronEvaluationWeight;

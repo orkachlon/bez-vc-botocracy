@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Main.StoryPoints.UI {
+namespace StoryPoints.UI {
     public class MUIStoryPoint : MonoBehaviour {
         [Header("Visuals"), SerializeField] private TextMeshProUGUI title;
         [SerializeField] private TextMeshProUGUI description;

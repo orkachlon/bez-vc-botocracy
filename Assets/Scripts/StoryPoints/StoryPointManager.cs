@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using Core.EventSystem;
 using Core.Utils;
 using Events.SP;
-using Main.StoryPoints;
 using MyHexBoardSystem.Events;
 using Types.StoryPoint;
 using UnityEngine;
 
-namespace Main.Managers {
+namespace StoryPoints {
     public class StoryPointManager : MonoBehaviour {
 
         [Header("Event Managers"), SerializeField]

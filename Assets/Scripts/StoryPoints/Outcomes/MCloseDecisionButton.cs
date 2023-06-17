@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Main.Outcomes {
+namespace StoryPoints.Outcomes {
     public class MCloseDecisionButton : MonoBehaviour, IPointerClickHandler {
 
         [SerializeField] private MDecisionPopup decisionPopup;

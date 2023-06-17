@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Main.StoryPoints.Interfaces {
+namespace StoryPoints.Interfaces {
     public static class Prerequisite {
 
         public static bool Evaluate(string prerequisite, int[] input) {
