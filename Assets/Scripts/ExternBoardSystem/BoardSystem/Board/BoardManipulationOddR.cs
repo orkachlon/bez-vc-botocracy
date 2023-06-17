@@ -287,6 +287,13 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 _ => hex.q > 0 ? new Hex(1, 0) : hex.q < 0 ? new Hex(-1, 0) : Hex.Zero
             };
         }
+        
+        public static Hex[] GetNeighboursStatic(Hex hex) {
+            var neighbours = new Hex[] { };
+            return NeighboursDirections
+                .Select(direction => Hex.Add(hex, direction))
+                .Aggregate(neighbours, (current, neighbour) => current.Append(new[] {neighbour}));
+        }
 
         /// <summary>
         ///     Unity by default makes use the R-Offset Odd to reference tiles inside a TileMap with a vector3Int cell.

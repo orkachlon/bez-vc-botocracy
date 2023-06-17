@@ -11,6 +11,7 @@ using MyHexBoardSystem.BoardSystem.Interfaces;
 using MyHexBoardSystem.Events;
 using Types.Board;
 using Types.Hex.Coordinates;
+using Types.Neuron.Runtime;
 using Types.StoryPoint;
 using Types.Trait;
 using UnityEngine;
@@ -126,8 +127,16 @@ namespace MyHexBoardSystem.BoardSystem {
             var onlyContainedInTrait = onlyEmptySurroundingHexes.Where(h =>
                     ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(h)) == trait)
                 .ToArray();
-            var randomHex = onlyContainedInTrait[Random.Range(0, onlyContainedInTrait.Length)];
-            AnimationManager.Register(AddTile(randomHex));
+            // var randomHex = onlyContainedInTrait[Random.Range(0, onlyContainedInTrait.Length)];
+            
+            // give priority to tiles with neighbors in order to promote island connection
+            var orderedByExistingNeighbors = onlyContainedInTrait
+                .OrderByDescending(h =>
+                    BoardManipulationOddR<IBoardNeuron>.GetNeighboursStatic(h)
+                        .Count(n => _boardController.Board.HasPosition(n)))
+                .ToArray();
+            var bestConnection = orderedByExistingNeighbors[0];
+            AnimationManager.Register(AddTile(bestConnection));
         }
 
         private int GetTileAmountBasedOnNeurons(int neuronAmount) {
