@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BGMaterial
-  m_Shader: {fileID: 4800000, guid: ede7203b20524f41ac21bf644cede1e2, type: 3}
+  m_Name: BGOutlineMaterial
+  m_Shader: {fileID: 4800000, guid: a6e309cbfaf74c4f9def54a17999ba50, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -58,6 +58,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaScale: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -72,18 +73,10 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Threshold: 0.1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorA: {r: 1, g: 0.7607843, b: 0.6392157, a: 1}
-    - _ColorB: {r: 0.97647065, g: 0.92549026, b: 0.85098046, a: 1}
-    - _ColorBotLeft: {r: 1, g: 0.7607844, b: 0.6392157, a: 1}
-    - _ColorBotRight: {r: 0.97647065, g: 0.92549026, b: 0.85098046, a: 1}
-    - _ColorLeft: {r: 0.97647065, g: 0.92549026, b: 0.85098046, a: 1}
-    - _ColorNonDeciding: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _ColorRight: {r: 1, g: 0.7607844, b: 0.6392157, a: 1}
-    - _ColorTopLeft: {r: 1, g: 0.7607844, b: 0.6392157, a: 1}
-    - _ColorTopRight: {r: 0.97647065, g: 0.92549026, b: 0.85098046, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
