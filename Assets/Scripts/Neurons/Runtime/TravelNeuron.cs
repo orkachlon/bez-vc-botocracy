@@ -64,6 +64,9 @@ namespace Neurons.Runtime {
                 Position = randomNeighbor;
                 Connect();
             }
+            else { // stop travelling if you couldn't travel this turn
+                _turnsToStop = 0;
+            }
             _turnsToStop--;
             if (_turnsToStop > 0) {
                 return;

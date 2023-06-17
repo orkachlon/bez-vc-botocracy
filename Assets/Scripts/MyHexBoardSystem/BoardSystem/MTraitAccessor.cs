@@ -44,13 +44,13 @@ namespace MyHexBoardSystem.BoardSystem {
         #region UnityMethods
 
         private void OnEnable() {
-            storyEventManager.Register(StoryEvents.OnInitStory, CheckForFullBoard);
+            boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, CheckForFullBoard);
             boardEventManager.Register(ExternalBoardEvents.OnAddTile, OnAddTile);
             boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnRemoveTile);
         }
 
         private void OnDisable() {
-            storyEventManager.Unregister(StoryEvents.OnInitStory, CheckForFullBoard);
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, CheckForFullBoard);
             boardEventManager.Unregister(ExternalBoardEvents.OnAddTile, OnAddTile);
             boardEventManager.Unregister(ExternalBoardEvents.OnRemoveTile, OnRemoveTile);
         }
