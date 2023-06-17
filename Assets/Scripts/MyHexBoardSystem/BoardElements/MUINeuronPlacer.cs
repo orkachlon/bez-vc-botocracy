@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Animation;
 using Core.Tools.Pooling;
 using DG.Tweening;
 using ExternBoardSystem.Ui.Board;

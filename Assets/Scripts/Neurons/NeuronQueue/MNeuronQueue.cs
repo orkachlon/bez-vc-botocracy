@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Animation;
 using Core.EventSystem;
 using Events.General;
 using JetBrains.Annotations;

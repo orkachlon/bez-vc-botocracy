@@ -2,7 +2,10 @@
     "name": "StoryPoints",
     "rootNamespace": "",
     "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:7ed4dc2b0b4606142a068288c495b9ec",
         "GUID:e8a36805a06140c59a5be0750023f18e",
+        "GUID:237fc58feb7c5084d8dea01785675b83",
         "GUID:e3c9d230b9957e54e98a153d32e7913e"
     ],
     "includePlatforms": [],
