@@ -17,7 +17,7 @@ namespace Neurons.Runtime {
             DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Invulnerable);
         }
 
-        public override void Activate() { }
+        public override Task Activate() => Task.CompletedTask;
         public override IUIBoardNeuron Pool() {
             base.Pool();
             UINeuron.SetRuntimeElementData(this);

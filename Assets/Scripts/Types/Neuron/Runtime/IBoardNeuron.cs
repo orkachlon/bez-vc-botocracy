@@ -17,7 +17,7 @@ namespace Types.Neuron.Runtime {
 
         void BindToNeuronManager(IEventManager neuronEventManager);
         
-        void Activate();
+        Task Activate();
         IUIBoardNeuron Pool();
         Task AwaitRemoval();
     }

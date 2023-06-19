@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Core.EventSystem;
 using Core.Utils;
 using ExternBoardSystem.Events;
@@ -46,37 +47,39 @@ namespace ExternBoardSystem.BoardElements {
             Manipulator = manipulator;
         }
 
-        public virtual bool AddElement(TElement element, Hex hex) {
+        public virtual Task<bool> AddElement(TElement element, Hex hex) {
             var position = Board.GetPosition(hex);
             if (position == null)
-                return false;
+                return Task.FromResult(false);
             if (position.HasData())
-                return false;
+                return Task.FromResult(false);
             position.AddData(element);
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementAdded, new OnElementEventData<TElement>(element, GetCellCoordinate(hex)));
-            return true;
+            return Task.FromResult(true);
         }
         
 
-        public virtual void RemoveElement(Hex hex) {
+        public virtual Task RemoveElement(Hex hex) {
             var position = Board.GetPosition(hex);
             if (position == null || !position.HasData())
-                return;
+                return Task.CompletedTask;
             var data = position.Data;
             position.RemoveData();
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementRemoved, new OnElementEventData<TElement>(data, GetCellCoordinate(hex)));
+            return Task.CompletedTask;
         }
 
-        public virtual void MoveElement(Hex from, Hex to) {
+        public virtual Task MoveElement(Hex from, Hex to) {
             if (!Board.HasPosition(from) || !Board.GetPosition(from).HasData() ||
                 !Board.HasPosition(to) || Board.GetPosition(to).HasData()) {
-                return;
+                return Task.CompletedTask;
             }
 
             var element = Board.GetPosition(from).Data;
             Board.GetPosition(from).RemoveData();
             Board.GetPosition(to).AddData(element);
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementMoved, new OnElementMovedEventData<TElement>(element, GetCellCoordinate(from), GetCellCoordinate(to)));
+            return Task.CompletedTask;
         }
 
         #region EventHandlers

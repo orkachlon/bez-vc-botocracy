@@ -29,12 +29,13 @@ namespace Neurons.Runtime {
             _turnsToStop = ((STravelNeuronData) DataProvider).TurnsToStop;
         }
 
-        public override void Activate() {
+        public override Task Activate() {
             if (BoardEventManager == null) {
-                return;
+                return Task.CompletedTask;;
             }
             BoardEventManager.Register(ExternalBoardEvents.OnPlaceElement, Travel);
             BoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, StopTravelling);
+            return Task.CompletedTask;
         }
 
         public override IUIBoardNeuron Pool() {

@@ -23,8 +23,7 @@ namespace Neurons.Runtime {
             _turnsToDeath = ((SDecayingNeuronData) DataProvider).TurnsToDeath;
         }
 
-        public override void Activate() { }
-
+        public override Task Activate() => Task.CompletedTask;
 
         public override void BindToBoard(IEventManager boardEventManager, IBoardNeuronsController controller, Hex position) {
             base.BindToBoard(boardEventManager, controller, position);

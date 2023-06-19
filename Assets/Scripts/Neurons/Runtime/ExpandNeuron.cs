@@ -19,14 +19,15 @@ namespace Neurons.Runtime {
         }
 
 
-        public override void Activate() {
+        public override async Task Activate() {
             var neighbours = Controller.Manipulator.GetNeighbours(Position);
             foreach (var neighbour in neighbours) {
                 if (!Controller.Board.HasPosition(neighbour) || Controller.Board.GetPosition(neighbour).HasData())
                     continue;
                 // expand to this hex
                 var newElement = NeuronFactory.GetBoardNeuron(ENeuronType.Dummy);
-                Controller.AddElement(newElement, neighbour);
+                await Controller.AddElement(newElement, neighbour);
+                await Task.Delay(50);
                 // var handle = AnimationManager.GetDefaultAnimatable();
                 // AnimationManager.Register(handle, Task.Delay(50));
                 // await AnimationManager.WaitForElement(handle);

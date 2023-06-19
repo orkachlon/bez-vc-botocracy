@@ -31,7 +31,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
             Connectable = true;
         }
 
-        public abstract void Activate();
+        public abstract Task Activate();
 
         public virtual void BindToNeuronManager(IEventManager neuronEventManager) {
             NeuronEventManager = neuronEventManager as SEventManager;
