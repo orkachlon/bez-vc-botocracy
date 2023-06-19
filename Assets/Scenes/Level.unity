@@ -1791,7 +1791,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2883184648831337487, guid: 0672931386439804ab244e309a06f42f, type: 3}
   m_PrefabInstance: {fileID: 2883184649275028136}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1971986117
+--- !u!114 &1971986119
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1800,10 +1800,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1971986112}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99ba819906534b5eb0900a91bae5cc3c, type: 3}
+  m_Script: {fileID: 11500000, guid: 9860f866704542f5a6ccc93994c0cfcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StoryPointsCSV: {fileID: 4900000, guid: 7dfc532387f41e240ba2a2f953b7c66c, type: 3}
+  StoryPointsCSV: {fileID: 4900000, guid: 3bfc5c09be668da4aa529a7a910e1b88, type: 3}
   modificationsEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
   numberOfDecidingTraits: 3
   spImagesPath: StoryPointsSprites

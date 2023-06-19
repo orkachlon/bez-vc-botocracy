@@ -74,7 +74,7 @@ namespace StoryPoints.SPProviders {
             return deciders;
         }
 
-        private TraitDecisionEffects GetTraitDecisionEffects(IReadOnlyDictionary<string, object> entry) {
+        protected virtual TraitDecisionEffects GetTraitDecisionEffects(IReadOnlyDictionary<string, object> entry) {
             var deciderEffects = new TraitDecisionEffects {
                 Decision = (string) entry[((CSVHeaderWithActions) Header).actions],
                 Outcome = (string) entry[Header.outcomes],
