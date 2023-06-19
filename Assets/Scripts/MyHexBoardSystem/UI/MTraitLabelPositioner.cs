@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Core.EventSystem;
+using Core.Utils;
 using MyHexBoardSystem.BoardSystem;
 using MyHexBoardSystem.BoardSystem.Interfaces;
 using MyHexBoardSystem.Events;
@@ -20,12 +21,14 @@ namespace MyHexBoardSystem.UI {
         
         private Camera _camera;
         private RectTransform _rt;
+        private RectTransform _bounds;
         private Vector3 _worldPos;
         private Vector3 _traitDirection;
 
         private void Awake() {
             _camera = Camera.main;
             _rt = GetComponent<RectTransform>();
+            _bounds = _rt.parent.GetComponent<RectTransform>();
             _traitDirection = ITraitAccessor.TraitToVectorDirection(trait).normalized;
         }
 
@@ -43,7 +46,7 @@ namespace MyHexBoardSystem.UI {
 
         private void LateUpdate() {
             var screenPos = _camera.WorldToScreenPoint(_worldPos);
-            // if (IsOutSideCameraBounds(screenPos)) {
+            // if (!IsInsideBounds(screenPos)) {
             //     screenPos = ShiftIntoCameraBounds(screenPos);
             // }
             _rt.position = screenPos;
@@ -63,35 +66,49 @@ namespace MyHexBoardSystem.UI {
             var worldPos = maxPosProjected + _traitDirection * labelBufferFromBoard;
             _worldPos = worldPos;
         }
-        //
-        // private bool IsOutSideCameraBounds(Vector2 screenPos) {
-        //     var h = _rt.sizeDelta.y;
-        //     var w = _rt.sizeDelta.x;
-        //     var camRect = _camera.pixelRect;
-        //     return camRect.height < screenPos.y + h || 0 > screenPos.y - h || camRect.x < screenPos.x + w || 0 > screenPos.x - w;
-        // }
-        //
-        //  // the correct way to do this is to move the label on the worldPos -> camWorldPos vector.
-        // private Vector3 ShiftIntoCameraBounds(Vector3 screenPos) {
-        //     var h = _rt.sizeDelta.y / 2;
-        //     var w = _rt.sizeDelta.x / 2;
-        //     var camRect = _camera.pixelRect;
-        //     var shiftDelta = 0f;
-        //     if (camRect.height < screenPos.y + h) {
-        //         shiftDelta = screenPos.y + h - camRect.height;
-        //         screenPos += Vector3.Project(Vector3.down * shiftDelta, -_traitDirection);
-        //     } else if (0 > screenPos.y - h) {
-        //         shiftDelta = -(screenPos.y - h);
-        //         screenPos += Vector3.Project(Vector3.up * shiftDelta, -_traitDirection);
-        //     }
-        //     if (camRect.width < screenPos.x + w) {
-        //         shiftDelta = screenPos.x + w - camRect.width;
-        //         screenPos += Vector3.Project(Vector3.left * shiftDelta, -_traitDirection);
-        //     } else if (0 > screenPos.x - w) {
-        //         shiftDelta = -(screenPos.x - w);
-        //         screenPos += Vector3.Project(Vector3.right * shiftDelta, -_traitDirection);
-        //     }
-        //     return screenPos;
-        // }
+        
+        private bool IsInsideBounds(Vector2 screenPos) {
+            var h = _rt.sizeDelta.y * 0.5f;
+            var w = _rt.sizeDelta.x * 0.5f;
+            var yExtent = _bounds.sizeDelta.y * 0.5f;
+            var xExtent = _bounds.sizeDelta.x * 0.5f;
+            var boundsPos = _bounds.position;
+            return boundsPos.y + yExtent >= screenPos.y + h && boundsPos.y - yExtent <= screenPos.y - h &&
+                   boundsPos.x + xExtent >= screenPos.x + w && boundsPos.x - xExtent <= screenPos.x - w;
+        }
+        
+         // the correct way to do this is to move the label on the worldPos -> camWorldPos vector.
+        private Vector3 ShiftIntoCameraBounds(Vector3 screenPos) {
+            var h = _rt.sizeDelta.y * 0.5f;
+            var w = _rt.sizeDelta.x * 0.5f;
+            var yExtent = _bounds.sizeDelta.y * 0.5f;
+            var xExtent = _bounds.sizeDelta.x * 0.5f;
+            var boundsPos = _bounds.position;
+            var shiftDelta = 0f;
+            var dir = boundsPos - _rt.position;
+            if (boundsPos.y + yExtent < screenPos.y + h) {
+                var yMag = screenPos.y + h - boundsPos.y + yExtent;
+                var cosA = Vector3.Dot(Vector3.down, dir) / dir.magnitude;
+                var a = yMag / cosA;
+                screenPos += a * dir.normalized;
+            } else if (boundsPos.y - yExtent > screenPos.y - h) {
+                var yMag = boundsPos.y + yExtent - screenPos.y + h;
+                var cosA = Vector3.Dot(Vector3.up, dir) / dir.magnitude;
+                var a = yMag / cosA;
+                screenPos += a * dir.normalized;
+            }
+            if (boundsPos.x + xExtent < screenPos.x + w) {
+                var xMag = boundsPos.x + xExtent - screenPos.x + w;
+                var cosA = Vector3.Dot(Vector3.left, dir) / dir.magnitude;
+                var a = xMag / cosA;
+                screenPos += a * dir.normalized;
+            } else if (boundsPos.x + xExtent > screenPos.x - w) {
+                var xMag = screenPos.x + w - boundsPos.x + xExtent;
+                var cosA = Vector3.Dot(Vector3.right, dir) / dir.magnitude;
+                var a = xMag / cosA;
+                screenPos += a * dir.normalized;
+            }
+            return screenPos;
+        }
     }
 }
