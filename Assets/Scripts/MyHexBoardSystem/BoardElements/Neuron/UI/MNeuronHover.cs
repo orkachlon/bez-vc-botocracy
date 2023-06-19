@@ -89,8 +89,8 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         }
 
         private void OnPointerClick(PointerEventData eventData) {
-            OnHide(eventData);
-            OnShow(eventData);
+            // OnHide(eventData);
+            // OnShow(eventData);
         }
         
         private void UpdateNextNeuron(EventArgs obj) {
@@ -98,13 +98,15 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
                 return;
             }
 
+            Hide();
             _currentNeuron = queueEventArgs.NeuronQueue.NextBoardNeuron;
+            Show();
         }
 
         #endregion
 
         private void Show() {
-            if (_currentUINeuron != null) {
+            if (_currentUINeuron != null || _currentNeuron == null) {
                 return;
             }
 

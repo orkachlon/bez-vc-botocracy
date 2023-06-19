@@ -56,6 +56,9 @@ namespace MyHexBoardSystem.UI {
             }
 
             _currentNeuron = queueArgs.NeuronQueue.NextBoardNeuron;
+            if (_currentTile.HasValue) {
+                Show(_currentTile.Value);
+            }
         }
 
         #region EventHandlers
