@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Animation;
 using Core.Tools.Pooling;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using MyHexBoardSystem.BoardElements.Neuron.UI;
@@ -32,6 +33,9 @@ namespace Neurons.Runtime {
                     continue;
                 // explode this neuron
                 Controller.RemoveNeuron(neighbour);
+                // var handle = AnimationManager.GetDefaultAnimatable();
+                // AnimationManager.Register(handle, Task.Delay(50));
+                // await AnimationManager.WaitForElement(handle);
             }
         }
 

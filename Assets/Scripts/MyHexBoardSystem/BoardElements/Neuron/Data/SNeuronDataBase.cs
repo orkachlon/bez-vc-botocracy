@@ -14,7 +14,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
 
         public ENeuronType Type {
             get => neuronType;
-            set => neuronType = value;
+            private set => neuronType = value;
         }
 
         public IBoardNeuron RuntimeElement => GetElement();
@@ -31,40 +31,27 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
         [Header("Prefab  Models"), SerializeField] private MUIBoardNeuron boardModel;
         [SerializeField] private MUINeuron UIModel;
 
+        [Header("Sounds"), SerializeField] private AudioClip addSound;
+
         public void SetData(INeuronDataBase other) {
             Type = other.Type;
             boardArtwork = other.GetBoardArtwork();
             boardModel = other.GetModel() as MUIBoardNeuron;
         }
 
-        public virtual IBoardNeuron GetElement() {
-            return null;
-        }
-
-        public virtual IUIBoardNeuron GetModel() {
-            return boardModel;
-        }
-
-        public IUINeuron GetUIModel() {
-            return UIModel;
-        }
-
-        public Sprite GetBoardArtwork() {
-            return boardArtwork;
-        }
-
-        public Sprite GetUIArtwork(ENeuronUIState uiState) {
-            return uiState switch {
-                ENeuronUIState.Stack => UIStackArtwork,
-                ENeuronUIState.Third => UIThirdArtwork,
-                ENeuronUIState.Second => UISecondArtwork,
-                ENeuronUIState.First => UIFirstArtwork,
-                _ => throw new ArgumentOutOfRangeException(nameof(uiState), uiState, null)
-            };
-        }
+        public virtual IBoardNeuron GetElement() => null;
+        public virtual IUIBoardNeuron GetModel() => boardModel;
+        public IUINeuron GetUIModel() => UIModel;
+        public Sprite GetBoardArtwork() => boardArtwork;
+        public AudioClip GetAddSound() => addSound;
+        public Sprite GetUIArtwork(ENeuronUIState uiState) => uiState switch {
+            ENeuronUIState.Stack => UIStackArtwork,
+            ENeuronUIState.Third => UIThirdArtwork,
+            ENeuronUIState.Second => UISecondArtwork,
+            ENeuronUIState.First => UIFirstArtwork,
+            _ => throw new ArgumentOutOfRangeException(nameof(uiState), uiState, null)
+        };
         
-        public override string ToString() {
-            return $"{neuronType}";
-        }
+        public override string ToString() => $"{neuronType}";
     }
 }

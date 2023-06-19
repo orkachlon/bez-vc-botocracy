@@ -28,6 +28,8 @@ namespace Animation {
             await Task.WhenAll(Animations.Values);
             Animations.Clear();
         }
+
+        public static IAnimatable GetDefaultAnimatable() => new DefaultAnimatable();
     }
 
     internal class DefaultAnimatable : IAnimatable { }

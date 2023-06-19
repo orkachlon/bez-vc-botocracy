@@ -5,5 +5,6 @@ namespace Types.Board {
         TElement GetElement();
         TUIElement GetModel();
         Sprite GetBoardArtwork();
+        AudioClip GetAddSound();
     }
 }

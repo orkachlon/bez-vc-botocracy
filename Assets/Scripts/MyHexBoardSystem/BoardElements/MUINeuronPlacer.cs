@@ -44,6 +44,7 @@ namespace MyHexBoardSystem.BoardElements {
             var worldPosition = TileMap.CellToWorld(cell);
             uiBoardElement.SetWorldPosition(worldPosition);
             _registerUiElements.Add(element, uiBoardElement);
+            uiBoardElement.PlayAddSound();
             await uiBoardElement.PlayAddAnimation();
         }
 

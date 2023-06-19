@@ -21,3 +21,4 @@ MonoBehaviour:
   connectionColor: {r: 1, g: 0.6666667, b: 0.8117648, a: 1}
   boardModel: {fileID: 6250217442136585510, guid: b95662072859e624bad3c828ec587a81, type: 3}
   UIModel: {fileID: 3697331408924041040, guid: 91d9a07677642314e97721ef65a31996, type: 3}
+  addSound: {fileID: 8300000, guid: 27b72d92a668a664d947795fa9bb7ba0, type: 3}

@@ -1,16 +1,24 @@
 ﻿using System.Threading.Tasks;
 using DG.Tweening;
 using ExternBoardSystem.Ui.Board;
+using Types.Audio;
 using Types.Board.UI;
 using UnityEngine;
 
 namespace MyHexBoardSystem.BoardElements.Neuron.UI {
-    public class MUIBoardNeuron : MUIBoardElement, IUIBoardNeuron {
+    public class MUIBoardNeuron : MUIBoardElement, IUIBoardNeuron, IAudioSource {
+        
+        public AudioSource Source { get; private set; }
 
         [Header("Sorting orders"), SerializeField]
         protected int hoverSortingOrder;
         [SerializeField] protected int boardSortingOrder;
-        
+
+        protected override void Awake() {
+            base.Awake();
+            Source = GetComponent<AudioSource>();
+        }
+
         public virtual void ToHoverLayer() {
             SpriteRenderer.sortingOrder = hoverSortingOrder;
             transform.localScale = 1.2f * Vector3.one;
@@ -39,6 +47,14 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         public virtual void StopHoverAnimation() { }
         public async Task PlayMoveAnimation() {
             await transform.DOScale(0.5f, 0.25f).SetLoops(2, LoopType.Yoyo).AsyncWaitForCompletion();
+        }
+
+        public void PlayAddSound() {
+            Source.PlayOneShot(RuntimeData.DataProvider.GetAddSound());
+        }
+
+        public void Play(AudioClip clip) {
+            PlayAddSound();
         }
     }
 }

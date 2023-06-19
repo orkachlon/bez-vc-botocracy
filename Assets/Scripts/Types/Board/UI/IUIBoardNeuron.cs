@@ -12,5 +12,7 @@ namespace Types.Board.UI {
         Task PlayHoverAnimation();
         void StopHoverAnimation();
         Task PlayMoveAnimation();
+
+        void PlayAddSound();
     }
 }
