@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 namespace StoryPoints.SPProviders {
     public class MCSVSPRandomWeightsProvider : CSVSPProvider {
 
-        [SerializeField, Range(0, 7)] private int numberOfDecidingTraits;
+        [SerializeField, Range(0, 6)] private int numberOfDecidingTraits;
         [SerializeField] private string spImagesPath;
 
         protected override CSVHeader Header { 
