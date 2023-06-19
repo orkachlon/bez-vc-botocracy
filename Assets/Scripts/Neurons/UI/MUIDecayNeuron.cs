@@ -14,7 +14,6 @@ namespace Neurons.UI {
 
         private int _turnCounter;
         private Sequence _hoverAnimation;
-        private readonly CancellationTokenSource _hoverCts = new();
 
         protected override void UpdateView() {
             dots.ForEach(d => { d.gameObject.SetActive(true); d.transform.localScale = Vector3.one; });

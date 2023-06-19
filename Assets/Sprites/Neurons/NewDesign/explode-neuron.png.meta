@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b01ff0b277e8b3e448d6b434751eea91
+guid: 27c61bdcefe35dd4ebcf482f21944507
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,12 +105,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: decay-neuron_0
+      name: explode-neuron_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256.5
+        width: 256
         height: 256
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -119,29 +119,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2162250b0e6f25041a53ad71cdfdb07d
-      internalID: -1095508325
+      spriteID: 84e827cc7be8ce64fb0e8187861a3d27
+      internalID: -283304748
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: decay-neuron_1
+      name: explode-neuron_1
       rect:
         serializedVersion: 2
-        x: 378
-        y: 121
-        width: 14
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 371
+        y: 128
+        width: 28
+        height: 37
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: abeafedcb29710f44bcff495d146beac
-      internalID: 751561568
+      spriteID: 1335261d8ea7f78499cca4e37cd526d6
+      internalID: 28061103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explode-neuron_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 128
+        width: 28
+        height: 37
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbce4cb030605594bad2891c4378b16c
+      internalID: -491339633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explode-neuron_3
+      rect:
+        serializedVersion: 2
+        x: 485
+        y: 128
+        width: 28
+        height: 37
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f15b15311f219e45b61b24d74bb4412
+      internalID: 592044773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: explode-neuron_4
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2ba04ef975986142a78ea7d2f1f1bef
+      internalID: 450317291
       vertices: []
       indices: 
       edges: []
@@ -157,8 +220,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      decay-neuron_0: -1095508325
-      decay-neuron_1: 751561568
+      explode-neuron_0: -283304748
+      explode-neuron_1: 28061103
+      explode-neuron_2: -491339633
+      explode-neuron_3: 592044773
+      explode-neuron_4: 450317291
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

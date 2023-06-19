@@ -109,7 +109,6 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             }
 
             _currentUINeuron = _currentNeuron.Pool();
-            _currentUINeuron.SetRuntimeElementData(_currentNeuron);
             _currentUINeuron.PlayHoverAnimation();
             _currentUINeuron.ToHoverLayer();
         }

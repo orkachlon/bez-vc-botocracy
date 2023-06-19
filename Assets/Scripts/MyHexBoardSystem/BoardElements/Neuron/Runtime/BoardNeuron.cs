@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Core.EventSystem;
+using Core.Tools.Pooling;
 using Core.Utils;
-using MyHexBoardSystem.BoardElements.Neuron.Data;
 using MyHexBoardSystem.Events;
 using Neurons;
 using Types.Board;
@@ -15,7 +15,7 @@ using Types.Neuron.Runtime;
 namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
     public abstract class BoardNeuron : IBoardNeuron {
 
-        public INeuronDataBase DataProvider { get; }
+        public abstract INeuronDataBase DataProvider { get; }
         IElementDataProvider<IBoardElement, IUIBoardElement> IBoardElement.DataProvider => DataProvider;
 
         public Types.Hex.Coordinates.Hex Position { get; protected set; }
@@ -24,10 +24,10 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
         protected SEventManager NeuronEventManager;
         protected SEventManager BoardEventManager;
         protected IBoardNeuronsController Controller;
+        protected IUIBoardNeuron UINeuron;
 
 
-        protected BoardNeuron(SNeuronDataBase dataProvider) {
-            DataProvider = dataProvider;
+        protected BoardNeuron() {
             Connectable = true;
         }
 
@@ -50,14 +50,12 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
             Position = position;
         }
 
-        public abstract IUIBoardNeuron Pool();
+        public virtual IUIBoardNeuron Pool() {
+            UINeuron = MObjectPooler.Instance.GetPoolable(DataProvider.GetModel());
+            return UINeuron;
+        }
 
-        // {
-        //     UINeuron = MObjectPooler.Instance.Get(DataProvider.GetModel());
-        //     return UINeuron;
-        // }
-
-        public abstract Task AwaitNeuronRemoval();
+        public abstract Task AwaitRemoval();
 
         // {
         //     if (UINeuron == null) {

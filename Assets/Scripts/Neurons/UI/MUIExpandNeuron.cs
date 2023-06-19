@@ -1,6 +1,6 @@
-﻿using Types.Neuron.UI;
+﻿using MyHexBoardSystem.BoardElements.Neuron.UI;
 
-namespace MyHexBoardSystem.BoardElements.Neuron.UI {
+namespace Neurons.UI {
     public class MUIExpandNeuron : MUIBoardNeuron {
         
     }

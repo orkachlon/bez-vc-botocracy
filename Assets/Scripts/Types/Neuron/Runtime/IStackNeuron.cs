@@ -1,4 +1,5 @@
-﻿using Types.Neuron.Data;
+﻿using System.Threading.Tasks;
+using Types.Neuron.Data;
 using Types.Neuron.UI;
 
 namespace Types.Neuron.Runtime {
@@ -6,5 +7,7 @@ namespace Types.Neuron.Runtime {
         public IBoardNeuron BoardNeuron { get; }
         public INeuronDataBase DataProvider { get; }
         ENeuronUIState UIState { get; set; }
+
+        public Task PlayStackAnimation();
     }
 }

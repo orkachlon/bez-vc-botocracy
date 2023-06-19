@@ -6,22 +6,26 @@ using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using MyHexBoardSystem.BoardElements.Neuron.UI;
 using MyHexBoardSystem.Events;
 using Neurons.Data;
+using Neurons.UI;
 using Types.Board;
 using Types.Board.UI;
 using Types.Events;
 using Types.Hex.Coordinates;
 using Types.Neuron;
+using Types.Neuron.Data;
 using Types.Neuron.Runtime;
 using Random = UnityEngine.Random;
 
 namespace Neurons.Runtime {
     public class TravelNeuron : BoardNeuron {
 
-        private MUITravelNeuron _uiNeuron;
         private int _turnsToStop;
         private bool _moving;
 
-        public TravelNeuron() : base(MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Travelling)) {
+        public sealed override INeuronDataBase DataProvider { get; }
+
+        public TravelNeuron() {
+            DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Travelling);
             _turnsToStop = ((STravelNeuronData) DataProvider).TurnsToStop;
         }
 
@@ -34,12 +38,13 @@ namespace Neurons.Runtime {
         }
 
         public override IUIBoardNeuron Pool() {
-            _uiNeuron = MObjectPooler.Instance.GetPoolable(DataProvider.GetModel()) as MUITravelNeuron;
-            return _uiNeuron;
+            base.Pool();
+            UINeuron.SetRuntimeElementData(this);
+            return UINeuron;
         }
 
-        public override async Task AwaitNeuronRemoval() {
-            await _uiNeuron.PlayRemoveAnimation();
+        public override async Task AwaitRemoval() {
+            await UINeuron.PlayRemoveAnimation();
         }
 
         private async void Travel(EventArgs obj) {

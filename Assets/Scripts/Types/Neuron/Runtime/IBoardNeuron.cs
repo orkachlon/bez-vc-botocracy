@@ -19,6 +19,6 @@ namespace Types.Neuron.Runtime {
         
         void Activate();
         IUIBoardNeuron Pool();
-        Task AwaitNeuronRemoval();
+        Task AwaitRemoval();
     }
 }

@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Core.Tools.Pooling;
-using Core.Utils;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using MyHexBoardSystem.Events;
 using Neurons.Data;
-using Neurons.UI;
 using Types.Board;
 using Types.Board.UI;
 using Types.Events;
 using Types.Hex.Coordinates;
 using Types.Neuron;
+using Types.Neuron.Data;
 using Types.Neuron.Runtime;
 
 namespace Neurons.Runtime {
     public class DecayNeuron : BoardNeuron {
 
         private int _turnsToDeath;
-        private MUIDecayNeuron _uiNeuron;
 
-        public DecayNeuron() : base(MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Decaying)) {
+        public sealed override INeuronDataBase DataProvider { get; }
+
+        public DecayNeuron() {
+            DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Decaying);
             _turnsToDeath = ((SDecayingNeuronData) DataProvider).TurnsToDeath;
         }
 
         public override void Activate() { }
+
 
         public override void BindToBoard(IEventManager boardEventManager, IBoardNeuronsController controller, Hex position) {
             base.BindToBoard(boardEventManager, controller, position);
@@ -31,12 +32,13 @@ namespace Neurons.Runtime {
         }
 
         public override IUIBoardNeuron Pool() {
-            _uiNeuron = MObjectPooler.Instance.GetPoolable(DataProvider.GetModel()) as MUIDecayNeuron;
-            return _uiNeuron;
+            base.Pool();
+            UINeuron.SetRuntimeElementData(this);
+            return UINeuron;
         }
 
-        public override async Task AwaitNeuronRemoval() {
-            await _uiNeuron.PlayRemoveAnimation();
+        public override async Task AwaitRemoval() {
+            await UINeuron.PlayRemoveAnimation();
         }
 
         private void Decay(EventArgs args) {
@@ -44,7 +46,7 @@ namespace Neurons.Runtime {
                 return;
             }
             _turnsToDeath--;
-            _uiNeuron.PlayTurnAnimation();
+            UINeuron.PlayTurnAnimation();
             if (_turnsToDeath > 0) {
                 return;
             }

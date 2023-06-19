@@ -3,16 +3,21 @@ using Core.Tools.Pooling;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using MyHexBoardSystem.BoardElements.Neuron.UI;
 using Neurons.Data;
+using Neurons.UI;
 using Types.Board.UI;
 using Types.Neuron;
+using Types.Neuron.Data;
 
 namespace Neurons.Runtime {
     public class ExpandNeuron : BoardNeuron {
 
-        private MUIExpandNeuron _uiNeuron;
-        
-        public ExpandNeuron() : base(MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Expanding)) { }
-        
+        public override INeuronDataBase DataProvider { get; }
+
+        public ExpandNeuron() {
+            DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Expanding);
+        }
+
+
         public override void Activate() {
             var neighbours = Controller.Manipulator.GetNeighbours(Position);
             foreach (var neighbour in neighbours) {
@@ -25,12 +30,13 @@ namespace Neurons.Runtime {
         }
 
         public override IUIBoardNeuron Pool() {
-            _uiNeuron = MObjectPooler.Instance.GetPoolable(DataProvider.GetModel()) as MUIExpandNeuron;
-            return _uiNeuron;
+            base.Pool();
+            UINeuron.SetRuntimeElementData(this);
+            return UINeuron;
         }
 
-        public override async Task AwaitNeuronRemoval() {
-            await _uiNeuron.PlayRemoveAnimation();
+        public override async Task AwaitRemoval() {
+            await UINeuron.PlayRemoveAnimation();
         }
     }
 }
