@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using DG.Tweening;
 using ExternBoardSystem.Ui.Board;
-using Types.Audio;
 using Types.Board.UI;
 using UnityEngine;
 
@@ -17,6 +16,12 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         protected override void Awake() {
             base.Awake();
             Source = GetComponent<AudioSource>();
+        }
+
+        protected override void UpdateView() {
+            base.UpdateView();
+            transform.localScale = Vector3.one;
+            SpriteRenderer.color = Color.white;
         }
 
         public virtual void ToHoverLayer() {
