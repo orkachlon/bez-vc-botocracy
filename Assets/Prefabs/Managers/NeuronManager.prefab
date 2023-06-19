@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 476210249489798309}
   - component: {fileID: 476210249489798314}
+  - component: {fileID: 1290033832729597352}
   m_Layer: 0
   m_Name: NeuronManager
   m_TagString: Untagged
@@ -45,6 +46,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startNeuronAmount: 10
-  gmEventManager: {fileID: 0}
-  boardEventManager: {fileID: 0}
-  neuronEvents: {fileID: 0}
+  gmEventManager: {fileID: 11400000, guid: da5fbe8daab46c14780444ed40e883a7, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
+--- !u!114 &1290033832729597352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476210249489798315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0662e00ce89c4eb7995a603213c8b305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  connectionPrefab: {fileID: 7748946765666642568, guid: aafb0714c0f3a9840aa55d65ab30cc7d, type: 3}
+  controller: {fileID: 0}
+  neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}

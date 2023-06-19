@@ -5,7 +5,9 @@ using Events.SP;
 using MyHexBoardSystem.BoardElements.Neuron.Data;
 using MyHexBoardSystem.BoardSystem.Interfaces;
 using MyHexBoardSystem.Events;
+using Neurons;
 using Types.Neuron;
+using Types.Neuron.Runtime;
 using Types.StoryPoint;
 using Types.Trait;
 using UnityEngine;
@@ -18,17 +20,13 @@ namespace MyHexBoardSystem.UI.TraitHover {
     /// </summary>
     [RequireComponent(typeof(ITraitAccessor))]
     public class MTraitHover : MonoBehaviour {
-        
-        [Header("Current Neuron"), SerializeField]
-        private SNeuronDataBase currentNeuron;
-
         [Header("Highlighting"), SerializeField] private TileBase positiveTile;
         [SerializeField] private TileBase negativeTile;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager boardEventManager;
-
         [SerializeField] private SEventManager storyEventManager;
+        [SerializeField] private SEventManager neuronEventManager;
 
         private ITraitAccessor TraitAccessor { get; set; }
         private Camera _cam;
@@ -36,6 +34,7 @@ namespace MyHexBoardSystem.UI.TraitHover {
         private ETrait? _currentHighlightedTrait;
         private readonly HashSet<ETrait> _currentPositive = new ();
         private readonly HashSet<ETrait> _currentNegative = new ();
+        private IBoardNeuron _currentNeuron;
         private IStoryPoint _currentSP;
 
         #region UnityMethods
@@ -51,6 +50,7 @@ namespace MyHexBoardSystem.UI.TraitHover {
             boardEventManager.Register(ExternalBoardEvents.OnTraitCompassExit, OnHide);
             boardEventManager.Register(ExternalBoardEvents.OnTraitCompassHide, OnHide);
             storyEventManager.Register(StoryEvents.OnInitStory, OnInitStory);
+            neuronEventManager.Register(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
         }
 
         private void OnDisable() {
@@ -58,6 +58,7 @@ namespace MyHexBoardSystem.UI.TraitHover {
             boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassExit, OnHide);
             boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassHide, OnHide);
             storyEventManager.Unregister(StoryEvents.OnInitStory, OnInitStory);
+            neuronEventManager.Unregister(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
         }
 
         #endregion
@@ -66,8 +67,6 @@ namespace MyHexBoardSystem.UI.TraitHover {
 
         private void OnShow(EventArgs eventData) {
             if (eventData is not TraitCompassHoverEventArgs traitHoverArgs ||
-                // when board is disabled don't show this effect
-                ENeuronType.Undefined.Equals(currentNeuron.Type) ||
                 _currentSP == null) {
                 return;
             }
@@ -89,6 +88,24 @@ namespace MyHexBoardSystem.UI.TraitHover {
             ClearHoverCache();
         }
 
+        private void OnInitStory(EventArgs args) {
+            if (args is not StoryEventArgs storyEventArgs) {
+                return;
+            }
+
+            _currentSP = storyEventArgs.Story;
+        }
+        
+        private void UpdateNextNeuron(EventArgs obj) {
+            if (obj is not NeuronQueueEventArgs queueEventArgs) {
+                return;
+            }
+
+            _currentNeuron = queueEventArgs.NeuronQueue.NextBoardNeuron;
+        }
+
+        #endregion
+
         private void CacheHoverData(ETrait hoverTrait) {
             _currentHighlightedTrait = hoverTrait;
             var affectedTraits = _currentSP.DecidingTraits[hoverTrait].BoardEffect;
@@ -107,16 +124,6 @@ namespace MyHexBoardSystem.UI.TraitHover {
             _currentPositive.Clear();
             _currentNegative.Clear();
         }
-        
-        private void OnInitStory(EventArgs args) {
-            if (args is not StoryEventArgs storyEventArgs) {
-                return;
-            }
-
-            _currentSP = storyEventArgs.Story;
-        }
-
-        #endregion
 
         public void Show() {
             if (!_currentHighlightedTrait.HasValue) {
