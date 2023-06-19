@@ -128,16 +128,16 @@ namespace MyHexBoardSystem.BoardSystem {
             var onlyContainedInTrait = onlyEmptySurroundingHexes.Where(h =>
                     ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(h)) == trait)
                 .ToArray();
-            // var randomHex = onlyContainedInTrait[Random.Range(0, onlyContainedInTrait.Length)];
+            var randomHex = onlyContainedInTrait[Random.Range(0, onlyContainedInTrait.Length)];
             
             // give priority to tiles with neighbors in order to promote island connection
-            var orderedByExistingNeighbors = onlyContainedInTrait
-                .OrderByDescending(h =>
-                    BoardManipulationOddR<IBoardNeuron>.GetNeighboursStatic(h)
-                        .Count(n => _boardController.Board.HasPosition(n)))
-                .ToArray();
-            var bestConnection = orderedByExistingNeighbors[0];
-            AnimationManager.Register(AddTile(bestConnection));
+            // var orderedByExistingNeighbors = onlyContainedInTrait
+            //     .OrderByDescending(h =>
+            //         BoardManipulationOddR<IBoardNeuron>.GetNeighboursStatic(h)
+            //             .Count(n => _boardController.Board.HasPosition(n)))
+            //     .ToArray();
+            // var bestConnection = orderedByExistingNeighbors[0];
+            AnimationManager.Register(AddTile(randomHex));
         }
 
         private int GetTileAmountBasedOnNeurons(int neuronAmount) {
@@ -148,7 +148,7 @@ namespace MyHexBoardSystem.BoardSystem {
 
         private async Task RemoveTile(Hex hex) {
             var element = _neuronsController.Board.GetPosition(hex).Data;
-            _neuronsController.RemoveNeuron(hex);
+            await _neuronsController.RemoveNeuron(hex);
             if (element != null) {
                 await AnimationManager.WaitForElement(element);
             }
