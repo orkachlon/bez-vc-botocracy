@@ -1,8 +1,9 @@
 ﻿
 using System.Threading.Tasks;
+using Types.Audio;
 
 namespace Types.Board.UI {
-    public interface IUIBoardNeuron : IUIBoardElement {
+    public interface IUIBoardNeuron : IUIBoardElement, IAudioSource {
         void ToHoverLayer();
         void ToBoardLayer();
 
@@ -14,5 +15,6 @@ namespace Types.Board.UI {
         Task PlayMoveAnimation();
 
         void PlayAddSound();
+        void PlayRemoveSound();
     }
 }

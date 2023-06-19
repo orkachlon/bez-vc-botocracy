@@ -50,8 +50,9 @@ namespace MyHexBoardSystem.BoardElements {
 
         private async Task RemoveElementAsync(IBoardNeuron element) {
             var uiElement = _registerUiElements[element];
+            uiElement.PlayRemoveSound();
             await uiElement.PlayRemoveAnimation();
-            MObjectPooler.Instance.Release(uiElement.GO);
+            element.Release();
             _registerUiElements.Remove(element);
         }
 

@@ -32,6 +32,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
         [SerializeField] private MUINeuron UIModel;
 
         [Header("Sounds"), SerializeField] private AudioClip addSound;
+        [SerializeField] private AudioClip removeSound;
 
         public void SetData(INeuronDataBase other) {
             Type = other.Type;
@@ -44,6 +45,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
         public IUINeuron GetUIModel() => UIModel;
         public Sprite GetBoardArtwork() => boardArtwork;
         public AudioClip GetAddSound() => addSound;
+        public AudioClip GetRemoveSound() => removeSound;
         public Sprite GetUIArtwork(ENeuronUIState uiState) => uiState switch {
             ENeuronUIState.Stack => UIStackArtwork,
             ENeuronUIState.Third => UIThirdArtwork,

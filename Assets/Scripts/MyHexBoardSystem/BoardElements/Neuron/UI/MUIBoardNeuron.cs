@@ -6,7 +6,7 @@ using Types.Board.UI;
 using UnityEngine;
 
 namespace MyHexBoardSystem.BoardElements.Neuron.UI {
-    public class MUIBoardNeuron : MUIBoardElement, IUIBoardNeuron, IAudioSource {
+    public class MUIBoardNeuron : MUIBoardElement, IUIBoardNeuron {
         
         public AudioSource Source { get; private set; }
 
@@ -53,8 +53,8 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             Source.PlayOneShot(RuntimeData.DataProvider.GetAddSound());
         }
 
-        public void Play(AudioClip clip) {
-            PlayAddSound();
+        public void PlayRemoveSound() {
+            Source.PlayOneShot(RuntimeData.DataProvider.GetRemoveSound());
         }
     }
 }

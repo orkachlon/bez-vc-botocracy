@@ -13,6 +13,7 @@ namespace ExternBoardSystem.BoardElements.Example.Creature {
         public Sprite GetBoardArtwork() => artwork;
 
         public AudioClip GetAddSound() => null;
+        public AudioClip GetRemoveSound() => null;
 
         public MUIBoardElement GetModel() => model;
     }

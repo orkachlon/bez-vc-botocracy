@@ -13,7 +13,7 @@ namespace Audio {
             Source = GetComponent<AudioSource>();
         }
 
-        public void Play(AudioClip clip) {
+        public void PlaySound(AudioClip clip) {
             Source.PlayOneShot(clip);
         }
     }

@@ -26,12 +26,12 @@ namespace Audio {
                 MLogger.LogEditor("Failed to pool generic audio source");
                 return;
             }
-            source.Play(clip);
+            source.Source.PlayOneShot(clip);
             Instance.StartCoroutine(ReleaseWhenDone(source));
         }
 
         public static void PlaySound(IAudioSource source, AudioClip clip) {
-            source.Play(clip);
+            source.Source.PlayOneShot(clip);
         }
 
         private static IEnumerator ReleaseWhenDone(MGenericAudioSource pooledAudioSource) {

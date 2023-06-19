@@ -44,7 +44,6 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
                 return;
             }
             BoardEventManager.Register(ExternalBoardEvents.OnAddElement, Connect);
-            // BoardEventManager.Register(ExternalBoardEvents.OnMoveElement, Reconnect);
             BoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, Disconnect);
             Controller = controller;
             Position = position;
@@ -53,6 +52,13 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
         public virtual IUIBoardNeuron Pool() {
             UINeuron = MObjectPooler.Instance.GetPoolable(DataProvider.GetModel());
             return UINeuron;
+        }
+
+        public virtual void Release() {
+            if (UINeuron == null) {
+                return;
+            }
+            MObjectPooler.Instance.Release(UINeuron.GO);
         }
 
         public abstract Task AwaitRemoval();
