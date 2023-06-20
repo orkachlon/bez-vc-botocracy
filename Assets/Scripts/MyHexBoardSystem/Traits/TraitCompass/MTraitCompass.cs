@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Core.EventSystem;
 using Core.Utils.DataStructures;
+using DG.Tweening;
 using MyHexBoardSystem.Events;
 using Types.Trait;
 using UnityEngine;
@@ -16,8 +18,10 @@ namespace MyHexBoardSystem.Traits.TraitCompass {
         private SEventManager boardEventManager;
 
         public RectTransform RectTransform { get; private set; }
+
+        private Sequence _showSeq;
         
-        private void Awake() {
+        private void OnEnable() {
             RectTransform = GetComponent<RectTransform>();
             Assert.IsNotNull(RectTransform);
         }
@@ -28,8 +32,23 @@ namespace MyHexBoardSystem.Traits.TraitCompass {
 
         private void Update() {
             if (Vector2.Distance(UnityEngine.Input.mousePosition, RectTransform.position) > mouseDistanceTillDisabled) {
-                gameObject.SetActive(false);
+                Hide();
             }
+        }
+        
+        public void Show(Vector3 position) {
+            gameObject.SetActive(true);
+            _showSeq?.Complete();
+            _showSeq?.Kill();
+            RectTransform.localScale = Vector3.zero;
+            RectTransform.position = position;
+            _showSeq = DOTween.Sequence(RectTransform.DOScale(1, 0.1f));
+        }
+
+        public void Hide() {
+            _showSeq?.Complete();
+            _showSeq?.Kill();
+            _showSeq = DOTween.Sequence(RectTransform.DOScale(0, 0.1f).OnComplete(() => gameObject.SetActive(false)));
         }
 
         public void SetDecidingTraits(IEnumerable<ETrait> decidingTraits) {

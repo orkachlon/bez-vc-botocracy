@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.EventSystem;
+using DG.Tweening;
 using Events.SP;
 using MyHexBoardSystem.Events;
 using UnityEngine;
@@ -27,8 +28,12 @@ namespace MyHexBoardSystem.Traits.TraitCompass {
 
         private void Update() {
             if (UnityEngine.Input.GetKeyDown(KeyCode.Mouse2)) {
-                traitCompass.gameObject.SetActive(!traitCompass.gameObject.activeInHierarchy);
-                traitCompass.RectTransform.position = UnityEngine.Input.mousePosition;
+                if (traitCompass.gameObject.activeInHierarchy) {
+                    traitCompass.Hide();
+                }
+                else {
+                    traitCompass.Show(UnityEngine.Input.mousePosition);
+                }
             }
         }
 
