@@ -23,3 +23,4 @@ MonoBehaviour:
   UIModel: {fileID: 3697331408924041040, guid: 91d9a07677642314e97721ef65a31996, type: 3}
   addSound: {fileID: 8300000, guid: 27b72d92a668a664d947795fa9bb7ba0, type: 3}
   removeSound: {fileID: 8300000, guid: 021beb93ffe5b68489fac70a63f7f9b3, type: 3}
+  killSound: {fileID: 8300000, guid: f483be7e3aa640c40a81e8a01fc65a5b, type: 3}

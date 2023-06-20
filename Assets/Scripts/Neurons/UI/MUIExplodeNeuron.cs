@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DG.Tweening;
 using MyHexBoardSystem.BoardElements.Neuron.UI;
+using Neurons.Data;
 using Types.Board;
 using UnityEngine;
 
@@ -15,8 +16,11 @@ namespace Neurons.UI {
         [SerializeField] private float spikeSpawnDuration;
 
         private Sequence _hoverAnimation;
+        
+        private SExplodeNeuronData ExplodeData => RuntimeData.DataProvider as SExplodeNeuronData;
 
         protected override void UpdateView() {
+            base.UpdateView();
             spikes.ForEach(s => { s.gameObject.SetActive(true); s.transform.localScale = Vector3.one; });
         }
         
@@ -55,24 +59,27 @@ namespace Neurons.UI {
             }
             _hoverAnimation = DOTween.Sequence();
             foreach (var spike in spikes) {
-                _hoverAnimation.Insert(0, spike.transform.DOScale(0, spikeSpawnDuration * 3));
+                InsertSpikeHoverAnimation(spike);
             }
-
-            var outSeq = DOTween.Sequence();
-            foreach (var spike in spikes) {
-                outSeq.Insert(0, spike.transform.DOScale(1, spikeSpawnDuration).SetEase(spikeSpawnEasing)).AppendInterval(spikeSpawnDuration);
-            }
-
-            _hoverAnimation.Append(outSeq);
 
             _hoverAnimation.SetAutoKill(false);
             _hoverAnimation.OnComplete(() => _hoverAnimation.Restart());
             return Task.CompletedTask;
         }
-        
+
         public override void StopHoverAnimation() {
             _hoverAnimation?.Complete();
             _hoverAnimation?.Kill();
+        }
+
+        public void PlayKillSound() {
+            Source.PlayOneShot(ExplodeData.GetKillSound());
+        }
+
+        private void InsertSpikeHoverAnimation(SpriteRenderer spike) {
+            _hoverAnimation.Insert(0, spike.transform.DOScale(0, spikeSpawnDuration * 3)
+                    .OnComplete(() => spike.transform.DOScale(1, spikeSpawnDuration).SetEase(spikeSpawnEasing)))
+                .AppendInterval(spikeSpawnDuration);
         }
     }
 }
