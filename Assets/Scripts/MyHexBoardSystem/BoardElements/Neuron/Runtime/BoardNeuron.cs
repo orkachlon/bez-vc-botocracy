@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Core.EventSystem;
 using Core.Tools.Pooling;
 using Core.Utils;
+using Events.Neuron;
 using MyHexBoardSystem.Events;
-using Neurons;
 using Types.Board;
 using Types.Board.UI;
 using Types.Events;
@@ -25,6 +25,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
         protected SEventManager BoardEventManager;
         protected IBoardNeuronsController Controller;
         protected IUIBoardNeuron UINeuron;
+        protected int Holders;
 
 
         protected BoardNeuron() {
@@ -50,12 +51,18 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
         }
 
         public virtual IUIBoardNeuron Pool() {
-            UINeuron = MObjectPooler.Instance.GetPoolable(DataProvider.GetModel());
+            if (Holders == 0) {
+                UINeuron = MObjectPooler.Instance.GetPoolable(DataProvider.GetModel()); 
+            }
+
+            UINeuron.SetRuntimeElementData(this);
+            Holders++;
             return UINeuron;
         }
 
         public virtual void Release() {
-            if (UINeuron == null) {
+            Holders--;
+            if (Holders != 0) {
                 return;
             }
             MObjectPooler.Instance.Release(UINeuron.GO);

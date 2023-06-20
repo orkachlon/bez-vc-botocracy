@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Core.EventSystem;
+using Events.Neuron;
 using ExternBoardSystem.Tools.Input.Mouse;
 using MyHexBoardSystem.BoardSystem;
-using Neurons;
 using Types.Hex.Coordinates;
 using Types.Neuron.Runtime;
 using UnityEngine;

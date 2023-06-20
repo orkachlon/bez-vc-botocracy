@@ -19,16 +19,12 @@ namespace Neurons.UI {
         
         private SExplodeNeuronData ExplodeData => RuntimeData.DataProvider as SExplodeNeuronData;
 
+
         protected override void UpdateView() {
             base.UpdateView();
-            spikes.ForEach(s => { s.gameObject.SetActive(true); s.transform.localScale = Vector3.one; });
+            neuronFace.sprite = ExplodeData.GetFaceSprite();
         }
-        
-        public override void SetRuntimeElementData(IBoardElement data) {
-            base.SetRuntimeElementData(data);
-            _hoverAnimation = null;
-        }
-        
+
         public override void ToHoverLayer() {
             base.ToHoverLayer();
             neuronFace.sortingOrder = hoverSortingOrder + 2;
@@ -37,8 +33,8 @@ namespace Neurons.UI {
         
         public override void ToBoardLayer() {
             base.ToBoardLayer();
-            neuronFace.sortingOrder = hoverSortingOrder + 3;
-            spikes.ForEach(s => s.sortingOrder = boardSortingOrder + 2);
+            neuronFace.sortingOrder = boardSortingOrder + 3;
+            spikes.ForEach(s => s.sortingOrder = boardSortingOrder);
         }
         
         public override async Task PlayAddAnimation() {
@@ -80,6 +76,14 @@ namespace Neurons.UI {
             _hoverAnimation.Insert(0, spike.transform.DOScale(0, spikeSpawnDuration * 3)
                     .OnComplete(() => spike.transform.DOScale(1, spikeSpawnDuration).SetEase(spikeSpawnEasing)))
                 .AppendInterval(spikeSpawnDuration);
+        }
+
+        public override void Default() {
+            base.Default();
+            ToBoardLayer();
+            spikes.ForEach(s => { s.gameObject.SetActive(true); s.transform.localScale = Vector3.one; });
+            _hoverAnimation = null;
+            neuronFace.sprite = null;
         }
     }
 }

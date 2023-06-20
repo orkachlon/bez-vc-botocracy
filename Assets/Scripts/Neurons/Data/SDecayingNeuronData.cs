@@ -9,8 +9,6 @@ namespace Neurons.Data {
 
         [Header("Decay Neuron"), SerializeField] private int turnsToDeath;
         public int TurnsToDeath => turnsToDeath;
-        public override IBoardNeuron GetElement() {
-            return NeuronFactory.GetBoardNeuron(Type);
-        }
+        public override IBoardNeuron GetNewElement() => NeuronFactory.GetBoardNeuron(Type);
     }
 }

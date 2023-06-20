@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ExplodeNeuronData
   m_EditorClassIdentifier: 
   neuronType: 2
-  boardArtwork: {fileID: 21300000, guid: e598e17c160c23645a6a49ebd1db003e, type: 3}
+  boardArtwork: {fileID: -283304748, guid: 27c61bdcefe35dd4ebcf482f21944507, type: 3}
   UIStackArtwork: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}
   UIThirdArtwork: {fileID: 21300000, guid: e598e17c160c23645a6a49ebd1db003e, type: 3}
   UISecondArtwork: {fileID: 21300000, guid: e598e17c160c23645a6a49ebd1db003e, type: 3}
@@ -24,3 +24,4 @@ MonoBehaviour:
   addSound: {fileID: 8300000, guid: 27b72d92a668a664d947795fa9bb7ba0, type: 3}
   removeSound: {fileID: 8300000, guid: 021beb93ffe5b68489fac70a63f7f9b3, type: 3}
   killSound: {fileID: 8300000, guid: f483be7e3aa640c40a81e8a01fc65a5b, type: 3}
+  faceSprite: {fileID: 450317291, guid: 27c61bdcefe35dd4ebcf482f21944507, type: 3}

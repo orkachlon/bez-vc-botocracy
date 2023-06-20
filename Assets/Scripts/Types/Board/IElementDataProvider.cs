@@ -2,7 +2,7 @@
 
 namespace Types.Board {
     public interface IElementDataProvider<out TElement, out TUIElement> where TElement : IBoardElement {
-        TElement GetElement();
+        TElement GetNewElement();
         TUIElement GetModel();
         Sprite GetBoardArtwork();
         AudioClip GetAddSound();

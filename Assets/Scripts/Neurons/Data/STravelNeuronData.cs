@@ -10,8 +10,6 @@ namespace Neurons.Data {
         [Header("Travel Neuron"), SerializeField] private int turnsToStop;
         public int TurnsToStop => turnsToStop;
         
-        public override IBoardNeuron GetElement() {
-            return NeuronFactory.GetBoardNeuron(Type);
-        }
+        public override IBoardNeuron GetNewElement()  => NeuronFactory.GetBoardNeuron(Type);
     }
 }

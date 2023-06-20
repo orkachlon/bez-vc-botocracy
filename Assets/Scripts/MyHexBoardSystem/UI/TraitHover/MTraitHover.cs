@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.EventSystem;
+using Events.Neuron;
 using Events.SP;
-using MyHexBoardSystem.BoardElements.Neuron.Data;
 using MyHexBoardSystem.BoardSystem.Interfaces;
 using MyHexBoardSystem.Events;
-using Neurons;
-using Types.Neuron;
 using Types.Neuron.Runtime;
 using Types.StoryPoint;
 using Types.Trait;

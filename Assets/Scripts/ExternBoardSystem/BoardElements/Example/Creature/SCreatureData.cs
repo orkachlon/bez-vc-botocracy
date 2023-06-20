@@ -8,7 +8,7 @@ namespace ExternBoardSystem.BoardElements.Example.Creature {
         [SerializeField] private Sprite artwork;
         [SerializeField] private MUIBoardElement model;
 
-        public BoardElement GetElement() => new BoardCreature(this);
+        public BoardElement GetNewElement() => new BoardCreature(this);
 
         public Sprite GetBoardArtwork() => artwork;
 

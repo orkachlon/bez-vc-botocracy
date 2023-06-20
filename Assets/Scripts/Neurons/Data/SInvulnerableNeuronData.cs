@@ -6,8 +6,6 @@ using UnityEngine;
 namespace Neurons.Data {
     [CreateAssetMenu(fileName = "InvlunerableNeuronData", menuName = "Neurons/Invulnerable Neuron")]
     public class SInvulnerableNeuronData : SNeuronDataBase {
-        public override IBoardNeuron GetElement() {
-            return NeuronFactory.GetBoardNeuron(Type);
-        }
+        public override IBoardNeuron GetNewElement()  => NeuronFactory.GetBoardNeuron(Type);
     }
 }

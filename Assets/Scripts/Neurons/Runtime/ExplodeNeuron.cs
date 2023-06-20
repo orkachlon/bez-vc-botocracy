@@ -33,20 +33,17 @@ namespace Neurons.Runtime {
                 UIExplodeNeuron.PlayKillSound();
                 await Controller.RemoveNeuron(neighbour);
                 await Task.Delay(50);
-                // var handle = AnimationManager.GetDefaultAnimatable();
-                // AnimationManager.Register(handle, Task.Delay(50));
-                // await AnimationManager.WaitForElement(handle);
             }
         }
 
         public override IUIBoardNeuron Pool() {
             base.Pool();
-            UINeuron.SetRuntimeElementData(this);
-            return UINeuron;
+            UIExplodeNeuron.SetRuntimeElementData(this);
+            return UIExplodeNeuron;
         }
 
         public override async Task AwaitRemoval() {
-            await UINeuron.PlayRemoveAnimation();
+            await UIExplodeNeuron.PlayRemoveAnimation();
         }
 
         public override void Connect() { }

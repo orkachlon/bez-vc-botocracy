@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using DG.Tweening;
 using MyHexBoardSystem.BoardElements.Neuron.UI;
-using Types.Board;
 using UnityEngine;
 
 namespace Neurons.UI {
@@ -14,16 +12,6 @@ namespace Neurons.UI {
 
         private int _turnCounter;
         private Sequence _hoverAnimation;
-
-        protected override void UpdateView() {
-            dots.ForEach(d => { d.gameObject.SetActive(true); d.transform.localScale = Vector3.one; });
-        }
-
-        public override void SetRuntimeElementData(IBoardElement data) {
-            base.SetRuntimeElementData(data);
-            _turnCounter = 0;
-            _hoverAnimation = null;
-        }
 
         public override void ToHoverLayer() {
             base.ToHoverLayer();
@@ -74,6 +62,14 @@ namespace Neurons.UI {
         public override void StopHoverAnimation() {
             _hoverAnimation?.Complete();
             _hoverAnimation?.Kill();
+        }
+
+        public override void Default() {
+            base.Default();
+            ToBoardLayer();
+            dots.ForEach(s => { s.gameObject.SetActive(true); s.transform.localScale = Vector3.one; });
+            _turnCounter = 0;
+            _hoverAnimation = null;
         }
     }
 }

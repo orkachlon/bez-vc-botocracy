@@ -17,7 +17,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
             private set => neuronType = value;
         }
 
-        public IBoardNeuron RuntimeElement => GetElement();
+        public IBoardNeuron RuntimeElement => GetNewElement();
 
         public Color ConnectionColor => connectionColor;
 
@@ -40,7 +40,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
             boardModel = other.GetModel() as MUIBoardNeuron;
         }
 
-        public virtual IBoardNeuron GetElement() => null;
+        public virtual IBoardNeuron GetNewElement() => null;
         public virtual IUIBoardNeuron GetModel() => boardModel;
         public IUINeuron GetUIModel() => UIModel;
         public Sprite GetBoardArtwork() => boardArtwork;

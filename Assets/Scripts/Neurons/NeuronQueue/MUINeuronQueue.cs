@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
+using Events.Neuron;
 using Neurons.UI;
 using TMPro;
 using Types.Neuron;

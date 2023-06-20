@@ -1,5 +1,4 @@
-﻿using ExternBoardSystem.BoardElements;
-using Types.Board;
+﻿using Types.Board;
 using Types.Board.UI;
 using UnityEngine;
 
@@ -32,5 +31,9 @@ namespace ExternBoardSystem.Ui.Board {
         }
 
         public GameObject GO => gameObject;
+        public virtual void Default() {
+            RuntimeData = null;
+            SpriteRenderer.sprite = null;
+        }
     }
 }

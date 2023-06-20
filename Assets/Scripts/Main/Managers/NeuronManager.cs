@@ -1,8 +1,8 @@
 ﻿using System;
 using Core.EventSystem;
 using Events.General;
+using Events.Neuron;
 using MyHexBoardSystem.Events;
-using Neurons;
 using Neurons.Runtime;
 using Types.Hex.Coordinates;
 using Types.Neuron;

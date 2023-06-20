@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using Core.Utils;
+using Events.Neuron;
 using MyHexBoardSystem.BoardSystem.Interfaces;
 using MyHexBoardSystem.Events;
 using Types.Hex.Coordinates;

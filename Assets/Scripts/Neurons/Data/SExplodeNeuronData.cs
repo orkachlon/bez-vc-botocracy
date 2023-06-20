@@ -7,12 +7,13 @@ namespace Neurons.Data {
     [CreateAssetMenu(fileName = "ExplodeNeuronData", menuName = "Neurons/Explode Neuron Data")]
     public class SExplodeNeuronData : SNeuronDataBase {
 
-        [SerializeField] private AudioClip killSound;
+        [Header("Explode Neuron"), SerializeField] private AudioClip killSound;
+        [SerializeField] private Sprite faceSprite;
         
-        public override IBoardNeuron GetElement() {
-            return NeuronFactory.GetBoardNeuron(Type);
-        }
+        public override IBoardNeuron GetNewElement() => NeuronFactory.GetBoardNeuron(Type);
 
+        public Sprite GetFaceSprite() => faceSprite;
+        
         public AudioClip GetKillSound() => killSound;
     }
 }

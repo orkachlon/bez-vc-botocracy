@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DG.Tweening;
 using ExternBoardSystem.Ui.Board;
+using Types.Board;
 using Types.Board.UI;
 using UnityEngine;
 
@@ -18,10 +19,9 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             Source = GetComponent<AudioSource>();
         }
 
-        protected override void UpdateView() {
-            base.UpdateView();
-            transform.localScale = Vector3.one;
-            SpriteRenderer.color = Color.white;
+        public override void SetRuntimeElementData(IBoardElement data) {
+            Default();
+            base.SetRuntimeElementData(data);
         }
 
         public virtual void ToHoverLayer() {
@@ -35,19 +35,18 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         }
 
         public virtual async Task PlayRemoveAnimation() {
+            transform.localScale = Vector3.one;
             await transform.DOScale(0, 0.4f).SetEase(Ease.InBack).AsyncWaitForCompletion();
         }
 
         public virtual async Task PlayAddAnimation() {
-            transform.localScale = Vector3.one;
-            await Task.Delay(50);
+            transform.localScale = Vector3.zero;
+            await transform.DOScale(1, 0.4f).SetEase(Ease.OutBack).AsyncWaitForCompletion();
         }
 
-        public virtual Task PlayTurnAnimation() {
-            return Task.Delay(50);
-        }
+        public virtual Task PlayTurnAnimation()  => Task.CompletedTask;
 
-        public virtual Task PlayHoverAnimation() { return Task.CompletedTask;}
+        public virtual Task PlayHoverAnimation() => Task.CompletedTask;
 
         public virtual void StopHoverAnimation() { }
         public async Task PlayMoveAnimation() {
@@ -60,6 +59,14 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
 
         public void PlayRemoveSound() {
             Source.PlayOneShot(RuntimeData.DataProvider.GetRemoveSound());
+        }
+
+        public override void Default() {
+            base.Default();
+            StopHoverAnimation();
+            transform.localScale = Vector3.one;
+            SpriteRenderer.color = Color.white;
+            SpriteRenderer.sortingOrder = boardSortingOrder;
         }
     }
 }

@@ -3,7 +3,7 @@ using Types.Hex.Coordinates;
 using Types.Neuron;
 using Types.Neuron.Runtime;
 
-namespace Neurons {
+namespace Events.Neuron {
     public static class NeuronEvents {
         public const string OnDisconnectNeurons = "Neurons_OnDisconnectNeurons";
         public const string OnConnectNeurons = "Neurons_OnConnectNeurons";
@@ -13,6 +13,8 @@ namespace Neurons {
         public const string OnEnqueueNeuron = "Neurons_OnEnqueueNeuron";
         public const string OnDequeueNeuron = "Neurons_OnDequeueNeuron";
         public const string OnQueueStateChanged = "Neurons_OnQueueStateChanged";
+        
+        // rewards
         public const string OnRewardNeurons = "Neurons_OnRewardNeurons";
         public const string OnRewardTileReached = "Neurons_OnRewardTileReached";
         public const string OnRewardTilePicked = "Neurons_OnRewardTilePicked";

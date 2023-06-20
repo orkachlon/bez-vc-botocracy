@@ -7,8 +7,8 @@ namespace Audio {
     public class MGenericAudioSource : MonoBehaviour, IAudioSource, IPoolable {
         public AudioSource Source { get; private set; }
         public GameObject GO => gameObject;
-
-
+        public void Default() { }
+        
         private void Awake() {
             Source = GetComponent<AudioSource>();
         }

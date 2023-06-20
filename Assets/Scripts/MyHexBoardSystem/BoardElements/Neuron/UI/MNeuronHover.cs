@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Core.EventSystem;
-using Core.Tools.Pooling;
+using Core.Utils;
+using Events.Neuron;
 using ExternBoardSystem.Tools.Input.Mouse;
 using MyHexBoardSystem.BoardSystem;
-using Neurons;
 using Types.Board.UI;
 using Types.Neuron.Runtime;
 using UnityEngine;
@@ -39,7 +39,6 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             _mouseInput.OnPointerEnter += OnShow;
             _mouseInput.OnPointerStay += OnUpdatePosition;
             _mouseInput.OnPointerExit += OnHide;
-            _mouseInput.OnPointerClick += OnPointerClick;
             neuronEventManager.Register(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
         }
 
@@ -47,7 +46,6 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             _mouseInput.OnPointerEnter -= OnShow;
             _mouseInput.OnPointerStay -= OnUpdatePosition;
             _mouseInput.OnPointerExit -= OnHide;
-            _mouseInput.OnPointerClick -= OnPointerClick;
             neuronEventManager.Unregister(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
         }
 
@@ -88,19 +86,14 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             Hide();
         }
 
-        private void OnPointerClick(PointerEventData eventData) {
-            // OnHide(eventData);
-            // OnShow(eventData);
-        }
-        
         private void UpdateNextNeuron(EventArgs obj) {
             if (obj is not NeuronQueueEventArgs queueEventArgs) {
                 return;
             }
 
             Hide();
-            _currentNeuron = queueEventArgs.NeuronQueue.NextBoardNeuron;
-            Show();
+            var nextNeuron = queueEventArgs.NeuronQueue.NextBoardNeuron;
+            _currentNeuron = nextNeuron?.DataProvider?.GetNewElement();
         }
 
         #endregion
@@ -121,7 +114,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             }
             _currentUINeuron.StopHoverAnimation();
             _currentUINeuron.ToBoardLayer();
-            MObjectPooler.Instance.Release(_currentUINeuron.GO);
+            _currentNeuron.Release();
             _currentUINeuron = null;
         }
 
