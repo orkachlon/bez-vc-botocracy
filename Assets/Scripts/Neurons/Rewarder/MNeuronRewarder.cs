@@ -33,17 +33,15 @@ namespace Neurons.Rewarder {
             _traitAccessor = GetComponent<ITraitAccessor>();
         }
 
-        private void Start() {
-            PickRewardTilesRandomly(EventArgs.Empty);
-        }
-
         private void OnEnable() {
+            boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, PickRewardTilesRandomly);
             boardEventManager.Register(ExternalBoardEvents.OnAddElement, CheckForRewardTiles);
             boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
             boardEventManager.Register(ExternalBoardEvents.OnBoardModified, PickRewardTilesRandomly);
         }
 
         private void OnDisable() {
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, PickRewardTilesRandomly);
             boardEventManager.Unregister(ExternalBoardEvents.OnAddElement, CheckForRewardTiles);
             boardEventManager.Unregister(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, PickRewardTilesRandomly);
