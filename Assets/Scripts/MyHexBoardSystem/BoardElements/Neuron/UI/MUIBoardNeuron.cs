@@ -50,7 +50,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
 
         public virtual void StopHoverAnimation() { }
         public async Task PlayMoveAnimation() {
-            await transform.DOScale(0.5f, 0.25f).SetLoops(2, LoopType.Yoyo).AsyncWaitForCompletion();
+            await transform.DOScale(0.5f, 0.1f).SetLoops(2, LoopType.Yoyo).AsyncWaitForCompletion();
         }
 
         public void PlayAddSound() {

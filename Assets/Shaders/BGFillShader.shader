@@ -43,25 +43,27 @@
                 return o;
             }
 
+            #define SIXTH 0.1666666666666667f
+
             fixed4 frag (v2f i) : SV_Target {
                 const float3 w_pos = normalize(i.world_pos);
-                const float angle = acos(dot(w_pos, float3(1, 0, 0))) / UNITY_PI;
-                if (0.0 <= angle && angle < 1.0/6.0) {
+                const float angle = acos(dot(w_pos, float3(1, 0, 0))) * UNITY_INV_PI;
+                if (angle <= SIXTH) {
                     return _ColorRight;
                 }
-                if (3.0/6.0 <= angle && angle < 5.0/6.0) {
-                    if (w_pos.y > 0) {
-                        return _ColorTopLeft;
-                    }
-                    return _ColorBotLeft;
-                }
-                if (1.0/6.0 <= angle && angle <= 3.0/6.0) {
+                if (SIXTH <= angle && angle <= 0.5f) {
                     if (w_pos.y > 0) {
                         return _ColorTopRight;
                     }
                     return _ColorBotRight;
                 }
-                if (5.0/6.0 <= angle && angle <= 1) {
+                if (0.5f <= angle && angle <= 1 - SIXTH) {
+                    if (w_pos.y > 0) {
+                        return _ColorTopLeft;
+                    }
+                    return _ColorBotLeft;
+                }
+                if (1 - SIXTH <= angle) {
                     return _ColorLeft;
                 }
                 return 0;

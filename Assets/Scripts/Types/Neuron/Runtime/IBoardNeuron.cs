@@ -14,12 +14,14 @@ namespace Types.Neuron.Runtime {
 
         void BindToBoard(IEventManager boardEventManager, IBoardNeuronsController controller,
             Types.Hex.Coordinates.Hex position);
-
-        void BindToNeuronManager(IEventManager neuronEventManager);
         
         Task Activate();
         IUIBoardNeuron Pool();
         void Release();
+        Task AwaitAddition();
         Task AwaitRemoval();
+
+        Task Connect();
+        Task Disconnect();
     }
 }

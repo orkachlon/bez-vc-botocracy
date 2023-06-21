@@ -125,6 +125,10 @@ namespace Core.Tools.Pooling.GenericPrefabPooler
             OnRelease(pooledObj);
         }
 
+        public virtual void ReleasePoolable(IPoolable pooledObj) {
+            Release(pooledObj.GO);
+        }
+
         protected virtual void OnPool(GameObject prefabModel) { }
 
         protected virtual void OnRelease(GameObject prefabModel) { }

@@ -41,21 +41,18 @@ namespace MyHexBoardSystem.BoardElements {
             var worldPosition = TileMap.CellToWorld(cell);
             uiBoardElement.SetWorldPosition(worldPosition);
             _registerUiElements.Add(element, uiBoardElement);
-            uiBoardElement.PlayAddSound();
-            await uiBoardElement.PlayAddAnimation();
+            await element.AwaitAddition();
         }
 
         private async Task RemoveElementAsync(IBoardNeuron element) {
-            var uiElement = _registerUiElements[element];
-            uiElement.PlayRemoveSound();
-            await uiElement.PlayRemoveAnimation();
+            await element.AwaitRemoval();
             element.Release();
             _registerUiElements.Remove(element);
         }
 
         private async Task MoveElementAsync(IBoardNeuron element, Vector3Int fromCell, Vector3Int toCell) {
             var uiElement = _registerUiElements[element];
-            uiElement.GO.transform.DOMove(TileMap.CellToWorld(toCell), 0.5f);
+            uiElement.GO.transform.DOMove(TileMap.CellToWorld(toCell), 0.25f);
             await uiElement.PlayMoveAnimation();
         }
     }

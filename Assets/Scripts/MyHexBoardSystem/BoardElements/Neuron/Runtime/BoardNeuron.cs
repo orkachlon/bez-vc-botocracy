@@ -1,14 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Core.EventSystem;
 using Core.Tools.Pooling;
 using Core.Utils;
-using Events.Neuron;
-using MyHexBoardSystem.Events;
 using Types.Board;
 using Types.Board.UI;
 using Types.Events;
+using Types.Neuron.Connections;
 using Types.Neuron.Data;
 using Types.Neuron.Runtime;
 
@@ -26,6 +24,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
         protected IBoardNeuronsController Controller;
         protected IUIBoardNeuron UINeuron;
         protected int Holders;
+        protected abstract IBoardNeuronConnector Connector { get; set; }
 
 
         protected BoardNeuron() {
@@ -34,18 +33,12 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
 
         public abstract Task Activate();
 
-        public virtual void BindToNeuronManager(IEventManager neuronEventManager) {
-            NeuronEventManager = neuronEventManager as SEventManager;
-        }
-
         public virtual void BindToBoard(IEventManager boardEventManager, IBoardNeuronsController controller, Types.Hex.Coordinates.Hex position) {
             BoardEventManager = boardEventManager as SEventManager;
             if (BoardEventManager == null) {
                 MLogger.LogEditor("Couldn't interpret boardEventManager as SEventManager");
                 return;
             }
-            BoardEventManager.Register(ExternalBoardEvents.OnAddElement, Connect);
-            BoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, Disconnect);
             Controller = controller;
             Position = position;
         }
@@ -68,63 +61,36 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
             MObjectPooler.Instance.Release(UINeuron.GO);
         }
 
-        public abstract Task AwaitRemoval();
+        public async Task AwaitAddition() {
+            UINeuron.PlayAddSound();
+            await UINeuron.PlayAddAnimation();
+            await Connect();
+        }
 
-        // {
-        //     if (UINeuron == null) {
-        //         MLogger.LogEditor("Tried to await remove animation of null ui neuron");
-        //         return;
-        //     }
-        //     await UINeuron.PlayRemoveAnimation();
-        // }
-
-        public virtual void Connect() {
+        public virtual async Task AwaitRemoval() {
+            UINeuron.PlayRemoveSound();
+            await Task.WhenAll(Disconnect(), UINeuron.PlayRemoveAnimation());
+        }
+        
+        public virtual async Task Connect() {
             var neighbors = Controller.Manipulator.GetNeighbours(Position)
                 .Where(h => Controller.Board.GetPosition(h).HasData())
                 .Select(h => Controller.Board.GetPosition(h).Data);
 
             foreach (var other in neighbors) {
-                NeuronEventManager.Raise(NeuronEvents.OnConnectNeurons, new NeuronConnectionArgs(this, other));
+                await Connector.Connect(this, other);
             }
         }
 
-        public virtual void Disconnect() {
+        public virtual async Task Disconnect() {
             var neighbors = Controller.Manipulator.GetNeighbours(Position)
                 .Where(h => Controller.Board.GetPosition(h).HasData())
                 .Select(h => Controller.Board.GetPosition(h).Data);
 
-            foreach (var other in neighbors) {
-                NeuronEventManager.Raise(NeuronEvents.OnDisconnectNeurons, new NeuronConnectionArgs(this, other));
-            }
+            var disconnectionTasks = neighbors
+                .Select(other => Connector.Disconnect(this, other));
+
+            await Task.WhenAll(disconnectionTasks);
         }
-
-        #region EventHandlers
-
-        protected void Connect(EventArgs args) {
-            if (args is not BoardElementEventArgs<IBoardNeuron> addArgs || addArgs.Element != this) {
-                return;
-            }
-
-            Connect();
-        }
-
-        private void Disconnect(EventArgs obj) {
-            if (obj is not BoardElementEventArgs<IBoardNeuron> addArgs || addArgs.Element != this) {
-                return;
-            }
-            BoardEventManager.Unregister(ExternalBoardEvents.OnAddElement, Connect);
-            BoardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, Disconnect);
-
-            Disconnect();
-        }
-
-        private void Reconnect(EventArgs obj) {
-            if (obj is not BoardElementMovedEventArgs<IBoardNeuron> moveArgs || moveArgs.Element != this) {
-                return;
-            }
-            Connect();
-        }
-
-        #endregion
     }
 }

@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
 using Neurons.UI;
 using Types.Board.UI;
+using Types.Events;
 using Types.Neuron;
+using Types.Neuron.Connections;
 using Types.Neuron.Data;
 
 namespace Neurons.Runtime {
@@ -12,12 +15,15 @@ namespace Neurons.Runtime {
         public override INeuronDataBase DataProvider { get; }
 
         private MUIExplodeNeuron UIExplodeNeuron => UINeuron as MUIExplodeNeuron;
+        protected sealed override IBoardNeuronConnector Connector { get; set; }
+
 
         public ExplodeNeuron() {
             DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Exploding);
             Connectable = false;
+            Connector = NeuronFactory.GetConnector();
         }
-
+        
         public override async Task Activate() {
             var neighbours = Controller.Manipulator.GetNeighbours(Position);
             foreach (var neighbour in neighbours) {
@@ -32,7 +38,6 @@ namespace Neurons.Runtime {
                 // explode this neuron
                 UIExplodeNeuron.PlayKillSound();
                 await Controller.RemoveNeuron(neighbour);
-                await Task.Delay(50);
             }
         }
 
@@ -42,10 +47,15 @@ namespace Neurons.Runtime {
             return UIExplodeNeuron;
         }
 
-        public override async Task AwaitRemoval() {
-            await UIExplodeNeuron.PlayRemoveAnimation();
+        public override async Task Connect() {
+            var neighbors = Controller.Manipulator.GetNeighbours(Position)
+                .Where(h => Controller.Board.GetPosition(h).HasData())
+                .Select(h => Controller.Board.GetPosition(h).Data)
+                .Where(n => n.DataProvider.Type is ENeuronType.Decaying or ENeuronType.Invulnerable);
+            
+            foreach (var other in neighbors) {
+                await Connector.Connect(this, other);
+            }
         }
-
-        public override void Connect() { }
     }
 }

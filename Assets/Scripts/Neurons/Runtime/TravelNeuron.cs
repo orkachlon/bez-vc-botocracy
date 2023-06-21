@@ -1,17 +1,15 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Tools.Pooling;
+using Animation;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
-using MyHexBoardSystem.BoardElements.Neuron.UI;
 using MyHexBoardSystem.Events;
 using Neurons.Data;
-using Neurons.UI;
-using Types.Board;
 using Types.Board.UI;
-using Types.Events;
 using Types.Hex.Coordinates;
 using Types.Neuron;
+using Types.Neuron.Connections;
 using Types.Neuron.Data;
 using Types.Neuron.Runtime;
 using Random = UnityEngine.Random;
@@ -23,10 +21,15 @@ namespace Neurons.Runtime {
         private bool _moving;
 
         public sealed override INeuronDataBase DataProvider { get; }
+        protected sealed override IBoardNeuronConnector Connector { get; set; }
+
+        protected static readonly ConcurrentDictionary<Hex, TravelNeuron> PickedPositions = new();
+
 
         public TravelNeuron() {
             DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Travelling);
             _turnsToStop = ((STravelNeuronData) DataProvider).TurnsToStop;
+            Connector = NeuronFactory.GetConnector();
         }
 
         public override Task Activate() {
@@ -44,10 +47,6 @@ namespace Neurons.Runtime {
             return UINeuron;
         }
 
-        public override async Task AwaitRemoval() {
-            await UINeuron.PlayRemoveAnimation();
-        }
-
         private async void Travel(EventArgs obj) {
             if (obj is not BoardElementEventArgs<IBoardNeuron> placementData || placementData.Element.Equals(this)) {
                 return;
@@ -59,25 +58,43 @@ namespace Neurons.Runtime {
             }
 
             // expand to 1 random neighbor
-            var neighbours = Controller.Manipulator.GetNeighbours(Position)
-                .Where(h => !Controller.Board.GetPosition(h).HasData())
-                .ToArray();
+            var neighbours = GetEmptyNeighbors();
             if (neighbours.Length > 0) {
                 var randomNeighbor = neighbours[Random.Range(0, neighbours.Length)];
-                Disconnect();
-                Controller.MoveNeuron(Position, randomNeighbor);
-                Controller.AddElement(NeuronFactory.GetBoardNeuron(ENeuronType.Dummy), Position);
+                PickedPositions[randomNeighbor] = this;
+                var prevPos = Position;
+                await Disconnect();
                 Position = randomNeighbor;
-                Connect();
-            }
-            else { // stop travelling if you couldn't travel this turn
+                await AnimationManager.WaitForAll(PickedPositions.Values);
+                await TravelTo(prevPos, randomNeighbor);
+            } else { // stop travelling if you couldn't travel this turn
                 _turnsToStop = 0;
+                AnimationManager.Register(this, Connect());
             }
-            _turnsToStop--;
+
+            
             if (_turnsToStop > 0) {
                 return;
             }
             UnregisterFromBoard();
+        }
+
+        private Hex[] GetEmptyNeighbors() {
+            var neighbours = Controller.Manipulator.GetNeighbours(Position)
+                .Where(h => !Controller.Board.GetPosition(h).HasData() && !PickedPositions.ContainsKey(h))
+                .ToArray();
+            return neighbours;
+        }
+
+        private async Task TravelTo(Hex from, Hex to) {
+            await Controller.MoveNeuron(from, to);
+            await AnimationManager.WaitForAll();
+            var dummy = NeuronFactory.GetBoardNeuron(ENeuronType.Dummy);
+            AnimationManager.Register(this, Controller.AddElement(dummy, from));
+            await AnimationManager.WaitForAll(PickedPositions.Values);
+            PickedPositions.TryRemove(to, out _);
+            await Connect();
+            _turnsToStop--;
         }
 
         private void UnregisterFromBoard() {

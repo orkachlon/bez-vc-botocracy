@@ -8,6 +8,7 @@ using Types.Board.UI;
 using Types.Events;
 using Types.Hex.Coordinates;
 using Types.Neuron;
+using Types.Neuron.Connections;
 using Types.Neuron.Data;
 using Types.Neuron.Runtime;
 
@@ -17,10 +18,12 @@ namespace Neurons.Runtime {
         private int _turnsToDeath;
 
         public sealed override INeuronDataBase DataProvider { get; }
+        protected sealed override IBoardNeuronConnector Connector { get; set; }
 
         public DecayNeuron() {
             DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Decaying);
             _turnsToDeath = ((SDecayingNeuronData) DataProvider).TurnsToDeath;
+            Connector = NeuronFactory.GetConnector();
         }
 
         public override Task Activate() => Task.CompletedTask;
@@ -34,10 +37,6 @@ namespace Neurons.Runtime {
             base.Pool();
             UINeuron.SetRuntimeElementData(this);
             return UINeuron;
-        }
-
-        public override async Task AwaitRemoval() {
-            await UINeuron.PlayRemoveAnimation();
         }
 
         private void Decay(EventArgs args) {

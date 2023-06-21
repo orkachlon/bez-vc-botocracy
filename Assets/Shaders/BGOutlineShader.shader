@@ -1,6 +1,5 @@
 ﻿Shader "Custom/BGOutlineShader" {
     Properties {
-        _MainTex ("Texture", 2D) = "white" {}
         _Threshold ("_Threshold", float) = 1
     }
     SubShader {
@@ -33,7 +32,6 @@
                 return o;
             }
             
-            sampler2D _MainTex;
             uniform float _Threshold;
 
             fixed4 frag (v2f i) : SV_Target {

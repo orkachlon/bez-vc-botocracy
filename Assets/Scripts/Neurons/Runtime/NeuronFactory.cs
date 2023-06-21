@@ -2,6 +2,7 @@
 using System.Linq;
 using Core.Utils;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
+using Neurons.Connections;
 using Types.Neuron;
 using Random = UnityEngine.Random;
 
@@ -34,6 +35,10 @@ namespace Neurons.Runtime {
                 .ToArray();
             var rnd = asArray[Random.Range(0, asArray.Length)];
             return GetBoardNeuron(rnd);
+        }
+
+        public static BoardNeuronConnector GetConnector() {
+            return new(MConnectionManager.Instance);
         }
     }
 }

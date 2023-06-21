@@ -1,31 +1,28 @@
 ﻿using System.Threading.Tasks;
-using Core.Tools.Pooling;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
-using MyHexBoardSystem.BoardElements.Neuron.UI;
 using Neurons.Data;
-using Neurons.UI;
 using Types.Board.UI;
+using Types.Events;
 using Types.Neuron;
+using Types.Neuron.Connections;
 using Types.Neuron.Data;
 
 namespace Neurons.Runtime {
     public class InvulnerableNeuron : BoardNeuron {
 
         public override INeuronDataBase DataProvider { get; }
-
+        protected sealed override IBoardNeuronConnector Connector { get; set; }
+        
         public InvulnerableNeuron() {
             DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Invulnerable);
+            Connector = NeuronFactory.GetConnector();
         }
-
+        
         public override Task Activate() => Task.CompletedTask;
         public override IUIBoardNeuron Pool() {
             base.Pool();
             UINeuron.SetRuntimeElementData(this);
             return UINeuron;
-        }
-
-        public override async Task AwaitRemoval() {
-            await UINeuron.PlayRemoveAnimation();
         }
     }
 }
