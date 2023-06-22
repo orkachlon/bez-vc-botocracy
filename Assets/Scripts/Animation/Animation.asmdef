@@ -2,7 +2,8 @@
     "name": "Animation",
     "rootNamespace": "",
     "references": [
-        "GUID:e8a36805a06140c59a5be0750023f18e"
+        "GUID:e8a36805a06140c59a5be0750023f18e",
+        "GUID:e3c9d230b9957e54e98a153d32e7913e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
