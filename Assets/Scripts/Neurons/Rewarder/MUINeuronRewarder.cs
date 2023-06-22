@@ -3,7 +3,7 @@ using Core.EventSystem;
 using Core.Utils;
 using Events.Neuron;
 using MyHexBoardSystem.BoardSystem;
-using MyHexBoardSystem.BoardSystem.Interfaces;
+using Types.Board;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

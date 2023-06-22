@@ -4,7 +4,7 @@ using Core.EventSystem;
 using Events.Board;
 using Events.Neuron;
 using Events.SP;
-using MyHexBoardSystem.BoardSystem.Interfaces;
+using Types.Board;
 using Types.Neuron.Runtime;
 using Types.StoryPoint;
 using Types.Trait;

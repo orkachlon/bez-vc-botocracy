@@ -1307,7 +1307,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1639060064745615117}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1839735485 &1639060064492561804
 Tilemap:
@@ -2475,10 +2475,10 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1639060063860473488}
-  - {fileID: 1639060064492561806}
-  - {fileID: 1639060064884594040}
-  - {fileID: 1639060064853154832}
   - {fileID: 1639060064816519151}
+  - {fileID: 1639060064884594040}
+  - {fileID: 1639060064492561806}
+  - {fileID: 1639060064853154832}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2529,15 +2529,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: e71cde60f459c5544b1467fb0095b3da, type: 2}
     - {fileID: 11400000, guid: 4fe128cbbdc76da42b0867f1317186a6, type: 2}
     - {fileID: 11400000, guid: ba91eb52bbe632040aaa0f6e7e4bdfdd, type: 2}
-  pressedTileBases:
-    keys: 000000000100000002000000030000000400000005000000
-    values:
-    - {fileID: 11400000, guid: 54e86d1b092bc044aabbe86ef3316caa, type: 2}
-    - {fileID: 11400000, guid: 555a753ae071382488fe5d15ec195c95, type: 2}
-    - {fileID: 11400000, guid: 7c4ccf7170879574bbe854446a9db044, type: 2}
-    - {fileID: 11400000, guid: c261a45c4a6c94a4c8d632b34a210e15, type: 2}
-    - {fileID: 11400000, guid: 49661a86a0528424980980aa99f0312f, type: 2}
-    - {fileID: 11400000, guid: c0e65aa35d461324787a1e0242bc123c, type: 2}
   traitTileOutlines:
     keys: 000000000100000002000000030000000400000005000000
     values:
@@ -2679,7 +2670,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1639060064745615117}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1839735485 &1639060064816519147
 Tilemap:
@@ -2856,7 +2847,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1639060064745615117}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1839735485 &1639060064853154838
 Tilemap:

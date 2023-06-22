@@ -1,4 +1,4 @@
-﻿namespace MyHexBoardSystem {
+﻿namespace Types.Board {
     public static class BoardConstants {
         public const string MouseHoverOutlineTileLayer = "mouseHoverOutline";
         public const string MouseHoverTileLayer = "mouseHover";

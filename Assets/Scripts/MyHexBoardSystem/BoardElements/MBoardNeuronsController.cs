@@ -10,7 +10,6 @@ using Events.Neuron;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
-using MyHexBoardSystem.BoardSystem.Interfaces;
 using Types.Board;
 using Types.Board.UI;
 using Types.Hex.Coordinates;

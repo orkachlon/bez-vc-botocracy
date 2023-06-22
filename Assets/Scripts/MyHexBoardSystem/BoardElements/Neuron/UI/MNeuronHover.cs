@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Core.EventSystem;
-using Core.Utils;
 using Events.Neuron;
 using ExternBoardSystem.Tools.Input.Mouse;
 using MyHexBoardSystem.BoardSystem;
 using Types.Board.UI;
+using Types.Hex.Coordinates;
 using Types.Neuron.Runtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -119,13 +119,17 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         }
 
         private bool IsLegalPlacement(Vector2 screenPos) {
-            var mouseWorld = _cam.ScreenToWorldPoint(screenPos);
-            var mouseHex = boardController.WorldPosToHex(mouseWorld);
+            var mouseHex = ScreenToHex(screenPos);
             return boardController.Board.HasPosition(mouseHex) &&
                    !boardController.Board.GetPosition(mouseHex).HasData() &&
                    boardController.Manipulator.GetNeighbours(mouseHex)
                        .Any(h => boardController.Board.HasPosition(h) 
                                  && boardController.Board.GetPosition(h).HasData());
+        }
+
+        private Hex ScreenToHex(Vector2 screenPos) {
+            var mouseWorld = _cam.ScreenToWorldPoint(screenPos);
+            return boardController.WorldPosToHex(mouseWorld);
         }
     }
 }

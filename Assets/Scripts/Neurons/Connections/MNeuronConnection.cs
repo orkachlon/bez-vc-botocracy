@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Animation;
 using DG.Tweening;
-using MyHexBoardSystem.BoardSystem.Interfaces;
 using Types.Animation;
+using Types.Board;
 using Types.Neuron.Runtime;
 using Types.Pooling;
 using UnityEngine;

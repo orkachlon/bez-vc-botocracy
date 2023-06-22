@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using Events.Neuron;
 using ExternBoardSystem.Tools.Input.Mouse;
 using MyHexBoardSystem.BoardSystem;
+using Types.Board;
 using Types.Hex.Coordinates;
 using Types.Neuron.Runtime;
 using UnityEngine;
@@ -28,6 +30,7 @@ namespace MyHexBoardSystem.UI {
         private Camera _cam;
         
         private Hex? _currentTile;
+        private readonly HashSet<Hex> _highlighted = new HashSet<Hex>();
 
         private void Awake() {
             _mouseInput = GetComponent<IMouseInput>();
@@ -94,22 +97,24 @@ namespace MyHexBoardSystem.UI {
             if (!boardController.Board.HasPosition(hex)) {
                 return;
             }
-            TileBase tileToShow;
-            // no neurons or current tile is occupied
-            if (_currentNeuron == null || boardController.Board.GetPosition(hex).HasData()) {
-                tileToShow = cannotBePlacedTileBase;
-            }
-            // current tile is empty - check if a neighbor neuron exists
-            else {
+
+            var canBePlaced = false;
+            
+            if (_currentNeuron != null && !boardController.Board.GetPosition(hex).HasData()) {
                 var neighbors = boardController.Manipulator.GetNeighbours(hex);
-                var canBePlaced = neighbors.Any(h =>
+                canBePlaced = neighbors.Any(h =>
                     boardController.Board.HasPosition(h) && boardController.Board.GetPosition(h).HasData());
-                tileToShow = canBePlaced ? canBePlacedTileBase : cannotBePlacedTileBase;
             }
 
+            var tileToShow = canBePlaced ? canBePlacedTileBase : cannotBePlacedTileBase;
+
             boardController.SetTile(hex, tileToShow, BoardConstants.MouseHoverTileLayer);
-            boardController.SetTile(hex, hoverOutlineTile, BoardConstants.MouseHoverOutlineTileLayer);
+            // boardController.SetTile(hex, hoverOutlineTile, BoardConstants.MouseHoverOutlineTileLayer);
             _currentTile = hex;
+
+            if (canBePlaced) {
+                ShowEffect(hex);
+            }
         }
 
         private void Hide() {
@@ -117,8 +122,28 @@ namespace MyHexBoardSystem.UI {
                 return;
             }
             boardController.SetTile(_currentTile.Value, null, BoardConstants.MouseHoverTileLayer);
-            boardController.SetTile(_currentTile.Value, null, BoardConstants.MouseHoverOutlineTileLayer);
+            // boardController.SetTile(_currentTile.Value, null, BoardConstants.MouseHoverOutlineTileLayer);
             _currentTile = null;
+
+            foreach (var hex in _highlighted) {
+                boardController.SetTile(hex, null, BoardConstants.MouseHoverTileLayer);
+            }
+            _highlighted.Clear();
+        }
+
+        private void ShowEffect(Hex hex) {
+            if (_currentNeuron == null) {
+                return;
+            }
+
+            var affected = _currentNeuron.GetAffectedTiles(hex, boardController);
+            foreach (var effectTile in affected) {
+                if (!boardController.Board.HasPosition(effectTile)) {
+                    continue;
+                }
+                _highlighted.Add(effectTile);
+                boardController.SetTile(effectTile, _currentNeuron.GetEffectTile(), BoardConstants.MouseHoverTileLayer);
+            } 
         }
     }
 }

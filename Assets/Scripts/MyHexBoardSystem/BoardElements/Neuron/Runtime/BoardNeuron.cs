@@ -13,6 +13,7 @@ using Types.Hex.Coordinates;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
 using Types.Neuron.Runtime;
+using UnityEngine.Tilemaps;
 using Vector3 = UnityEngine.Vector3;
 
 namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
@@ -21,7 +22,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
         public abstract INeuronDataBase DataProvider { get; }
         IElementDataProvider<IBoardElement, IUIBoardElement> IBoardElement.DataProvider => DataProvider;
 
-        public Types.Hex.Coordinates.Hex Position { get; protected set; }
+        public Hex Position { get; protected set; }
         public bool Connectable { get; protected set; }
         public bool TurnDone { get; protected set; }
 
@@ -118,6 +119,9 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
 
             await Task.WhenAll(disconnectionTasks);
         }
+
+        public virtual Hex[] GetAffectedTiles(Hex hex, INeuronBoardController controller = null) => new Hex[]{};
+        public virtual TileBase GetEffectTile() => DataProvider.GetEffectTile();
 
         protected virtual void RegisterTurnDone() {
             BoardEventManager.Register(ExternalBoardEvents.OnPlaceElement, ReportTurnDone);

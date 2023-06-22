@@ -4,7 +4,7 @@ using Core.EventSystem;
 using Core.Utils;
 using Events.SP;
 using MyHexBoardSystem.BoardSystem;
-using MyHexBoardSystem.BoardSystem.Interfaces;
+using Types.Board;
 using Types.StoryPoint;
 using Types.Trait;
 using UnityEngine;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Core.EventSystem;
 using Events.Board;
-using MyHexBoardSystem.BoardSystem.Interfaces;
+using Types.Board;
 using Types.Hex.Coordinates;
 using Types.Neuron.Runtime;
 using UnityEngine;

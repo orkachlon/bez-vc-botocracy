@@ -6,7 +6,7 @@ using Events.Board;
 using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardElements;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
-using MyHexBoardSystem.BoardSystem.Interfaces;
+using Types.Board;
 using Types.Hex.Coordinates;
 using Types.Trait;
 using UnityEngine;

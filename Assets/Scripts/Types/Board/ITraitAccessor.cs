@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using MyHexBoardSystem.Traits;
-using Types.Hex.Coordinates;
 using Types.Trait;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace MyHexBoardSystem.BoardSystem.Interfaces {
+namespace Types.Board {
     public interface ITraitAccessor {
 
-        public ETrait? HexToTrait(Hex hex);
+        public ETrait? HexToTrait(Hex.Coordinates.Hex hex);
         public ETrait? WorldPosToTrait(Vector3 worldPosition);
 
 
 
         #region Tiles
 
-        public Hex[] GetTraitHexes(ETrait trait);
-        public Hex[] GetTraitEmptyHexes(ETrait trait, IEnumerable<Hex> fromHexes = null);
+        public Hex.Coordinates.Hex[] GetTraitHexes(ETrait trait);
+        public Hex.Coordinates.Hex[] GetTraitEmptyHexes(ETrait trait, IEnumerable<Hex.Coordinates.Hex> fromHexes = null);
 
         public Color GetColor(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer);
         public void SetTraitColor(ETrait trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer);
         public TileBase GetTraitTile(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer);
         public void SetTraitTiles(ETrait trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer);
-        public Hex[] GetTraitEdgeHexes(ETrait trait);
+        public Hex.Coordinates.Hex[] GetTraitEdgeHexes(ETrait trait);
 
         #endregion
 
@@ -35,39 +33,39 @@ namespace MyHexBoardSystem.BoardSystem.Interfaces {
 
         #region StaticFunctions
 
-        static Hex TraitToDirection(ETrait trait) {
+        static Hex.Coordinates.Hex TraitToDirection(ETrait trait) {
             var direction = trait switch {
-                ETrait.Entropist => new Hex(0, 1),
-                ETrait.Commander => new Hex(1, 0),
-                ETrait.Entrepreneur => new Hex(1, -1),
-                ETrait.Logistician => new Hex(0, -1),
-                ETrait.Protector => new Hex(-1, 0),
-                ETrait.Mediator => new Hex(-1, 1),
+                ETrait.Entropist => new Hex.Coordinates.Hex(0, 1),
+                ETrait.Commander => new Hex.Coordinates.Hex(1, 0),
+                ETrait.Entrepreneur => new Hex.Coordinates.Hex(1, -1),
+                ETrait.Logistician => new Hex.Coordinates.Hex(0, -1),
+                ETrait.Protector => new Hex.Coordinates.Hex(-1, 0),
+                ETrait.Mediator => new Hex.Coordinates.Hex(-1, 1),
                 _ => throw new ArgumentOutOfRangeException(nameof(trait), trait, null)
             };
             return direction;
         }
         
-        static ETrait? DirectionToTrait(Hex hex) {
-            if (hex == new Hex(0, 1)) {
+        static ETrait? DirectionToTrait(Hex.Coordinates.Hex hex) {
+            if (hex == new Hex.Coordinates.Hex(0, 1)) {
                 return ETrait.Entropist;
             }
-            if (hex == new Hex(1, 0)) {
+            if (hex == new Hex.Coordinates.Hex(1, 0)) {
                 return ETrait.Commander;
             }
-            if (hex == new Hex(1, -1)) {
+            if (hex == new Hex.Coordinates.Hex(1, -1)) {
                 return ETrait.Entrepreneur;
             }
-            if (hex == new Hex(0, -1)) {
+            if (hex == new Hex.Coordinates.Hex(0, -1)) {
                 return ETrait.Logistician;
             }
-            if (hex == new Hex(-1, 0)) {
+            if (hex == new Hex.Coordinates.Hex(-1, 0)) {
                 return ETrait.Protector;
             }
-            if (hex == new Hex(-1, 1)) {
+            if (hex == new Hex.Coordinates.Hex(-1, 1)) {
                 return ETrait.Mediator;
             }
-            if (hex == Hex.zero) {
+            if (hex == Hex.Coordinates.Hex.zero) {
                 return null;
             }
 

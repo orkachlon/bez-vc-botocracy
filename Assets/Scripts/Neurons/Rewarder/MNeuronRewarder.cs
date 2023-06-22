@@ -5,7 +5,7 @@ using Core.EventSystem;
 using Core.Utils;
 using Events.Board;
 using Events.Neuron;
-using MyHexBoardSystem.BoardSystem.Interfaces;
+using Types.Board;
 using Types.Hex.Coordinates;
 using Types.Neuron.Runtime;
 using Types.Trait;

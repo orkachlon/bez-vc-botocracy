@@ -3,6 +3,7 @@ using Types.Board.UI;
 using Types.Neuron.Runtime;
 using Types.Neuron.UI;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Types.Neuron.Data {
     public interface INeuronDataBase: IElementDataProvider<IBoardNeuron, IUIBoardNeuron> {
@@ -15,5 +16,6 @@ namespace Types.Neuron.Data {
         IUINeuron GetUIModel();
         Sprite GetUIArtwork(ENeuronUIState uiState);
         Sprite GetFaceSprite();
+        TileBase GetEffectTile();
     }
 }

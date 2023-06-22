@@ -3,9 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Events.Board;
 using Events.Neuron;
+using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
 using Neurons.UI;
+using Types.Board;
 using Types.Board.UI;
 using Types.Hex.Coordinates;
 using Types.Neuron;
@@ -74,8 +76,24 @@ namespace Neurons.Runtime {
                 await Connector.Connect(this, other);
             }
         }
+        
+        public override Hex[] GetAffectedTiles(Hex hex, INeuronBoardController controller = null) {
+            if (controller != null) {
+                return controller.Manipulator.GetNeighbours(hex)
+                    .Where(n => controller.Board.GetPosition(n).HasData() && 
+                                controller.Board.GetPosition(n).Data.DataProvider.Type is not ENeuronType.Invulnerable and not ENeuronType.Decaying)
+                    .ToArray();
+            }
 
-        private async Task KillNeighbor(Hex neighbour, int delay = 0) {
+            return Controller != null ? 
+                Controller.Manipulator.GetNeighbours(hex)
+                    .Where(n => Controller.Board.GetPosition(n).HasData() && 
+                                Controller.Board.GetPosition(n).Data.DataProvider.Type is not ENeuronType.Invulnerable and not ENeuronType.Decaying)
+                    .ToArray() : 
+                BoardManipulationOddR<IBoardNeuron>.GetNeighboursStatic(hex);
+        }
+
+private async Task KillNeighbor(Hex neighbour, int delay = 0) {
             await Task.Delay(delay);
             UIExplodeNeuron.PlayKillSound();
             await Controller.RemoveNeuron(neighbour);

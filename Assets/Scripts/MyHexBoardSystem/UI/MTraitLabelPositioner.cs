@@ -3,7 +3,7 @@ using System.Linq;
 using Core.EventSystem;
 using Events.Board;
 using MyHexBoardSystem.BoardSystem;
-using MyHexBoardSystem.BoardSystem.Interfaces;
+using Types.Board;
 using Types.Trait;
 using UnityEngine;
 

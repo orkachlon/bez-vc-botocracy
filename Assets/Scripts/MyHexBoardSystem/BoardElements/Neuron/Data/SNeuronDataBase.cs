@@ -7,6 +7,7 @@ using Types.Neuron.Data;
 using Types.Neuron.Runtime;
 using Types.Neuron.UI;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace MyHexBoardSystem.BoardElements.Neuron.Data {
     public class SNeuronDataBase : ScriptableObject, INeuronDataBase {
@@ -35,6 +36,8 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
         [Header("Sounds"), SerializeField] private AudioClip addSound;
         [SerializeField] private AudioClip removeSound;
 
+        [SerializeField] protected TileBase effectTile;
+
         public void SetData(INeuronDataBase other) {
             Type = other.Type;
             boardArtwork = other.GetBoardArtwork();
@@ -46,6 +49,8 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
         public IUINeuron GetUIModel() => UIModel;
         public Sprite GetBoardArtwork() => boardArtwork;
         public Sprite GetFaceSprite() => faceSprite;
+        public TileBase GetEffectTile() => effectTile;
+
         public AudioClip GetAddSound() => addSound;
         public AudioClip GetRemoveSound() => removeSound;
         public Sprite GetUIArtwork(ENeuronUIState uiState) => uiState switch {

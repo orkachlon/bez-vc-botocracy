@@ -5,6 +5,7 @@ using Types.Board.UI;
 using Types.Events;
 using Types.Neuron.Data;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Types.Neuron.Runtime {
     public interface IBoardNeuron : IBoardElement, IAnimatable {
@@ -32,5 +33,8 @@ namespace Types.Neuron.Runtime {
 
         Task Connect();
         Task Disconnect();
+
+        Hex.Coordinates.Hex[] GetAffectedTiles(Hex.Coordinates.Hex hex, INeuronBoardController controller = null);
+        TileBase GetEffectTile();
     }
 }

@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Events.Board;
 using Events.Neuron;
+using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
+using Types.Board;
 using Types.Board.UI;
 using Types.Hex.Coordinates;
 using Types.Neuron;
@@ -51,6 +54,16 @@ namespace Neurons.Runtime {
             UINeuron.PlayAddAnimation();
             Connect();
             NeuronEventManager.Raise(NeuronEvents.OnNeuronFinishedAddAnimation, new BoardElementEventArgs<IBoardNeuron>(this, Position));
+        }
+
+        public override Hex[] GetAffectedTiles(Hex hex, INeuronBoardController controller = null) {
+            if (controller != null) {
+                return controller.Manipulator.GetNeighbours(hex).Where(n => !controller.Board.GetPosition(n).HasData()).ToArray();
+            }
+
+            return Controller != null ? 
+                Controller.Manipulator.GetNeighbours(hex).Where(n => !Controller.Board.GetPosition(n).HasData()).ToArray() : 
+                BoardManipulationOddR<IBoardNeuron>.GetNeighboursStatic(hex);
         }
 
         private async Task SpawnNeighbour(Hex neighbour, int delay = 0) {
