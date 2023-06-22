@@ -41,15 +41,14 @@ namespace Neurons.UI {
             await base.PlayAddAnimation();
             await Task.Delay(50);
             await Task.WhenAll(spikesAnimations);
-            Task.WhenAll(spikes.Select(b => b.transform.DOScale(Vector3.zero, spikeSpawnDuration * 2).AsyncWaitForCompletion()));
-
+            Task.WhenAll(spikes.Select(b => b.transform.DOScale(Vector3.zero, spikeSpawnDuration * 2).SetDelay(spikeSpawnDuration).AsyncWaitForCompletion()));
         }
         
         public override Task PlayHoverAnimation() {
             if (_hoverAnimation != null && _hoverAnimation.IsPlaying()) {
                 StopHoverAnimation();
             }
-            _hoverAnimation = DOTween.Sequence();
+            _hoverAnimation = DOTween.Sequence(this);
             foreach (var spike in spikes) {
                 InsertSpikeHoverAnimation(spike.transform);
             }
@@ -69,7 +68,7 @@ namespace Neurons.UI {
         }
 
         private void InsertSpikeHoverAnimation(Transform spike) {
-            var seq = DOTween.Sequence().Append(spike.DOScale(1, spikeSpawnDuration).SetEase(spikeSpawnEasing))
+            var seq = DOTween.Sequence(this).Append(spike.DOScale(1, spikeSpawnDuration).SetEase(spikeSpawnEasing))
                 .AppendInterval(spikeSpawnDuration * 2)
                 .Append(spike.DOScale(0, spikeSpawnDuration * 3));
             _hoverAnimation.Insert(0, seq);
@@ -80,7 +79,6 @@ namespace Neurons.UI {
             ToBoardLayer();
             spikes.ForEach(s => { s.gameObject.SetActive(true); s.transform.localScale = Vector3.zero; });
             _hoverAnimation = null;
-            neuronFace.sprite = null;
         }
     }
 }

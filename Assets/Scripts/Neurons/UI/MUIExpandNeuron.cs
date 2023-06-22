@@ -83,7 +83,6 @@ namespace Neurons.UI {
             ToBoardLayer();
             blobs.ForEach(b => { b.gameObject.SetActive(true); b.transform.localScale = Vector3.zero; });
             _hoverAnimation = null;
-            neuronFace.sprite = null;
         }
     }
 }

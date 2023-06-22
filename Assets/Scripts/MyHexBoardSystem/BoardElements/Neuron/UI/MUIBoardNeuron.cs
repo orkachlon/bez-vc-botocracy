@@ -83,6 +83,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             transform.localScale = Vector3.one;
             SpriteRenderer.color = Color.white;
             SpriteRenderer.sortingOrder = boardSortingOrder;
+            neuronFace.sprite = null;
         }
     }
 }
