@@ -6,6 +6,7 @@ using Events.Board;
 using Events.Neuron;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
+using Neurons.UI;
 using Types.Board.UI;
 using Types.Hex.Coordinates;
 using Types.Neuron;
@@ -24,6 +25,8 @@ namespace Neurons.Runtime {
         protected sealed override IBoardNeuronConnector Connector { get; set; }
 
         protected static readonly ConcurrentDictionary<Hex, TravelNeuron> PickedPositions = new();
+        
+        protected MUITravelNeuron UITravelNeuron => UINeuron as MUITravelNeuron;
 
 
         public TravelNeuron() {
@@ -47,8 +50,8 @@ namespace Neurons.Runtime {
 
         public override IUIBoardNeuron Pool() {
             base.Pool();
-            UINeuron.SetRuntimeElementData(this);
-            return UINeuron;
+            UITravelNeuron.SetRuntimeElementData(this);
+            return UITravelNeuron;
         }
 
         #region EventHandlers
@@ -59,6 +62,13 @@ namespace Neurons.Runtime {
             }
 
             if (placementData.Element.Equals(this)) {
+                if (!CanTravel()) {
+                    TurnsToStop = 0;
+                    NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronStopped, new BoardElementEventArgs<IBoardNeuron>(this, Position));
+                    UITravelNeuron.DepleteTurns();
+                    UnregisterFromBoard();
+                    base.RegisterTurnDone();
+                }
                 return;
             }
 
@@ -83,6 +93,7 @@ namespace Neurons.Runtime {
             // stop travelling if you couldn't travel this turn
             TurnsToStop = 0;
             NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronStopped, new BoardElementEventArgs<IBoardNeuron>(this, Position));
+            UITravelNeuron.DepleteTurns();
             UnregisterFromBoard();
             ReportTurnDone();
             base.RegisterTurnDone();
@@ -92,7 +103,12 @@ namespace Neurons.Runtime {
             if (_prevPos == Hex.zero) {
                 return;
             }
+
+            UITravelNeuron.PlayTurnAnimation();
             await TravelTo(_prevPos, Position);
+            if (!CanTravel()) {
+                UITravelNeuron.DepleteTurns();
+            }
             ReportTurnDone();
         }
 
@@ -112,10 +128,11 @@ namespace Neurons.Runtime {
             PickedPositions.TryRemove(to, out _);
             await Connect();
             TurnsToStop--;
-            if (TurnsToStop == 0) {
+            if (TurnsToStop <= 0) {
                 NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronStopped, new BoardElementEventArgs<IBoardNeuron>(this, Position));
                 UnregisterFromBoard();
                 base.RegisterTurnDone();
+                UITravelNeuron.DepleteTurns();
             }
         }
 
@@ -130,6 +147,10 @@ namespace Neurons.Runtime {
             BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, Travel);
             BoardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, OnRemoved);
             NeuronEventManager.Unregister(NeuronEvents.OnTravellersReady, BeginTravel);
+        }
+
+        private bool CanTravel() {
+            return GetEmptyNeighbors().Length > 0;
         }
 
         protected override void RegisterTurnDone() { }

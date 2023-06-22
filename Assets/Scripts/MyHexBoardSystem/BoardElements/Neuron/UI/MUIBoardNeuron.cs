@@ -11,16 +11,15 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         
         public AudioSource Source { get; private set; }
         protected INeuronDataBase NeuronData => RuntimeData.DataProvider as INeuronDataBase;
-
-        [Header("Sorting orders"), SerializeField]
-        protected int hoverSortingOrder;
-        [SerializeField] protected int boardSortingOrder;
-
+        
         [Header("Animation"), SerializeField] protected float removeAnimationDuration;
         [SerializeField] protected float addAnimationDuration;
         [SerializeField] protected float moveAnimationDuration;
 
         [Header("Sprites"), SerializeField] protected SpriteRenderer neuronFace;
+        [SerializeField] protected string hoverSortingLayer;
+        [SerializeField] protected string belowConnSortingLayer;
+        [SerializeField] protected string aboveConnSortingLayer;
 
         protected override void Awake() {
             base.Awake();
@@ -38,14 +37,16 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         }
 
         public virtual void ToHoverLayer() {
-            SpriteRenderer.sortingOrder = hoverSortingOrder;
-            neuronFace.sortingOrder = hoverSortingOrder + 1;
+            SpriteRenderer.sortingLayerName = hoverSortingLayer;
+            neuronFace.sortingLayerName = hoverSortingLayer;
+            neuronFace.sortingOrder = SpriteRenderer.sortingOrder + 1;
             transform.localScale = 1.2f * Vector3.one;
         }
 
         public virtual void ToBoardLayer() {
-            SpriteRenderer.sortingOrder = boardSortingOrder;
-            neuronFace.sortingOrder = boardSortingOrder + 1;
+            SpriteRenderer.sortingLayerName = belowConnSortingLayer;
+            neuronFace.sortingLayerName = aboveConnSortingLayer;
+            neuronFace.sortingOrder = 0;
             transform.localScale = Vector3.one;
         }
 
@@ -64,10 +65,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         public virtual Task PlayHoverAnimation() => Task.CompletedTask;
 
         public virtual void StopHoverAnimation() { }
-        public async Task PlayMoveAnimation(Vector3 fromPos, Vector3 toPos) {
-            transform.DOMove(toPos, 0.25f);
-            await transform.DOScale(0.5f, moveAnimationDuration).SetLoops(2, LoopType.Yoyo).AsyncWaitForCompletion();
-        }
+        public virtual Task PlayMoveAnimation(Vector3 fromPos, Vector3 toPos) => Task.CompletedTask;
 
         public void PlayAddSound() {
             Source.PlayOneShot(RuntimeData.DataProvider.GetAddSound());
@@ -82,8 +80,6 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             StopHoverAnimation();
             transform.localScale = Vector3.one;
             SpriteRenderer.color = Color.white;
-            SpriteRenderer.sortingOrder = boardSortingOrder;
-            neuronFace.sprite = null;
         }
     }
 }

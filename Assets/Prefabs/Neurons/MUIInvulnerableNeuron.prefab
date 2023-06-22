@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1749473467
-  m_SortingLayer: 4
-  m_SortingOrder: 4
+  m_SortingLayerID: -1256158899
+  m_SortingLayer: 6
+  m_SortingOrder: 1
   m_Sprite: {fileID: -315111891, guid: 433acef2fd6d0224e85a2593692fed7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -154,9 +154,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1749473467
-  m_SortingLayer: 4
-  m_SortingOrder: 4
+  m_SortingLayerID: -1256158899
+  m_SortingLayer: 6
+  m_SortingOrder: 1
   m_Sprite: {fileID: -315111891, guid: 433acef2fd6d0224e85a2593692fed7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -238,9 +238,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1749473467
-  m_SortingLayer: 4
-  m_SortingOrder: 5
+  m_SortingLayerID: -1256158899
+  m_SortingLayer: 6
+  m_SortingOrder: 1
   m_Sprite: {fileID: -315111891, guid: 433acef2fd6d0224e85a2593692fed7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -322,9 +322,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1749473467
-  m_SortingLayer: 4
-  m_SortingOrder: 4
+  m_SortingLayerID: -1256158899
+  m_SortingLayer: 6
+  m_SortingOrder: 1
   m_Sprite: {fileID: -315111891, guid: 433acef2fd6d0224e85a2593692fed7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -343,6 +343,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 68424934104148056, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 68424934104148056, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1726438855
+      objectReference: {fileID: 0}
     - target: {fileID: 1876659394254917801, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -391,9 +399,29 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -1909696574, guid: 433acef2fd6d0224e85a2593692fed7c, type: 3}
+    - target: {fileID: 2694280456325238718, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694280456325238718, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694280456325238718, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1256158899
+      objectReference: {fileID: 0}
     - target: {fileID: 4560526914762693488, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
       propertyPath: m_Name
       value: MUIInvulnerableNeuron
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695682779750648293, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695682779750648293, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1726438855
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4623728799522052598, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
@@ -425,12 +453,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abfc9d75618446988a4decbba864124f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverSortingOrder: 10
-  boardSortingOrder: 1
+  baseSpriteRenderer: {fileID: 4650800737093266331}
   removeAnimationDuration: 0.2
   addAnimationDuration: 0.2
   moveAnimationDuration: 0.1
   neuronFace: {fileID: 2649416142634773952}
+  hoverSortingLayer: Hover
+  belowConnSortingLayer: BelowConnections
+  aboveConnSortingLayer: AboveConnections
   rings:
   - {fileID: 7302038576826073455}
   - {fileID: 5661628633779568553}
@@ -460,3 +490,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   ringDuration: 3
+--- !u!212 &4650800737093266331 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4695682779750648293, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+  m_PrefabInstance: {fileID: 117265376645309054}
+  m_PrefabAsset: {fileID: 0}

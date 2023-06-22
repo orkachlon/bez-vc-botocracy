@@ -50,7 +50,16 @@ TagManager:
   - name: Grid
     uniqueID: 1553271469
     locked: 0
-  - name: Neurons
+  - name: BelowConnections
+    uniqueID: 1726438855
+    locked: 0
+  - name: Connections
+    uniqueID: 4043613141
+    locked: 0
+  - name: AboveConnections
+    uniqueID: 3038808397
+    locked: 0
+  - name: Hover
     uniqueID: 1749473467
     locked: 0
   - name: Events

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Events.Board;
+using Events.Neuron;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
 using Neurons.UI;
@@ -9,6 +11,7 @@ using Types.Hex.Coordinates;
 using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
+using Types.Neuron.Runtime;
 
 namespace Neurons.Runtime {
     public class ExplodeNeuron : BoardNeuron {
@@ -51,6 +54,14 @@ namespace Neurons.Runtime {
             base.Pool();
             UIExplodeNeuron.SetRuntimeElementData(this);
             return UIExplodeNeuron;
+        }
+        
+        public override async Task AwaitAddition() {
+            await Task.Yield();
+            UIExplodeNeuron.PlayAddSound();
+            UIExplodeNeuron.PlayAddAnimation();
+            Connect();
+            NeuronEventManager.Raise(NeuronEvents.OnNeuronFinishedAddAnimation, new BoardElementEventArgs<IBoardNeuron>(this, Position));
         }
 
         public override async Task Connect() {

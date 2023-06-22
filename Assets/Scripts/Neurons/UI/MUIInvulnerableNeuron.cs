@@ -19,14 +19,18 @@ namespace Neurons.UI {
         
         public override void ToHoverLayer() {
             base.ToHoverLayer();
-            neuronFace.sortingOrder = hoverSortingOrder + 2;
-            rings.ForEach(s => s.sortingOrder = hoverSortingOrder + 3);
+            rings.ForEach(s => { 
+                s.sortingLayerName = hoverSortingLayer;
+                s.sortingOrder = neuronFace.sortingOrder + 1;
+            });
         }
         
         public override void ToBoardLayer() {
             base.ToBoardLayer();
-            neuronFace.sortingOrder = boardSortingOrder + 3;
-            rings.ForEach(s => s.sortingOrder = boardSortingOrder + 4);
+            rings.ForEach(s => {
+                s.sortingLayerName = aboveConnSortingLayer;
+                s.sortingOrder = neuronFace.sortingOrder + 1;
+            });
         }
         
         public override async Task PlayAddAnimation() {

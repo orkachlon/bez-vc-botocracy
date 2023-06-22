@@ -47,7 +47,8 @@ namespace Neurons.Runtime {
 
         public override async Task AwaitAddition() {
             UINeuron.PlayAddSound();
-            await Task.WhenAll(UINeuron.PlayAddAnimation(), Connect());
+            UINeuron.PlayAddAnimation();
+            await Connect();
             NeuronEventManager.Raise(NeuronEvents.OnNeuronFinishedAddAnimation, new BoardElementEventArgs<IBoardNeuron>(this, Position));
         }
 

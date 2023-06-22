@@ -20,14 +20,20 @@ namespace Neurons.UI {
 
         public override void ToHoverLayer() {
             base.ToHoverLayer();
-            neuronFace.sortingOrder = hoverSortingOrder + 2;
-            spikes.ForEach(s => s.sortingOrder = hoverSortingOrder + 1);
+            neuronFace.sortingOrder++;
+            spikes.ForEach(s => {
+                s.sortingLayerName = hoverSortingLayer;
+                s.sortingOrder = neuronFace.sortingOrder - 1;
+            });
         }
         
         public override void ToBoardLayer() {
             base.ToBoardLayer();
-            neuronFace.sortingOrder = boardSortingOrder + 3;
-            spikes.ForEach(s => s.sortingOrder = boardSortingOrder);
+            neuronFace.sortingOrder++;
+            spikes.ForEach(s => {
+                s.sortingLayerName = belowConnSortingLayer;
+                s.sortingOrder = SpriteRenderer.sortingOrder + 1;
+            });
         }
         
         public override async Task PlayAddAnimation() {
@@ -41,7 +47,7 @@ namespace Neurons.UI {
             await base.PlayAddAnimation();
             await Task.Delay(50);
             await Task.WhenAll(spikesAnimations);
-            Task.WhenAll(spikes.Select(b => b.transform.DOScale(Vector3.zero, spikeSpawnDuration * 2).SetDelay(spikeSpawnDuration).AsyncWaitForCompletion()));
+            Task.WhenAll(spikes.Select(s => s.transform.DOScale(Vector3.zero, spikeSpawnDuration * 2).SetDelay(spikeSpawnDuration).AsyncWaitForCompletion()));
         }
         
         public override Task PlayHoverAnimation() {

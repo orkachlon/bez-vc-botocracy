@@ -8,12 +8,13 @@ namespace ExternBoardSystem.Ui.Board {
     ///     A board element's visual appearance. This is also used as a container for pooling board elements.
     /// </summary>
     public class MUIBoardElement : MonoBehaviour, IUIBoardElement {
+        [SerializeField] protected SpriteRenderer baseSpriteRenderer;
+        
         protected IBoardElement RuntimeData { get; set; }
-        protected SpriteRenderer SpriteRenderer { get; set; }
+        protected SpriteRenderer SpriteRenderer => baseSpriteRenderer;
         protected Transform Transform { get; set; }
 
         protected virtual void Awake() {
-            SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
             Transform = transform;
         }
 

@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 68424934104148056, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 68424934104148056, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1726438855
+      objectReference: {fileID: 0}
     - target: {fileID: 1876659394254917801, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -54,7 +62,19 @@ PrefabInstance:
     - target: {fileID: 2694280456325238718, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}
+      objectReference: {fileID: 1310971195, guid: c7082e7490c4dba4baaf1464c422b62b, type: 3}
+    - target: {fileID: 2694280456325238718, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694280456325238718, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694280456325238718, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1256158899
+      objectReference: {fileID: 0}
     - target: {fileID: 4560526914762693488, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
       propertyPath: m_Name
       value: MUIDummyNeuron
@@ -62,10 +82,23 @@ PrefabInstance:
     - target: {fileID: 4695682779750648293, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}
+      objectReference: {fileID: -489421148, guid: c7082e7490c4dba4baaf1464c422b62b, type: 3}
+    - target: {fileID: 4695682779750648293, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695682779750648293, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1726438855
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4623728799522052598, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+--- !u!212 &3394060570726614882 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4695682779750648293, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+  m_PrefabInstance: {fileID: 7939928087954001543}
+  m_PrefabAsset: {fileID: 0}
 --- !u!212 &5428046239003181369 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2694280456325238718, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
@@ -88,9 +121,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ba6f7bec0f24317b21f524fb77b53aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverSortingOrder: 10
-  boardSortingOrder: 1
+  baseSpriteRenderer: {fileID: 3394060570726614882}
   removeAnimationDuration: 0.2
   addAnimationDuration: 0.2
   moveAnimationDuration: 0.1
   neuronFace: {fileID: 5428046239003181369}
+  hoverSortingLayer: Hover
+  belowConnSortingLayer: BelowConnections
+  aboveConnSortingLayer: AboveConnections

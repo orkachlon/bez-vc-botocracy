@@ -210,9 +210,10 @@ namespace MyHexBoardSystem.BoardElements {
             var element = Board.GetPosition(from).Data;
             await base.MoveElement(from, to);
             // press tiles
-            externalEventManager.Raise(ExternalBoardEvents.OnTileOccupantMoved, new BoardElementMovedEventArgs<IBoardNeuron>(element, from, to));
+            externalEventManager.Raise(ExternalBoardEvents.OnTileUnoccupied, new BoardElementEventArgs<IBoardNeuron>(element, from));
             // wait for animation and connection
             await placer.MoveElementAsync(element, GetCellCoordinate(from), GetCellCoordinate(to));
+            externalEventManager.Raise(ExternalBoardEvents.OnTileOccupied, new BoardElementEventArgs<IBoardNeuron>(element, to));
             if (activate) {
                 await element.Activate();
             }
