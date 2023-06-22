@@ -78,20 +78,7 @@ namespace MyHexBoardSystem.BoardElements {
 
         }
 
-        private async Task WaitForNeuron(IBoardNeuron neuron, int timeout = 250) {
-            try {
-                await AsyncHelpers.WaitUntil(() => neuron.TurnDone, timeout: timeout);
-                var neuronArgs = new BoardElementEventArgs<IBoardNeuron>(neuron, neuron.Position);
-                externalEventManager.Raise(ExternalBoardEvents.OnPlaceElement, neuronArgs);
-                _placed = true;
-                MLogger.LogEditor($"Placed {neuron.DataProvider.Type}");
-            }
-            catch (TimeoutException) {
-                MLogger.LogEditor($"Timed out on waiting for {neuron.DataProvider.Type} to finish its turn.");
-            }
-        }
-
-        public async void OnSetFirstNeuron(EventArgs eventData) {
+        private async void OnSetFirstNeuron(EventArgs eventData) {
             if (eventData is not BoardElementEventArgs<IBoardNeuron> neuronData) {
                 MLogger.LogEditor($"Event args type mismatch. Actual: {eventData.GetType()} != Expected: {typeof(BoardElementEventArgs<IBoardNeuron>)}");
                 return;
@@ -177,6 +164,9 @@ namespace MyHexBoardSystem.BoardElements {
             
             // dispatch inner event
             DispatchOnAddElement(neuron, cell);
+            // press tile
+            externalEventManager.Raise(ExternalBoardEvents.OnTileOccupied, new BoardElementEventArgs<IBoardNeuron>(neuron, hex));
+            // wait for neuron add animation and connections
             await placer.AddElementAsync(neuron, GetCellCoordinate(hex));
             
             // initialize neuron
@@ -199,6 +189,8 @@ namespace MyHexBoardSystem.BoardElements {
             element.UnbindFromBoard();
             element.UnbindFromNeurons();
             await base.RemoveElement(hex);
+            // unpress tile
+            externalEventManager.Raise(ExternalBoardEvents.OnTileUnoccupied, new BoardElementEventArgs<IBoardNeuron>(element, hex));
             await placer.RemoveElementAsync(element);
             
             if (!DecrementTrait(hex)) {
@@ -217,6 +209,9 @@ namespace MyHexBoardSystem.BoardElements {
 
             var element = Board.GetPosition(from).Data;
             await base.MoveElement(from, to);
+            // press tiles
+            externalEventManager.Raise(ExternalBoardEvents.OnTileOccupantMoved, new BoardElementMovedEventArgs<IBoardNeuron>(element, from, to));
+            // wait for animation and connection
             await placer.MoveElementAsync(element, GetCellCoordinate(from), GetCellCoordinate(to));
             if (activate) {
                 await element.Activate();
@@ -232,6 +227,19 @@ namespace MyHexBoardSystem.BoardElements {
         }
 
         #endregion
+
+        private async Task WaitForNeuron(IBoardNeuron neuron, int timeout = 250) {
+            try {
+                await AsyncHelpers.WaitUntil(() => neuron.TurnDone, timeout: timeout);
+                var neuronArgs = new BoardElementEventArgs<IBoardNeuron>(neuron, neuron.Position);
+                externalEventManager.Raise(ExternalBoardEvents.OnPlaceElement, neuronArgs);
+                _placed = true;
+                MLogger.LogEditor($"Placed {neuron.DataProvider.Type}");
+            }
+            catch (TimeoutException) {
+                MLogger.LogEditor($"Timed out on waiting for {neuron.DataProvider.Type} to finish its turn.");
+            }
+        }
 
         private bool DecrementTrait(Hex hex) {
             var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(hex));

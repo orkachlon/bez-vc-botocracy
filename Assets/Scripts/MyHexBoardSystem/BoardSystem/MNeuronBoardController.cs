@@ -17,7 +17,6 @@ namespace MyHexBoardSystem.BoardSystem {
     public class MNeuronBoardController : MBoardController<IBoardNeuron>, INeuronBoardController {
         
         [Header("Tilemap"), SerializeField] private TraitTiles traitTileBases;
-        [SerializeField] private TraitTiles pressedTileBases;
         [SerializeField] private TraitTiles traitTileOutlines;
 
         [Header("Event Managers"), SerializeField]
@@ -40,18 +39,6 @@ namespace MyHexBoardSystem.BoardSystem {
         protected override void Start() {
             base.Start();
             externalBoardEventManager.Raise(ExternalBoardEvents.OnBoardSetupComplete, EventArgs.Empty);
-        }
-
-        private void OnEnable() {
-            externalBoardEventManager.Register(ExternalBoardEvents.OnAddElement, OnTilePressed);
-            externalBoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, OnTileUnpressed);
-            externalBoardEventManager.Register(ExternalBoardEvents.OnMoveElement, OnNeuronMoved);
-        }
-
-        private void OnDisable() {
-            externalBoardEventManager.Unregister(ExternalBoardEvents.OnAddElement, OnTilePressed);
-            externalBoardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, OnTileUnpressed);
-            externalBoardEventManager.Unregister(ExternalBoardEvents.OnMoveElement, OnNeuronMoved);
         }
 
         #endregion
@@ -133,70 +120,6 @@ namespace MyHexBoardSystem.BoardSystem {
         }
 
         #endregion
-
-        #region EventHandlers
-
-        private void OnTilePressed(EventArgs obj) {
-            if (obj is not BoardElementEventArgs<IBoardNeuron> neuronData) {
-                return;
-            }
-
-            PressTile(neuronData.Hex);
-        }
-
-        private void OnTileUnpressed(EventArgs obj) {
-            if (obj is not BoardElementEventArgs<IBoardNeuron> neuronData) {
-                return;
-            }
-
-            UnpressTile(neuronData.Hex);
-        }
-
-        private void OnNeuronMoved(EventArgs obj) {
-            if (obj is not BoardElementMovedEventArgs<IBoardNeuron> moveArgs) {
-                return;
-            }
-            UnpressTile(moveArgs.Hex);
-            PressTile(moveArgs.To);
-        }
-
-        #endregion
-
-        private void PressTile(Hex hex) {
-            if (!Board.HasPosition(hex)) {
-                return;
-            }
-
-            var dir = Manipulator.GetDirection(hex);
-            if (!dir.HasValue) {
-                return;
-            }
-
-            var trait = ITraitAccessor.DirectionToTrait(dir.Value);
-            if (!trait.HasValue) {
-                return;
-            }
-
-            SetTile(hex, pressedTileBases[trait.Value]);
-        }
-
-        private void UnpressTile(Hex hex) {
-            if (!Board.HasPosition(hex)) {
-                return;
-            }
-
-            var dir = Manipulator.GetDirection(hex);
-            if (!dir.HasValue) {
-                return;
-            }
-
-            var trait = ITraitAccessor.DirectionToTrait(dir.Value);
-            if (!trait.HasValue) {
-                return;
-            }
-
-            SetTile(hex, traitTileBases[trait.Value]);
-        }
     }
     
     [Serializable]

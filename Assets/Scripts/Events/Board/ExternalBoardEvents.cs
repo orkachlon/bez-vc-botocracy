@@ -12,6 +12,9 @@ namespace Events.Board {
         public const string OnBoardFull = "Board_OnBoardFull";
         public const string OnRemoveTile = "Board_OnRemoveTile";
         public const string OnAddTile = "Board_OnAddTile";
+        public const string OnTileOccupied = "Board_OnTileOccupied";
+        public const string OnTileUnoccupied = "Board_OnTileUnoccupied";
+        public const string OnTileOccupantMoved = "Board_OnTileOccupantMoved";
 
         public const string OnBoardSetupComplete = "Board_OnBoardSetupComplete";
         

@@ -103,9 +103,8 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
                 .Select(h => Controller.Board.GetPosition(h).Data)
                 .Where(n => n.Connectable);
 
-            foreach (var other in neighbors) {
-                await Connector.Connect(this, other);
-            }
+            var connectionTasks = neighbors.Select(n => Connector.Connect(this, n));
+            await Task.WhenAll(connectionTasks);
         }
 
         public virtual async Task Disconnect() {
