@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Core.EventSystem;
+using Events.Board;
 using Events.SP;
-using MyHexBoardSystem.Events;
 using TMPro;
 using Types.Board;
 using Types.StoryPoint;

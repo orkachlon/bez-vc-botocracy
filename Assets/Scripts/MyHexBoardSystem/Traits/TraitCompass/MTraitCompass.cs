@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using Core.EventSystem;
 using Core.Utils.DataStructures;
 using DG.Tweening;
-using MyHexBoardSystem.Events;
+using Events.Board;
 using Types.Trait;
 using UnityEngine;
 using UnityEngine.Assertions;

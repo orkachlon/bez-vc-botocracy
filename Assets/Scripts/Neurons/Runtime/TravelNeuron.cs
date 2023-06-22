@@ -2,9 +2,9 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using Animation;
+using Events.Board;
+using Events.Neuron;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
-using MyHexBoardSystem.Events;
 using Neurons.Data;
 using Types.Board.UI;
 using Types.Hex.Coordinates;
@@ -17,8 +17,8 @@ using Random = UnityEngine.Random;
 namespace Neurons.Runtime {
     public class TravelNeuron : BoardNeuron {
 
-        private int _turnsToStop;
-        private bool _moving;
+        public int TurnsToStop { get; private set; }
+        private Hex _prevPos;
 
         public sealed override INeuronDataBase DataProvider { get; }
         protected sealed override IBoardNeuronConnector Connector { get; set; }
@@ -28,16 +28,20 @@ namespace Neurons.Runtime {
 
         public TravelNeuron() {
             DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Travelling);
-            _turnsToStop = ((STravelNeuronData) DataProvider).TurnsToStop;
+            TurnsToStop = ((STravelNeuronData) DataProvider).TurnsToStop;
             Connector = NeuronFactory.GetConnector();
         }
 
         public override Task Activate() {
             if (BoardEventManager == null) {
-                return Task.CompletedTask;;
+                return Task.CompletedTask;
             }
             BoardEventManager.Register(ExternalBoardEvents.OnPlaceElement, Travel);
-            BoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, StopTravelling);
+            BoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, OnRemoved);
+            BoardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, ResetTurnIndicator);
+            NeuronEventManager.Register(NeuronEvents.OnTravellersReady, BeginTravel);
+            NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronReady, new BoardElementEventArgs<IBoardNeuron>(this, Position));
+            ReportTurnDone();
             return Task.CompletedTask;
         }
 
@@ -47,13 +51,20 @@ namespace Neurons.Runtime {
             return UINeuron;
         }
 
+        #region EventHandlers
+
         private async void Travel(EventArgs obj) {
-            if (obj is not BoardElementEventArgs<IBoardNeuron> placementData || placementData.Element.Equals(this)) {
+            if (obj is not BoardElementEventArgs<IBoardNeuron> placementData) {
+                return;
+            }
+
+            if (placementData.Element.Equals(this)) {
                 return;
             }
 
             if (!Controller.Board.HasPosition(Position)) {
                 UnregisterFromBoard();
+                ReportTurnDone();
                 return;
             }
 
@@ -62,21 +73,50 @@ namespace Neurons.Runtime {
             if (neighbours.Length > 0) {
                 var randomNeighbor = neighbours[Random.Range(0, neighbours.Length)];
                 PickedPositions[randomNeighbor] = this;
-                var prevPos = Position;
+                _prevPos = Position;
+                Connectable = false;
                 await Disconnect();
                 Position = randomNeighbor;
-                await AnimationManager.WaitForAll(PickedPositions.Values);
-                await TravelTo(prevPos, randomNeighbor);
-            } else { // stop travelling if you couldn't travel this turn
-                _turnsToStop = 0;
-                AnimationManager.Register(this, Connect());
+                NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronReady, new BoardElementEventArgs<IBoardNeuron>(this, Position));
+                return;
             }
+            // stop travelling if you couldn't travel this turn
+            TurnsToStop = 0;
+            NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronStopped, new BoardElementEventArgs<IBoardNeuron>(this, Position));
+            UnregisterFromBoard();
+            ReportTurnDone();
+            base.RegisterTurnDone();
+        }
 
-            
-            if (_turnsToStop > 0) {
+        private async void BeginTravel(EventArgs obj) {
+            if (_prevPos == Hex.zero) {
+                return;
+            }
+            await TravelTo(_prevPos, Position);
+            ReportTurnDone();
+        }
+
+        private void OnRemoved(EventArgs obj) {
+            if (obj is not BoardElementEventArgs<IBoardNeuron> args || args.Element != this) {
                 return;
             }
             UnregisterFromBoard();
+        }
+
+        #endregion
+
+        private async Task TravelTo(Hex from, Hex to) {
+            await Controller.MoveNeuron(from, to);
+            Connectable = true;
+            await Controller.AddElement(NeuronFactory.GetBoardNeuron(ENeuronType.Dummy), from);
+            PickedPositions.TryRemove(to, out _);
+            await Connect();
+            TurnsToStop--;
+            if (TurnsToStop == 0) {
+                NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronStopped, new BoardElementEventArgs<IBoardNeuron>(this, Position));
+                UnregisterFromBoard();
+                base.RegisterTurnDone();
+            }
         }
 
         private Hex[] GetEmptyNeighbors() {
@@ -86,27 +126,12 @@ namespace Neurons.Runtime {
             return neighbours;
         }
 
-        private async Task TravelTo(Hex from, Hex to) {
-            await Controller.MoveNeuron(from, to);
-            await AnimationManager.WaitForAll();
-            var dummy = NeuronFactory.GetBoardNeuron(ENeuronType.Dummy);
-            AnimationManager.Register(this, Controller.AddElement(dummy, from));
-            await AnimationManager.WaitForAll(PickedPositions.Values);
-            PickedPositions.TryRemove(to, out _);
-            await Connect();
-            _turnsToStop--;
-        }
-
         private void UnregisterFromBoard() {
             BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, Travel);
-            BoardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, StopTravelling);
+            BoardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, OnRemoved);
+            NeuronEventManager.Unregister(NeuronEvents.OnTravellersReady, BeginTravel);
         }
 
-        private void StopTravelling(EventArgs obj) {
-            if (obj is not BoardElementEventArgs<IBoardNeuron> args || args.Element != this || _moving) {
-                return;
-            }
-            UnregisterFromBoard();
-        }
+        protected override void RegisterTurnDone() { }
     }
 }

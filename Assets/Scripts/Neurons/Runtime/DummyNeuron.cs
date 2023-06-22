@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Animation;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
 using Types.Board.UI;
-using Types.Events;
 using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
@@ -18,8 +18,11 @@ namespace Neurons.Runtime {
             DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Dummy);
             Connector = NeuronFactory.GetConnector();
         }
-        
-        public override Task Activate() => Task.CompletedTask;
+
+        public override async Task Activate() {
+            await AnimationManager.WaitForElement(this);
+            ReportTurnDone();
+        }
         public override IUIBoardNeuron Pool() {
             base.Pool();
             UINeuron.SetRuntimeElementData(this);

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Animation;
 using Core.Tools.Pooling;
-using DG.Tweening;
 using ExternBoardSystem.Ui.Board;
 using Types.Board;
 using Types.Board.UI;
@@ -18,15 +17,15 @@ namespace MyHexBoardSystem.BoardElements {
         }
 
         protected override void OnRemoveElement(IBoardNeuron element, Vector3Int cell) {
-            AnimationManager.Register(element, RemoveElementAsync(element));
+            // AnimationManager.Register(element, RemoveElementAsync(element));
         }
 
         protected override void OnAddElement(IBoardNeuron element, Vector3Int cell) {
-            AnimationManager.Register(element, AddElementAsync(element, cell));
+            // AnimationManager.Register(element, AddElementAsync(element, cell));
         }
 
         protected override void OnMoveElement(IBoardNeuron element, Vector3Int fromCell, Vector3Int toCell) {
-            AnimationManager.Register(element, MoveElementAsync(element, fromCell, toCell));
+            // AnimationManager.Register(element, MoveElementAsync(element, fromCell, toCell));
         }
 
         private void CreateBoardUi() {
@@ -36,24 +35,22 @@ namespace MyHexBoardSystem.BoardElements {
             _registerUiElements.Clear();
         }
 
-        private async Task AddElementAsync(IBoardNeuron element, Vector3Int cell) {
+        public async Task AddElementAsync(IBoardNeuron element, Vector3Int cell) {
             var uiBoardElement = element.Pool();
             var worldPosition = TileMap.CellToWorld(cell);
             uiBoardElement.SetWorldPosition(worldPosition);
             _registerUiElements.Add(element, uiBoardElement);
-            await element.AwaitAddition();
+            await AnimationManager.Register(element, element.AwaitAddition());
         }
 
-        private async Task RemoveElementAsync(IBoardNeuron element) {
-            await element.AwaitRemoval();
+        public async Task RemoveElementAsync(IBoardNeuron element) {
+            await AnimationManager.Register(element, element.AwaitRemoval());
             element.Release();
             _registerUiElements.Remove(element);
         }
 
-        private async Task MoveElementAsync(IBoardNeuron element, Vector3Int fromCell, Vector3Int toCell) {
-            var uiElement = _registerUiElements[element];
-            uiElement.GO.transform.DOMove(TileMap.CellToWorld(toCell), 0.25f);
-            await uiElement.PlayMoveAnimation();
+        public async Task MoveElementAsync(IBoardNeuron element, Vector3Int fromCell, Vector3Int toCell) {
+            await AnimationManager.Register(element, element.AwaitMove(TileMap.CellToWorld(fromCell), TileMap.CellToWorld(toCell)));
         }
     }
 }

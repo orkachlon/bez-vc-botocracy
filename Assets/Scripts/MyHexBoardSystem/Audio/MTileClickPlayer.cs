@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Audio;
 using Core.EventSystem;
-using MyHexBoardSystem.Events;
+using Events.Board;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

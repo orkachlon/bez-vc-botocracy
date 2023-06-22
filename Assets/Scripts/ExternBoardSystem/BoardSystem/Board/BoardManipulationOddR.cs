@@ -284,7 +284,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 //                 top-left           mid-left
                 < 0 => hex.s < 0 ? new Hex(1, 0) : new Hex(1, -1),
                 //               top-left                        bot-right           center
-                _ => hex.q > 0 ? new Hex(1, 0) : hex.q < 0 ? new Hex(-1, 0) : Hex.Zero
+                _ => hex.q > 0 ? new Hex(1, 0) : hex.q < 0 ? new Hex(-1, 0) : Hex.zero
             };
         }
         

@@ -547,7 +547,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1639060064745615111, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
   m_PrefabInstance: {fileID: 1639060065204087531}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1994135697}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e636337be47e4986aa39aa0c1b2623f4, type: 3}
@@ -558,7 +558,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1639060064745615109, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
   m_PrefabInstance: {fileID: 1639060065204087531}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1994135697}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5b2cc68708a4e07a80f0b0d36475164, type: 3}
@@ -736,37 +736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91271c9e269240dba7e97f4d3f001ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1199710675
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1199710676}
-  m_Layer: 0
-  m_Name: MUIPla
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1199710676
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1199710675}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.0790881, y: 1.438769, z: -0.018772496}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 18
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1403889763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,6 +1607,25 @@ MonoBehaviour:
   modificationsEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
   numberOfDecidingTraits: 3
   spImagesPath: StoryPointsSprites
+--- !u!1 &1994135697 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1639060064745615112, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+  m_PrefabInstance: {fileID: 1639060065204087531}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1994135705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994135697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41756b8382cc4768b9abd350d617106a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1 &2065088249
 GameObject:
   m_ObjectHideFlags: 0
@@ -2083,6 +2071,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1639060063860473449, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1639060064745615112, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
       propertyPath: m_Name
       value: Board
@@ -4013,6 +4005,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 927296032}
     m_Modifications:
+    - target: {fileID: 2362503206226251586, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
+      propertyPath: infiniteNeurons
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5589631878319523304, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
       propertyPath: m_RootOrder
       value: 0

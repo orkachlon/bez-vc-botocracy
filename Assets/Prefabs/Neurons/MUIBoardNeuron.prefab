@@ -133,6 +133,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverSortingOrder: 10
   boardSortingOrder: 1
+  removeAnimationDuration: 0.2
+  addAnimationDuration: 0.2
+  moveAnimationDuration: 0.1
 --- !u!82 &4557208448376626876
 AudioSource:
   m_ObjectHideFlags: 0

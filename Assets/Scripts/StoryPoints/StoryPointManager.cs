@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Core.EventSystem;
 using Core.Utils;
+using Events.Board;
 using Events.SP;
-using MyHexBoardSystem.Events;
 using Types.StoryPoint;
 using UnityEngine;
 
@@ -62,7 +62,6 @@ namespace StoryPoints {
                 return;
             }
 
-            // var storyPointData = ReadStoryPointFromJson();
             var storyPointData = _spProvider.Next();
             if (!storyPointData.HasValue) {
                 DispatchNoMoreSPs();

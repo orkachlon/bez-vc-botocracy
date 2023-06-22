@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Animation;
+using Events.Board;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
-using MyHexBoardSystem.Events;
 using Neurons.Data;
 using Types.Board;
 using Types.Board.UI;
@@ -26,11 +27,15 @@ namespace Neurons.Runtime {
             Connector = NeuronFactory.GetConnector();
         }
 
-        public override Task Activate() => Task.CompletedTask;
+        public override async Task Activate() {
+            await AnimationManager.WaitForElement(this);
+            ReportTurnDone();
+        }
 
         public override void BindToBoard(IEventManager boardEventManager, IBoardNeuronsController controller, Hex position) {
             base.BindToBoard(boardEventManager, controller, position);
             BoardEventManager.Register(ExternalBoardEvents.OnPlaceElement, Decay);
+            BoardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, ResetTurnIndicator);
         }
 
         public override IUIBoardNeuron Pool() {
@@ -40,16 +45,24 @@ namespace Neurons.Runtime {
         }
 
         private void Decay(EventArgs args) {
-            if (args is not BoardElementEventArgs<IBoardNeuron> placementArgs || placementArgs.Element == this) {
+            if (args is not BoardElementEventArgs<IBoardNeuron> placementArgs) {
                 return;
             }
+
+            if (placementArgs.Element == this) {
+                ReportTurnDone();
+                return;
+            }
+            
             _turnsToDeath--;
             UINeuron.PlayTurnAnimation();
-            if (_turnsToDeath > 0) {
-                return;
+            if (_turnsToDeath <= 0) {
+                BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, Decay);
+                Controller.RemoveNeuron(Position);
             }
-            BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, Decay);
-            Controller.RemoveNeuron(Position);
+            ReportTurnDone();
         }
+
+        protected override void RegisterTurnDone() { }
     }
 }

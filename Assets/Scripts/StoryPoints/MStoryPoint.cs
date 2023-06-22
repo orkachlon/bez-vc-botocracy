@@ -2,9 +2,9 @@
 using System.Linq;
 using Core.EventSystem;
 using Core.Utils;
+using Events.Board;
 using Events.General;
 using Events.SP;
-using MyHexBoardSystem.Events;
 using Types.Board;
 using Types.GameState;
 using Types.StoryPoint;

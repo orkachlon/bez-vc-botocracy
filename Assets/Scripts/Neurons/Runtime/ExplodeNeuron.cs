@@ -1,10 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
 using Neurons.UI;
 using Types.Board.UI;
-using Types.Events;
+using Types.Hex.Coordinates;
 using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
@@ -26,7 +27,9 @@ namespace Neurons.Runtime {
         
         public override async Task Activate() {
             var neighbours = Controller.Manipulator.GetNeighbours(Position);
-            foreach (var neighbour in neighbours) {
+            var killTasks = new List<Task>();
+            for (var i = 0; i < neighbours.Length; i++) {
+                var neighbour = neighbours[i];
                 if (!Controller.Board.HasPosition(neighbour)) {
                     continue;
                 }
@@ -36,9 +39,11 @@ namespace Neurons.Runtime {
                     ENeuronType.Invulnerable.Equals(neighbourPos.Data.DataProvider.Type))
                     continue;
                 // explode this neuron
-                UIExplodeNeuron.PlayKillSound();
-                await Controller.RemoveNeuron(neighbour);
+                killTasks.Add(KillNeighbor(neighbour, i * 50));
             }
+
+            await Task.WhenAll(killTasks);
+            ReportTurnDone();
         }
 
         public override IUIBoardNeuron Pool() {
@@ -56,6 +61,12 @@ namespace Neurons.Runtime {
             foreach (var other in neighbors) {
                 await Connector.Connect(this, other);
             }
+        }
+
+        private async Task KillNeighbor(Hex neighbour, int delay = 0) {
+            await Task.Delay(delay);
+            UIExplodeNeuron.PlayKillSound();
+            await Controller.RemoveNeuron(neighbour);
         }
     }
 }

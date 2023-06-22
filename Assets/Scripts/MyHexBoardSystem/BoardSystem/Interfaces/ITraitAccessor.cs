@@ -67,7 +67,7 @@ namespace MyHexBoardSystem.BoardSystem.Interfaces {
             if (hex == new Hex(-1, 1)) {
                 return ETrait.Mediator;
             }
-            if (hex == Hex.Zero) {
+            if (hex == Hex.zero) {
                 return null;
             }
 

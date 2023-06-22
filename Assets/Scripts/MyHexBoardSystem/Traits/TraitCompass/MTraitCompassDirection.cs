@@ -1,5 +1,5 @@
 ﻿using Core.EventSystem;
-using MyHexBoardSystem.Events;
+using Events.Board;
 using Types.Trait;
 using UnityEngine;
 using UnityEngine.EventSystems;

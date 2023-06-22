@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
 using Types.Board.UI;
-using Types.Events;
+using Types.Hex.Coordinates;
 using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
@@ -21,20 +22,29 @@ namespace Neurons.Runtime {
 
         public override async Task Activate() {
             var neighbours = Controller.Manipulator.GetNeighbours(Position);
-            foreach (var neighbour in neighbours) {
+            var spawnTasks = new List<Task>();
+            for (var i = 0; i < neighbours.Length; i++) {
+                var neighbour = neighbours[i];
                 if (!Controller.Board.HasPosition(neighbour) || Controller.Board.GetPosition(neighbour).HasData())
                     continue;
                 // expand to this hex
-                var newElement = NeuronFactory.GetBoardNeuron(ENeuronType.Dummy);
-                await Controller.AddElement(newElement, neighbour);
-                await Task.Delay(50);
+                spawnTasks.Add(SpawnNeighbour(neighbour, i * 50));
             }
+
+            await Task.WhenAll(spawnTasks);
+            ReportTurnDone();
         }
 
         public override IUIBoardNeuron Pool() {
             base.Pool();
             UINeuron.SetRuntimeElementData(this);
             return UINeuron;
+        }
+
+        private async Task SpawnNeighbour(Hex neighbour, int delay = 0) {
+            await Task.Delay(delay);
+            var newElement = NeuronFactory.GetBoardNeuron(ENeuronType.Dummy);
+            await Controller.AddElement(newElement, neighbour);
         }
     }
 }

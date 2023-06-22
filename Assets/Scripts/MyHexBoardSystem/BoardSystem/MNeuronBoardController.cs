@@ -2,11 +2,11 @@
 using System.Linq;
 using Core.EventSystem;
 using Core.Utils.DataStructures;
+using Events.Board;
 using ExternBoardSystem.BoardSystem;
 using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using MyHexBoardSystem.BoardSystem.Interfaces;
-using MyHexBoardSystem.Events;
 using Types.Hex.Coordinates;
 using Types.Neuron.Runtime;
 using Types.Trait;

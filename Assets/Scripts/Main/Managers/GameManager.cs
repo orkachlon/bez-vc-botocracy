@@ -1,9 +1,9 @@
 ﻿using System;
 using Core.EventSystem;
+using Events.Board;
 using Events.General;
 using Events.Neuron;
 using Events.SP;
-using MyHexBoardSystem.Events;
 using Types.GameState;
 using UnityEngine;
 

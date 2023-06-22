@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mask: {fileID: 5566625630012798514}
   offsetFromEnds: 0.12
-  animationDuration: 0.3
+  animationDuration: 0.1
 --- !u!120 &1007146923831804765
 LineRenderer:
   m_ObjectHideFlags: 0

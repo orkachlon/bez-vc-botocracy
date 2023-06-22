@@ -1,8 +1,7 @@
 ﻿using System;
 using Core.EventSystem;
-using DG.Tweening;
+using Events.Board;
 using Events.SP;
-using MyHexBoardSystem.Events;
 using UnityEngine;
 
 namespace MyHexBoardSystem.Traits.TraitCompass {

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Animation;
 using Core.EventSystem;
+using Events.Board;
 using Events.General;
 using Events.Neuron;
 using JetBrains.Annotations;
-using MyHexBoardSystem.Events;
 using Neurons.Runtime;
 using Types.GameState;
 using Types.Neuron;
@@ -36,14 +35,18 @@ namespace Neurons.NeuronQueue {
         }
         
         private void OnEnable() {
-            boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, OnBoardElementPlaced);
+            boardEventManager.Register(ExternalBoardEvents.OnAddElementPreActivation, StopProvidingNeurons);
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementFailed, StartProvidingNeurons);
+            boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, OnAnimationsFinished);
             neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Register(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
             gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnGameEnd);
         }
 
         private void OnDisable() {
-            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, OnBoardElementPlaced);
+            boardEventManager.Unregister(ExternalBoardEvents.OnAddElementPreActivation, StopProvidingNeurons);
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementFailed, StartProvidingNeurons);
+            boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, OnAnimationsFinished);
             neuronEventManager.Unregister(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
             gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnGameEnd);
@@ -122,15 +125,6 @@ namespace Neurons.NeuronQueue {
 
         #region EventHandlers
 
-        private async void OnBoardElementPlaced(EventArgs eventData) {
-            if (eventData is not BoardElementEventArgs<IBoardNeuron>) {
-                return;
-            }
-            StopProvidingNeurons();
-            await AnimationManager.WaitForAll();
-            Dequeue();
-        }
-
         private void OnRewardNeurons(EventArgs eventArgs) {
             if (eventArgs is NeuronRewardEventArgs reward) {
                 Enqueue(reward.Amount);
@@ -153,14 +147,18 @@ namespace Neurons.NeuronQueue {
             StopProvidingNeurons();
         }
 
+        private void OnAnimationsFinished(EventArgs args) {
+            Dequeue();
+        }
+
         #endregion
 
-        private void StopProvidingNeurons() {
+        private void StopProvidingNeurons(EventArgs args = null) {
             _isProviding = false;
             neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
         }
 
-        private void StartProvidingNeurons() {
+        private void StartProvidingNeurons(EventArgs args = null) {
             _isProviding = true;
             neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
         }

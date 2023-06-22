@@ -1,6 +1,6 @@
-﻿
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Types.Audio;
+using UnityEngine;
 
 namespace Types.Board.UI {
     public interface IUIBoardNeuron : IUIBoardElement, IAudioSource {
@@ -12,7 +12,7 @@ namespace Types.Board.UI {
         Task PlayTurnAnimation();
         Task PlayHoverAnimation();
         void StopHoverAnimation();
-        Task PlayMoveAnimation();
+        Task PlayMoveAnimation(Vector3 fromPos, Vector3 toPos);
 
         void PlayAddSound();
         void PlayRemoveSound();

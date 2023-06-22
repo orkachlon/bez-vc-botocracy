@@ -1,6 +1,6 @@
 ﻿using System;
 using Core.EventSystem;
-using MyHexBoardSystem.Events;
+using Events.Board;
 using TMPro;
 using UnityEngine;
 

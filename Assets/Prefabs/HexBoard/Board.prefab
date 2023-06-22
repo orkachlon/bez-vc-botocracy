@@ -2563,6 +2563,7 @@ MonoBehaviour:
   externalEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
+  placer: {fileID: 1639060063860473449}
 --- !u!114 &1639060064745615109
 MonoBehaviour:
   m_ObjectHideFlags: 0

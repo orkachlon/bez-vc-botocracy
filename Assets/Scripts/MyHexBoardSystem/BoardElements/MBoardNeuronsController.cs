@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Animation;
 using Core.EventSystem;
 using Core.Utils;
+using Events.Board;
 using Events.Neuron;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using MyHexBoardSystem.BoardSystem.Interfaces;
-using MyHexBoardSystem.Events;
 using Types.Board;
 using Types.Board.UI;
 using Types.Hex.Coordinates;
@@ -22,6 +22,8 @@ namespace MyHexBoardSystem.BoardElements {
     public class MBoardNeuronsController : MBoardElementsController<IBoardNeuron, IUIBoardNeuron> , IBoardNeuronsController {
         [Header("Neuron Board Event Managers"), SerializeField]
         private SEventManager neuronEventManager;
+
+        [SerializeField] private MUINeuronPlacer placer;
         
         protected IBoardNeuron CurrentNeuron { get; private set; }
 
@@ -29,6 +31,7 @@ namespace MyHexBoardSystem.BoardElements {
         public int CountNeurons => Board.Positions.Count(p => p.HasData());
         // For faster access to max trait
         private IDictionary<ETrait, int> NeuronsPerTrait { get; } = new Dictionary<ETrait, int>();
+        private bool _placed;
 
         #region UnityMethods
 
@@ -41,11 +44,13 @@ namespace MyHexBoardSystem.BoardElements {
 
         private void OnEnable() {
             externalEventManager.Register(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
+            externalEventManager.Register(ExternalBoardEvents.OnSingleNeuronTurn, OnSingleNeuronDone);
             neuronEventManager.Register(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
         }
 
         private void OnDisable() {
             externalEventManager.Unregister(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
+            externalEventManager.Unregister(ExternalBoardEvents.OnSingleNeuronTurn, OnSingleNeuronDone);
             neuronEventManager.Unregister(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
         }
 
@@ -54,24 +59,39 @@ namespace MyHexBoardSystem.BoardElements {
         #region EventHandlers
 
         protected override async void OnClickTile(Vector3Int cell) {
-            var hex = GetHexCoordinate(cell);
             if (CurrentNeuron == null) {
                 return;
             }
-
-            // use the static data instead of the CurrentProvider data which is going to change every time
+            
+            var hex = GetHexCoordinate(cell);
             var element = CurrentNeuron;
+            
+            var eventData = new BoardElementEventArgs<IBoardNeuron>(element, hex);
+            externalEventManager.Raise(ExternalBoardEvents.OnAddElementPreActivation, eventData); // disable click
+            
             if (!await AddElement(element, hex)) {
+                externalEventManager.Raise(ExternalBoardEvents.OnPlaceElementFailed, eventData); // enable click
                 return;
             }
-            var eventData = new BoardElementEventArgs<IBoardNeuron>(element, hex);
-            await AnimationManager.WaitForAll();
-            externalEventManager.Raise(ExternalBoardEvents.OnPlaceElement, eventData);
-            DispatchNeuronsAdded();
-            // base.OnClickTile(cell);
+
+            await WaitForNeuron(element, 3000);
+
         }
 
-        public void OnSetFirstNeuron(EventArgs eventData) {
+        private async Task WaitForNeuron(IBoardNeuron neuron, int timeout = 250) {
+            try {
+                await AsyncHelpers.WaitUntil(() => neuron.TurnDone, timeout: timeout);
+                var neuronArgs = new BoardElementEventArgs<IBoardNeuron>(neuron, neuron.Position);
+                externalEventManager.Raise(ExternalBoardEvents.OnPlaceElement, neuronArgs);
+                _placed = true;
+                MLogger.LogEditor($"Placed {neuron.DataProvider.Type}");
+            }
+            catch (TimeoutException) {
+                MLogger.LogEditor($"Timed out on waiting for {neuron.DataProvider.Type} to finish its turn.");
+            }
+        }
+
+        public async void OnSetFirstNeuron(EventArgs eventData) {
             if (eventData is not BoardElementEventArgs<IBoardNeuron> neuronData) {
                 MLogger.LogEditor($"Event args type mismatch. Actual: {eventData.GetType()} != Expected: {typeof(BoardElementEventArgs<IBoardNeuron>)}");
                 return;
@@ -82,8 +102,10 @@ namespace MyHexBoardSystem.BoardElements {
             if (position.HasData()) // should never fail
                 return;
             position.AddData(neuronData.Element);
-            DispatchOnAddElement(neuronData.Element, GetCellCoordinate(neuronData.Hex));
             neuronData.Element.BindToBoard(externalEventManager, this, neuronData.Hex);
+            neuronData.Element.BindToNeurons(neuronEventManager);
+            DispatchOnAddElement(neuronData.Element, GetCellCoordinate(neuronData.Hex));
+            await placer.AddElementAsync(neuronData.Element, GetCellCoordinate(neuronData.Hex));
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData); // ?
             externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
         }
@@ -104,21 +126,8 @@ namespace MyHexBoardSystem.BoardElements {
             return AddNeuron(element, hex);
         }
 
-        public override async Task RemoveElement(Hex hex) {
-            if (!Board.HasPosition(hex) || !Board.GetPosition(hex).HasData()) {
-                return;
-            }
-
-            var element = Board.GetPosition(hex).Data;
-            await base.RemoveElement(hex);
-            await AnimationManager.WaitForElement(element);
-            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(hex));
-            if (!trait.HasValue) {
-                return;
-            }
-            NeuronsPerTrait[trait.Value]--;
-            externalEventManager.Raise(ExternalBoardEvents.OnRemoveElement, new BoardElementEventArgs<IBoardNeuron>(element, hex));
-            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
+        public override Task RemoveElement(Hex hex) {
+            return RemoveNeuron(hex);
         }
 
         public override Task MoveElement(Hex from, Hex to) {
@@ -156,20 +165,21 @@ namespace MyHexBoardSystem.BoardElements {
                 return false;
             }
 
-            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
-            if (!trait.HasValue) {
+            if (!IncrementTrait(hex)) {
+                MLogger.LogEditor("[AddNeuron] Failed to update trait count");
                 DispatchOnAddElementFailed(neuron, cell);
                 return false;
             }
-            NeuronsPerTrait[trait.Value]++;
 
             position.AddData(neuron);
+            neuron.BindToBoard(externalEventManager, this, hex);
+            neuron.BindToNeurons(neuronEventManager);
             
             // dispatch inner event
             DispatchOnAddElement(neuron, cell);
-
+            await placer.AddElementAsync(neuron, GetCellCoordinate(hex));
+            
             // initialize neuron
-            neuron.BindToBoard(externalEventManager, this, hex);
             if (activate) {
                 await neuron.Activate();
             }
@@ -185,7 +195,18 @@ namespace MyHexBoardSystem.BoardElements {
                 return;
             }
 
-            await RemoveElement(hex);
+            var element = Board.GetPosition(hex).Data;
+            element.UnbindFromBoard();
+            element.UnbindFromNeurons();
+            await base.RemoveElement(hex);
+            await placer.RemoveElementAsync(element);
+            
+            if (!DecrementTrait(hex)) {
+                MLogger.LogEditor("[RemoveNeuron] Failed to update trait count");
+                return;
+            }
+            externalEventManager.Raise(ExternalBoardEvents.OnRemoveElement, new BoardElementEventArgs<IBoardNeuron>(element, hex));
+            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
         }
 
         public async Task MoveNeuron(Hex from, Hex to, bool activate = false) {
@@ -196,35 +217,68 @@ namespace MyHexBoardSystem.BoardElements {
 
             var element = Board.GetPosition(from).Data;
             await base.MoveElement(from, to);
-            await AnimationManager.WaitForElement(element);
+            await placer.MoveElementAsync(element, GetCellCoordinate(from), GetCellCoordinate(to));
             if (activate) {
                 await element.Activate();
             }
-            externalEventManager.Raise(ExternalBoardEvents.OnMoveElement, new BoardElementMovedEventArgs<IBoardNeuron>(element, from, to));
-            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
             
             // update traits count
-            var fromTrait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(from));
-            var toTrait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(to));
-            if (!fromTrait.HasValue || !toTrait.HasValue || fromTrait == toTrait) {
+            if (!DecrementTrait(from) || !IncrementTrait(to)) {
+                MLogger.LogEditor("[MoveNeuron] Failed to update trait count");
+                return;
+            }
+            externalEventManager.Raise(ExternalBoardEvents.OnMoveElement, new BoardElementMovedEventArgs<IBoardNeuron>(element, from, to));
+            externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
+        }
+
+        #endregion
+
+        private bool DecrementTrait(Hex hex) {
+            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(hex));
+            if (!trait.HasValue) {
+                return false;
+            }
+
+            NeuronsPerTrait[trait.Value]--;
+            return true;
+        }
+
+        private bool IncrementTrait(Hex hex) {
+            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+            if (!trait.HasValue) {
+                return false;
+            }
+
+            NeuronsPerTrait[trait.Value]++;
+            return true;
+        }
+
+        private async void DispatchNeuronsAdded() {
+            // await AnimationManager.WaitForAll();
+            externalEventManager.Raise(ExternalBoardEvents.OnAllNeuronsDone, EventArgs.Empty);
+        }
+        
+        private bool HasNeighbors(Vector3Int cell) {
+            var neighbours = Manipulator.GetNeighbours(cell);
+            var hasNeighbour = neighbours.Any(neighbour => Board.HasPosition(neighbour) &&
+                                                           Board.GetPosition(neighbour).HasData());
+            return hasNeighbour;
+        }
+
+        private async void OnSingleNeuronDone(EventArgs args) {
+            if (args is not BoardElementEventArgs<IBoardNeuron> neuronArgs) {
                 return;
             }
 
-            NeuronsPerTrait[fromTrait.Value]--;
-            NeuronsPerTrait[toTrait.Value]++;
-        }
-    #endregion
-    
-    private async void DispatchNeuronsAdded() {
-        await AnimationManager.WaitForAll();
-        externalEventManager.Raise(ExternalBoardEvents.OnAllNeuronsDone, EventArgs.Empty);
-    }
+            MLogger.LogEditor($"{neuronArgs.Element.DataProvider.Type} done!");
+            if (Board.Positions.Where(p => p.HasData()).Any(p => !p.Data.TurnDone)) {
+                return;
+            }
 
-    private bool HasNeighbors(Vector3Int cell) {
-        var neighbours = Manipulator.GetNeighbours(cell);
-        var hasNeighbour = neighbours.Any(neighbour => Board.HasPosition(neighbour) &&
-                                                       Board.GetPosition(neighbour).HasData());
-        return hasNeighbour;
-    }
+            await AsyncHelpers.WaitUntil(() => _placed);
+            MLogger.LogEditor("All neurons done!");
+            DispatchNeuronsAdded();
+            _placed = false;
+        }
     }
 }

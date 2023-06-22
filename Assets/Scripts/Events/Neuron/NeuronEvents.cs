@@ -5,6 +5,8 @@ using Types.Neuron.Runtime;
 
 namespace Events.Neuron {
     public static class NeuronEvents {
+        public const string OnNeuronFinishedRemoveAnimation = "Neurons_OnNeuronFinishedRemoveAnimation";
+        public const string OnNeuronFinishedAddAnimation = "Neurons_OnNeuronFinishedAddAnimation";
         public const string OnDisconnectNeurons = "Neurons_OnDisconnectNeurons";
         public const string OnConnectNeurons = "Neurons_OnConnectNeurons";
         public const string OnNoMoreNeurons = "Neurons_OnNoMoreNeurons";
@@ -18,6 +20,11 @@ namespace Events.Neuron {
         public const string OnRewardNeurons = "Neurons_OnRewardNeurons";
         public const string OnRewardTileReached = "Neurons_OnRewardTileReached";
         public const string OnRewardTilePicked = "Neurons_OnRewardTilePicked";
+        
+        // travel
+        public const string OnTravelNeuronReady = "Neurons_OnTravelNeuronReady";
+        public const string OnTravelNeuronStopped = "Neurons_OnTravelNeuronStopped";
+        public const string OnTravellersReady = "Neurons_OnTravellersReady";
     }
 
     public class NeuronQueueEventArgs : EventArgs {

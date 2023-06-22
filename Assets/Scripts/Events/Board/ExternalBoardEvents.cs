@@ -5,8 +5,9 @@ using Types.Trait;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace MyHexBoardSystem.Events {
+namespace Events.Board {
     public static class ExternalBoardEvents {
+        public const string OnPlaceElementFailed = "Board_OnPlaceElementFailed";
         public const string OnBoardModified = "Board_OnBoardModified";
         public const string OnBoardFull = "Board_OnBoardFull";
         public const string OnRemoveTile = "Board_OnRemoveTile";
@@ -25,9 +26,11 @@ namespace MyHexBoardSystem.Events {
         public const string OnPlaceElement = "Board_OnPlaceElement";
         // by any means
         public const string OnAddElement = "Board_OnAddElement";
+        public const string OnAddElementPreActivation = "Board_OnAddElementPreActivation";
         public const string OnRemoveElement = "Board_OnRemoveElement";
         public const string OnMoveElement = "Board_OnMoveElement";
         public const string OnSetFirstElement = "Board_OnSetFirstElement";
+        public const string OnSingleNeuronTurn = "Board_OnSingleNeuronTurn";
         public const string OnAllNeuronsDone = "Board_OnAllNeuronsDone";
         
         

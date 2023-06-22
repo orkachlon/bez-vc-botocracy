@@ -72,6 +72,7 @@ namespace Neurons.Connections {
             newConnection.Default();
             _connections[key] = newConnection;
             await newConnection.Connect(controller, n1, n2);
+            await AnimationManager.WaitForElement(newConnection);
         }
 
         public async Task Disconnect(IBoardNeuron n1, IBoardNeuron n2) {

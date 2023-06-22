@@ -1,6 +1,6 @@
 ﻿using Core.EventSystem;
+using Events.Board;
 using ExternBoardSystem.Tools.Input.Mouse;
-using MyHexBoardSystem.Events;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

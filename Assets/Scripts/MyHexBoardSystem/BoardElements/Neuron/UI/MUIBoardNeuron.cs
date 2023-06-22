@@ -14,6 +14,10 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         protected int hoverSortingOrder;
         [SerializeField] protected int boardSortingOrder;
 
+        [Header("Animation"), SerializeField] private float removeAnimationDuration;
+        [SerializeField] private float addAnimationDuration;
+        [SerializeField] private float moveAnimationDuration;
+
         protected override void Awake() {
             base.Awake();
             Source = GetComponent<AudioSource>();
@@ -36,12 +40,12 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
 
         public virtual async Task PlayRemoveAnimation() {
             transform.localScale = Vector3.one;
-            await transform.DOScale(0, 0.4f).SetEase(Ease.InBack).AsyncWaitForCompletion();
+            await transform.DOScale(0, removeAnimationDuration).SetEase(Ease.InBack).AsyncWaitForCompletion();
         }
 
         public virtual async Task PlayAddAnimation() {
             transform.localScale = Vector3.zero;
-            await transform.DOScale(1, 0.4f).SetEase(Ease.OutBack).AsyncWaitForCompletion();
+            await transform.DOScale(1, addAnimationDuration).SetEase(Ease.OutBack).AsyncWaitForCompletion();
         }
 
         public virtual Task PlayTurnAnimation()  => Task.CompletedTask;
@@ -49,7 +53,8 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         public virtual Task PlayHoverAnimation() => Task.CompletedTask;
 
         public virtual void StopHoverAnimation() { }
-        public async Task PlayMoveAnimation() {
+        public async Task PlayMoveAnimation(Vector3 fromPos, Vector3 toPos) {
+            transform.DOMove(toPos, 0.25f);
             await transform.DOScale(0.5f, 0.1f).SetLoops(2, LoopType.Yoyo).AsyncWaitForCompletion();
         }
 
