@@ -30,8 +30,8 @@ namespace Audio {
             Instance.StartCoroutine(ReleaseWhenDone(source));
         }
 
-        public static void PlaySound(IAudioSource source, AudioClip clip) {
-            source.Source.PlayOneShot(clip);
+        public static IAudioSource GetAudioSource() {
+            return Instantiate(Instance.defaultAudioSourcePrefab);
         }
 
         private static IEnumerator ReleaseWhenDone(MGenericAudioSource pooledAudioSource) {

@@ -6,6 +6,7 @@ using Events.Neuron;
 using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
+using Neurons.UI;
 using Types.Board;
 using Types.Board.UI;
 using Types.Hex.Coordinates;
@@ -20,6 +21,7 @@ namespace Neurons.Runtime {
         public override INeuronDataBase DataProvider { get; }
         protected sealed override IBoardNeuronConnector Connector { get; set; }
 
+        private MUIExpandNeuron UIExpandNeuron => UINeuron as MUIExpandNeuron;
 
         public ExpandNeuron() {
             DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Expanding);
@@ -44,14 +46,14 @@ namespace Neurons.Runtime {
 
         public override IUIBoardNeuron Pool() {
             base.Pool();
-            UINeuron.SetRuntimeElementData(this);
-            return UINeuron;
+            UIExpandNeuron.SetRuntimeElementData(this);
+            return UIExpandNeuron;
         }
 
         public override async Task AwaitAddition() {
             await Task.Yield();
-            UINeuron.PlayAddSound();
-            UINeuron.PlayAddAnimation();
+            UIExpandNeuron.PlayAddSound();
+            UIExpandNeuron.PlayAddAnimation();
             Connect();
             NeuronEventManager.Raise(NeuronEvents.OnNeuronFinishedAddAnimation, new BoardElementEventArgs<IBoardNeuron>(this, Position));
         }
@@ -68,8 +70,8 @@ namespace Neurons.Runtime {
 
         private async Task SpawnNeighbour(Hex neighbour, int delay = 0) {
             await Task.Delay(delay);
-            var newElement = NeuronFactory.GetBoardNeuron(ENeuronType.Dummy);
-            await Controller.AddElement(newElement, neighbour);
+            UIExpandNeuron.PlaySpawnSound();
+            await Controller.AddElement(NeuronFactory.GetBoardNeuron(ENeuronType.Dummy), neighbour);
         }
     }
 }
