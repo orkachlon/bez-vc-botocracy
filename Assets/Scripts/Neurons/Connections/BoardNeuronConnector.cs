@@ -11,11 +11,13 @@ namespace Neurons.Connections {
         }
 
 
-        public async Task Connect(IBoardNeuron n1, IBoardNeuron n2) {
+        public async Task Connect(IBoardNeuron n1, IBoardNeuron n2, int delay = 0) {
+            await Task.Delay(delay);
             await ConnectionManager.Connect(n1, n2);
         }
 
-        public async Task Disconnect(IBoardNeuron n1, IBoardNeuron n2) {
+        public async Task Disconnect(IBoardNeuron n1, IBoardNeuron n2, int delay = 0) {
+            await Task.Delay(delay);
             await ConnectionManager.Disconnect(n1, n2);
         }
     }

@@ -21,15 +21,15 @@ namespace Neurons.Runtime {
 
         public ExplodeNeuron() {
             DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Exploding);
-            Connectable = false;
+            // Connectable = false;
             Connector = NeuronFactory.GetConnector();
         }
         
         public override async Task Activate() {
             var neighbours = Controller.Manipulator.GetNeighbours(Position);
             var killTasks = new List<Task>();
-            for (var i = 0; i < neighbours.Length; i++) {
-                var neighbour = neighbours[i];
+            var i = 0;
+            foreach (var neighbour in neighbours) {
                 if (!Controller.Board.HasPosition(neighbour)) {
                     continue;
                 }
@@ -40,6 +40,7 @@ namespace Neurons.Runtime {
                     continue;
                 // explode this neuron
                 killTasks.Add(KillNeighbor(neighbour, i * 50));
+                i++;
             }
 
             await Task.WhenAll(killTasks);

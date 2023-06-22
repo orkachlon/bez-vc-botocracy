@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Events.Board;
+using Events.Neuron;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
 using Types.Board.UI;
@@ -7,6 +9,7 @@ using Types.Hex.Coordinates;
 using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
+using Types.Neuron.Runtime;
 
 namespace Neurons.Runtime {
     public class ExpandNeuron : BoardNeuron {
@@ -23,12 +26,13 @@ namespace Neurons.Runtime {
         public override async Task Activate() {
             var neighbours = Controller.Manipulator.GetNeighbours(Position);
             var spawnTasks = new List<Task>();
-            for (var i = 0; i < neighbours.Length; i++) {
-                var neighbour = neighbours[i];
+            var i = 0;
+            foreach (var neighbour in neighbours) {
                 if (!Controller.Board.HasPosition(neighbour) || Controller.Board.GetPosition(neighbour).HasData())
                     continue;
                 // expand to this hex
                 spawnTasks.Add(SpawnNeighbour(neighbour, i * 50));
+                i++;
             }
 
             await Task.WhenAll(spawnTasks);
@@ -39,6 +43,12 @@ namespace Neurons.Runtime {
             base.Pool();
             UINeuron.SetRuntimeElementData(this);
             return UINeuron;
+        }
+
+        public override async Task AwaitAddition() {
+            UINeuron.PlayAddSound();
+            await Task.WhenAll(UINeuron.PlayAddAnimation(), Connect());
+            NeuronEventManager.Raise(NeuronEvents.OnNeuronFinishedAddAnimation, new BoardElementEventArgs<IBoardNeuron>(this, Position));
         }
 
         private async Task SpawnNeighbour(Hex neighbour, int delay = 0) {

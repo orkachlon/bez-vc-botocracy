@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Animation;
 using Events.Board;
+using Events.Neuron;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
 using Types.Board;
@@ -42,6 +43,12 @@ namespace Neurons.Runtime {
             base.Pool();
             UINeuron.SetRuntimeElementData(this);
             return UINeuron;
+        }
+
+        public override async Task AwaitAddition() {
+            UINeuron.PlayAddSound();
+            await Task.WhenAll(UINeuron.PlayAddAnimation(), Connect());
+            NeuronEventManager.Raise(NeuronEvents.OnNeuronFinishedAddAnimation, new BoardElementEventArgs<IBoardNeuron>(this, Position));
         }
 
         private void Decay(EventArgs args) {

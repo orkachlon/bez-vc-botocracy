@@ -4,26 +4,19 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using MyHexBoardSystem.BoardElements.Neuron.UI;
 using Neurons.Data;
-using Types.Board;
 using UnityEngine;
 
 namespace Neurons.UI {
     public class MUIExplodeNeuron : MUIBoardNeuron {
 
         [Header("Spikes"), SerializeField] private List<SpriteRenderer> spikes;
-        [SerializeField] private SpriteRenderer neuronFace;
         [SerializeField] private AnimationCurve spikeSpawnEasing;
         [SerializeField] private float spikeSpawnDuration;
 
         private Sequence _hoverAnimation;
         
         private SExplodeNeuronData ExplodeData => RuntimeData.DataProvider as SExplodeNeuronData;
-
-
-        protected override void UpdateView() {
-            base.UpdateView();
-            neuronFace.sprite = ExplodeData.GetFaceSprite();
-        }
+        
 
         public override void ToHoverLayer() {
             base.ToHoverLayer();
@@ -38,7 +31,6 @@ namespace Neurons.UI {
         }
         
         public override async Task PlayAddAnimation() {
-            base.PlayAddAnimation();
             spikes.ForEach(s => s.transform.localScale = Vector3.zero);
             var spikesAnimations = spikes
                 .Select(spike => spike.transform
@@ -46,7 +38,11 @@ namespace Neurons.UI {
                     .SetEase(spikeSpawnEasing)
                     .AsyncWaitForCompletion())
                 .ToList();
+            await base.PlayAddAnimation();
+            await Task.Delay(50);
             await Task.WhenAll(spikesAnimations);
+            Task.WhenAll(spikes.Select(b => b.transform.DOScale(Vector3.zero, spikeSpawnDuration * 2).AsyncWaitForCompletion()));
+
         }
         
         public override Task PlayHoverAnimation() {
@@ -55,7 +51,7 @@ namespace Neurons.UI {
             }
             _hoverAnimation = DOTween.Sequence();
             foreach (var spike in spikes) {
-                InsertSpikeHoverAnimation(spike);
+                InsertSpikeHoverAnimation(spike.transform);
             }
 
             _hoverAnimation.SetAutoKill(false);
@@ -72,16 +68,17 @@ namespace Neurons.UI {
             Source.PlayOneShot(ExplodeData.GetKillSound());
         }
 
-        private void InsertSpikeHoverAnimation(SpriteRenderer spike) {
-            _hoverAnimation.Insert(0, spike.transform.DOScale(0, spikeSpawnDuration * 3)
-                    .OnComplete(() => spike.transform.DOScale(1, spikeSpawnDuration).SetEase(spikeSpawnEasing)))
-                .AppendInterval(spikeSpawnDuration);
+        private void InsertSpikeHoverAnimation(Transform spike) {
+            var seq = DOTween.Sequence().Append(spike.DOScale(1, spikeSpawnDuration).SetEase(spikeSpawnEasing))
+                .AppendInterval(spikeSpawnDuration * 2)
+                .Append(spike.DOScale(0, spikeSpawnDuration * 3));
+            _hoverAnimation.Insert(0, seq);
         }
 
         public override void Default() {
             base.Default();
             ToBoardLayer();
-            spikes.ForEach(s => { s.gameObject.SetActive(true); s.transform.localScale = Vector3.one; });
+            spikes.ForEach(s => { s.gameObject.SetActive(true); s.transform.localScale = Vector3.zero; });
             _hoverAnimation = null;
             neuronFace.sprite = null;
         }

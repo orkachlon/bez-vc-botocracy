@@ -15,7 +15,7 @@ namespace Neurons.UI {
 
         public override void ToHoverLayer() {
             base.ToHoverLayer();
-            dots.ForEach(d => d.sortingOrder = hoverSortingOrder + 1);
+            dots.ForEach(d => d.sortingOrder = hoverSortingOrder + 2);
         }
 
         public override void ToBoardLayer() {

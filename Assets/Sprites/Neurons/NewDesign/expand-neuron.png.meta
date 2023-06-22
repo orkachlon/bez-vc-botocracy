@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b01ff0b277e8b3e448d6b434751eea91
+guid: 183085f73f827e84b8ae97f3181519b1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,12 +105,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: decay-neuron_0
+      name: expand-neuron_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256.5
+        width: 256.33334
         height: 256
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -119,50 +119,155 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2162250b0e6f25041a53ad71cdfdb07d
-      internalID: -1095508325
+      spriteID: 5f2460c6b26689d4484c4ba7984900c7
+      internalID: -701160169
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: decay-neuron_1
+      name: expand-neuron_1
       rect:
         serializedVersion: 2
-        x: 634
-        y: 121
-        width: 14
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: abeafedcb29710f44bcff495d146beac
-      internalID: 751561568
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: decay-neuron_2
-      rect:
-        serializedVersion: 2
-        x: 257
+        x: 256
         y: 0
-        width: 256
+        width: 256.33334
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f07be7eb854f21948a6ae896d27ef90b
-      internalID: -183024986
+      spriteID: 6125fc816b99f084e94fc3335b274a70
+      internalID: -1585070677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: expand-neuron_2
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 115
+        width: 25
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c954edecf3f6b2c41ac8f837f0fcaf78
+      internalID: -1538192495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: expand-neuron_3
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 115
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd0532844f1a22b419d4324a9e4951f6
+      internalID: 1609986364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: expand-neuron_4
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 115
+        width: 25
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 094e71f605a5c834182afdd33c887688
+      internalID: 1311415246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: expand-neuron_5
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 115
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cae430ac11de93e4f98e2616fcf956b7
+      internalID: 392215313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: expand-neuron_6
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 115
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f5e454dfc4156841a2e04c7dccdc9d0
+      internalID: 658501371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: expand-neuron_7
+      rect:
+        serializedVersion: 2
+        x: 744
+        y: 115
+        width: 25
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 090bbe86c7f8f7d4596b728c7f1cb591
+      internalID: -61845022
       vertices: []
       indices: 
       edges: []
@@ -178,9 +283,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      decay-neuron_0: -1095508325
-      decay-neuron_1: 751561568
-      decay-neuron_2: -183024986
+      expand-neuron_0: -701160169
+      expand-neuron_1: -1585070677
+      expand-neuron_2: -1538192495
+      expand-neuron_3: 1609986364
+      expand-neuron_4: 1311415246
+      expand-neuron_5: 392215313
+      expand-neuron_6: 658501371
+      expand-neuron_7: -61845022
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

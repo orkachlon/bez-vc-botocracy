@@ -4027,10 +4027,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 927296032}
     m_Modifications:
-    - target: {fileID: 2362503206226251586, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
-      propertyPath: infiniteNeurons
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5589631878319523304, guid: e60dfd91841e8584aa59427d3cca63b6, type: 3}
       propertyPath: m_RootOrder
       value: 0

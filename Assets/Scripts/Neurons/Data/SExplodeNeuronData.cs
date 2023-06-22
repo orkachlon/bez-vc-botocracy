@@ -8,11 +8,8 @@ namespace Neurons.Data {
     public class SExplodeNeuronData : SNeuronDataBase {
 
         [Header("Explode Neuron"), SerializeField] private AudioClip killSound;
-        [SerializeField] private Sprite faceSprite;
         
         public override IBoardNeuron GetNewElement() => NeuronFactory.GetBoardNeuron(Type);
-
-        public Sprite GetFaceSprite() => faceSprite;
         
         public AudioClip GetKillSound() => killSound;
     }

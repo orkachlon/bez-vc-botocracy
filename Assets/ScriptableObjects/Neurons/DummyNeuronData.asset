@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neuronType: 4
   boardArtwork: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}
+  faceSprite: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}
   UIStackArtwork: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}
   UIThirdArtwork: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}
   UISecondArtwork: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}

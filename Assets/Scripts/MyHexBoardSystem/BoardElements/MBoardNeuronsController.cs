@@ -189,9 +189,9 @@ namespace MyHexBoardSystem.BoardElements {
             element.UnbindFromBoard();
             element.UnbindFromNeurons();
             await base.RemoveElement(hex);
+            await placer.RemoveElementAsync(element);
             // unpress tile
             externalEventManager.Raise(ExternalBoardEvents.OnTileUnoccupied, new BoardElementEventArgs<IBoardNeuron>(element, hex));
-            await placer.RemoveElementAsync(element);
             
             if (!DecrementTrait(hex)) {
                 MLogger.LogEditor("[RemoveNeuron] Failed to update trait count");

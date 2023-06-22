@@ -1,7 +1,89 @@
-﻿using MyHexBoardSystem.BoardElements.Neuron.UI;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DG.Tweening;
+using MyHexBoardSystem.BoardElements.Neuron.UI;
+using Neurons.Data;
+using UnityEngine;
 
 namespace Neurons.UI {
     public class MUIExpandNeuron : MUIBoardNeuron {
+
+        [Header("Expand Neuron")]
+        [SerializeField] private List<SpriteRenderer> blobs;
+
+        [Header("Animation"), SerializeField] private AnimationCurve blobEasing;
+        [SerializeField] private float blobHoverDuration;
+        [SerializeField] private float blobAddDuration;
+        [SerializeField] private float elasticity;
+        [SerializeField] private float elasticDuration;
+
+
+        private Sequence _hoverAnimation;
         
+        private SExpandNeuronData ExpandData => RuntimeData.DataProvider as SExpandNeuronData;
+
+        
+        public override void ToHoverLayer() {
+            base.ToHoverLayer();
+            neuronFace.sortingOrder = hoverSortingOrder + 2;
+            blobs.ForEach(b => b.sortingOrder = hoverSortingOrder + 1);
+        }
+        
+        public override void ToBoardLayer() {
+            base.ToBoardLayer();
+            neuronFace.sortingOrder = boardSortingOrder + 3;
+            blobs.ForEach(b => b.sortingOrder = boardSortingOrder);
+        }
+        
+        public override async Task PlayAddAnimation() {
+            blobs.ForEach(s => s.transform.localScale = Vector3.zero);
+            
+            var blobAnimations = blobs
+                .Select(blob => DOTween.Sequence()
+                    .Append(blob.transform
+                        .DOScale(Vector3.one, blobAddDuration)
+                        .SetEase(Ease.OutElastic, elasticity, elasticDuration))
+                    .AsyncWaitForCompletion())
+                .ToList();
+            await base.PlayAddAnimation();
+            // await Task.Delay(100);
+            await Task.WhenAll(blobAnimations);
+            Task.WhenAll(blobs.Select(b => b.transform.DOScale(Vector3.zero, blobAddDuration).AsyncWaitForCompletion()));
+        }
+        
+        public override Task PlayHoverAnimation() {
+            if (_hoverAnimation != null && _hoverAnimation.IsPlaying()) {
+                StopHoverAnimation();
+            }
+            _hoverAnimation = DOTween.Sequence();
+            foreach (var blob in blobs) {
+                InsertBlobHoverAnimation(blob.transform);
+            }
+
+            _hoverAnimation.SetAutoKill(false);
+            _hoverAnimation.OnComplete(() => _hoverAnimation.Restart());
+            return Task.CompletedTask;
+        }
+        
+        public override void StopHoverAnimation() {
+            _hoverAnimation?.Complete();
+            _hoverAnimation?.Kill();
+        }
+        
+        private void InsertBlobHoverAnimation(Transform blob) {
+            var seq = DOTween.Sequence().Append(blob.DOScale(1, blobHoverDuration * 3).SetEase(blobEasing))
+                .Append(blob.DOScale(0, blobHoverDuration * 2).SetEase(Ease.InQuad))
+                .AppendInterval(blobHoverDuration * 2);
+            _hoverAnimation.Insert(0, seq);
+        }
+        
+        public override void Default() {
+            base.Default();
+            ToBoardLayer();
+            blobs.ForEach(b => { b.gameObject.SetActive(true); b.transform.localScale = Vector3.zero; });
+            _hoverAnimation = null;
+            neuronFace.sprite = null;
+        }
     }
 }

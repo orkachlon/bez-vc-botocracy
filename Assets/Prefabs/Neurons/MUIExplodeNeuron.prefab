@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 39267073343862738}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 60}
 --- !u!212 &3044117660269722214
 SpriteRenderer:
@@ -114,7 +114,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 39267073343862738}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 120}
 --- !u!212 &4421259977147072410
 SpriteRenderer:
@@ -198,7 +198,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 39267073343862738}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!212 &1699994834114378200
 SpriteRenderer:
@@ -282,7 +282,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 39267073343862738}
-  m_RootOrder: 3
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2630894525828306130
 SpriteRenderer:
@@ -366,7 +366,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 39267073343862738}
-  m_RootOrder: 2
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8767879697159792897
 SpriteRenderer:
@@ -450,7 +450,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 39267073343862738}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -60}
 --- !u!212 &1682846528639904344
 SpriteRenderer:
@@ -534,7 +534,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 39267073343862738}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -120}
 --- !u!212 &8854363077031639637
 SpriteRenderer:
@@ -639,6 +639,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2694280456325238718, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 450317291, guid: 27c61bdcefe35dd4ebcf482f21944507, type: 3}
+    - target: {fileID: 3795427022822759942, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802732429819209080, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4560526914762693488, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
       propertyPath: m_Name
       value: MUIExplodeNeuron
@@ -658,6 +670,10 @@ PrefabInstance:
     - target: {fileID: 4695682779750648293, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706389093889264935, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4623728799522052598, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
@@ -686,6 +702,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverSortingOrder: 10
   boardSortingOrder: 1
+  removeAnimationDuration: 0.2
+  addAnimationDuration: 0.2
+  moveAnimationDuration: 0.1
+  neuronFace: {fileID: 8767879697159792897}
   spikes:
   - {fileID: 2630894525828306130}
   - {fileID: 3044117660269722214}
@@ -693,7 +713,6 @@ MonoBehaviour:
   - {fileID: 1699994834114378200}
   - {fileID: 8854363077031639637}
   - {fileID: 1682846528639904344}
-  neuronFace: {fileID: 8767879697159792897}
   spikeSpawnEasing:
     serializedVersion: 2
     m_Curve:
@@ -707,8 +726,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.42188573
     - serializedVersion: 3
-      time: 0.76765764
-      value: 1.1576412
+      time: 0.76481634
+      value: 1.8057379
       inSlope: 4.768081
       outSlope: 4.768081
       tangentMode: 0

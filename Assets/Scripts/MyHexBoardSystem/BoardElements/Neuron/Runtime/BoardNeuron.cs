@@ -80,7 +80,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
             MObjectPooler.Instance.Release(UINeuron.GO);
         }
 
-        public async Task AwaitAddition() {
+        public virtual async Task AwaitAddition() {
             UINeuron.PlayAddSound();
             await UINeuron.PlayAddAnimation();
             await Connect();
@@ -89,11 +89,12 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
 
         public virtual async Task AwaitRemoval() {
             UINeuron.PlayRemoveSound();
-            await Task.WhenAll(Disconnect(), UINeuron.PlayRemoveAnimation());
+            await Disconnect();
+            await UINeuron.PlayRemoveAnimation();
             NeuronEventManager.Raise(NeuronEvents.OnNeuronFinishedRemoveAnimation, new BoardElementEventArgs<IBoardNeuron>(this, Position));
         }
 
-        public async Task AwaitMove(Vector3 fromPos, Vector3 toPos) {
+        public virtual async Task AwaitMove(Vector3 fromPos, Vector3 toPos) {
             await UINeuron.PlayMoveAnimation(fromPos, toPos);
         }
 
@@ -103,7 +104,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
                 .Select(h => Controller.Board.GetPosition(h).Data)
                 .Where(n => n.Connectable);
 
-            var connectionTasks = neighbors.Select(n => Connector.Connect(this, n));
+            var connectionTasks = neighbors.Select((n, i) => Connector.Connect(this, n, i * 50));
             await Task.WhenAll(connectionTasks);
         }
 
@@ -113,7 +114,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
                 .Select(h => Controller.Board.GetPosition(h).Data);
 
             var disconnectionTasks = neighbors
-                .Select(other => Connector.Disconnect(this, other));
+                .Select((other, i) => Connector.Disconnect(this, other, i * 50));
 
             await Task.WhenAll(disconnectionTasks);
         }
