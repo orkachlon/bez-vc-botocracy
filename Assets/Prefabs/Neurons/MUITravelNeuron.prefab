@@ -1175,6 +1175,9 @@ MonoBehaviour:
   hoverSortingLayer: Hover
   belowConnSortingLayer: BelowConnections
   aboveConnSortingLayer: AboveConnections
+  addVolume: 0.5
+  removeVolume: 0.5
+  moveVolume: 0.249
   probes:
   - {fileID: 2685396084492765442}
   - {fileID: 554159739837967621}

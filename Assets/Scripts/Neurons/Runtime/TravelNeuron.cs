@@ -13,6 +13,7 @@ using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
 using Types.Neuron.Runtime;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Neurons.Runtime {
@@ -52,6 +53,11 @@ namespace Neurons.Runtime {
             base.Pool();
             UITravelNeuron.SetRuntimeElementData(this);
             return UITravelNeuron;
+        }
+
+        public override Task AwaitMove(Vector3 fromPos, Vector3 toPos) {
+            UITravelNeuron.PlayMoveSound();
+            return base.AwaitMove(fromPos, toPos);
         }
 
         #region EventHandlers

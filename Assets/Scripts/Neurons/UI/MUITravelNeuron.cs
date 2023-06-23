@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Audio;
 using DG.Tweening;
 using MyHexBoardSystem.BoardElements.Neuron.UI;
 using Neurons.Data;
@@ -19,8 +20,10 @@ namespace Neurons.UI {
         private int _turnCounter;
 
         private STravelNeuronData TravelData => RuntimeData.DataProvider as STravelNeuronData;
-        
-        
+
+
+        #region Pooling
+
         public override void ToHoverLayer() {
             base.ToHoverLayer();
             neuronFace.sortingOrder++;
@@ -46,6 +49,22 @@ namespace Neurons.UI {
                 l.sortingOrder = neuronFace.sortingOrder + 1;
             });
         }
+
+        public override void Default() {
+            base.Default();
+            _turnCounter = 0;
+            for (var i = 0; i < probes.Count; i++) {
+                probes[i].gameObject.SetActive(true);
+                probes[i].transform.localScale = Vector3.one;
+                probes[i].transform.eulerAngles = Vector3.forward * (60 * i);
+                lines[i].gameObject.SetActive(true);
+                lines[i].transform.localScale = Vector3.one;
+            }
+        }
+
+        #endregion
+
+        #region Animation
 
         public override async Task PlayAddAnimation() {
             probes.ForEach(p => p.transform.localScale = Vector3.one);
@@ -92,18 +111,6 @@ namespace Neurons.UI {
             lines[_turnCounter - 1].transform.DOScale(0, probeDuration * 0.2f).OnComplete(() => lines[_turnCounter - 1].gameObject.SetActive(false));
         }
 
-        public override void Default() {
-            base.Default();
-            _turnCounter = 0;
-            for (var i = 0; i < probes.Count; i++) {
-                probes[i].gameObject.SetActive(true);
-                probes[i].transform.localScale = Vector3.one;
-                probes[i].transform.eulerAngles = Vector3.forward * (60 * i);
-                lines[i].gameObject.SetActive(true);
-                lines[i].transform.localScale = Vector3.one;
-            }
-        }
-
         public Task DepleteTurns() {
             foreach (var l in lines.Where(l => l.gameObject.activeInHierarchy)) {
                 l.transform.DOScale(Vector3.zero, probeDuration);
@@ -140,5 +147,26 @@ namespace Neurons.UI {
             _hoverAnimation?.Kill();
             _hoverAnimation = null;
         }
+
+        #endregion
+
+        #region Sound
+
+        public override void PlayAddSound() {
+            base.PlayAddSound();
+            var s = AudioSpawner.GetAudioSource();
+            s.Source.volume = addVolume;
+            s.Source.PlayOneShot(TravelData.GetTravelAddSound());
+            AudioSpawner.ReleaseWhenDone(s);
+        }
+
+        public override void PlayMoveSound() {
+            var s = AudioSpawner.GetAudioSource();
+            s.Source.volume = moveVolume;
+            s.Source.PlayOneShot(TravelData.GetTravelMoveSound());
+            AudioSpawner.ReleaseWhenDone(s);
+        }
+
+        #endregion
     }
 }

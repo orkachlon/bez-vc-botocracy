@@ -15,5 +15,6 @@ namespace Types.Board.UI {
 
         void PlayAddSound();
         void PlayRemoveSound();
+        void PlayMoveSound();
     }
 }

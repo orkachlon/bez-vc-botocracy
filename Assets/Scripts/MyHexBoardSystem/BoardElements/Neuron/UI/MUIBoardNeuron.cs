@@ -23,6 +23,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         
         [Header("Sound"), SerializeField, Range(0, 1)] protected float addVolume = 0.5f;
         [SerializeField, Range(0, 1)] protected float removeVolume = 0.5f;
+        [SerializeField, Range(0, 1)] protected float moveVolume = 0.5f;
 
         #region Layers
 
@@ -78,6 +79,8 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             s.Source.PlayOneShot(RuntimeData.DataProvider.GetRemoveSound());
             AudioSpawner.ReleaseWhenDone(s);
         }
+        
+        public virtual void PlayMoveSound() { }
 
         #endregion
 
