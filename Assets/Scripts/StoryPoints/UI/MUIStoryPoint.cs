@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Animation;
 using Core.EventSystem;
 using DG.Tweening;
 using Events.SP;
@@ -17,6 +18,7 @@ namespace StoryPoints.UI {
         [SerializeField] private TextMeshProUGUI turnCounter;
         [SerializeField] private Image artwork;
         [SerializeField] private GameObject closeButton;
+        [SerializeField] private float decrementShakeStrength;
         
         [Header("Decision"), SerializeField] private GameObject decisionSection;
         [SerializeField] private TextMeshProUGUI deciderText;
@@ -76,15 +78,18 @@ namespace StoryPoints.UI {
         }
 
         public async Task PlayEvaluateAnimation() {
-            var seq = DOTween.Sequence(this)
-                .Append(backGround.DOAnchorPosX((_camera.pixelWidth * 0.5f) - (backGround.sizeDelta.x * 0.5f), 0.5f))
+            await backGround.DOAnchorPosX((_camera.pixelWidth * 0.5f) - (backGround.sizeDelta.x * 0.5f), 0.2f)
+                .SetEase(Ease.Linear)
                 .OnComplete(() => {
                     turnSection.SetActive(false);
                     closeButton.SetActive(true);
                     decisionSection.SetActive(true);
                     ShowDecisionData();
-                });
-            await seq.SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+                })
+                .AsyncWaitForCompletion();
+            MCoroutineHelper.InvokeAfterNextFrame(() => backGround
+                .DOAnchorPosY(_camera.pixelHeight * 0.5f - backGround.sizeDelta.y * 0.5f, 0.5f)
+                .SetEase(Ease.OutQuad));
         }
 
         public async void CloseDecisionPopup() {
@@ -101,6 +106,10 @@ namespace StoryPoints.UI {
             deciderText.text = $"{DeciderPrefix}{_sp.DecisionEffects.DecidingTrait.ToString()}";
             decisionText.text = $"{ActionPrefix}{_sp.DecisionEffects.Decision}";
             outcomeText.text = $"{OutcomePrefix}{_sp.DecisionEffects.Outcome}";
+        }
+
+        public async Task AnimateDecrement() {
+            await backGround.DOShakePosition(0.5f, Vector3.right * decrementShakeStrength).AsyncWaitForCompletion();
         }
     }
 }

@@ -5,11 +5,13 @@ using Core.EventSystem;
 using Events.Board;
 using Events.General;
 using Events.Neuron;
+using Events.SP;
 using JetBrains.Annotations;
 using Neurons.Runtime;
 using Types.GameState;
 using Types.Neuron;
 using Types.Neuron.Runtime;
+using Types.StoryPoint;
 using UnityEngine;
 
 namespace Neurons.NeuronQueue {
@@ -19,6 +21,7 @@ namespace Neurons.NeuronQueue {
         [SerializeField] private SEventManager boardEventManager;
         [SerializeField] private SEventManager modificationsEventManager;
         [SerializeField] private SEventManager gmEventManager;
+        [SerializeField] private SEventManager storyEventManager;
 
         public int Count => IsInfinite ? int.MaxValue : _neurons.Count;
         public bool IsInfinite { get; private set; }
@@ -26,6 +29,7 @@ namespace Neurons.NeuronQueue {
 
         private Queue<IStackNeuron> _neurons;
         private bool _isProviding;
+        // private IStoryPoint _currentSP;
 
         #region UnityMethods
 
@@ -35,18 +39,22 @@ namespace Neurons.NeuronQueue {
         }
         
         private void OnEnable() {
+            boardEventManager.Register(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
+            storyEventManager.Register(StoryEvents.OnDecrement, OnSPDecrement);
             boardEventManager.Register(ExternalBoardEvents.OnAddElementPreActivation, StopProvidingNeurons);
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElementFailed, StartProvidingNeurons);
-            boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, OnAnimationsFinished);
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, OnNeuronPlaced);
             neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Register(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
             gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnGameEnd);
         }
 
         private void OnDisable() {
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
+            storyEventManager.Unregister(StoryEvents.OnDecrement, OnSPDecrement);
             boardEventManager.Unregister(ExternalBoardEvents.OnAddElementPreActivation, StopProvidingNeurons);
             boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementFailed, StartProvidingNeurons);
-            boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, OnAnimationsFinished);
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, OnNeuronPlaced);
             neuronEventManager.Unregister(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
             gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnGameEnd);
@@ -86,7 +94,6 @@ namespace Neurons.NeuronQueue {
                 Enqueue(1);
             }
 
-            StartProvidingNeurons();
             neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronQueueEventArgs(this));
             neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
 
@@ -124,7 +131,7 @@ namespace Neurons.NeuronQueue {
         }
 
         #region EventHandlers
-
+        
         private void OnRewardNeurons(EventArgs eventArgs) {
             if (eventArgs is NeuronRewardEventArgs reward) {
                 Enqueue(reward.Amount);
@@ -147,8 +154,21 @@ namespace Neurons.NeuronQueue {
             StopProvidingNeurons();
         }
 
-        private void OnAnimationsFinished(EventArgs args) {
+        private void OnNeuronPlaced(EventArgs args) {
+            if (args is not BoardElementEventArgs<IBoardNeuron>) {
+                return;
+            }
             Dequeue();
+        }
+
+        private void OnSPDecrement(EventArgs args) {
+            if (args is not StoryEventArgs spArgs) {
+                return;
+            }
+
+            if (spArgs.Story.TurnsToEvaluation > 0) {
+                StartProvidingNeurons();
+            }
         }
 
         #endregion

@@ -29,7 +29,6 @@ namespace StoryPoints {
         }
 
         private void OnEnable() {
-            // todo change this to happen only after user closed outcome popup
             storyEventManager.Register(StoryEvents.OnEvaluate, StoryTurn);
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }

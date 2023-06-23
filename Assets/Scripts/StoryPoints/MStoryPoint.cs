@@ -98,8 +98,8 @@ namespace StoryPoints {
             await _uiSP.PlayEvaluateAnimation();
         }
 
-        private void HandleStoryTurn() {
-            Decrement();
+        private async void HandleStoryTurn() {
+            await Decrement();
             if (TurnsToEvaluation > 0) {
                 return;
             }
@@ -111,12 +111,13 @@ namespace StoryPoints {
             Evaluate();
         }
 
-        private void Decrement() {
+        private async Task Decrement() {
             if (TurnsToEvaluation == 0) {
                 MLogger.LogEditor("Event turn counter < 0 !!!");
             }
             TurnsToEvaluation--;
             _uiSP.UpdateTurnCounter(TurnsToEvaluation);
+            await _uiSP.AnimateDecrement();
             storyEventManager.Raise(StoryEvents.OnDecrement, new StoryEventArgs(this));
         }
 

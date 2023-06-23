@@ -97,12 +97,7 @@ namespace Neurons.Runtime {
                 return;
             }
             // stop travelling if you couldn't travel this turn
-            TurnsToStop = 0;
-            NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronStopped, new BoardElementEventArgs<IBoardNeuron>(this, Position));
-            UITravelNeuron.DepleteTurns();
-            UnregisterFromBoard();
-            ReportTurnDone();
-            base.RegisterTurnDone();
+            StopTravelling();
         }
 
         private async void BeginTravel(EventArgs obj) {
@@ -113,7 +108,8 @@ namespace Neurons.Runtime {
             UITravelNeuron.PlayTurnAnimation();
             await TravelTo(_prevPos, Position);
             if (!CanTravel()) {
-                UITravelNeuron.DepleteTurns();
+                StopTravelling();
+                return;
             }
             ReportTurnDone();
         }
@@ -134,12 +130,6 @@ namespace Neurons.Runtime {
             PickedPositions.TryRemove(to, out _);
             await Connect();
             TurnsToStop--;
-            if (TurnsToStop <= 0) {
-                NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronStopped, new BoardElementEventArgs<IBoardNeuron>(this, Position));
-                UnregisterFromBoard();
-                base.RegisterTurnDone();
-                UITravelNeuron.DepleteTurns();
-            }
         }
 
         private Hex[] GetEmptyNeighbors() {
@@ -156,7 +146,16 @@ namespace Neurons.Runtime {
         }
 
         private bool CanTravel() {
-            return GetEmptyNeighbors().Length > 0;
+            return TurnsToStop > 0 && GetEmptyNeighbors().Length > 0;
+        }
+
+        private void StopTravelling() {
+            UnregisterFromBoard();
+            TurnsToStop = 0;
+            UITravelNeuron.DepleteTurns();
+            NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronStopped, new BoardElementEventArgs<IBoardNeuron>(this, Position));
+            ReportTurnDone();
+            base.RegisterTurnDone();
         }
 
         protected override void RegisterTurnDone() { }

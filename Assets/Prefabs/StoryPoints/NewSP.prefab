@@ -1029,6 +1029,7 @@ MonoBehaviour:
   turnCounter: {fileID: 5630385266549969156}
   artwork: {fileID: 8585395336044051453}
   closeButton: {fileID: 7065598142898482561}
+  decrementShakeStrength: 20
   decisionSection: {fileID: 5735522775860655750}
   deciderText: {fileID: 5534849759157465085}
   decisionText: {fileID: 3369320907145703138}
