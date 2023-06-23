@@ -85,6 +85,7 @@ namespace StoryPoints {
             _spData = spData;
             TurnsToEvaluation = spData.turnsToEvaluation;
             
+            _uiSP.InitSPUI();
             // notify
             storyEventManager.Raise(StoryEvents.OnInitStory, new StoryEventArgs(this));
         }
@@ -94,7 +95,7 @@ namespace StoryPoints {
         }
 
         public async Task AwaitRemoveAnimation() {
-            await _uiSP.PlayRemoveAnimation();
+            await _uiSP.PlayEvaluateAnimation();
         }
 
         private void HandleStoryTurn() {
@@ -115,10 +116,11 @@ namespace StoryPoints {
                 MLogger.LogEditor("Event turn counter < 0 !!!");
             }
             TurnsToEvaluation--;
+            _uiSP.UpdateTurnCounter(TurnsToEvaluation);
             storyEventManager.Raise(StoryEvents.OnDecrement, new StoryEventArgs(this));
         }
 
-        private void Evaluate() {
+        private async void Evaluate() {
             if (Evaluated) {
                 MLogger.LogEditor("Event already evaluated!");
                 return;
@@ -133,7 +135,7 @@ namespace StoryPoints {
 
             DecisionEffects = DecidingTraits[maxTrait];
             Evaluated = true;
-            storyEventManager.Raise(StoryEvents.OnEvaluate, new StoryEventArgs(this));
+            await AwaitRemoveAnimation();
         }
     }
 }

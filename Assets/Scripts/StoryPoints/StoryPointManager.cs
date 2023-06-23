@@ -70,10 +70,7 @@ namespace StoryPoints {
                 return;
             }
 
-            if (_currentStory != null) {
-                await _currentStory.AwaitRemoveAnimation();
-                _currentStory.Destroy();
-            }
+            _currentStory?.Destroy();
             _currentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
             _currentStory.InitData(storyPointData.Value);
             await _currentStory.AwaitInitAnimation();
