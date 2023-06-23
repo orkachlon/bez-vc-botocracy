@@ -68,7 +68,6 @@ namespace MyHexBoardSystem.UI {
 
         private void OnPointerClick(PointerEventData obj) {
             OnHide(obj);
-            OnShow(obj);
         }
 
         private void OnShow(PointerEventData eventData) {
@@ -109,7 +108,6 @@ namespace MyHexBoardSystem.UI {
             var tileToShow = canBePlaced ? canBePlacedTileBase : cannotBePlacedTileBase;
 
             boardController.SetTile(hex, tileToShow, BoardConstants.MouseHoverTileLayer);
-            // boardController.SetTile(hex, hoverOutlineTile, BoardConstants.MouseHoverOutlineTileLayer);
             _currentTile = hex;
 
             if (canBePlaced) {
@@ -118,16 +116,22 @@ namespace MyHexBoardSystem.UI {
         }
 
         private void Hide() {
-            if (!_currentTile.HasValue) {
+            if (_currentTile.HasValue) {
+                boardController.SetTile(_currentTile.Value, null, BoardConstants.MouseHoverTileLayer);
+                _currentTile = null;
+            }
+
+            HideEffect();
+        }
+
+        private void HideEffect() {
+            if (_highlighted.Count <= 0) {
                 return;
             }
-            boardController.SetTile(_currentTile.Value, null, BoardConstants.MouseHoverTileLayer);
-            // boardController.SetTile(_currentTile.Value, null, BoardConstants.MouseHoverOutlineTileLayer);
-            _currentTile = null;
-
             foreach (var hex in _highlighted) {
                 boardController.SetTile(hex, null, BoardConstants.MouseHoverTileLayer);
             }
+
             _highlighted.Clear();
         }
 
