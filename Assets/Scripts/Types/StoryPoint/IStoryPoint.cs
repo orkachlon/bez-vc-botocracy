@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Types.StoryPoint {
     public interface IStoryPoint {
@@ -23,6 +24,9 @@ namespace Types.StoryPoint {
 
         public void InitData(StoryPointData spData);
         public void Destroy();
+
+        Task AwaitInitAnimation();
+        Task AwaitRemoveAnimation();
 
         #endregion
     }

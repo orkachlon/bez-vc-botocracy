@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Core.EventSystem;
 using Core.Utils;
 using Events.Board;
@@ -28,6 +29,7 @@ namespace StoryPoints {
         }
 
         private void OnEnable() {
+            // todo change this to happen only after user closed outcome popup
             storyEventManager.Register(StoryEvents.OnEvaluate, StoryTurn);
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
@@ -39,11 +41,11 @@ namespace StoryPoints {
 
         #endregion
 
-        private void Init(EventArgs obj) {
-            NextStoryPoint();
+        private async void Init(EventArgs obj) {
+            await NextStoryPoint();
         }
 
-        private void StoryTurn(EventArgs eventArgs) {
+        private async void StoryTurn(EventArgs eventArgs) {
             if (eventArgs is not StoryEventArgs storyEventArgs) {
                 return;
             }
@@ -51,12 +53,12 @@ namespace StoryPoints {
             _completedSPs.Add(storyEventArgs.Story.Id);
             // first SP
             if (_currentStory == null || _currentStory.Evaluated) {
-                NextStoryPoint();
+                await NextStoryPoint();
             }
             storyEventManager.Raise(StoryEvents.OnStoryTurn, EventArgs.Empty);
         }
 
-        private void NextStoryPoint() {
+        private async Task NextStoryPoint() {
             if (_spProvider.IsEmpty() && _currentStory.Evaluated) {
                 DispatchNoMoreSPs();
                 return;
@@ -68,9 +70,13 @@ namespace StoryPoints {
                 return;
             }
 
-            _currentStory?.Destroy();
+            if (_currentStory != null) {
+                await _currentStory.AwaitRemoveAnimation();
+                _currentStory.Destroy();
+            }
             _currentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
             _currentStory.InitData(storyPointData.Value);
+            await _currentStory.AwaitInitAnimation();
         }
 
         private void DispatchNoMoreSPs() {

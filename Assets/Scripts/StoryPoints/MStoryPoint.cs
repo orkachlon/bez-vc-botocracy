@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Core.EventSystem;
 using Core.Utils;
 using Events.Board;
 using Events.General;
 using Events.SP;
+using StoryPoints.UI;
 using Types.Board;
 using Types.GameState;
 using Types.StoryPoint;
@@ -33,9 +35,14 @@ namespace StoryPoints {
 
         
         private StoryPointData _spData;
+        private MUIStoryPoint _uiSP;
         private IBoardNeuronsController _neuronsController;
 
         #region UnityMethods
+
+        private void Awake() {
+            _uiSP = GetComponent<MUIStoryPoint>();
+        }
 
         private void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateBoardState);
@@ -73,6 +80,23 @@ namespace StoryPoints {
 
         #endregion
 
+        public void InitData(StoryPointData spData) {
+            // set data
+            _spData = spData;
+            TurnsToEvaluation = spData.turnsToEvaluation;
+            
+            // notify
+            storyEventManager.Raise(StoryEvents.OnInitStory, new StoryEventArgs(this));
+        }
+
+        public async Task AwaitInitAnimation() {
+            await _uiSP.PlayInitAnimation();
+        }
+
+        public async Task AwaitRemoveAnimation() {
+            await _uiSP.PlayRemoveAnimation();
+        }
+
         private void HandleStoryTurn() {
             Decrement();
             if (TurnsToEvaluation > 0) {
@@ -84,15 +108,6 @@ namespace StoryPoints {
                 return;
             }
             Evaluate();
-        }
-
-        public void InitData(StoryPointData spData) {
-            // set data
-            _spData = spData;
-            TurnsToEvaluation = spData.turnsToEvaluation;
-            
-            // notify
-            storyEventManager.Raise(StoryEvents.OnInitStory, new StoryEventArgs(this));
         }
 
         private void Decrement() {
@@ -119,17 +134,6 @@ namespace StoryPoints {
             DecisionEffects = DecidingTraits[maxTrait];
             Evaluated = true;
             storyEventManager.Raise(StoryEvents.OnEvaluate, new StoryEventArgs(this));
-            
-            // NEURON REWARDS HAS BEEN MOVED TO MNeuronRewarder.cs
-            // neuron reward
-            // var neuronReward = 0;
-            // foreach (var (trait, effect) in DecidingTraits[maxTrait].BoardEffect) {
-            //     neuronReward += controller.GetTraitCount(trait) * effect;
-            // }
-
-            // dispatch events
-            // neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(neuronReward));
-
         }
     }
 }
