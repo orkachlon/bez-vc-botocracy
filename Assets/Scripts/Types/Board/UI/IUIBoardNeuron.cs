@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Types.Audio;
 using UnityEngine;
 
 namespace Types.Board.UI {
-    public interface IUIBoardNeuron : IUIBoardElement, IAudioSource {
+    public interface IUIBoardNeuron : IUIBoardElement {
         void ToHoverLayer();
         void ToBoardLayer();
 

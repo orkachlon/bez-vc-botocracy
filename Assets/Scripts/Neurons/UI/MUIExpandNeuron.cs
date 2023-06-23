@@ -80,8 +80,10 @@ namespace Neurons.UI {
 
         public void PlaySpawnSound() {
             var source = AudioSpawner.GetAudioSource();
-            source.Source.pitch += (Random.value - 0.5f) * 0.25f;
+            source.Source.volume = addVolume;
+            source.Source.pitch += (Random.value - 0.5f) * 0.5f;
             source.Source.PlayOneShot(ExpandData.GetSpawnAudio());
+            AudioSpawner.ReleaseWhenDone(source);
         }
 
         public override void Default() {

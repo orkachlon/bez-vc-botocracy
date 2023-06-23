@@ -5,6 +5,7 @@ using Events.Board;
 using Events.Neuron;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
+using Neurons.UI;
 using Types.Board;
 using Types.Board.UI;
 using Types.Events;
@@ -21,6 +22,8 @@ namespace Neurons.Runtime {
 
         public sealed override INeuronDataBase DataProvider { get; }
         protected sealed override IBoardNeuronConnector Connector { get; set; }
+        
+        private MUIDecayNeuron UIDecayNeuron => UINeuron as MUIDecayNeuron;
 
         public DecayNeuron() {
             DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Decaying);
@@ -41,15 +44,24 @@ namespace Neurons.Runtime {
 
         public override IUIBoardNeuron Pool() {
             base.Pool();
-            UINeuron.SetRuntimeElementData(this);
-            return UINeuron;
+            UIDecayNeuron.SetRuntimeElementData(this);
+            return UIDecayNeuron;
         }
 
         public override async Task AwaitAddition() {
-            UINeuron.PlayAddSound();
-            UINeuron.PlayAddAnimation();
+            UIDecayNeuron.PlayAddSound();
+            UIDecayNeuron.PlayAddAnimation();
             await Connect();
             NeuronEventManager.Raise(NeuronEvents.OnNeuronFinishedAddAnimation, new BoardElementEventArgs<IBoardNeuron>(this, Position));
+        }
+
+        public override async Task AwaitRemoval() {
+            if (_turnsToDeath == 0) {
+                UIDecayNeuron.PlayRemoveSound();
+            }
+            await Disconnect();
+            await UIDecayNeuron.PlayRemoveAnimation();
+            NeuronEventManager.Raise(NeuronEvents.OnNeuronFinishedRemoveAnimation, new BoardElementEventArgs<IBoardNeuron>(this, Position));
         }
 
         private void Decay(EventArgs args) {
@@ -63,7 +75,7 @@ namespace Neurons.Runtime {
             }
             
             _turnsToDeath--;
-            UINeuron.PlayTurnAnimation();
+            UIDecayNeuron.PlayTurnAnimation();
             if (_turnsToDeath <= 0) {
                 BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, Decay);
                 Controller.RemoveNeuron(Position);

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Audio;
 using DG.Tweening;
 using MyHexBoardSystem.BoardElements.Neuron.UI;
+using Neurons.Data;
 using UnityEngine;
 
 namespace Neurons.UI {
@@ -12,6 +14,10 @@ namespace Neurons.UI {
 
         private int _turnCounter;
         private Sequence _hoverAnimation;
+
+        private SDecayingNeuronData DecayData => RuntimeData.DataProvider as SDecayingNeuronData;
+        
+        #region Layers
 
         public override void ToHoverLayer() {
             base.ToHoverLayer();
@@ -28,6 +34,10 @@ namespace Neurons.UI {
                 d.sortingOrder = neuronFace.sortingOrder + 1;
             });
         }
+
+        #endregion
+
+        #region Animation
 
         public override async Task PlayAddAnimation() {
             base.PlayAddAnimation();
@@ -70,6 +80,28 @@ namespace Neurons.UI {
             _hoverAnimation?.Kill();
         }
 
+        #endregion
+
+        #region Sound
+
+        public override void PlayAddSound() {
+            base.PlayAddSound();
+            var s = AudioSpawner.GetAudioSource();
+            s.Source.volume = addVolume;
+            s.Source.PlayOneShot(DecayData.GetDecayAddSound());
+            AudioSpawner.ReleaseWhenDone(s);
+        }
+
+        public override void PlayRemoveSound() {
+            base.PlayRemoveSound();
+            var s = AudioSpawner.GetAudioSource();
+            s.Source.volume = addVolume;
+            s.Source.PlayOneShot(DecayData.GetDecayRemoveSound());
+            AudioSpawner.ReleaseWhenDone(s);
+        }
+
+        #endregion
+        
         public override void Default() {
             base.Default();
             ToBoardLayer();

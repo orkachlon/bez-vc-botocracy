@@ -36,7 +36,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
         [Header("Sounds"), SerializeField] private AudioClip addSound;
         [SerializeField] private AudioClip removeSound;
 
-        [SerializeField] protected TileBase effectTile;
+        [Header("Effect Markers"), SerializeField] protected TileBase effectTile;
 
         public void SetData(INeuronDataBase other) {
             Type = other.Type;

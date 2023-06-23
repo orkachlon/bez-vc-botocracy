@@ -25,3 +25,4 @@ MonoBehaviour:
   addSound: {fileID: 8300000, guid: 27b72d92a668a664d947795fa9bb7ba0, type: 3}
   removeSound: {fileID: 8300000, guid: 021beb93ffe5b68489fac70a63f7f9b3, type: 3}
   effectTile: {fileID: 11400000, guid: 7980b03f2e069d448bf2872a21b3312e, type: 2}
+  spawnAudio: {fileID: 8300000, guid: ec5c47506ec38be49aa087dfeb62a5c1, type: 3}

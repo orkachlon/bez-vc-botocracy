@@ -1,10 +1,9 @@
 ﻿using Types.Audio;
-using Types.Pooling;
 using UnityEngine;
 
 namespace Audio {
     [RequireComponent(typeof(AudioSource))]
-    public class MGenericAudioSource : MonoBehaviour, IAudioSource, IPoolable {
+    public class MGenericAudioSource : MonoBehaviour, IPoolableAudioSource {
         public AudioSource Source { get; private set; }
         public GameObject GO => gameObject;
         public void Default() { }

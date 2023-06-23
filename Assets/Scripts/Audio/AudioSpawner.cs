@@ -27,14 +27,18 @@ namespace Audio {
                 return;
             }
             source.Source.PlayOneShot(clip);
-            Instance.StartCoroutine(ReleaseWhenDone(source));
+            ReleaseWhenDone(source);
         }
 
-        public static IAudioSource GetAudioSource() {
+        public static IPoolableAudioSource GetAudioSource() {
             return Instantiate(Instance.defaultAudioSourcePrefab);
         }
 
-        private static IEnumerator ReleaseWhenDone(MGenericAudioSource pooledAudioSource) {
+        public static void ReleaseWhenDone(IPoolableAudioSource source) {
+            Instance.StartCoroutine(ReleaseWhenDoneHelper(source));
+        }
+
+        private static IEnumerator ReleaseWhenDoneHelper(IPoolableAudioSource pooledAudioSource) {
             yield return new WaitWhile(() => pooledAudioSource.Source.isPlaying);
             MObjectPooler.Instance.Release(pooledAudioSource.GO);
         }

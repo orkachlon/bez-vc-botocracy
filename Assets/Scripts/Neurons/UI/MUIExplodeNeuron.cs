@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Audio;
 using DG.Tweening;
 using MyHexBoardSystem.BoardElements.Neuron.UI;
 using Neurons.Data;
@@ -70,7 +71,10 @@ namespace Neurons.UI {
         }
 
         public void PlayKillSound() {
-            Source.PlayOneShot(ExplodeData.GetKillSound());
+            var source = AudioSpawner.GetAudioSource();
+            source.Source.pitch += Random.value - 0.5f;
+            source.Source.PlayOneShot(ExplodeData.GetKillSound());
+            AudioSpawner.ReleaseWhenDone(source);
         }
 
         private void InsertSpikeHoverAnimation(Transform spike) {

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Audio;
 using DG.Tweening;
 using ExternBoardSystem.Ui.Board;
 using Types.Board;
@@ -9,7 +10,6 @@ using UnityEngine;
 namespace MyHexBoardSystem.BoardElements.Neuron.UI {
     public class MUIBoardNeuron : MUIBoardElement, IUIBoardNeuron {
         
-        public AudioSource Source { get; private set; }
         protected INeuronDataBase NeuronData => RuntimeData.DataProvider as INeuronDataBase;
         
         [Header("Animation"), SerializeField] protected float removeAnimationDuration;
@@ -20,21 +20,11 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         [SerializeField] protected string hoverSortingLayer;
         [SerializeField] protected string belowConnSortingLayer;
         [SerializeField] protected string aboveConnSortingLayer;
+        
+        [Header("Sound"), SerializeField, Range(0, 1)] protected float addVolume = 0.5f;
+        [SerializeField, Range(0, 1)] protected float removeVolume = 0.5f;
 
-        protected override void Awake() {
-            base.Awake();
-            Source = GetComponent<AudioSource>();
-        }
-
-        public override void SetRuntimeElementData(IBoardElement data) {
-            Default();
-            base.SetRuntimeElementData(data);
-        }
-
-        protected override void UpdateView() {
-            base.UpdateView();
-            neuronFace.sprite = NeuronData.GetFaceSprite();
-        }
+        #region Layers
 
         public virtual void ToHoverLayer() {
             SpriteRenderer.sortingLayerName = hoverSortingLayer;
@@ -49,6 +39,10 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             neuronFace.sortingOrder = 0;
             transform.localScale = Vector3.one;
         }
+
+        #endregion
+
+        #region Animation
 
         public virtual async Task PlayRemoveAnimation() {
             transform.localScale = Vector3.one;
@@ -67,19 +61,45 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         public virtual void StopHoverAnimation() { }
         public virtual Task PlayMoveAnimation(Vector3 fromPos, Vector3 toPos) => Task.CompletedTask;
 
-        public void PlayAddSound() {
-            Source.PlayOneShot(RuntimeData.DataProvider.GetAddSound());
+        #endregion
+
+        #region Sound
+
+        public virtual void PlayAddSound() {
+            var s = AudioSpawner.GetAudioSource();
+            s.Source.volume = addVolume;
+            s.Source.PlayOneShot(RuntimeData.DataProvider.GetAddSound());
+            AudioSpawner.ReleaseWhenDone(s);
         }
 
-        public void PlayRemoveSound() {
-            Source.PlayOneShot(RuntimeData.DataProvider.GetRemoveSound());
+        public virtual void PlayRemoveSound() {
+            var s = AudioSpawner.GetAudioSource();
+            s.Source.volume = removeVolume;
+            s.Source.PlayOneShot(RuntimeData.DataProvider.GetRemoveSound());
+            AudioSpawner.ReleaseWhenDone(s);
         }
 
+        #endregion
+
+        #region Pooling
+        
+        public override void SetRuntimeElementData(IBoardElement data) {
+            Default();
+            base.SetRuntimeElementData(data);
+        }
+
+        protected override void UpdateView() {
+            base.UpdateView();
+            neuronFace.sprite = NeuronData.GetFaceSprite();
+        }
+        
         public override void Default() {
             base.Default();
             StopHoverAnimation();
             transform.localScale = Vector3.one;
             SpriteRenderer.color = Color.white;
         }
+
+        #endregion
     }
 }
