@@ -62,7 +62,7 @@ namespace Neurons.Runtime {
             await Task.Yield();
             UIExplodeNeuron.PlayAddSound();
             UIExplodeNeuron.PlayAddAnimation();
-            Connect();
+            await Connect();
             NeuronEventManager.Raise(NeuronEvents.OnNeuronFinishedAddAnimation, new BoardElementEventArgs<IBoardNeuron>(this, Position));
         }
 

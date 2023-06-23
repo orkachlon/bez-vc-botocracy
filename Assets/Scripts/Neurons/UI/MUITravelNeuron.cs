@@ -80,9 +80,11 @@ namespace Neurons.UI {
         }
 
         public override async Task PlayMoveAnimation(Vector3 fromPos, Vector3 toPos) {
-            probes.ForEach(p => p.transform.DOScale(Vector3.zero, moveAnimationDuration).SetLoops(2, LoopType.Yoyo));
-            transform.DOMove(toPos, 0.25f);
-            await transform.DOScale(0.5f, moveAnimationDuration).SetLoops(2, LoopType.Yoyo).AsyncWaitForCompletion();
+            var seq = DOTween.Sequence(this);
+            probes.ForEach(p => seq.Insert(0, p.transform.DOScale(Vector3.zero, moveAnimationDuration).SetLoops(2, LoopType.Yoyo)));
+            seq.Insert(0, transform.DOScale(0.5f, moveAnimationDuration).SetLoops(2, LoopType.Yoyo));
+            seq.Insert(0, transform.DOMove(toPos, 0.25f));
+            await seq.AsyncWaitForCompletion();
         }
 
         public override Task PlayHoverAnimation() {

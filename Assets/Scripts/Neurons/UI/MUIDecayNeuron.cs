@@ -17,7 +17,7 @@ namespace Neurons.UI {
 
         private SDecayingNeuronData DecayData => RuntimeData.DataProvider as SDecayingNeuronData;
         
-        #region Layers
+        #region Pooling
 
         public override void ToHoverLayer() {
             base.ToHoverLayer();
@@ -33,6 +33,14 @@ namespace Neurons.UI {
                 d.sortingLayerName = aboveConnSortingLayer;
                 d.sortingOrder = neuronFace.sortingOrder + 1;
             });
+        }
+        
+        public override void Default() {
+            base.Default();
+            ToBoardLayer();
+            dots.ForEach(s => { s.gameObject.SetActive(true); s.transform.localScale = Vector3.one; });
+            _turnCounter = 0;
+            _hoverAnimation = null;
         }
 
         #endregion
@@ -101,13 +109,5 @@ namespace Neurons.UI {
         }
 
         #endregion
-        
-        public override void Default() {
-            base.Default();
-            ToBoardLayer();
-            dots.ForEach(s => { s.gameObject.SetActive(true); s.transform.localScale = Vector3.one; });
-            _turnCounter = 0;
-            _hoverAnimation = null;
-        }
     }
 }
