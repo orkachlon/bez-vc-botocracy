@@ -117,7 +117,9 @@ namespace StoryPoints {
             }
             TurnsToEvaluation--;
             _uiSP.UpdateTurnCounter(TurnsToEvaluation);
-            await _uiSP.AnimateDecrement();
+            if (TurnsToEvaluation > 0) {
+                await _uiSP.AnimateDecrement();
+            }
             storyEventManager.Raise(StoryEvents.OnDecrement, new StoryEventArgs(this));
         }
 

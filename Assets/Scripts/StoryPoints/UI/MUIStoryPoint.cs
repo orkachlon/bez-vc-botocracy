@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace StoryPoints.UI {
     public class MUIStoryPoint : MonoBehaviour {
-        [Header("Visuals"), SerializeField] private RectTransform backGround; 
+        [Header("Visuals"), SerializeField] private Image backGround; 
         [SerializeField] private TextMeshProUGUI title;
         [SerializeField] private TextMeshProUGUI description;
         [SerializeField] private GameObject turnSection;
@@ -73,12 +73,12 @@ namespace StoryPoints.UI {
         }
 
         public async Task PlayInitAnimation() {
-            backGround.anchoredPosition = new Vector2(-backGround.sizeDelta.x, 50);
-            await backGround.DOAnchorPosX(50, 0.5f).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+            backGround.rectTransform.anchoredPosition = new Vector2(-backGround.rectTransform.sizeDelta.x, 50);
+            await backGround.rectTransform.DOAnchorPosX(100, 0.5f).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
         }
 
         public async Task PlayEvaluateAnimation() {
-            await backGround.DOAnchorPosX((_camera.pixelWidth * 0.5f) - (backGround.sizeDelta.x * 0.5f), 0.2f)
+            await backGround.rectTransform.DOAnchorPosX((_camera.pixelWidth * 0.5f) - (backGround.rectTransform.sizeDelta.x * 0.5f), 0.2f)
                 .SetEase(Ease.Linear)
                 .OnComplete(() => {
                     turnSection.SetActive(false);
@@ -87,13 +87,13 @@ namespace StoryPoints.UI {
                     ShowDecisionData();
                 })
                 .AsyncWaitForCompletion();
-            MCoroutineHelper.InvokeAfterNextFrame(() => backGround
-                .DOAnchorPosY(_camera.pixelHeight * 0.5f - backGround.sizeDelta.y * 0.5f, 0.5f)
+            MCoroutineHelper.InvokeAfterNextFrame(() => backGround.rectTransform
+                .DOAnchorPosY(_camera.pixelHeight * 0.5f - backGround.rectTransform.sizeDelta.y * 0.5f, 0.5f)
                 .SetEase(Ease.OutQuad));
         }
 
         public async void CloseDecisionPopup() {
-            await backGround.DOAnchorPosY(-backGround.sizeDelta.y, 0.5f).SetEase(Ease.InOutQuad)
+            await backGround.rectTransform.DOAnchorPosY(-backGround.rectTransform.sizeDelta.y, 0.5f).SetEase(Ease.InOutQuad)
                 .AsyncWaitForCompletion();
             storyEventManager.Raise(StoryEvents.OnEvaluate, new StoryEventArgs(_sp));
         }
@@ -109,7 +109,13 @@ namespace StoryPoints.UI {
         }
 
         public async Task AnimateDecrement() {
-            await backGround.DOShakePosition(0.5f, Vector3.right * decrementShakeStrength).AsyncWaitForCompletion();
+            var baseCol = backGround.color;
+            backGround.color = Color.white;
+            var seq = DOTween.Sequence()
+                .Insert(0, backGround.DOColor(baseCol, 0.5f))
+                .Insert(0, backGround.rectTransform.DOShakePosition(0.5f, Vector3.right * decrementShakeStrength, randomness: 0, fadeOut: true, randomnessMode:ShakeRandomnessMode.Harmonic))
+                .AsyncWaitForCompletion();
+            await seq;
         }
     }
 }

@@ -52,13 +52,13 @@
                     return _ColorRight;
                 }
                 if (SIXTH <= angle && angle <= 0.5f) {
-                    if (w_pos.y > 0) {
+                    if (i.world_pos.y > 0) {
                         return _ColorTopRight;
                     }
                     return _ColorBotRight;
                 }
                 if (0.5f <= angle && angle <= 1 - SIXTH) {
-                    if (w_pos.y > 0) {
+                    if (i.world_pos.y > 0) {
                         return _ColorTopLeft;
                     }
                     return _ColorBotLeft;
