@@ -47,7 +47,14 @@
 
             fixed4 frag (v2f i) : SV_Target {
                 const float3 w_pos = normalize(i.world_pos);
-                const float angle = acos(dot(w_pos, float3(1, 0, 0))) * UNITY_INV_PI;
+                const float dp = dot(w_pos, float3(1, 0, 0));
+                const float angle = acos(dp) * UNITY_INV_PI;
+                if (dp <= -1) {
+                    return _ColorLeft;
+                }
+                if (dp >= 1) {
+                    return _ColorRight;
+                }
                 if (angle <= SIXTH) {
                     return _ColorRight;
                 }
