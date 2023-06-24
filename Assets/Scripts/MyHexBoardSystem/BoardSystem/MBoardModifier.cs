@@ -84,37 +84,39 @@ namespace MyHexBoardSystem.BoardSystem {
         }
 
         private async Task RemoveTilesFromTrait(ETrait trait, int amount) {
+            var isOutOfTiles = _boardController.GetTraitTileCount(trait) <= amount;
+            var removeTasks = new List<Task>();
             for(var i = 0; i < amount; i++) {
-                if (!await RemoveTraitTile(trait)) {
-                    // lose game
-                    boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));
-                }
+                removeTasks.Add(RemoveTileFromTrait(trait, i * 100));
+            }
+
+            await Task.WhenAll(removeTasks);
+            if (isOutOfTiles) {
+                // lose game
+                boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));
             }
         }
         
-        /// <summary>
-        ///     Returns false if trait has no more tiles
-        /// </summary>
-        private async Task<bool> RemoveTraitTile(ETrait trait) {
+        private async Task RemoveTileFromTrait(ETrait trait, int delay = 0) {
             var edgeHexes = _boardController.Manipulator
                 .GetEdge(ITraitAccessor.TraitToDirection(trait));
             if (edgeHexes.Length == 0) {
-                return false;
+                return;
             }
-            var isLastHex = edgeHexes.Length == 1;
-            
             var randomHex = edgeHexes[Random.Range(0, edgeHexes.Length)];
-            await AnimationManager.Register(RemoveTile(randomHex));
-            return !isLastHex;
+            await AnimationManager.Register(RemoveTile(randomHex, delay));
         }
 
         private async Task AddTilesToTrait(ETrait trait, int amount) {
+            var addTilesTasks = new List<Task>();
             for (var i = 0; i < amount; i++) {
-                await AddTileToTrait(trait);
+                addTilesTasks.Add(AddTileToTrait(trait, i * 100));
             }
+
+            await Task.WhenAll(addTilesTasks);
         }
         
-        private async Task AddTileToTrait(ETrait trait) {
+        private async Task AddTileToTrait(ETrait trait, int delay = 0) {
             var edgeHexes = _boardController.Manipulator
                 .GetEdge(ITraitAccessor.TraitToDirection(trait));
             var surroundingHexes = _boardController.Manipulator.GetSurroundingHexes(edgeHexes, true);
@@ -131,7 +133,7 @@ namespace MyHexBoardSystem.BoardSystem {
             //             .Count(n => _boardController.Board.HasPosition(n)))
             //     .ToArray();
             // var bestConnection = orderedByExistingNeighbors[0];
-            await AnimationManager.Register(AddTile(randomHex));
+            await AnimationManager.Register(AddTile(randomHex, delay));
         }
 
         private int GetTileAmountBasedOnNeurons(int neuronAmount) {
@@ -140,14 +142,14 @@ namespace MyHexBoardSystem.BoardSystem {
             return Mathf.Clamp(Mathf.RoundToInt(effectScale * Mathf.Log(neuronAmount + 1)), 0, maxEffectStrength);
         }
 
-        private async Task RemoveTile(Hex hex) {
-            await Task.Delay(100);
+        private async Task RemoveTile(Hex hex, int delay = 0) {
             await _neuronsController.RemoveNeuron(hex);
+            await Task.Delay(delay);
             _boardController.RemoveTile(hex);
         }
 
-        private async Task AddTile(Hex hex) {
-            await Task.Delay(100);
+        private async Task AddTile(Hex hex, int delay = 0) {
+            await Task.Delay(delay);
             _boardController.AddTile(hex);
 
         }
