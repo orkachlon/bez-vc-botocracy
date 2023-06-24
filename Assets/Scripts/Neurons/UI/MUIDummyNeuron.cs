@@ -10,7 +10,7 @@ namespace Neurons.UI {
         public override void PlayRemoveSound() {
             var s = AudioSpawner.GetAudioSource();
             s.Source.volume = removeVolume;
-            s.Source.pitch = Random.value - 0.5f;
+            s.Source.pitch += (Random.value - 0.5f) * 0.5f;
             s.Source.PlayOneShot(RuntimeData.DataProvider.GetRemoveSound());
             AudioSpawner.ReleaseWhenDone(s);
         }
