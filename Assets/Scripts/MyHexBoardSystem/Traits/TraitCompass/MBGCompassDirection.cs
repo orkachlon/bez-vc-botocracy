@@ -4,9 +4,10 @@ using Events.Board;
 using Events.SP;
 using Types.Trait;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace MyHexBoardSystem.Traits.TraitCompass {
-    public class MBGCompassDirection : MonoBehaviour {
+    public class MBGCompassDirection : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
         [SerializeField] private ETrait trait;
         
@@ -27,14 +28,14 @@ namespace MyHexBoardSystem.Traits.TraitCompass {
             storyEventManager.Unregister(StoryEvents.OnEvaluate, OnSPEvaluated);
         }
 
-        private void OnMouseEnter() {
+        public void OnPointerEnter(PointerEventData eventData) {
             if (!HasEffect) {
                 return;
             }
             boardEventManager.Raise(ExternalBoardEvents.OnTraitCompassEnter, new TraitCompassHoverEventArgs(trait));
         }
 
-        private void OnMouseExit() {
+        public void OnPointerExit(PointerEventData eventData) {
             if (!HasEffect) {
                 return;
             }

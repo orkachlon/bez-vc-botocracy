@@ -520,6 +520,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 361977597}
   m_CullTransparentMesh: 1
+--- !u!1 &476921948 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8414945713918042833, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+  m_PrefabInstance: {fileID: 8414945712329943289}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &476921956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476921948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d4b63504b454f979ee196b172fc2984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 0
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!20 &519420031 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 4958885507159116209, guid: e942699f68b271542b9e99577cc80329, type: 3}
@@ -633,6 +653,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
   m_PrefabInstance: {fileID: 7619956963374085158}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &670207052 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8414945714037237187, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+  m_PrefabInstance: {fileID: 8414945712329943289}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &670207060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670207052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d4b63504b454f979ee196b172fc2984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 1
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!1 &798910494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,6 +1054,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trait: 3
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+--- !u!1 &1365989789 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8414945713557797758, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+  m_PrefabInstance: {fileID: 8414945712329943289}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1365989797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365989789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d4b63504b454f979ee196b172fc2984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 4
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!1 &1403889763
@@ -1571,6 +1631,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1721055252}
   m_CullTransparentMesh: 1
+--- !u!1 &1748091008 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8414945713394972177, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+  m_PrefabInstance: {fileID: 8414945712329943289}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1748091016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748091008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d4b63504b454f979ee196b172fc2984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 2
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!1 &1811897069 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3829972283479104527, guid: ca25ed81b64198b459d5fb6ae177c7b7, type: 3}
@@ -1605,6 +1685,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91271c9e269240dba7e97f4d3f001ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1848344411 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8414945712944761861, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+  m_PrefabInstance: {fileID: 8414945712329943289}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1848344419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848344411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d4b63504b454f979ee196b172fc2984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 3
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!1 &1880833247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,6 +1826,26 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 49661a86a0528424980980aa99f0312f, type: 2}
     - {fileID: 11400000, guid: c0e65aa35d461324787a1e0242bc123c, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+--- !u!1 &2035816300 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8414945713540249906, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+  m_PrefabInstance: {fileID: 8414945712329943289}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2035816308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035816300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d4b63504b454f979ee196b172fc2984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trait: 5
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!1 &2065088249
 GameObject:
   m_ObjectHideFlags: 0
