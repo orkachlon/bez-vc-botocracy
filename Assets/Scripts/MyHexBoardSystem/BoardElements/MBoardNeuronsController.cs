@@ -277,7 +277,7 @@ namespace MyHexBoardSystem.BoardElements {
                 return;
             }
 
-            MLogger.LogEditor($"{neuronArgs.Element.DataProvider.Type} done!");
+            //MLogger.LogEditor($"{neuronArgs.Element.DataProvider.Type} done!");
             if (Board.Positions.Where(p => p.HasData()).Any(p => !p.Data.TurnDone)) {
                 return;
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Core.EventSystem;
 using Events.Neuron;
@@ -20,7 +21,7 @@ namespace Neurons.NeuronQueue {
         private SEventManager neuronEventManager;
         
         private const string InfiniteNeuronsMark = "-";
-        private readonly List<IUIQueueNeuron> _registerUiElements = new ();
+        private readonly Queue<KeyValuePair<IStackNeuron, IUIQueueNeuron>> _registerUiElements = new ();
 
         private Canvas _queueCanvas;
 
@@ -72,15 +73,14 @@ namespace Neurons.NeuronQueue {
         }
 
         private async void DequeueNeuron() {
-            var refNeuron = _registerUiElements[0];
-            _registerUiElements.Remove(refNeuron);
-            await refNeuron.AnimateDequeue();
-            Destroy(refNeuron.GO);
+            var refNeuron = _registerUiElements.Dequeue();
+            await refNeuron.Value.AnimateDequeue();
+            refNeuron.Key.Release();
         }
-
 
         private void ShowNeuron(IStackNeuron stackNeuron) {
             var uiElement = stackNeuron.Pool(stack);
+            uiElement.Default();
             // can't use the isntantiate overload with position because
             // parenting is done after setting position 
             uiElement.GO.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
@@ -88,7 +88,7 @@ namespace Neurons.NeuronQueue {
             uiElement.GO.transform.localScale *= _queueCanvas.scaleFactor;
 
             var placeInQueue = _registerUiElements.Count;
-            _registerUiElements.Add(uiElement);
+            _registerUiElements.Enqueue(new KeyValuePair<IStackNeuron, IUIQueueNeuron>(stackNeuron, uiElement));
             stackNeuron.SetPlaceInQueue(placeInQueue);
             uiElement.SetRuntimeElementData(stackNeuron);
             SetQueuePosition(uiElement, placeInQueue);
@@ -105,9 +105,10 @@ namespace Neurons.NeuronQueue {
 
         private async void ShiftNeuronsInQueue() {
             var shiftTasks = new List<Task>();
+            var queueAsArray = _registerUiElements.ToArray();
             for (var i = 0; i < _registerUiElements.Count; i++) {
-                var neuron = _registerUiElements[i];
-                shiftTasks.Add(neuron.AnimateQueueShift(i, -stackSpacing, -top3Spacing));
+                var neuron = queueAsArray[i];
+                shiftTasks.Add(neuron.Value.AnimateQueueShift(i, -stackSpacing, -top3Spacing));
             }
             await Task.WhenAll(shiftTasks);
         }

@@ -71,8 +71,6 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
                 FaceImage.sprite = RuntimeData.DataProvider.GetFaceSprite();
                 FaceImage.color = Color.white;
                 shiftAmount = Top3ShiftAmount;
-            }
-            if (queueIndex <= 2) {
                 PlayAnimation();
             }
 
@@ -84,6 +82,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
 
         public void Default() {
             BaseImage.sprite = RuntimeData.DataProvider.GetBoardArtwork();
+            BaseImage.color = Color.white;
             FaceImage.sprite = RuntimeData.DataProvider.GetFaceSprite();
             FaceImage.color = Color.white;
             RectTransform.anchoredPosition = Vector2.zero;

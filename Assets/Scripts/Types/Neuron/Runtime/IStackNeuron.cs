@@ -12,6 +12,7 @@ namespace Types.Neuron.Runtime {
         void SetPlaceInQueue(int value);
 
         public IUIQueueNeuron Pool(Transform parent = null);
+        public void Release();
         public Task PlayStackAnimation();
     }
 }

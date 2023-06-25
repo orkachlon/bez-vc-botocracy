@@ -17,7 +17,6 @@ namespace Neurons.Runtime {
         public void SetPlaceInQueue(int value) {
             PlaceInQueue = value;
             if (PlaceInQueue < 3) {
-                MLogger.LogEditor("Animating on enqueue!");
                 UIQueueNeuron.PlayAnimation();
             }
         }
