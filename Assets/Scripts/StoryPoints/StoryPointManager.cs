@@ -29,12 +29,12 @@ namespace StoryPoints {
         }
 
         private void OnEnable() {
-            storyEventManager.Register(StoryEvents.OnEvaluate, StoryTurn);
+            boardEventManager.Register(ExternalBoardEvents.OnBoardModified, StoryTurn);
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
         private void OnDisable() {
-            storyEventManager.Unregister(StoryEvents.OnEvaluate, StoryTurn);
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, StoryTurn);
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
@@ -45,11 +45,11 @@ namespace StoryPoints {
         }
 
         private async void StoryTurn(EventArgs eventArgs) {
-            if (eventArgs is not StoryEventArgs storyEventArgs) {
-                return;
-            }
+            //if (eventArgs is not StoryEventArgs storyEventArgs) {
+            //    return;
+            //}
             // add to completed SPs
-            _completedSPs.Add(storyEventArgs.Story.Id);
+            _completedSPs.Add(_currentStory.Id);
             // first SP
             if (_currentStory == null || _currentStory.Evaluated) {
                 await NextStoryPoint();

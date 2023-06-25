@@ -6,7 +6,7 @@ namespace Types.Neuron.Runtime {
     public interface IStackNeuron {
         public IBoardNeuron BoardNeuron { get; }
         public INeuronDataBase DataProvider { get; }
-        int PlaceInQueue { get; set; }
+        public int PlaceInQueue { get; set; }
 
         public Task PlayStackAnimation();
     }

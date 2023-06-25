@@ -14,11 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neuronType: 2
   boardArtwork: {fileID: -283304748, guid: 27c61bdcefe35dd4ebcf482f21944507, type: 3}
-  faceSprite: {fileID: 450317291, guid: 27c61bdcefe35dd4ebcf482f21944507, type: 3}
   UIStackArtwork: {fileID: 21300000, guid: 2eab4bf1a3719e24db1faee56dcca28d, type: 3}
-  UIThirdArtwork: {fileID: 21300000, guid: e598e17c160c23645a6a49ebd1db003e, type: 3}
-  UISecondArtwork: {fileID: 21300000, guid: e598e17c160c23645a6a49ebd1db003e, type: 3}
-  UIFirstArtwork: {fileID: 21300000, guid: e598e17c160c23645a6a49ebd1db003e, type: 3}
+  UITopArtwork: {fileID: 21300000, guid: e598e17c160c23645a6a49ebd1db003e, type: 3}
+  faceSprite: {fileID: 450317291, guid: 27c61bdcefe35dd4ebcf482f21944507, type: 3}
   connectionColor: {r: 1, g: 0.6666667, b: 0.8117648, a: 1}
   boardModel: {fileID: 6250217442136585510, guid: b95662072859e624bad3c828ec587a81, type: 3}
   UIModel: {fileID: 3697331408924041040, guid: 91d9a07677642314e97721ef65a31996, type: 3}
