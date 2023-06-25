@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Core.EventSystem;
 using Core.Utils;
+using DG.Tweening;
 using Events.SP;
 using Types.Trait;
 using UnityEngine;
@@ -11,14 +13,19 @@ namespace Main.BG {
         [Header("Colors"), SerializeField] private Color colorA;
         [SerializeField] private Color colorB;
         [SerializeField] private Color nonDecidingColor;
+        [SerializeField] private float transitionDuration;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
-        
+
         private Material _material;
-        
+        private readonly Dictionary<ETrait, Color> _traitCurrentColors = new Dictionary<ETrait, Color>();
+
         private void Awake() {
             _material = GetComponent<Renderer>().material;
+            foreach (var trait in EnumUtil.GetValues<ETrait>()) {
+                _traitCurrentColors[trait] = TraitToDefaultColor(trait);
+            }
         }
 
         private void OnEnable() {
@@ -42,10 +49,20 @@ namespace Main.BG {
 
         private void SetTraitBGColor(ETrait trait, bool isDeciding) {
             if (!isDeciding) {
-                _material.SetColor(TraitToVariableName(trait), nonDecidingColor);
+                DOVirtual.Color(_traitCurrentColors[trait], nonDecidingColor, transitionDuration, col => {
+                    _material.SetColor(TraitToVariableName(trait), col);
+                })
+                    .OnComplete(() => {
+                        _traitCurrentColors[trait] = nonDecidingColor;
+                    });
                 return;
             }
-            _material.SetColor(TraitToVariableName(trait), TraitToDefaultColor(trait));
+            DOVirtual.Color(_traitCurrentColors[trait], TraitToDefaultColor(trait), transitionDuration, col => {
+                _material.SetColor(TraitToVariableName(trait), col);
+            })
+            .OnComplete(() => {
+                _traitCurrentColors[trait] = TraitToDefaultColor(trait);
+            });
         }
 
         private static string TraitToVariableName(ETrait trait) {

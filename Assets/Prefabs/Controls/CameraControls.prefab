@@ -184,7 +184,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorA: {r: 0.97647065, g: 0.92549026, b: 0.85098046, a: 1}
   colorB: {r: 1, g: 0.7607844, b: 0.6392157, a: 1}
-  nonDecidingColor: {r: 0.785, g: 0.75026554, b: 0.71205753, a: 1}
+  nonDecidingColor: {r: 0.80392164, g: 0.7411765, b: 0.7176471, a: 1}
+  transitionDuration: 0.3
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!1 &4958885506518661733
 GameObject:
