@@ -13,7 +13,6 @@ using UnityEngine;
 
 namespace Neurons.NeuronQueue {
     public class MUINeuronQueue : MonoBehaviour {
-        private const string InfiniteNeuronsMark = "-";
         [SerializeField, Range(3, 10)] private int neuronsToShow = 7;
         [SerializeField] private TextMeshProUGUI neuronCountDisplay;
         [SerializeField] private RectTransform stack;
@@ -23,6 +22,7 @@ namespace Neurons.NeuronQueue {
         [Header("Event Managers"), SerializeField]
         private SEventManager neuronEventManager;
         
+        private const string InfiniteNeuronsMark = "-";
 
         private readonly List<MUINeuron> _registerUiElements = new ();
 
