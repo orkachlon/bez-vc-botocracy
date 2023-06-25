@@ -13,7 +13,7 @@ namespace Types.Neuron.Data {
         public Color ConnectionColor { get; }
 
         void SetData(INeuronDataBase other);
-        IUINeuron GetUIModel();
+        IUIQueueNeuron GetUIModel();
         Sprite GetQueueStackArtwork();
         Sprite GetQueueTopArtwork();
         Sprite GetFaceSprite();

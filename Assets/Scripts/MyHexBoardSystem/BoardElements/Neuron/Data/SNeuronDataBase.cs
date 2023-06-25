@@ -28,7 +28,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
         [SerializeField] private Color connectionColor;
         
         [Header("Prefab  Models"), SerializeField] private MUIBoardNeuron boardModel;
-        [SerializeField] private MUINeuron UIModel;
+        [SerializeField] private MUIQueueNeuron UIModel;
 
         [Header("Sounds"), SerializeField] private AudioClip addSound;
         [SerializeField] private AudioClip removeSound;
@@ -43,7 +43,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
 
         public virtual IBoardNeuron GetNewElement() => null;
         public virtual IUIBoardNeuron GetModel() => boardModel;
-        public IUINeuron GetUIModel() => UIModel;
+        public IUIQueueNeuron GetUIModel() => UIModel;
         public Sprite GetBoardArtwork() => boardArtwork;
         public Sprite GetFaceSprite() => faceSprite;
         public TileBase GetEffectTile() => effectTile;

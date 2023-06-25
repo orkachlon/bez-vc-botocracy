@@ -44,7 +44,7 @@ namespace Core.Tools.Pooling.GenericPrefabPooler
         }
 
 
-        public virtual GameObject Get(GameObject prefabModel) {
+        public virtual GameObject Get(GameObject prefabModel, Transform parent = null) {
             GameObject pooledObj = null;
 
             if (free == null)
@@ -63,11 +63,15 @@ namespace Core.Tools.Pooling.GenericPrefabPooler
 
             if (pooledObj != null)
                 free[prefabModel].Remove(pooledObj);
-            else
-                pooledObj = Instantiate(prefabModel, transform);
+            else {
+                pooledObj = Instantiate(prefabModel, parent == null ? transform : parent);
+            }
 
             busy[prefabModel].Add(pooledObj);
             pooledObj.SetActive(true);
+            if (parent != null) {
+                pooledObj.transform.SetParent(parent, false);
+            }
             OnPool(pooledObj);
 
             return pooledObj;
@@ -78,8 +82,8 @@ namespace Core.Tools.Pooling.GenericPrefabPooler
             return obj.GetComponent<T1>();
         }
 
-        public virtual T1 GetPoolable<T1>(T1 prefabModel) where T1 : IPoolable {
-            var obj = Get(prefabModel.GO);
+        public virtual T1 GetPoolable<T1>(T1 prefabModel, Transform parent = null) where T1 : IPoolable {
+            var obj = Get(prefabModel.GO, parent);
             return obj.GetComponent<T1>();
         }
 

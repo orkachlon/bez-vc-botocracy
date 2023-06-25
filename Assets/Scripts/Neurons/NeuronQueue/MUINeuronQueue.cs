@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using MyHexBoardSystem.BoardElements.Neuron.UI;
 using Core.EventSystem;
 using Events.Neuron;
 using TMPro;
@@ -16,19 +14,23 @@ namespace Neurons.NeuronQueue {
         [SerializeField, Range(3, 10)] private int neuronsToShow = 7;
         [SerializeField] private TextMeshProUGUI neuronCountDisplay;
         [SerializeField] private RectTransform stack;
-        [SerializeField] private float stackSpacing = 100, top3Spacing = 150;
-        [SerializeField] private MUINeuron uiNeuronPrefab;
+        [SerializeField] private int stackSpacing = 100, top3Spacing = 150;
         
         [Header("Event Managers"), SerializeField]
         private SEventManager neuronEventManager;
         
         private const string InfiniteNeuronsMark = "-";
+        private readonly List<IUIQueueNeuron> _registerUiElements = new ();
 
-        private readonly List<MUINeuron> _registerUiElements = new ();
+        private Canvas _queueCanvas;
 
         public float StackSpacing => stackSpacing;
         public float Top3Spacing => top3Spacing;
 
+
+        private void Awake() {
+            _queueCanvas = GetComponent<Canvas>();
+        }
 
         private void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
@@ -73,24 +75,27 @@ namespace Neurons.NeuronQueue {
             var refNeuron = _registerUiElements[0];
             _registerUiElements.Remove(refNeuron);
             await refNeuron.AnimateDequeue();
-            Destroy(refNeuron.gameObject);
+            Destroy(refNeuron.GO);
         }
 
 
         private void ShowNeuron(IStackNeuron stackNeuron) {
-            var uiElement = Instantiate(uiNeuronPrefab, stack);
+            var uiElement = stackNeuron.Pool(stack);
             // can't use the isntantiate overload with position because
             // parenting is done after setting position 
-            uiElement.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            uiElement.GO.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            // scale the entire neuron with the canvas in order to fit to different screen sizes
+            uiElement.GO.transform.localScale *= _queueCanvas.scaleFactor;
+
             var placeInQueue = _registerUiElements.Count;
             _registerUiElements.Add(uiElement);
-            stackNeuron.PlaceInQueue = placeInQueue;
+            stackNeuron.SetPlaceInQueue(placeInQueue);
             uiElement.SetRuntimeElementData(stackNeuron);
             SetQueuePosition(uiElement, placeInQueue);
         }
 
-        private void SetQueuePosition(MUINeuron uiElement, int placeInQueue) {
-            uiElement.transform.SetAsFirstSibling();
+        private void SetQueuePosition(IUIQueueNeuron uiElement, int placeInQueue) {
+            uiElement.GO.transform.SetAsFirstSibling();
             if (placeInQueue < 3) {
                 uiElement.SetQueuePosition(placeInQueue * top3Spacing);
                 return;
@@ -101,8 +106,8 @@ namespace Neurons.NeuronQueue {
         private async void ShiftNeuronsInQueue() {
             var shiftTasks = new List<Task>();
             for (var i = 0; i < _registerUiElements.Count; i++) {
-                MUINeuron neuron = _registerUiElements[i];
-                shiftTasks.Add(neuron.AnimateQueueShift(i));
+                var neuron = _registerUiElements[i];
+                shiftTasks.Add(neuron.AnimateQueueShift(i, -stackSpacing, -top3Spacing));
             }
             await Task.WhenAll(shiftTasks);
         }

@@ -161,9 +161,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5709364845755284045}
-  - component: {fileID: 8382806116633763232}
+  - component: {fileID: 4787198164626533071}
   m_Layer: 5
-  m_Name: StackNeuron
+  m_Name: MUIQueueNeuron
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,7 +191,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &8382806116633763232
+--- !u!114 &4787198164626533071
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,6 +200,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5709364845755284044}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d21c6b3d97414aa3ac7553a5bb87eb86, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f8de1fe971ae134695af71049b982d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

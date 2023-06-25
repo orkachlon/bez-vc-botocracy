@@ -76,6 +76,7 @@ namespace Neurons.UI {
         public override void StopHoverAnimation() {
             _hoverAnimation?.Complete();
             _hoverAnimation?.Kill();
+            _hoverAnimation = null;
         }
 
         public void PlaySpawnSound() {
