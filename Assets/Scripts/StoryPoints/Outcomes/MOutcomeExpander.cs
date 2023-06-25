@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Animation;
 using Core.EventSystem;
 using DG.Tweening;
 using Events.UI;
@@ -16,12 +16,7 @@ namespace StoryPoints.Outcomes {
         public void OnPointerClick(PointerEventData eventData) {
             outcomeDescription.SetActive(!outcomeDescription.activeInHierarchy);
             transform.DORotate(transform.rotation.eulerAngles + Vector3.forward * 180, 0.75f, RotateMode.FastBeyond360);
-            StartCoroutine(RaiseUpdateNextFrame());
-        }
-
-        private IEnumerator RaiseUpdateNextFrame() {
-            yield return null;
-            uiEventManager.Raise(UIEvents.OnOutcomeExpanded, new UIExpandEventArgs(outcomeDescription.activeInHierarchy));
+            MCoroutineHelper.InvokeAfterNextFrame(() => uiEventManager.Raise(UIEvents.OnOutcomeExpanded, new UIExpandEventArgs(outcomeDescription.activeInHierarchy)));
         }
     }
 }

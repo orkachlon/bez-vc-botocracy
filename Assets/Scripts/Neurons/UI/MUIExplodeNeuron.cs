@@ -72,7 +72,7 @@ namespace Neurons.UI {
 
         public void PlayKillSound() {
             var source = AudioSpawner.GetAudioSource();
-            source.Source.pitch += Random.value - 0.5f;
+            source.Source.pitch += (Random.value - 0.5f) * 0.5f;
             source.Source.PlayOneShot(ExplodeData.GetKillSound());
             AudioSpawner.ReleaseWhenDone(source);
         }

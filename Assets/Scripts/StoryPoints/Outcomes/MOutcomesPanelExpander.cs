@@ -1,6 +1,5 @@
 ﻿using System;
 using Core.EventSystem;
-using DG.Tweening;
 using Events.UI;
 using Types.UI;
 using UnityEngine;
@@ -33,7 +32,7 @@ namespace StoryPoints.Outcomes {
 
         public void OnPointerClick(PointerEventData eventData) {
             _isExpanded = !_isExpanded;
-            transform.DORotate(transform.rotation.eulerAngles + Vector3.forward * 180, 0.75f, RotateMode.FastBeyond360);
+            transform.eulerAngles = Vector3.forward * 270 - transform.rotation.eulerAngles;
             UpdateSize();
             uiEventManager.Raise(UIEvents.OnOutcomesPanelExpanded, new UIExpandEventArgs(_isExpanded));
         }

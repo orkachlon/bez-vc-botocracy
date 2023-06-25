@@ -11,7 +11,6 @@ using Neurons.Runtime;
 using Types.GameState;
 using Types.Neuron;
 using Types.Neuron.Runtime;
-using Types.StoryPoint;
 using UnityEngine;
 
 namespace Neurons.NeuronQueue {
@@ -29,7 +28,6 @@ namespace Neurons.NeuronQueue {
 
         private Queue<IStackNeuron> _neurons;
         private bool _isProviding;
-        // private IStoryPoint _currentSP;
 
         #region UnityMethods
 

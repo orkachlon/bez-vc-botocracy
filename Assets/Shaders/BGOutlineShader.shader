@@ -1,5 +1,6 @@
 ﻿Shader "Custom/BGOutlineShader" {
     Properties {
+        _MainTex ("_MainTetx", 2D) = "white" {}
         _Threshold ("_Threshold", float) = 1
     }
     SubShader {
