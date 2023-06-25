@@ -103,7 +103,7 @@ namespace StoryPoints.UI {
         }
 
         private void ShowDecisionData() {
-            deciderText.text = $"{DeciderPrefix}{_sp.DecisionEffects.DecidingTrait.ToString()}";
+            deciderText.text = $"{DeciderPrefix}{_sp.DecisionEffects.DecidingTrait}";
             decisionText.text = $"{ActionPrefix}{_sp.DecisionEffects.Decision}";
             outcomeText.text = $"{OutcomePrefix}{_sp.DecisionEffects.Outcome}";
         }

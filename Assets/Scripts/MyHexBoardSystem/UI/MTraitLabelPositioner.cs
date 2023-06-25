@@ -83,7 +83,6 @@ namespace MyHexBoardSystem.UI {
             var yExtent = _bounds.sizeDelta.y * 0.5f;
             var xExtent = _bounds.sizeDelta.x * 0.5f;
             var boundsPos = _bounds.position;
-            var shiftDelta = 0f;
             var dir = boundsPos - _rt.position;
             if (boundsPos.y + yExtent < screenPos.y + h) {
                 var yMag = screenPos.y + h - boundsPos.y + yExtent;

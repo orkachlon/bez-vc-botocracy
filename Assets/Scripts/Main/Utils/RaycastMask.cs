@@ -37,7 +37,7 @@ namespace Main.Utils {
             {
                 return _sprite.texture.GetPixel(x,y).a > 0;
             }
-            catch (UnityException e)
+            catch (UnityException)
             {
                 Debug.LogError("Mask texture not readable, set your sprite to Texture Type 'Advanced' and check 'Read/Write Enabled'");
                 Destroy(this);

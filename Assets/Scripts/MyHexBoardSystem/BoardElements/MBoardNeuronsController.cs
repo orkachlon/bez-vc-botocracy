@@ -261,8 +261,7 @@ namespace MyHexBoardSystem.BoardElements {
             return true;
         }
 
-        private async void DispatchNeuronsAdded() {
-            // await AnimationManager.WaitForAll();
+        private void DispatchNeuronsAdded() {
             externalEventManager.Raise(ExternalBoardEvents.OnAllNeuronsDone, EventArgs.Empty);
         }
         
