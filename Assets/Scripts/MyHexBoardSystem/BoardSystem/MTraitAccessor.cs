@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
@@ -27,8 +28,8 @@ namespace MyHexBoardSystem.BoardSystem {
         [SerializeField] private SEventManager storyEventManager;
         
         // lazy
-        private readonly Dictionary<ETrait, HashSet<Hex>> _traitHexes = new();
-        private Dictionary<ETrait, HashSet<Hex>> TraitHexes {
+        private readonly ConcurrentDictionary<ETrait, HashSet<Hex>> _traitHexes = new();
+        private IDictionary<ETrait, HashSet<Hex>> TraitHexes {
             get
             {
                 if (_traitHexes.Count > 0) {
