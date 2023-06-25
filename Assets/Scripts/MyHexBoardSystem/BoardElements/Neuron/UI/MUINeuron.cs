@@ -1,31 +1,65 @@
-﻿using Types.Neuron.UI;
+﻿using Core.Utils;
+using DG.Tweening;
+using System.Threading.Tasks;
+using Types.Neuron.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Neurons.UI {
+namespace MyHexBoardSystem.BoardElements.Neuron.UI {
     public class MUINeuron : MonoBehaviour, IUINeuron {
         public Types.Neuron.Runtime.IStackNeuron RuntimeData { get; set; }
-        protected Image UIImage { get; set; }
-        protected Transform Transform { get; set; }
-        protected Canvas Canvas { get; set; }
-        
+        protected Image BaseImage { get; set; }
+        protected Image FaceImage { get; set; }
+        protected RectTransform RectTransform { get; set; }
+
         protected virtual void Awake() {
-            UIImage = GetComponent<Image>();
-            Transform = transform;
-            Canvas = GetComponent<Canvas>();
+            RectTransform = GetComponent<RectTransform>();
+            BaseImage = gameObject.FindComponentInChildWithTag<Image>("NeuronBaseRenderer");
+            FaceImage = gameObject.FindComponentInChildWithTag<Image>("NeuronFaceRenderer");
         }
-        
+
         public virtual void SetRuntimeElementData(Types.Neuron.Runtime.IStackNeuron data) {
             RuntimeData = data;
             UpdateView();
         }
 
-        protected virtual void UpdateView() {
-            UIImage.sprite = RuntimeData.DataProvider.GetUIArtwork(RuntimeData.UIState);
+        public virtual void SetQueuePosition(float height) {
+            var pos = RectTransform.anchoredPosition;
+            RectTransform.anchoredPosition = new Vector2(pos.x, height);
         }
 
-        public void SetPlaceInQueue(int place) {
-            Canvas.sortingOrder = place;
+        protected virtual void UpdateView() {
+            if (RuntimeData.PlaceInQueue > 2) {
+                FaceImage.color = Color.clear;
+                BaseImage.sprite = RuntimeData.DataProvider.GetQueueStackArtwork();
+                return;
+            }
+            FaceImage.sprite = RuntimeData.DataProvider.GetFaceSprite();
+            BaseImage.sprite = RuntimeData.DataProvider.GetBoardArtwork();
+        }
+
+        public async Task AnimateDequeue() {
+            await DOTween.Sequence()
+                .Insert(0, RectTransform.DOAnchorPosY(RectTransform.anchoredPosition.y + 100, 0.5f).SetEase(Ease.OutCirc))
+                .Insert(0, BaseImage.DOFade(0, 0.5f).SetEase(Ease.OutCirc))
+                .Insert(0, FaceImage.DOFade(0, 0.5f).SetEase(Ease.OutCirc))
+                .OnComplete(() => gameObject.SetActive(false))
+                .AsyncWaitForCompletion();
+        }
+
+        public async Task AnimateQueueShift(int queueIndex) {
+            var shiftAmount = 50;
+            if (queueIndex <= 2) {
+                BaseImage.sprite = RuntimeData.DataProvider.GetBoardArtwork();
+                FaceImage.sprite = RuntimeData.DataProvider.GetFaceSprite();
+                FaceImage.color = Color.white;
+                shiftAmount = 100;
+            }
+
+            RuntimeData.PlaceInQueue = queueIndex;
+            await RectTransform
+                .DOAnchorPosY(RectTransform.anchoredPosition.y + shiftAmount, 0.5f)
+                .AsyncWaitForCompletion();
         }
     }
 

@@ -8,7 +8,7 @@ namespace Neurons.Runtime {
 
         public IBoardNeuron BoardNeuron { get; }
         public INeuronDataBase DataProvider => BoardNeuron.DataProvider;
-        public ENeuronUIState UIState { get; set; }
+        public int PlaceInQueue{ get; set; }
 
         public StackNeuron(IBoardNeuron boardNeuron) {
             BoardNeuron = boardNeuron;

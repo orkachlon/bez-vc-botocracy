@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using MyHexBoardSystem.BoardElements.Neuron.UI;
 using Core.EventSystem;
 using Events.Neuron;
-using Neurons.UI;
 using TMPro;
 using Types.Neuron;
 using Types.Neuron.Runtime;
 using Types.Neuron.UI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Neurons.NeuronQueue {
     public class MUINeuronQueue : MonoBehaviour {
-
+        private const string InfiniteNeuronsMark = "-";
         [SerializeField, Range(3, 10)] private int neuronsToShow = 7;
         [SerializeField] private TextMeshProUGUI neuronCountDisplay;
-        [SerializeField] private VerticalLayoutGroup stack, top3;
+        [SerializeField] private RectTransform stack;
+        [SerializeField] private float stackSpacing = 100, top3Spacing = 150;
         [SerializeField] private MUINeuron uiNeuronPrefab;
         
         [Header("Event Managers"), SerializeField]
@@ -25,9 +26,9 @@ namespace Neurons.NeuronQueue {
 
         private readonly List<MUINeuron> _registerUiElements = new ();
 
-        private void Awake() {
-            InitializeEmptyQueue();
-        }
+        public float StackSpacing => stackSpacing;
+        public float Top3Spacing => top3Spacing;
+
 
         private void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
@@ -39,24 +40,6 @@ namespace Neurons.NeuronQueue {
             neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeue);
         }
 
-        private void InitializeEmptyQueue() {
-            for (var i = 0; i < 3; i++) {
-                var model = Instantiate(uiNeuronPrefab, top3.transform, true);
-                _registerUiElements.Add(model);
-                model.transform.SetSiblingIndex(i);
-                model.SetPlaceInQueue(neuronsToShow - 1 - i);
-                model.gameObject.SetActive(false);
-            }
-
-            for (var i = 0; i < neuronsToShow - 3; i++) {
-                var model = Instantiate(uiNeuronPrefab, stack.transform, true);
-                _registerUiElements.Add(model);
-                model.transform.SetSiblingIndex(i);
-                model.SetPlaceInQueue(neuronsToShow - 4 - i);
-                model.gameObject.SetActive(false);
-            }
-        }
-
         private void Enqueue(INeuronQueue neuronQueue) {
             SetNeuronCounterText(neuronQueue.IsInfinite, neuronQueue.Count);
             
@@ -64,7 +47,7 @@ namespace Neurons.NeuronQueue {
                 return;
             }
 
-            if (neuronQueue.IsInfinite && _registerUiElements.TrueForAll(n => n.gameObject.activeInHierarchy)) {
+            if (neuronQueue.IsInfinite && _registerUiElements.Count >= neuronsToShow) {
                 return;
             }
             
@@ -73,12 +56,12 @@ namespace Neurons.NeuronQueue {
 
         private void Dequeue(INeuronQueue neuronQueue) {
             SetNeuronCounterText(neuronQueue.IsInfinite, neuronQueue.Count);
+            DequeueNeuron();
             ShiftNeuronsInQueue();
-            HideExcessNeurons(neuronQueue);
 
             // show the next neuron in queue
             var lastNeuron = neuronQueue.Peek(neuronsToShow - 1);
-            
+
             // we have less than 'neuronsToShow' neurons
             if (lastNeuron == null) {
                 return;
@@ -86,47 +69,46 @@ namespace Neurons.NeuronQueue {
             ShowNeuron(lastNeuron);
         }
 
-        private void HideExcessNeurons(INeuronQueue neuronQueue) {
-            var excess = neuronsToShow - neuronQueue.Count;
-            if (excess <= 0) {
-                return;
-            }
-
-            for (var i = 1; i <= excess; i++) {
-                _registerUiElements[^i].gameObject.SetActive(false);
-            }
+        private async void DequeueNeuron() {
+            var refNeuron = _registerUiElements[0];
+            _registerUiElements.Remove(refNeuron);
+            await refNeuron.AnimateDequeue();
+            Destroy(refNeuron.gameObject);
         }
+
 
         private void ShowNeuron(IStackNeuron stackNeuron) {
-            var uiElement = _registerUiElements.First(n => !n.gameObject.activeInHierarchy);
-            uiElement.gameObject.SetActive(true);
-            var placeInQueue = _registerUiElements.IndexOf(uiElement);
-            if (placeInQueue >= 3) {
-                stackNeuron.UIState = ENeuronUIState.Stack;
-            }
-            else {
-                stackNeuron.UIState = (ENeuronUIState) placeInQueue;
-            }
+            var uiElement = Instantiate(uiNeuronPrefab, stack);
+            // can't use the isntantiate overload with position because
+            // parenting is done after setting position 
+            uiElement.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            var placeInQueue = _registerUiElements.Count;
+            _registerUiElements.Add(uiElement);
+            stackNeuron.PlaceInQueue = placeInQueue;
             uiElement.SetRuntimeElementData(stackNeuron);
+            SetQueuePosition(uiElement, placeInQueue);
         }
 
-        private void ShiftNeuronsInQueue() {
-            for (var i = 0; i < _registerUiElements.Count - 1; i++) {
-                var uin = _registerUiElements[i];
-                var nextUin = _registerUiElements[i + 1];
-                if (i < 3) {
-                    nextUin.RuntimeData.UIState = (ENeuronUIState) i;
-                }
-                else {
-                    nextUin.RuntimeData.UIState = ENeuronUIState.Stack;
-                }
-                uin.SetRuntimeElementData(nextUin.RuntimeData);
+        private void SetQueuePosition(MUINeuron uiElement, int placeInQueue) {
+            uiElement.transform.SetAsFirstSibling();
+            if (placeInQueue < 3) {
+                uiElement.SetQueuePosition(placeInQueue * top3Spacing);
+                return;
             }
-            _registerUiElements[^1].gameObject.SetActive(false);
+            uiElement.SetQueuePosition((top3Spacing * 2) + (placeInQueue - 1) * stackSpacing);
+        }
+
+        private async void ShiftNeuronsInQueue() {
+            var shiftTasks = new List<Task>();
+            for (var i = 0; i < _registerUiElements.Count; i++) {
+                MUINeuron neuron = _registerUiElements[i];
+                shiftTasks.Add(neuron.AnimateQueueShift(i));
+            }
+            await Task.WhenAll(shiftTasks);
         }
 
         private void SetNeuronCounterText(bool isInfinite, int amount = 0) {
-            neuronCountDisplay.text = isInfinite ? "-" :$"{amount}";
+            neuronCountDisplay.text = isInfinite ? InfiniteNeuronsMark : $"{amount}";
         }
 
         #region EventHandlers

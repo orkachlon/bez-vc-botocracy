@@ -14,7 +14,8 @@ namespace Types.Neuron.Data {
 
         void SetData(INeuronDataBase other);
         IUINeuron GetUIModel();
-        Sprite GetUIArtwork(ENeuronUIState uiState);
+        Sprite GetQueueStackArtwork();
+        Sprite GetQueueTopArtwork();
         Sprite GetFaceSprite();
         TileBase GetEffectTile();
     }

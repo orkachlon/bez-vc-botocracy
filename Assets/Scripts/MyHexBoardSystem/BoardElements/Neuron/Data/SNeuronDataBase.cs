@@ -1,6 +1,5 @@
 ﻿using System;
 using MyHexBoardSystem.BoardElements.Neuron.UI;
-using Neurons.UI;
 using Types.Board.UI;
 using Types.Neuron;
 using Types.Neuron.Data;
@@ -23,11 +22,9 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
         public Color ConnectionColor => connectionColor;
 
         [Header("Sprites"), SerializeField] private Sprite boardArtwork;
-        [SerializeField] private Sprite faceSprite;
         [SerializeField] private Sprite UIStackArtwork;
-        [SerializeField] private Sprite UIThirdArtwork;
-        [SerializeField] private Sprite UISecondArtwork;
-        [SerializeField] private Sprite UIFirstArtwork;
+        [SerializeField] private Sprite UITopArtwork;
+        [SerializeField] private Sprite faceSprite;
         [SerializeField] private Color connectionColor;
         
         [Header("Prefab  Models"), SerializeField] private MUIBoardNeuron boardModel;
@@ -53,14 +50,10 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
 
         public AudioClip GetAddSound() => addSound;
         public AudioClip GetRemoveSound() => removeSound;
-        public Sprite GetUIArtwork(ENeuronUIState uiState) => uiState switch {
-            ENeuronUIState.Stack => UIStackArtwork,
-            ENeuronUIState.Third => UIThirdArtwork,
-            ENeuronUIState.Second => UISecondArtwork,
-            ENeuronUIState.First => UIFirstArtwork,
-            _ => throw new ArgumentOutOfRangeException(nameof(uiState), uiState, null)
-        };
-        
+        public Sprite GetQueueStackArtwork() => UIStackArtwork;
+        public Sprite GetQueueTopArtwork() => UITopArtwork;
+
+
         public override string ToString() => $"{neuronType}";
     }
 }
