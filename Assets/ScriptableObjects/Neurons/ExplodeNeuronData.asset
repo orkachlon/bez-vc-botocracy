@@ -19,7 +19,7 @@ MonoBehaviour:
   faceSprite: {fileID: 450317291, guid: 27c61bdcefe35dd4ebcf482f21944507, type: 3}
   connectionColor: {r: 1, g: 0.6666667, b: 0.8117648, a: 1}
   boardModel: {fileID: 6250217442136585510, guid: b95662072859e624bad3c828ec587a81, type: 3}
-  UIModel: {fileID: 4787198164626533071, guid: bb5b71e13666fb947b40de7e567958f3, type: 3}
+  UIModel: {fileID: 2955862265648863786, guid: d54ff1605ac5a0545a9227a161bf2559, type: 3}
   addSound: {fileID: 8300000, guid: 27b72d92a668a664d947795fa9bb7ba0, type: 3}
   removeSound: {fileID: 8300000, guid: 021beb93ffe5b68489fac70a63f7f9b3, type: 3}
   effectTile: {fileID: 11400000, guid: e10a5dd1999e190448ad320b42c96a27, type: 2}

@@ -53,12 +53,12 @@ namespace Assets.Scripts.Neurons.UI.Queue {
         }
 
         public override async Task AnimateDequeue() {
-            var dotSeq = DOTween.Sequence();
+            var blobSeq = DOTween.Sequence();
             foreach (var blob in blobs) {
-                dotSeq.Insert(0, blob.DOFade(0, fadeDuration));
+                blobSeq.Insert(0, blob.DOFade(0, fadeDuration));
             }
             StopAnimation();
-            await Task.WhenAll(base.AnimateDequeue(), dotSeq.AsyncWaitForCompletion());
+            await Task.WhenAll(base.AnimateDequeue(), blobSeq.AsyncWaitForCompletion());
         }
 
         private void InsertBlobAnimation(Transform blob) {

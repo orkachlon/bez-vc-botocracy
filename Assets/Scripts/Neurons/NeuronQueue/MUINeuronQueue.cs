@@ -15,7 +15,7 @@ namespace Neurons.NeuronQueue {
         [SerializeField, Range(3, 10)] private int neuronsToShow = 7;
         [SerializeField] private TextMeshProUGUI neuronCountDisplay;
         [SerializeField] private RectTransform stack;
-        [SerializeField] private int stackSpacing = 100, top3Spacing = 150;
+        [SerializeField] private int stackSpacing = 100, top3Spacing = 150, topPadding = -50;
         
         [Header("Event Managers"), SerializeField]
         private SEventManager neuronEventManager;
@@ -83,9 +83,9 @@ namespace Neurons.NeuronQueue {
             uiElement.Default();
             // can't use the isntantiate overload with position because
             // parenting is done after setting position 
-            uiElement.GO.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            uiElement.GO.GetComponent<RectTransform>().anchoredPosition = Vector3.up * top3Spacing;
             // scale the entire neuron with the canvas in order to fit to different screen sizes
-            uiElement.GO.transform.localScale *= _queueCanvas.scaleFactor;
+            //uiElement.GO.transform.localScale *= _queueCanvas.scaleFactor;
 
             var placeInQueue = _registerUiElements.Count;
             _registerUiElements.Enqueue(new KeyValuePair<IStackNeuron, IUIQueueNeuron>(stackNeuron, uiElement));
@@ -97,10 +97,10 @@ namespace Neurons.NeuronQueue {
         private void SetQueuePosition(IUIQueueNeuron uiElement, int placeInQueue) {
             uiElement.GO.transform.SetAsFirstSibling();
             if (placeInQueue < 3) {
-                uiElement.SetQueuePosition(placeInQueue * top3Spacing);
+                uiElement.SetQueuePosition(placeInQueue * top3Spacing - topPadding);
                 return;
             }
-            uiElement.SetQueuePosition((top3Spacing * 2) + (placeInQueue - 1) * stackSpacing);
+            uiElement.SetQueuePosition((top3Spacing * 2) + (placeInQueue - 1) * stackSpacing - topPadding);
         }
 
         private async void ShiftNeuronsInQueue() {

@@ -124,7 +124,7 @@ namespace Core.Tools.Pooling.GenericPrefabPooler
                     free[model].Add(pooledObj);
                 }
 
-            pooledObj.transform.SetParent(transform);
+            pooledObj.transform.SetParent(transform, false);
             pooledObj.transform.localPosition = Vector3.zero;
             OnRelease(pooledObj);
         }
