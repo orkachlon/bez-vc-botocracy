@@ -13,6 +13,7 @@ namespace Events.SP {
         // instance events
         public const string OnInitStory = "Story_OnInitStory";
         public const string OnDecrement = "Story_OnDecrement";
+        public const string OnBeforeEvaluate = "Story_OnBeforeEvaluate";
         public const string OnEvaluate = "Story_OnEvaluate";
     }
 

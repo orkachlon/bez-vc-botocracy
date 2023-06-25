@@ -138,6 +138,7 @@ namespace StoryPoints {
 
             DecisionEffects = DecidingTraits[maxTrait];
             Evaluated = true;
+            storyEventManager.Raise(StoryEvents.OnBeforeEvaluate, new StoryEventArgs(this));
             await AwaitRemoveAnimation();
         }
     }
