@@ -15,8 +15,8 @@ namespace StoryPoints.Outcomes {
         [Header("Outcome Prefab"), SerializeField]
         private MUIOutcome outcomePrefab;
 
-        [Header("Outcome Containers"), SerializeField]
-        private RectTransform verticalContainer;
+        [Header("Outcome Containers"), SerializeField] private Canvas outcomePanelCanvas;
+        [SerializeField] private RectTransform verticalContainer;
         [SerializeField] private RectTransform scrollArea;
 
         [Header("Event Managers"), SerializeField]
@@ -45,7 +45,7 @@ namespace StoryPoints.Outcomes {
 
 
         public void Expand() {
-            _rt.DOSizeDelta(new Vector2(_rt.sizeDelta.x, 2060), 0.5f);
+            _rt.DOSizeDelta(new Vector2(_rt.sizeDelta.x, (Screen.height / outcomePanelCanvas.scaleFactor) - 100), 0.5f);
             foreach (var uiOutcome in _outcomeQueue) {
                 uiOutcome.gameObject.SetActive(true);
             }

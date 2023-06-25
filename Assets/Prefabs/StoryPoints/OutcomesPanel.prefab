@@ -162,7 +162,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -100, y: 50}
-  m_SizeDelta: {x: 748.3047, y: 2060}
+  m_SizeDelta: {x: 748.3047, y: 2010}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &4608811126475259319
 MonoBehaviour:
@@ -177,6 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outcomePrefab: {fileID: 2968131671585576486, guid: 8d74a662ac73c4f4b886900babc0febf, type: 3}
+  outcomePanelCanvas: {fileID: 4608811126899281212}
   verticalContainer: {fileID: 4608811126301771331}
   scrollArea: {fileID: 4608811126736955513}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
@@ -645,8 +646,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4608811127579335420}
   m_HandleRect: {fileID: 4608811127579335421}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.5600392
+  m_Value: 0.03267867
+  m_Size: 0.5451762
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

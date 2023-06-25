@@ -11,7 +11,8 @@ using UnityEngine.UI;
 
 namespace StoryPoints.UI {
     public class MUIStoryPoint : MonoBehaviour {
-        [Header("Visuals"), SerializeField] private Image backGround; 
+        [Header("Visuals"), SerializeField] private Canvas spCanvas;
+        [SerializeField] private Image backGround; 
         [SerializeField] private TextMeshProUGUI title;
         [SerializeField] private TextMeshProUGUI description;
         [SerializeField] private GameObject turnSection;
@@ -78,7 +79,8 @@ namespace StoryPoints.UI {
         }
 
         public async Task PlayEvaluateAnimation() {
-            await backGround.rectTransform.DOAnchorPosX((_camera.pixelWidth * 0.5f) - (backGround.rectTransform.sizeDelta.x * 0.5f), 0.2f)
+            //var scaler = GetComponent<CanvasScaler>().
+            await backGround.rectTransform.DOAnchorPosX((Screen.width * 0.5f / spCanvas.scaleFactor) - (backGround.rectTransform.sizeDelta.x * 0.5f), 0.2f)
                 .SetEase(Ease.Linear)
                 .OnComplete(() => {
                     turnSection.SetActive(false);
@@ -88,7 +90,7 @@ namespace StoryPoints.UI {
                 })
                 .AsyncWaitForCompletion();
             MCoroutineHelper.InvokeAfterNextFrame(() => backGround.rectTransform
-                .DOAnchorPosY(_camera.pixelHeight * 0.5f - backGround.rectTransform.sizeDelta.y * 0.5f, 0.5f)
+                .DOAnchorPosY(Screen.height * 0.5f / spCanvas.scaleFactor - backGround.rectTransform.sizeDelta.y * 0.5f, 0.5f)
                 .SetEase(Ease.OutQuad));
         }
 
