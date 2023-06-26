@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5769074518105202161
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1639060063860473449, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615112, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_Name
+      value: Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615117, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615117, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615117, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615117, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615117, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615117, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615117, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615117, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615117, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615117, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615117, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+--- !u!1 &5093785327955079929 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1639060064745615112, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+  m_PrefabInstance: {fileID: 5769074518105202161}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1994135705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5093785327955079929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41756b8382cc4768b9abd350d617106a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+--- !u!114 &1994135713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5093785327955079929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a41aed2cea884202b4a7d95d8e1b76fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressedTileBases:
+    keys: 000000000100000002000000030000000400000005000000
+    values:
+    - {fileID: 11400000, guid: 54e86d1b092bc044aabbe86ef3316caa, type: 2}
+    - {fileID: 11400000, guid: 555a753ae071382488fe5d15ec195c95, type: 2}
+    - {fileID: 11400000, guid: 7c4ccf7170879574bbe854446a9db044, type: 2}
+    - {fileID: 11400000, guid: c261a45c4a6c94a4c8d632b34a210e15, type: 2}
+    - {fileID: 11400000, guid: 49661a86a0528424980980aa99f0312f, type: 2}
+    - {fileID: 11400000, guid: c0e65aa35d461324787a1e0242bc123c, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
