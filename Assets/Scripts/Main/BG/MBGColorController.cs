@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.EventSystem;
 using Core.Utils;
 using DG.Tweening;
+using Events.Board;
 using Events.SP;
+using MyHexBoardSystem.BoardElements;
+using MyHexBoardSystem.BoardSystem;
 using Types.Trait;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Main.BG {
     public class MBGColorController : MonoBehaviour {
@@ -17,9 +22,13 @@ namespace Main.BG {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
+        [SerializeField] private SEventManager boardEventManager;
 
-        private Material _material;
+        [Header("Data accessors"), SerializeField] private MBoardNeuronsController neuronsController;
+
         private readonly Dictionary<ETrait, Color> _traitCurrentColors = new Dictionary<ETrait, Color>();
+        private Material _material;
+        private ETrait[] _decidingTraits;
 
         private void Awake() {
             _material = GetComponent<Renderer>().material;
@@ -29,40 +38,74 @@ namespace Main.BG {
         }
 
         private void OnEnable() {
-            storyEventManager.Register(StoryEvents.OnInitStory, SetBGColors);
+            storyEventManager.Register(StoryEvents.OnInitStory, UpdateCurrentSP);
+            boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, UpdateBGColors);
         }
 
         private void OnDisable() {
-            storyEventManager.Unregister(StoryEvents.OnInitStory, SetBGColors);
+            storyEventManager.Unregister(StoryEvents.OnInitStory, UpdateCurrentSP);
+            boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, UpdateBGColors);
         }
 
-        private void SetBGColors(EventArgs obj) {
+        private void UpdateCurrentSP(EventArgs obj) {
             if (obj is not StoryEventArgs storyEventArgs) {
                 return;
             }
 
-            var deciders = storyEventArgs.Story.DecidingTraits;
+            _decidingTraits = storyEventArgs.Story.DecidingTraits.Keys.ToArray();
+            ColorBG();
+        }
+
+        private void UpdateBGColors(EventArgs args) {
+            ColorBG();
+        }
+
+        private void ColorBG() {
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
-                SetTraitBGColor(trait, deciders.ContainsKey(trait));
+                SetTraitBGColor(trait, _decidingTraits.Contains(trait));
             }
         }
 
         private void SetTraitBGColor(ETrait trait, bool isDeciding) {
             if (!isDeciding) {
-                DOVirtual.Color(_traitCurrentColors[trait], nonDecidingColor, transitionDuration, col => {
-                    _material.SetColor(TraitToVariableName(trait), col);
-                })
-                    .OnComplete(() => {
-                        _traitCurrentColors[trait] = nonDecidingColor;
-                    });
+                SetNonDecidingTraitColor(trait);
                 return;
             }
-            DOVirtual.Color(_traitCurrentColors[trait], TraitToDefaultColor(trait), transitionDuration, col => {
+            SetDecidingTraitColor(trait);
+        }
+
+        private void SetDecidingTraitColor(ETrait trait) {
+            DOVirtual.Color(_traitCurrentColors[trait], DecidingTraitColorBasedOnNeurons(trait), transitionDuration, col => {
                 _material.SetColor(TraitToVariableName(trait), col);
             })
             .OnComplete(() => {
-                _traitCurrentColors[trait] = TraitToDefaultColor(trait);
+                _traitCurrentColors[trait] = DecidingTraitColorBasedOnNeurons(trait);
             });
+        }
+
+        private void SetNonDecidingTraitColor(ETrait trait) {
+            DOVirtual.Color(_traitCurrentColors[trait], nonDecidingColor, transitionDuration, col => {
+                _material.SetColor(TraitToVariableName(trait), col);
+            })
+            .OnComplete(() => {
+                _traitCurrentColors[trait] = nonDecidingColor;
+            });
+        }
+
+        private Color DecidingTraitColorBasedOnNeurons(ETrait trait) {
+            var amounts = _decidingTraits
+                .Select(t => neuronsController.GetTraitCount(t))
+                .Distinct()
+                .OrderBy(t => t)
+                .ToList();
+#if UNITY_EDITOR
+            Assert.IsTrue(amounts.Count >= 1, $"Error collecting trait neuron amounts in {this.GetType()}");
+#endif
+            if (amounts.Count == 1) {
+                return colorB;
+            }
+            var me = amounts.IndexOf(neuronsController.GetTraitCount(trait));
+            return Color.Lerp(colorA, colorB, (float) me / (amounts.Count - 1));
         }
 
         private static string TraitToVariableName(ETrait trait) {

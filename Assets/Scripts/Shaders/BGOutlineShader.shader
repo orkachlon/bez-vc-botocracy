@@ -1,4 +1,4 @@
-﻿Shader "Custom/BGOutlineShader" {
+﻿Shader"Custom/BGOutlineShader" {
     Properties {
         _MainTex ("_MainTetx", 2D) = "white" {}
         _Threshold ("_Threshold", float) = 1
@@ -17,12 +17,14 @@
             struct appdata {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float4 color : COLOR0;
             };
 
             struct v2f {
                 float3 world_pos : TEXCOORD0;
                 float2 uv : TEXCOORD1;
                 float4 vertex : SV_POSITION;
+                fixed4 color : COLOR0;
             };
 
             v2f vert (appdata v) {
@@ -30,6 +32,7 @@
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.world_pos = mul(unity_ObjectToWorld, v.vertex);
                 o.uv = v.uv;
+                o.color = v.color;
                 return o;
             }
             
@@ -43,7 +46,7 @@
                     const float3 proj = dot(i.world_pos, dir) / dot(dir, dir) * dir;
                     const float3 rej = i.world_pos - proj;
                     if (length(rej) < _Threshold) {
-                        return 1;
+                        return i.color;
                     }
                 }
                 return 0;

@@ -182,11 +182,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37300db9180940fd82127db6976d13ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorA: {r: 0.97647065, g: 0.92549026, b: 0.85098046, a: 1}
-  colorB: {r: 1, g: 0.7607844, b: 0.6392157, a: 1}
-  nonDecidingColor: {r: 0.80392164, g: 0.7411765, b: 0.7176471, a: 1}
+  colorA: {r: 1, g: 0.7607844, b: 0.6392157, a: 1}
+  colorB: {r: 0.97647065, g: 0.92549026, b: 0.85098046, a: 1}
+  nonDecidingColor: {r: 0.7, g: 0.64536583, b: 0.62487805, a: 1}
   transitionDuration: 0.3
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+  neuronsController: {fileID: 0}
 --- !u!1 &4958885506518661733
 GameObject:
   m_ObjectHideFlags: 0

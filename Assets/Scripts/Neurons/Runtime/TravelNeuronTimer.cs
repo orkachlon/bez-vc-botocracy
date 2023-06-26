@@ -59,7 +59,7 @@ namespace Neurons.Runtime {
 
             _travellers[(TravelNeuron) neuronArgs.Element] = neuronArgs.Hex;
             if (_travellers.Where(thp => !thp.Key.TurnDone).Select(thp => thp.Value).All(h => h != Hex.zero)) {
-                MLogger.LogEditor($" {_travellers.Count} Travelling!");
+                //MLogger.LogEditor($" {_travellers.Count} Travelling!");
                 neuronEventManager.Raise(NeuronEvents.OnTravellersReady, EventArgs.Empty);
                 foreach (var traveller in _travellers.Keys.ToArray()) {
                     _travellers[traveller] = Hex.zero;
