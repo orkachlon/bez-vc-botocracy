@@ -10,7 +10,6 @@ namespace Assets.Scripts.Neurons.UI.Queue {
     public class MUIQueueDecayNeuron : MUIQueueNeuron {
         [Header("Dots"), SerializeField] private List<Image> dots;
         [SerializeField] private float dotDuration;
-        [SerializeField] private int dotScaleCorrection = 320;
 
         private Sequence _animation;
 
@@ -37,12 +36,12 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             _animation = DOTween.Sequence();
             foreach (var dot in dots) {
                 dot.gameObject.SetActive(true);
-                dot.transform.localScale = Vector3.one * dotScaleCorrection;
+                dot.transform.localScale = Vector3.one;
                 _animation.Append(dot.transform.DOScale(0, dotDuration * 2));
             }
 
             foreach (var dot in dots) {
-                _animation.Append(dot.transform.DOScale(dotScaleCorrection, dotDuration * 2));
+                _animation.Append(dot.transform.DOScale(1, dotDuration * 2));
             }
 
             _animation.SetAutoKill(false);

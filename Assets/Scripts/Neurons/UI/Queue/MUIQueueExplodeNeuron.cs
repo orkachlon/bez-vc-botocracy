@@ -70,10 +70,11 @@ namespace Assets.Scripts.Neurons.UI.Queue {
         }
 
         private void InsertSpikeHoverAnimation(Transform spike) {
-            spike.transform.localScale = Vector3.zero;
-            var seq = DOTween.Sequence(this).Append(spike.DOScale(1, spikeDuration).SetEase(spikeEasing))
-                .AppendInterval(spikeDuration * 2)
+            //spike.transform.localScale = Vector3.zero;
+            var seq = DOTween.Sequence(this)
                 .Append(spike.DOScale(0, spikeDuration * 3))
+                .AppendInterval(spikeDuration * 2)
+                .Append(spike.DOScale(1, spikeDuration).SetEase(spikeEasing))
                 .AppendInterval(spikeDuration * 2);
             _animation.Insert(0, seq);
         }

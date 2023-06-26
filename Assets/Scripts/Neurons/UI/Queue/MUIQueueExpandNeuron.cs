@@ -70,10 +70,11 @@ namespace Assets.Scripts.Neurons.UI.Queue {
         }
 
         private void InsertBlobAnimation(Transform blob) {
-            blob.transform.localScale = Vector3.zero;
-            var seq = DOTween.Sequence().Append(blob.DOScale(1, blobDuration * 3).SetEase(blobEasing))
+            //blob.transform.localScale = Vector3.zero;
+            var seq = DOTween.Sequence()
                 .Append(blob.DOScale(0, blobDuration * 2).SetEase(Ease.InQuad))
-                .AppendInterval(blobDuration * 2);
+                .AppendInterval(blobDuration * 2)
+                .Append(blob.DOScale(1, blobDuration * 3).SetEase(blobEasing));
             _animation.Insert(0, seq);
         }
     }
