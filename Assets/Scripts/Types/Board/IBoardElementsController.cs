@@ -6,7 +6,7 @@ namespace Types.Board {
         public IBoardManipulation Manipulator { get; }
         public IBoard<TElement> Board { get; }
 
-        Task<bool> AddElement(TElement element, Hex.Coordinates.Hex hex);
+        Task AddElement(TElement element, Hex.Coordinates.Hex hex);
         Task RemoveElement(Hex.Coordinates.Hex hex);
         Task MoveElement(Hex.Coordinates.Hex from, Hex.Coordinates.Hex to);
     }

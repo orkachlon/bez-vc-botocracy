@@ -124,12 +124,12 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
         public virtual TileBase GetEffectTile() => DataProvider.GetEffectTile();
 
         protected virtual void RegisterTurnDone() {
-            BoardEventManager.Register(ExternalBoardEvents.OnPlaceElement, ReportTurnDone);
+            BoardEventManager.Register(ExternalBoardEvents.OnPlaceElementTurnDone, ReportTurnDone);
             BoardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, ResetTurnIndicator);
         }
 
         protected virtual void UnregisterTurnDone() {
-            BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, ReportTurnDone);
+            BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementTurnDone, ReportTurnDone);
             BoardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, ResetTurnIndicator);
         }
 

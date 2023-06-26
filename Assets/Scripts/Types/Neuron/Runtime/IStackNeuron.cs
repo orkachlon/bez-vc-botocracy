@@ -13,6 +13,8 @@ namespace Types.Neuron.Runtime {
 
         public IUIQueueNeuron Pool(Transform parent = null);
         public void Release();
-        public Task PlayStackAnimation();
+        public Task PlayQueueAnimation();
+        public Task PlayQueueShiftAnimation(int stackShiftAmount, int top3ShiftAmount);
+        public Task PlayDequeueAnimation();
     }
 }

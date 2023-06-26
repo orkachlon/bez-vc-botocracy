@@ -16,8 +16,8 @@ namespace Neurons.Runtime {
 
         public void SetPlaceInQueue(int value) {
             PlaceInQueue = value;
-            if (PlaceInQueue < 3) {
-                UIQueueNeuron.PlayAnimation();
+            if (PlaceInQueue == 0) {
+                PlayQueueAnimation(); ;
             }
         }
 
@@ -46,8 +46,17 @@ namespace Neurons.Runtime {
             MObjectPooler.Instance.Release(UIQueueNeuron.GO);
         }
 
-        public Task PlayStackAnimation() {
+        public Task PlayQueueAnimation() {
             return UIQueueNeuron.PlayAnimation();
+        }
+
+        public Task PlayQueueShiftAnimation(int stackShiftAmount, int top3ShiftAmount) {
+            SetPlaceInQueue(PlaceInQueue - 1);
+            return UIQueueNeuron.AnimateQueueShift(PlaceInQueue, stackShiftAmount, top3ShiftAmount);
+        }
+
+        public Task PlayDequeueAnimation() {
+            return UIQueueNeuron.AnimateDequeue();
         }
     }
 }

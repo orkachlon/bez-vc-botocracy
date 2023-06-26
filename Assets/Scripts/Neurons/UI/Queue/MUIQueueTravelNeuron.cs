@@ -40,7 +40,7 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             if (_animationCoroutine != null) {
                 return Task.CompletedTask;
             }
-            _animationCoroutine = StartCoroutine(HoverAnimation());
+            _animationCoroutine = StartCoroutine(QueueAnimation());
             return Task.CompletedTask;
         }
 
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Neurons.UI.Queue {
                 _animationCoroutine = null;
             }
 
-            KillHoverAnimationSequence();
+            KillQueueAnimationSequence();
         }
 
         public override async Task AnimateDequeue() {
@@ -65,10 +65,24 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             await Task.WhenAll(base.AnimateDequeue(), probeSeq.AsyncWaitForCompletion());
         }
 
-        private IEnumerator HoverAnimation() {
+        public override Task AnimateQueueShift(int queueIndex, int stackShiftAmount, int Top3ShiftAmount) {
+            if (queueIndex <= 2) {
+                probes.ForEach(p => {
+                    p.gameObject.SetActive(true);
+                    p.transform.localScale = Vector3.one;
+                });
+                lines.ForEach(l => {
+                    l.gameObject.SetActive(true);
+                    l.transform.localScale = Vector3.one;
+                });
+            }
+            return base.AnimateQueueShift(queueIndex, stackShiftAmount, Top3ShiftAmount);
+        }
+
+        private IEnumerator QueueAnimation() {
             while (true) {
                 if (_animationSequence != null) {
-                    KillHoverAnimationSequence();
+                    KillQueueAnimationSequence();
                 }
 
                 _animationSequence = DOTween.Sequence(this);
@@ -94,7 +108,7 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             }
         }
 
-        private void KillHoverAnimationSequence() {
+        private void KillQueueAnimationSequence() {
             _animationSequence?.Complete();
             _animationSequence?.Kill();
             _animationSequence = null;

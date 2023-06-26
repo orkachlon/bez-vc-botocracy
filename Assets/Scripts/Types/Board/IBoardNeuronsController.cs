@@ -16,7 +16,7 @@ namespace Types.Board {
         int GetTraitCount(ETrait trait);
         IEnumerable<ETrait> GetMaxTrait(IEnumerable<ETrait> fromTraits = null);
 
-        Task<bool> AddNeuron(IBoardNeuron neuron, Hex.Coordinates.Hex hex, bool activate = true);
+        Task AddNeuron(IBoardNeuron neuron, Hex.Coordinates.Hex hex, bool activate = true);
 
         Task RemoveNeuron(Hex.Coordinates.Hex hex);
 

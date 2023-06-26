@@ -47,15 +47,15 @@ namespace ExternBoardSystem.BoardElements {
             Manipulator = manipulator;
         }
 
-        public virtual Task<bool> AddElement(TElement element, Hex hex) {
+        public virtual Task AddElement(TElement element, Hex hex) {
             var position = Board.GetPosition(hex);
             if (position == null)
-                return Task.FromResult(false);
+                return Task.CompletedTask;
             if (position.HasData())
-                return Task.FromResult(false);
+                return Task.CompletedTask;
             position.AddData(element);
             innerBoardEventManager.Raise(InnerBoardEvents.OnElementAdded, new OnElementEventData<TElement>(element, GetCellCoordinate(hex)));
-            return Task.FromResult(true);
+            return Task.CompletedTask;
         }
         
 

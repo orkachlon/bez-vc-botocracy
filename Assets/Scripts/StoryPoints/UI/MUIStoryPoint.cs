@@ -5,12 +5,13 @@ using Core.EventSystem;
 using DG.Tweening;
 using Events.SP;
 using TMPro;
+using Types.Animation;
 using Types.StoryPoint;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace StoryPoints.UI {
-    public class MUIStoryPoint : MonoBehaviour {
+    public class MUIStoryPoint : MonoBehaviour, IAnimatable {
         [Header("Visuals"), SerializeField] private Canvas spCanvas;
         [SerializeField] private Image backGround; 
         [SerializeField] private TextMeshProUGUI title;
@@ -79,7 +80,7 @@ namespace StoryPoints.UI {
         }
 
         public async Task PlayEvaluateAnimation() {
-            //var scaler = GetComponent<CanvasScaler>().
+            await AnimationManager.WaitForElement(this);
             await backGround.rectTransform.DOAnchorPosX((Screen.width * 0.5f / spCanvas.scaleFactor) - (backGround.rectTransform.sizeDelta.x * 0.5f), 0.2f)
                 .SetEase(Ease.Linear)
                 .OnComplete(() => {
@@ -117,7 +118,7 @@ namespace StoryPoints.UI {
                 .Insert(0, backGround.DOColor(baseCol, 0.5f))
                 .Insert(0, backGround.rectTransform.DOShakePosition(0.5f, Vector3.right * decrementShakeStrength, randomness: 0, fadeOut: true, randomnessMode:ShakeRandomnessMode.Harmonic))
                 .AsyncWaitForCompletion();
-            await seq;
+            await AnimationManager.Register(this, seq);
         }
     }
 }

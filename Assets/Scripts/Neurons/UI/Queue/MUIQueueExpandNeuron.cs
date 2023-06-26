@@ -24,7 +24,6 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             if (RuntimeData.PlaceInQueue > 2) {
                 blobs.ForEach(b => {
                     b.color = Color.white;
-                    b.transform.localScale = Vector3.zero;
                     b.gameObject.SetActive(false);
                 });
             }
@@ -38,7 +37,6 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             _animation = DOTween.Sequence();
             foreach (var blob in blobs) {
                 blob.gameObject.SetActive(true);
-                blob.transform.localScale = Vector3.zero;
                 InsertBlobAnimation(blob.transform);
             }
 
@@ -61,7 +59,18 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             await Task.WhenAll(base.AnimateDequeue(), blobSeq.AsyncWaitForCompletion());
         }
 
+        public override Task AnimateQueueShift(int queueIndex, int stackShiftAmount, int Top3ShiftAmount) {
+            if (queueIndex <= 2) {
+                blobs.ForEach(b => {
+                    b.gameObject.SetActive(true);
+                    b.transform.localScale = Vector3.one;
+                });
+            }
+            return base.AnimateQueueShift(queueIndex, stackShiftAmount, Top3ShiftAmount);
+        }
+
         private void InsertBlobAnimation(Transform blob) {
+            blob.transform.localScale = Vector3.zero;
             var seq = DOTween.Sequence().Append(blob.DOScale(1, blobDuration * 3).SetEase(blobEasing))
                 .Append(blob.DOScale(0, blobDuration * 2).SetEase(Ease.InQuad))
                 .AppendInterval(blobDuration * 2);

@@ -40,7 +40,7 @@ namespace Neurons.Runtime {
             if (BoardEventManager == null) {
                 return Task.CompletedTask;
             }
-            BoardEventManager.Register(ExternalBoardEvents.OnPlaceElement, Travel);
+            BoardEventManager.Register(ExternalBoardEvents.OnPlaceElementTurnDone, Travel);
             BoardEventManager.Register(ExternalBoardEvents.OnRemoveElement, OnRemoved);
             BoardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, ResetTurnIndicator);
             NeuronEventManager.Register(NeuronEvents.OnTravellersReady, BeginTravel);
@@ -140,7 +140,7 @@ namespace Neurons.Runtime {
         }
 
         private void UnregisterFromBoard() {
-            BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, Travel);
+            BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementTurnDone, Travel);
             BoardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, OnRemoved);
             NeuronEventManager.Unregister(NeuronEvents.OnTravellersReady, BeginTravel);
         }

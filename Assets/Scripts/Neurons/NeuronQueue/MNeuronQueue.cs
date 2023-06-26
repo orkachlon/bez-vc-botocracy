@@ -39,9 +39,9 @@ namespace Neurons.NeuronQueue {
         private void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
             storyEventManager.Register(StoryEvents.OnDecrement, OnSPDecrement);
-            boardEventManager.Register(ExternalBoardEvents.OnAddElementPreActivation, StopProvidingNeurons);
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementPreActivation, StopProvidingNeurons);
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementPreActivation, OnNeuronPlaced);
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElementFailed, StartProvidingNeurons);
-            boardEventManager.Register(ExternalBoardEvents.OnPlaceElement, OnNeuronPlaced);
             neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Register(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
             gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnGameEnd);
@@ -50,9 +50,9 @@ namespace Neurons.NeuronQueue {
         private void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
             storyEventManager.Unregister(StoryEvents.OnDecrement, OnSPDecrement);
-            boardEventManager.Unregister(ExternalBoardEvents.OnAddElementPreActivation, StopProvidingNeurons);
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementPreActivation, StopProvidingNeurons);
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementPreActivation, OnNeuronPlaced);
             boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementFailed, StartProvidingNeurons);
-            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, OnNeuronPlaced);
             neuronEventManager.Unregister(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
             gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnGameEnd);

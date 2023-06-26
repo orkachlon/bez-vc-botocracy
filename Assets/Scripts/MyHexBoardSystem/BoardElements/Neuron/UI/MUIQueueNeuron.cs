@@ -71,16 +71,14 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
                 FaceImage.sprite = RuntimeData.DataProvider.GetFaceSprite();
                 FaceImage.color = Color.white;
                 shiftAmount = Top3ShiftAmount;
-                PlayAnimation();
             }
 
-            RuntimeData.SetPlaceInQueue(queueIndex);
             await RectTransform
                 .DOAnchorPosY(RectTransform.anchoredPosition.y + shiftAmount, 0.5f)
                 .AsyncWaitForCompletion();
         }
 
-        public void Default() {
+        public virtual void Default() {
             BaseImage.sprite = RuntimeData.DataProvider.GetBoardArtwork();
             BaseImage.color = Color.white;
             FaceImage.sprite = RuntimeData.DataProvider.GetFaceSprite();

@@ -38,7 +38,7 @@ namespace Neurons.Runtime {
 
         public override void BindToBoard(IEventManager boardEventManager, IBoardNeuronsController controller, Hex position) {
             base.BindToBoard(boardEventManager, controller, position);
-            BoardEventManager.Register(ExternalBoardEvents.OnPlaceElement, Decay);
+            BoardEventManager.Register(ExternalBoardEvents.OnPlaceElementTurnDone, Decay);
             BoardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, ResetTurnIndicator);
         }
 
@@ -77,7 +77,7 @@ namespace Neurons.Runtime {
             _turnsToDeath--;
             UIDecayNeuron.PlayTurnAnimation();
             if (_turnsToDeath <= 0) {
-                BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElement, Decay);
+                BoardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementTurnDone, Decay);
                 Controller.RemoveNeuron(Position);
             }
             ReportTurnDone();

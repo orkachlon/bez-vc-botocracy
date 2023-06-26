@@ -26,10 +26,10 @@ namespace Events.Board {
         public const string OnTraitCompassExit = "Board_OnTraitCompassExit";
         
         // by click
-        public const string OnPlaceElement = "Board_OnPlaceElement";
+        public const string OnPlaceElementTurnDone = "Board_OnPlaceElement";
         // by any means
         public const string OnAddElement = "Board_OnAddElement";
-        public const string OnAddElementPreActivation = "Board_OnAddElementPreActivation";
+        public const string OnPlaceElementPreActivation = "Board_OnAddElementPreActivation";
         public const string OnRemoveElement = "Board_OnRemoveElement";
         public const string OnMoveElement = "Board_OnMoveElement";
         public const string OnSetFirstElement = "Board_OnSetFirstElement";

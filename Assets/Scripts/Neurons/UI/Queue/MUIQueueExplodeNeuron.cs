@@ -2,6 +2,7 @@
 using MyHexBoardSystem.BoardElements.Neuron.UI;
 using Neurons.Data;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +24,6 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             if (RuntimeData.PlaceInQueue > 2) {
                 spikes.ForEach(s => {
                     s.color = Color.white;
-                    s.transform.localScale = Vector3.zero;
                     s.gameObject.SetActive(false);
                 });
             }
@@ -37,7 +37,6 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             _animation = DOTween.Sequence();
             foreach (var spike in spikes) {
                 spike.gameObject.SetActive(true);
-                spike.transform.localScale = Vector3.zero;
                 InsertSpikeHoverAnimation(spike.transform);
             }
 
@@ -60,7 +59,18 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             await Task.WhenAll(base.AnimateDequeue(), spikeSeq.AsyncWaitForCompletion());
         }
 
+        public override Task AnimateQueueShift(int queueIndex, int stackShiftAmount, int Top3ShiftAmount) {
+            if (queueIndex <= 2) {
+                spikes.ForEach(s => {
+                    s.gameObject.SetActive(true);
+                    s.transform.localScale = Vector3.one;
+                });
+            }
+            return base.AnimateQueueShift(queueIndex, stackShiftAmount, Top3ShiftAmount);
+        }
+
         private void InsertSpikeHoverAnimation(Transform spike) {
+            spike.transform.localScale = Vector3.zero;
             var seq = DOTween.Sequence(this).Append(spike.DOScale(1, spikeDuration).SetEase(spikeEasing))
                 .AppendInterval(spikeDuration * 2)
                 .Append(spike.DOScale(0, spikeDuration * 3))

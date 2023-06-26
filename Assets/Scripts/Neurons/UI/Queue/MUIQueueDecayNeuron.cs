@@ -64,6 +64,16 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             await Task.WhenAll(base.AnimateDequeue(), dotSeq.AsyncWaitForCompletion());
         }
 
+        public override Task AnimateQueueShift(int queueIndex, int stackShiftAmount, int Top3ShiftAmount) {
+            if (queueIndex <= 2) {
+                dots.ForEach(d => {
+                    d.gameObject.SetActive(true);
+                    d.transform.localScale = Vector3.one;
+                });
+            }
+            return base.AnimateQueueShift(queueIndex, stackShiftAmount, Top3ShiftAmount);
+        }
+
         #endregion
     }
 }
