@@ -6,9 +6,9 @@ using Core.EventSystem;
 using Events.Board;
 using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardElements;
-using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Types.Board;
 using Types.Hex.Coordinates;
+using Types.Neuron.Runtime;
 using Types.Trait;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -20,12 +20,11 @@ namespace MyHexBoardSystem.BoardSystem {
     /// </summary>
     public class MTraitAccessor : MonoBehaviour, ITraitAccessor {
 
-        [Header("Controllers"), SerializeField] private MNeuronBoardController boardController;
-        [SerializeField] private MBoardNeuronsController neuronsController;
+        [Header("Controllers"), SerializeField] protected MNeuronBoardController boardController;
+        [SerializeField] protected MBoardNeuronsController neuronsController;
 
         [Header("Event Managers"), SerializeField]
-        private SEventManager boardEventManager;
-        [SerializeField] private SEventManager storyEventManager;
+        protected SEventManager boardEventManager;
         
         // lazy
         private readonly ConcurrentDictionary<ETrait, HashSet<Hex>> _traitHexes = new();
@@ -43,13 +42,13 @@ namespace MyHexBoardSystem.BoardSystem {
 
         #region UnityMethods
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, CheckForFullBoard);
             boardEventManager.Register(ExternalBoardEvents.OnAddTile, OnAddTile);
             boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnRemoveTile);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, CheckForFullBoard);
             boardEventManager.Unregister(ExternalBoardEvents.OnAddTile, OnAddTile);
             boardEventManager.Unregister(ExternalBoardEvents.OnRemoveTile, OnRemoveTile);
@@ -75,7 +74,7 @@ namespace MyHexBoardSystem.BoardSystem {
         }
 
         public Hex[] GetTraitHexes(ETrait trait) {
-            return TraitHexes[trait].ToArray();
+            return TraitHexes.ContainsKey(trait) ? TraitHexes[trait].ToArray() : null;
         }
 
         public Color GetColor(ETrait trait, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
@@ -88,6 +87,9 @@ namespace MyHexBoardSystem.BoardSystem {
 
         public void SetTraitColor(ETrait trait, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
             var traitHexes = GetTraitHexes(trait);
+            if (traitHexes == null) {
+                return;
+            }
             boardController.SetColor(traitHexes, color);
         }
 
@@ -97,6 +99,9 @@ namespace MyHexBoardSystem.BoardSystem {
 
         public void SetTraitTiles(ETrait trait, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
             var traitHexes = GetTraitHexes(trait);
+            if (traitHexes == null) {
+                return;
+            }
             boardController.SetTiles(traitHexes, tile, tilemapLayer);
         }
 
@@ -108,11 +113,19 @@ namespace MyHexBoardSystem.BoardSystem {
             return neuronsController.GetMaxTrait(fromTraits);
         }
 
+        public Hex[] GetTraitEmptyHexes(ETrait trait, IEnumerable<Hex> fromHexes = null) {
+            fromHexes ??= TraitHexes[trait];
+            return fromHexes
+                .Where(h => neuronsController.Board.HasPosition(h) && 
+                            !neuronsController.Board.GetPosition(h).HasData())
+                .ToArray();
+        }
+
         #endregion
 
         #region EventHandlers
 
-        private void CheckForFullBoard(EventArgs obj) {
+        protected virtual void CheckForFullBoard(EventArgs obj) {
             if (TraitHexes.Keys
                 .All(t => TraitHexes[t]
                     .All(h => neuronsController.Board.HasPosition(h) && 
@@ -121,20 +134,20 @@ namespace MyHexBoardSystem.BoardSystem {
             }
         }
 
-        private void OnAddTile(EventArgs eventArgs) {
+        protected virtual void OnAddTile(EventArgs eventArgs) {
             if (eventArgs is not OnTileModifyEventArgs tileModifyEventArgs) {
                 return;
             }
 
             var hex = tileModifyEventArgs.Hex;
-            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(hex));
             if (!trait.HasValue) {
                 return;
             }
             TraitHexes[trait.Value].Add(hex);
         }
 
-        private void OnRemoveTile(EventArgs obj) {
+        protected virtual void OnRemoveTile(EventArgs obj) {
             if (obj is not OnTileModifyEventArgs tileModifyEventArgs) {
                 return;
             }
@@ -145,10 +158,10 @@ namespace MyHexBoardSystem.BoardSystem {
         }
 
         #endregion
-        
+
         private void SaveTilesPerTrait() {
             foreach (var hex in boardController.GetHexPoints()) {
-                var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+                var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(hex));
                 if (!trait.HasValue) {
                     continue;
                 }
@@ -157,14 +170,6 @@ namespace MyHexBoardSystem.BoardSystem {
                 }
                 _traitHexes[trait.Value].Add(hex);
             }
-        }
-
-        public Hex[] GetTraitEmptyHexes(ETrait trait, IEnumerable<Hex> fromHexes = null) {
-            fromHexes ??= TraitHexes[trait];
-            return fromHexes
-                .Where(h => neuronsController.Board.HasPosition(h) && 
-                            !neuronsController.Board.GetPosition(h).HasData())
-                .ToArray();
         }
     }
 }

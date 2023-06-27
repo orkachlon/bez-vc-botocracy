@@ -16,27 +16,27 @@ using UnityEngine;
 namespace Neurons.NeuronQueue {
     public class MNeuronQueue : MonoBehaviour, INeuronQueue, IEnumerable<IStackNeuron> {
         
-        [Header("Event Managers"), SerializeField] private SEventManager neuronEventManager;
-        [SerializeField] private SEventManager boardEventManager;
-        [SerializeField] private SEventManager modificationsEventManager;
-        [SerializeField] private SEventManager gmEventManager;
-        [SerializeField] private SEventManager storyEventManager;
+        [Header("Event Managers"), SerializeField] protected SEventManager neuronEventManager;
+        [SerializeField] protected SEventManager boardEventManager;
+        [SerializeField] protected SEventManager modificationsEventManager;
+        [SerializeField] protected SEventManager gmEventManager;
+        [SerializeField] protected SEventManager storyEventManager;
 
-        public int Count => IsInfinite ? int.MaxValue : _neurons.Count;
+        public int Count => IsInfinite ? int.MaxValue : Neurons.Count;
         public bool IsInfinite { get; private set; }
-        public IBoardNeuron NextBoardNeuron => Count > 0 && _isProviding ? Peek().BoardNeuron : null;
+        public IBoardNeuron NextBoardNeuron => Count > 0 && IsProviding ? Peek().BoardNeuron : null;
 
-        private Queue<IStackNeuron> _neurons;
-        private bool _isProviding;
+        protected Queue<IStackNeuron> Neurons;
+        protected bool IsProviding;
 
         #region UnityMethods
 
-        private void Awake() {
-            _neurons = new Queue<IStackNeuron>();
-            _isProviding = true;
+        protected virtual void Awake() {
+            Neurons = new Queue<IStackNeuron>();
+            IsProviding = true;
         }
         
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
             storyEventManager.Register(StoryEvents.OnDecrement, OnSPDecrement);
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElementPreActivation, StopProvidingNeurons);
@@ -47,7 +47,7 @@ namespace Neurons.NeuronQueue {
             gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnGameEnd);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
             storyEventManager.Unregister(StoryEvents.OnDecrement, OnSPDecrement);
             boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementPreActivation, StopProvidingNeurons);
@@ -67,7 +67,7 @@ namespace Neurons.NeuronQueue {
         }
 
         public void Enqueue(IStackNeuron stackNeuron) {
-            _neurons.Enqueue(stackNeuron);
+            Neurons.Enqueue(stackNeuron);
             neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, new NeuronQueueEventArgs(this));
             neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
         }
@@ -79,10 +79,10 @@ namespace Neurons.NeuronQueue {
             }
         }
 
-        public IStackNeuron Dequeue() {
+        public virtual IStackNeuron Dequeue() {
             // we dequeue the neuron that was placed just now.
             // the next neuron is the one after the dequeued one
-            _neurons.TryDequeue(out var prevNeuron);
+            Neurons.TryDequeue(out var prevNeuron);
             if (prevNeuron == null) {
                 StopProvidingNeurons(); // shouldn't happen, just to be sure
                 return null;
@@ -95,7 +95,7 @@ namespace Neurons.NeuronQueue {
             neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronQueueEventArgs(this));
             neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
 
-            if (_neurons.Count > 0) {
+            if (Neurons.Count > 0) {
                 return prevNeuron;
             }
             StopProvidingNeurons();
@@ -104,25 +104,25 @@ namespace Neurons.NeuronQueue {
         }
 
         public IStackNeuron Peek() {
-            return Count == 0 ? null : _neurons.Peek();
+            return Count == 0 ? null : Neurons.Peek();
         }
 
         public IStackNeuron PeekLast() {
-            return _neurons.ToArray()[_neurons.Count - 1];
+            return Neurons.ToArray()[Neurons.Count - 1];
         }
 
         public IStackNeuron[] PeekFirst(int number) {
-            if (number > _neurons.Count) {
-                number = _neurons.Count;
+            if (number > Neurons.Count) {
+                number = Neurons.Count;
             }
 
-            return _neurons.ToArray()[Range.EndAt(number)];
+            return Neurons.ToArray()[Range.EndAt(number)];
         }
 
         [CanBeNull]
         public IStackNeuron Peek(int index) {
-            if (0 <= index && index < _neurons.Count) {
-                return _neurons.ToArray()[index];
+            if (0 <= index && index < Neurons.Count) {
+                return Neurons.ToArray()[index];
             }
 
             return null;
@@ -171,17 +171,17 @@ namespace Neurons.NeuronQueue {
 
         #endregion
 
-        private void StopProvidingNeurons(EventArgs args = null) {
-            _isProviding = false;
+        protected void StopProvidingNeurons(EventArgs args = null) {
+            IsProviding = false;
             neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
         }
 
-        private void StartProvidingNeurons(EventArgs args = null) {
-            _isProviding = true;
+        protected void StartProvidingNeurons(EventArgs args = null) {
+            IsProviding = true;
             neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
         }
 
-        public IEnumerator<IStackNeuron> GetEnumerator() => _neurons.GetEnumerator();
+        public IEnumerator<IStackNeuron> GetEnumerator() => Neurons.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }

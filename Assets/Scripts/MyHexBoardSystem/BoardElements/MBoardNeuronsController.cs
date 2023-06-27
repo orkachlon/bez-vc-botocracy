@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,8 +24,7 @@ namespace MyHexBoardSystem.BoardElements {
         [SerializeField] private MUINeuronPlacer placer;
         
         protected IBoardNeuron CurrentNeuron { get; private set; }
-
-
+        
         public int CountNeurons => Board.Positions.Count(p => p.HasData());
         // For faster access to max trait
         private IDictionary<ETrait, int> NeuronsPerTrait { get; } = new Dictionary<ETrait, int>();
@@ -41,13 +39,13 @@ namespace MyHexBoardSystem.BoardElements {
             }
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             externalEventManager.Register(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
             externalEventManager.Register(ExternalBoardEvents.OnSingleNeuronTurn, OnSingleNeuronDone);
             neuronEventManager.Register(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             externalEventManager.Unregister(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
             externalEventManager.Unregister(ExternalBoardEvents.OnSingleNeuronTurn, OnSingleNeuronDone);
             neuronEventManager.Unregister(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
@@ -57,7 +55,7 @@ namespace MyHexBoardSystem.BoardElements {
 
         #region EventHandlers
 
-        private async void OnSetFirstNeuron(EventArgs eventData) {
+        protected virtual async void OnSetFirstNeuron(EventArgs eventData) {
             if (eventData is not BoardElementEventArgs<IBoardNeuron> neuronData) {
                 MLogger.LogEditor($"Event args type mismatch. Actual: {eventData.GetType()} != Expected: {typeof(BoardElementEventArgs<IBoardNeuron>)}");
                 return;
@@ -76,7 +74,7 @@ namespace MyHexBoardSystem.BoardElements {
             externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
         }
 
-        private void UpdateNextNeuron(EventArgs obj) {
+        protected virtual void UpdateNextNeuron(EventArgs obj) {
             if (obj is not NeuronQueueEventArgs queueEventArgs) {
                 return;
             }
@@ -84,7 +82,7 @@ namespace MyHexBoardSystem.BoardElements {
             CurrentNeuron = queueEventArgs.NeuronQueue.NextBoardNeuron;
         }
 
-        private async void OnSingleNeuronDone(EventArgs args) {
+        protected virtual async void OnSingleNeuronDone(EventArgs args) {
             if (args is not BoardElementEventArgs<IBoardNeuron> neuronArgs) {
                 return;
             }
@@ -170,7 +168,6 @@ namespace MyHexBoardSystem.BoardElements {
             var eventData = new BoardElementEventArgs<IBoardNeuron>(neuron, hex);
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
             externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
-            return;
         }
 
         public async Task RemoveNeuron(Hex hex) {
@@ -273,7 +270,7 @@ namespace MyHexBoardSystem.BoardElements {
 
         #region Traits
 
-        private bool DecrementTrait(Hex hex) {
+        protected bool DecrementTrait(Hex hex) {
             var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(hex));
             if (!trait.HasValue) {
                 return false;
@@ -283,7 +280,7 @@ namespace MyHexBoardSystem.BoardElements {
             return true;
         }
 
-        private bool IncrementTrait(Hex hex) {
+        protected bool IncrementTrait(Hex hex) {
             var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
             if (!trait.HasValue) {
                 return false;

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BGMaterial
-  m_Shader: {fileID: 4800000, guid: ede7203b20524f41ac21bf644cede1e2, type: 3}
+  m_Name: BGTutorialMaterial
+  m_Shader: {fileID: 4800000, guid: 56cd8c88c03744e3b5566de1d4ab656b, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4

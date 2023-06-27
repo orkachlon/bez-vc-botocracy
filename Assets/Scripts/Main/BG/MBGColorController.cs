@@ -7,7 +7,6 @@ using DG.Tweening;
 using Events.Board;
 using Events.SP;
 using MyHexBoardSystem.BoardElements;
-using MyHexBoardSystem.BoardSystem;
 using Types.Trait;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -28,7 +27,7 @@ namespace Main.BG {
 
         private readonly Dictionary<ETrait, Color> _traitCurrentColors = new Dictionary<ETrait, Color>();
         private Material _material;
-        private ETrait[] _decidingTraits;
+        protected ETrait[] _decidingTraits;
 
         private void Awake() {
             _material = GetComponent<Renderer>().material;
@@ -37,12 +36,12 @@ namespace Main.BG {
             }
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             storyEventManager.Register(StoryEvents.OnInitStory, UpdateCurrentSP);
             boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, UpdateBGColors);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnInitStory, UpdateCurrentSP);
             boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, UpdateBGColors);
         }
@@ -60,13 +59,13 @@ namespace Main.BG {
             ColorBG();
         }
 
-        private void ColorBG() {
+        protected virtual void ColorBG() {
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 SetTraitBGColor(trait, _decidingTraits.Contains(trait));
             }
         }
 
-        private void SetTraitBGColor(ETrait trait, bool isDeciding) {
+        protected void SetTraitBGColor(ETrait trait, bool isDeciding) {
             if (!isDeciding) {
                 SetNonDecidingTraitColor(trait);
                 return;
@@ -108,7 +107,7 @@ namespace Main.BG {
             return Color.Lerp(colorA, colorB, (float) me / (amounts.Count - 1));
         }
 
-        private static string TraitToVariableName(ETrait trait) {
+        protected virtual string TraitToVariableName(ETrait trait) {
             return trait switch {
                 ETrait.Protector => "_ColorBotRight",
                 ETrait.Commander => "_ColorTopLeft",

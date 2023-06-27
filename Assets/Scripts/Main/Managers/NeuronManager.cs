@@ -13,24 +13,24 @@ using UnityEngine.Serialization;
 namespace Main.Managers {
     public class NeuronManager : MonoBehaviour {
 
-        [SerializeField] private uint startNeuronAmount;
+        [SerializeField] protected uint startNeuronAmount;
 
         [Header("Event Managers"), SerializeField]
-        private SEventManager gmEventManager;
-        [SerializeField] private SEventManager boardEventManager;
-        [FormerlySerializedAs("neuronEvents")] [SerializeField] private SEventManager neuronEventManager;
+        protected SEventManager gmEventManager;
+        [SerializeField] protected SEventManager boardEventManager;
+        [FormerlySerializedAs("neuronEvents")] [SerializeField] protected SEventManager neuronEventManager;
         
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
         #region EventHandlers
 
-        private void Init(EventArgs _) {
+        protected virtual void Init(EventArgs _) {
             // place the initial neuron
             var invulnerableBoardNeuron = NeuronFactory.GetBoardNeuron(ENeuronType.Invulnerable);
             var firstNeuronEventData = new BoardElementEventArgs<IBoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
