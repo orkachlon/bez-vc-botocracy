@@ -130,7 +130,7 @@ namespace Neurons.NeuronQueue {
 
         #region EventHandlers
         
-        private void OnRewardNeurons(EventArgs eventArgs) {
+        protected void OnRewardNeurons(EventArgs eventArgs) {
             if (eventArgs is NeuronRewardEventArgs reward) {
                 Enqueue(reward.Amount);
             }
@@ -152,7 +152,7 @@ namespace Neurons.NeuronQueue {
             StopProvidingNeurons();
         }
 
-        private void OnNeuronPlaced(EventArgs args) {
+        protected void OnNeuronPlaced(EventArgs args) {
             if (args is not BoardElementEventArgs<IBoardNeuron>) {
                 return;
             }

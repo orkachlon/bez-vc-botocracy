@@ -367,7 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vignetteShader: {fileID: 4800000, guid: 9c7043498e444498a94fe9b013aa286d, type: 3}
-  radius: 0.73
-  feather: 1.07
-  tint: {r: 0.3372549, g: 0.47450984, b: 0.69803923, a: 1}
+  radius: 0.27
+  feather: 2.78
+  tint: {r: 0.3137255, g: 0.36862746, b: 0.56078434, a: 1}
   invertColor: 0

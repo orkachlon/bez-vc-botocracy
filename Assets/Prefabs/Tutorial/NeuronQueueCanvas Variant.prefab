@@ -475,6 +475,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -0.825531
       objectReference: {fileID: 0}
+    - target: {fileID: 1302876805659313377, guid: b5afc6ee98217784bbbdfeb2ccc09170, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.0220947
+      objectReference: {fileID: 0}
     - target: {fileID: 2378028069632916121, guid: b5afc6ee98217784bbbdfeb2ccc09170, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -1.5000305
@@ -587,6 +591,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -0.9698181
       objectReference: {fileID: 0}
+    - target: {fileID: 7365549639809735369, guid: b5afc6ee98217784bbbdfeb2ccc09170, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.97909546
+      objectReference: {fileID: 0}
     - target: {fileID: 7531916856503418138, guid: b5afc6ee98217784bbbdfeb2ccc09170, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -1.0740051
@@ -598,6 +606,10 @@ PrefabInstance:
     - target: {fileID: 8314618649763878872, guid: b5afc6ee98217784bbbdfeb2ccc09170, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -0.929718
+      objectReference: {fileID: 0}
+    - target: {fileID: 8314618649763878872, guid: b5afc6ee98217784bbbdfeb2ccc09170, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.0202942
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5afc6ee98217784bbbdfeb2ccc09170, type: 3}
@@ -1019,7 +1031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8715965746229964941, guid: e84bf272025f6754499856141936d02c, type: 3}
       propertyPath: m_Name
-      value: NeuronQueueCanvas
+      value: NeuronQueueCanvas Variant
       objectReference: {fileID: 0}
     - target: {fileID: 8715965746339647287, guid: e84bf272025f6754499856141936d02c, type: 3}
       propertyPath: m_SizeDelta.x

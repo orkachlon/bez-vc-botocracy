@@ -1,7 +1,9 @@
 ﻿using Core.EventSystem;
+using Events.Board;
 using Events.Neuron;
 using Events.Tutorial;
 using Neurons.NeuronQueue;
+using System;
 using Types.Neuron.Runtime;
 using UnityEngine;
 
@@ -9,7 +11,21 @@ namespace Tutorial.Neurons {
     public class MTutorialNeuronQueue : MNeuronQueue {
 
         [SerializeField] private SEventManager tutorialEventManager;
-        
+
+        protected override void OnEnable() {
+            tutorialEventManager.Register(TutorialEvents.OnEnableBoard, StartProvidingNeurons);
+            tutorialEventManager.Register(TutorialEvents.OnDisableBoard, StopProvidingNeurons);
+            neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementPreActivation, OnNeuronPlaced);
+        }
+
+        protected override void OnDisable() {
+            tutorialEventManager.Unregister(TutorialEvents.OnEnableBoard, StartProvidingNeurons);
+            tutorialEventManager.Unregister(TutorialEvents.OnDisableBoard, StopProvidingNeurons);
+            neuronEventManager.Unregister(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementPreActivation, OnNeuronPlaced);
+        }
+
         public override IStackNeuron Dequeue() {
             // we dequeue the neuron that was placed just now.
             // the next neuron is the one after the dequeued one
@@ -31,8 +47,11 @@ namespace Tutorial.Neurons {
             }
             StopProvidingNeurons();
             tutorialEventManager.Raise(TutorialEvents.OnQueueDepleted, new NeuronQueueEventArgs(this));
-            // neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronQueueEventArgs(this));
             return null;
+        }
+
+        private void Hide(EventArgs args = null) {
+
         }
     }
 }

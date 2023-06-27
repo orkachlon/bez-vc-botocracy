@@ -29,7 +29,7 @@ namespace Main.BG {
         private Material _material;
         protected ETrait[] _decidingTraits;
 
-        private void Awake() {
+        protected virtual void Awake() {
             _material = GetComponent<Renderer>().material;
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 _traitCurrentColors[trait] = TraitToDefaultColor(trait);

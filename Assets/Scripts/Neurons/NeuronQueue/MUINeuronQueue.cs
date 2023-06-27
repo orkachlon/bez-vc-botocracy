@@ -18,27 +18,21 @@ namespace Neurons.NeuronQueue {
         [SerializeField] private int stackSpacing = 100, top3Spacing = 150, topPadding = -50;
         
         [Header("Event Managers"), SerializeField]
-        private SEventManager neuronEventManager;
+        protected SEventManager neuronEventManager;
         
-        private const string InfiniteNeuronsMark = "-";
+        protected const string InfiniteNeuronsMark = "-";
         private readonly Queue<IStackNeuron> _registerUiElements = new ();
-
-        private Canvas _queueCanvas;
 
         public float StackSpacing => stackSpacing;
         public float Top3Spacing => top3Spacing;
 
 
-        private void Awake() {
-            _queueCanvas = GetComponent<Canvas>();
-        }
-
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Register(NeuronEvents.OnDequeueNeuron, OnDequeue);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             neuronEventManager.Unregister(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeue);
         }
