@@ -6,7 +6,6 @@ using Core.Utils;
 using Events.Board;
 using Events.General;
 using Events.SP;
-using StoryPoints.UI;
 using Types.Board;
 using Types.GameState;
 using Types.StoryPoint;
@@ -35,13 +34,13 @@ namespace StoryPoints {
 
         
         private StoryPointData _spData;
-        private MUIStoryPoint _uiSP;
+        private IUIStoryPoint _uiSP;
         private IBoardNeuronsController _neuronsController;
 
         #region UnityMethods
 
         private void Awake() {
-            _uiSP = GetComponent<MUIStoryPoint>();
+            _uiSP = GetComponent<IUIStoryPoint>();
         }
 
         private void OnEnable() {
@@ -118,7 +117,7 @@ namespace StoryPoints {
             TurnsToEvaluation--;
             _uiSP.UpdateTurnCounter(TurnsToEvaluation);
             if (TurnsToEvaluation > 0) {
-                await _uiSP.AnimateDecrement();
+                await _uiSP.PlayDecrementAnimation();
             }
             storyEventManager.Raise(StoryEvents.OnDecrement, new StoryEventArgs(this));
         }

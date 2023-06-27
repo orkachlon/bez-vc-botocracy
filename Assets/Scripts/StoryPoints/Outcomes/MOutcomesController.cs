@@ -9,37 +9,38 @@ using Types.StoryPoint;
 using Types.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace StoryPoints.Outcomes {
     public class MOutcomesController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IExpandable {
         [Header("Outcome Prefab"), SerializeField]
         private MUIOutcome outcomePrefab;
 
-        [Header("Outcome Containers"), SerializeField] private Canvas outcomePanelCanvas;
-        [SerializeField] private RectTransform verticalContainer;
-        [SerializeField] private RectTransform scrollArea;
+        [Header("Outcome Containers"), SerializeField] protected Canvas outcomePanelCanvas;
+        [SerializeField] protected RectTransform verticalContainer;
+        [SerializeField] protected RectTransform scrollArea;
 
         [Header("Event Managers"), SerializeField]
-        private SEventManager storyEventManager;
+        protected SEventManager storyEventManager;
         [SerializeField] private SEventManager uiEventManager;
 
         private Queue<MUIOutcome> _outcomeQueue;
         private RectTransform _rt;
 
-        private void Awake() {
+        protected virtual void Awake() {
             _outcomeQueue = new Queue<MUIOutcome>();
             _rt = GetComponent<RectTransform>();
         }
 
-        private void Start() {
+        protected virtual void Start() {
             CollapseOnGameStart();
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             storyEventManager.Register(StoryEvents.OnEvaluate, OnStoryEvaluated);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnEvaluate, OnStoryEvaluated);
         }
 

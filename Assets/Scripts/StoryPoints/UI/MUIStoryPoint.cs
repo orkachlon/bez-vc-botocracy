@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace StoryPoints.UI {
-    public class MUIStoryPoint : MonoBehaviour, IAnimatable {
+    public class MUIStoryPoint : MonoBehaviour, IUIStoryPoint, IAnimatable {
         [Header("Visuals"), SerializeField] private Canvas spCanvas;
         [SerializeField] private Image backGround; 
         [SerializeField] private TextMeshProUGUI title;
@@ -35,13 +35,11 @@ namespace StoryPoints.UI {
         private const string ActionPrefix = "<font=\"EzerBlock Bold SDF\">Action: </font>";
         private const string OutcomePrefix = "<font=\"EzerBlock Bold SDF\">Outcome: </font>";
         
-        private Camera _camera;
         private IStoryPoint _sp;
 
         #region UnityMethods
 
         private void Awake() {
-            _camera = Camera.main;
             _sp = GetComponent<IStoryPoint>();
         }
 
@@ -79,6 +77,16 @@ namespace StoryPoints.UI {
             await backGround.rectTransform.DOAnchorPosX(100, 0.5f).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
         }
 
+        public async Task PlayDecrementAnimation() {
+            var baseCol = backGround.color;
+            backGround.color = Color.white;
+            var seq = DOTween.Sequence()
+                .Insert(0, backGround.DOColor(baseCol, 0.5f))
+                .Insert(0, backGround.rectTransform.DOShakePosition(0.5f, Vector3.right * decrementShakeStrength, randomness: 0, fadeOut: true, randomnessMode:ShakeRandomnessMode.Harmonic))
+                .AsyncWaitForCompletion();
+            await AnimationManager.Register(this, seq);
+        }
+
         public async Task PlayEvaluateAnimation() {
             await AnimationManager.WaitForElement(this);
             await backGround.rectTransform.DOAnchorPosX((Screen.width * 0.5f / spCanvas.scaleFactor) - (backGround.rectTransform.sizeDelta.x * 0.5f), 0.2f)
@@ -109,16 +117,6 @@ namespace StoryPoints.UI {
             deciderText.text = $"{DeciderPrefix}{_sp.DecisionEffects.DecidingTrait}";
             decisionText.text = $"{ActionPrefix}{_sp.DecisionEffects.Decision}";
             outcomeText.text = $"{OutcomePrefix}{_sp.DecisionEffects.Outcome}";
-        }
-
-        public async Task AnimateDecrement() {
-            var baseCol = backGround.color;
-            backGround.color = Color.white;
-            var seq = DOTween.Sequence()
-                .Insert(0, backGround.DOColor(baseCol, 0.5f))
-                .Insert(0, backGround.rectTransform.DOShakePosition(0.5f, Vector3.right * decrementShakeStrength, randomness: 0, fadeOut: true, randomnessMode:ShakeRandomnessMode.Harmonic))
-                .AsyncWaitForCompletion();
-            await AnimationManager.Register(this, seq);
         }
     }
 }

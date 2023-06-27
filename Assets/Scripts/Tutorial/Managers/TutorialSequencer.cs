@@ -26,6 +26,7 @@ namespace Tutorial.Managers {
             DisableBGInteraction();
             DisableBoardInteraction();
             HideNeuronQueue();
+            HideOutcomes();
             // introduction - place a neuron
             await DisplayMessage(introductionMessage);
             EnableBoardInteraction();
@@ -69,6 +70,14 @@ namespace Tutorial.Managers {
 
         private void ShowNeuronQueue() {
             tutorialEventManager.Raise(TutorialEvents.OnShowNeuronQueue, EventArgs.Empty);
+        }
+
+        private void HideOutcomes() {
+            tutorialEventManager.Raise(TutorialEvents.OnHideOutcomes, EventArgs.Empty);
+        }
+
+        private void ShowOutcomes() {
+            tutorialEventManager.Raise(TutorialEvents.OnShowOutcomes, EventArgs.Empty);
         }
 
         #endregion

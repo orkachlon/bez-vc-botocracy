@@ -11,5 +11,7 @@
         public const string OnQueueDepleted = "Tutorial_OnQueueDepleted";
         public const string OnHideNeuronQueue = "Tutorial_OnHideNeuronQueue";
         public const string OnShowNeuronQueue = "Tutorial_OnShowNeuronQueue ";
+        public const string OnHideOutcomes = "Tutorial_OnHideOutcomes";
+        public const string OnShowOutcomes = "Tutorial_OnShowOutcomes";
     }
 }
