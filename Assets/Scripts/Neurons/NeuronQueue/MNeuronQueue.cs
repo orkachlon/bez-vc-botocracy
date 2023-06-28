@@ -37,22 +37,22 @@ namespace Neurons.NeuronQueue {
         }
         
         protected virtual void OnEnable() {
-            boardEventManager.Register(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
             storyEventManager.Register(StoryEvents.OnDecrement, OnSPDecrement);
-            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementPreActivation, StopProvidingNeurons);
-            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementPreActivation, OnNeuronPlaced);
+            boardEventManager.Register(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementPreActivation, BeforeElementActivation);
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElementFailed, StartProvidingNeurons);
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementTurnDone, CheckNeuronsDepleted);
             neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Register(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
             gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnGameEnd);
         }
 
         protected virtual void OnDisable() {
-            boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
             storyEventManager.Unregister(StoryEvents.OnDecrement, OnSPDecrement);
-            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementPreActivation, StopProvidingNeurons);
-            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementPreActivation, OnNeuronPlaced);
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementPreActivation, BeforeElementActivation);
             boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementFailed, StartProvidingNeurons);
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementTurnDone, CheckNeuronsDepleted);
             neuronEventManager.Unregister(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
             gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnGameEnd);
@@ -64,6 +64,10 @@ namespace Neurons.NeuronQueue {
             foreach (var neuron in neurons) {
                 Enqueue(neuron);
             }
+        }
+
+        public void Enqueue(IBoardNeuron boardNeuron) {
+            Enqueue(new StackNeuron(boardNeuron));
         }
 
         public void Enqueue(IStackNeuron stackNeuron) {
@@ -94,13 +98,7 @@ namespace Neurons.NeuronQueue {
 
             neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronQueueEventArgs(this));
             neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
-
-            if (Neurons.Count > 0) {
-                return prevNeuron;
-            }
-            StopProvidingNeurons();
-            neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronQueueEventArgs(this));
-            return null;
+            return prevNeuron;
         }
 
         public IStackNeuron Peek() {
@@ -152,10 +150,11 @@ namespace Neurons.NeuronQueue {
             StopProvidingNeurons();
         }
 
-        protected void OnNeuronPlaced(EventArgs args) {
+        protected void BeforeElementActivation(EventArgs args) {
             if (args is not BoardElementEventArgs<IBoardNeuron>) {
                 return;
             }
+            StopProvidingNeurons();
             Dequeue();
         }
 
@@ -167,6 +166,14 @@ namespace Neurons.NeuronQueue {
             if (spArgs.Story.TurnsToEvaluation > 0) {
                 StartProvidingNeurons();
             }
+        }
+
+        private void CheckNeuronsDepleted(EventArgs args) {
+            if (Neurons.Count > 0) {
+                return;
+            }
+            StopProvidingNeurons();
+            neuronEventManager.Raise(NeuronEvents.OnNoMoreNeurons, new NeuronQueueEventArgs(this));
         }
 
         #endregion
