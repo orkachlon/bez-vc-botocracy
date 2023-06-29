@@ -1,14 +1,18 @@
-﻿using MyHexBoardSystem.BoardSystem;
+﻿using Core.EventSystem;
+using Events.Tutorial;
+using MyHexBoardSystem.BoardSystem;
 using System.Collections.Generic;
 using System.Linq;
 using Tutorial.Traits;
 using Types.Hex.Coordinates;
 using Types.Trait;
 using Types.Tutorial;
+using UnityEngine;
 
 namespace Tutorial.Board {
     public class MTutorialBoardController : MNeuronBoardController, ITutorialBoardController {
 
+        [SerializeField] private SEventManager tutorialEventManager;
 
         private MTutorialTraitAccessor TutorialTraitAccessor => _traitAccessor as MTutorialTraitAccessor;
 
@@ -31,6 +35,7 @@ namespace Tutorial.Board {
                     Board.GetPosition(hex).IsEnabled = false;
                 }
             }
+            tutorialEventManager.Raise(TutorialEvents.OnTilesDisabled, new TutorialTilesEventArgs(hexes, false));
         }
 
         public void EnableHexes(IEnumerable<Hex> hexes = null) {
@@ -40,6 +45,7 @@ namespace Tutorial.Board {
                     Board.GetPosition(hex).IsEnabled = true;
                 }
             }
+            tutorialEventManager.Raise(TutorialEvents.OnTilesDisabled, new TutorialTilesEventArgs(hexes, true));
         }
     }
 }

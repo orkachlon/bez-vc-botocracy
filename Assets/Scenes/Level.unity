@@ -4444,6 +4444,18 @@ PrefabInstance:
       propertyPath: neuronsController
       value: 
       objectReference: {fileID: 1994135718}
+    - target: {fileID: 4958885505931599525, guid: e942699f68b271542b9e99577cc80329, type: 3}
+      propertyPath: nonDecidingColor.b
+      value: 0.601
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958885505931599525, guid: e942699f68b271542b9e99577cc80329, type: 3}
+      propertyPath: nonDecidingColor.g
+      value: 0.58374643
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958885505931599525, guid: e942699f68b271542b9e99577cc80329, type: 3}
+      propertyPath: nonDecidingColor.r
+      value: 0.53486127
+      objectReference: {fileID: 0}
     - target: {fileID: 4958885506518661730, guid: e942699f68b271542b9e99577cc80329, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -23,7 +23,7 @@ namespace MyHexBoardSystem.BoardSystem {
         [SerializeField] private TraitTiles traitTileOutlines;
 
         [Header("Event Managers"), SerializeField]
-        private SEventManager externalBoardEventManager;
+        protected SEventManager externalBoardEventManager;
 
         protected ITraitAccessor _traitAccessor;
 

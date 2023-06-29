@@ -27,9 +27,9 @@ using UnityEngine.SceneManagement;
 namespace Tutorial.Managers {
     public class TutorialSequencer : MonoBehaviour {
 
-        [SerializeField] private MTutorialMessage tutorialMessage;
+        [Header("Messages"), SerializeField] private MTutorialMessage tutorialMessage;
 
-        [Header("Messages"), TextArea(5, 7), SerializeField] private string introductionMessage;
+        [TextArea(5, 7), SerializeField] private string introductionMessage;
         [TextArea(5, 7), SerializeField] private string neuronRewardMessage;
         [TextArea(5, 7), SerializeField] private string personalityMessage;
         [TextArea(5, 7), SerializeField] private string boardEffectMessage;
@@ -148,6 +148,8 @@ namespace Tutorial.Managers {
 
         private async Task Personalities() {
             _currentStage = TutorialStage.Personalities;
+            // enable hexes to remove shadow effect
+            boardController.EnableHexes();
             // split BG to 3
             bgColorController.EnableLines();
             // show labels

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Types.Hex.Coordinates;
 using Types.Trait;
 
 namespace Events.Tutorial {
@@ -24,6 +27,8 @@ namespace Events.Tutorial {
         public const string OnTutorialSP = "Tutorial_OnTutorialSP";
 
         public const string OnBoardFull = "Tutorial_OnBoardFull";
+        public const string OnTilesDisabled = "Tutorial_OnTilesDisabled";
+        public const string OnTilesEnabled = "Tutorial_OnTilesEnabled";
     }
 
     public class TutorialStageEventArgs : EventArgs {
@@ -37,6 +42,16 @@ namespace Events.Tutorial {
 
         public TutorialTraitHoverEventArgs(ETrait trait) {
             Trait = trait;
+        }
+    }
+
+    public class TutorialTilesEventArgs : EventArgs {
+        public IEnumerable<Hex> Hexes;
+        public bool Enabled;
+
+        public TutorialTilesEventArgs(IEnumerable<Hex> hexes, bool enabled) {
+            Hexes = hexes;
+            Enabled = enabled;
         }
     }
 }

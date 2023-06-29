@@ -25,7 +25,7 @@ namespace Main.BG {
 
         [Header("Data accessors"), SerializeField] private MBoardNeuronsController neuronsController;
 
-        protected readonly Dictionary<ETrait, Color> _traitCurrentColors = new Dictionary<ETrait, Color>();
+        protected readonly Dictionary<ETrait, Color> _traitCurrentColors = new();
         protected Material _material;
         protected ETrait[] _decidingTraits;
 
@@ -39,11 +39,33 @@ namespace Main.BG {
         protected virtual void OnEnable() {
             storyEventManager.Register(StoryEvents.OnInitStory, UpdateCurrentSP);
             boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, UpdateBGColors);
+            boardEventManager.Register(ExternalBoardEvents.OnTraitCompassEnter, HighlightTrait);
+            boardEventManager.Register(ExternalBoardEvents.OnTraitCompassExit, LowlightTraits);
         }
 
         protected virtual void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnInitStory, UpdateCurrentSP);
             boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, UpdateBGColors);
+            boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassEnter, HighlightTrait);
+            boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassExit, LowlightTraits);
+        }
+
+        private void LowlightTraits(EventArgs args) {
+            if (args is not TraitCompassHoverEventArgs traitArgs) {
+                MLogger.LogEditorWarning($"Incorrect event argument received for event {ExternalBoardEvents.OnTraitCompassEnter} in {GetType()}");
+                return;
+            }
+            _material.SetInteger("_Selected", -1);
+        }
+
+        private void HighlightTrait(EventArgs args) {
+            if (args is not TraitCompassHoverEventArgs traitArgs || !traitArgs.HighlightedTrait.HasValue) {
+                MLogger.LogEditorWarning($"Incorrect event argument received for event {ExternalBoardEvents.OnTraitCompassEnter} in {GetType()}");
+                return;
+            }
+            
+            var index = TraitToShaderSelection(traitArgs.HighlightedTrait.Value);
+            _material.SetInteger("_Selected", index);
         }
 
         private void UpdateCurrentSP(EventArgs obj) {
@@ -130,6 +152,18 @@ namespace Main.BG {
                 ETrait.Entropist => colorA,
                 ETrait.Mediator => colorB,
                 _ => throw new ArgumentOutOfRangeException(nameof(trait), trait, null)
+            };
+        }
+
+        protected virtual int TraitToShaderSelection(ETrait trait) {
+            return trait switch {
+                ETrait.Protector => 3,
+                ETrait.Commander => 0,
+                ETrait.Entrepreneur => 1,
+                ETrait.Logistician => 2,
+                ETrait.Entropist => 5,
+                ETrait.Mediator => 4,
+                _ => -1
             };
         }
     }

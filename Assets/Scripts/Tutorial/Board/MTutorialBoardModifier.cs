@@ -1,5 +1,6 @@
 ﻿using Animation;
 using Core.Utils;
+using Events.Board;
 using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardSystem;
 using System.Collections;
@@ -26,12 +27,19 @@ namespace Assets.Scripts.Tutorial.Board {
 
         protected override async Task RemoveTileFromTrait(ETrait trait, int delay = 0) {
             var edgeHexes = TutorialTraitAccessor.TraitToDirections(trait)
-                .SelectMany(d => BoardController.Manipulator.GetEdge(d)).ToArray();
+                .SelectMany(d => BoardController.Manipulator.GetEdge(d))
+                .ToArray();
             if (edgeHexes.Length == 0) {
                 return;
             }
-            var randomHex = edgeHexes[Random.Range(0, edgeHexes.Length)];
-            await AnimationManager.Register(RemoveTile(randomHex, delay));
+            Hex chosenHex;
+            if (edgeHexes.All(h => BoardController.Manipulator.GetNeighbours(h).Length <= 1)) {
+                chosenHex = edgeHexes[Random.Range(0, edgeHexes.Length)]; 
+            } else {
+                var hexesWithMoreThan1Neighbor = edgeHexes.Where(h => BoardController.Manipulator.GetNeighbours(h).Length > 1).ToArray();
+                chosenHex = hexesWithMoreThan1Neighbor[Random.Range(0, hexesWithMoreThan1Neighbor.Length)];
+            }
+            await AnimationManager.Register(RemoveTile(chosenHex, delay));
         }
 
         public Hex TutorialAddTileSelector(INeuronBoardController controller, ETrait trait) {
