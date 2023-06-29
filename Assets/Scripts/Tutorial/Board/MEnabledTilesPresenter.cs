@@ -17,7 +17,6 @@ namespace Assets.Scripts.Tutorial.Board {
         [SerializeField] private MTutorialBoardController controller;
         [SerializeField] private SEventManager tutorialEventManager;
 
-        private readonly HashSet<Hex> _disabledTiles = new();
 
         private void OnEnable() {
             tutorialEventManager.Register(TutorialEvents.OnTilesEnabled, UpdateEnabledTiles);
@@ -34,7 +33,6 @@ namespace Assets.Scripts.Tutorial.Board {
                 MLogger.LogEditorWarning($"Incorrect arg received in UpdateEnabledTiles");
                 return;
             }
-            controller.SetTiles(_disabledTiles.ToArray(), null, TutorialConstants.EnabledTilesMap);
             if (!tilesEventArgs.Enabled) {
                 controller.SetTiles(tilesEventArgs.Hexes.ToArray(), disabledTile, TutorialConstants.EnabledTilesMap);
             } else if (tilesEventArgs.Enabled) {

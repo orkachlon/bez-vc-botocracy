@@ -1925,7 +1925,7 @@ MonoBehaviour:
     personalities.
 
     Hover over the personalities to see their effects in this
-    event.'
+    event. When you''re done, place a neuron in each personality to proceed.'
   decisionMessage: 'Place neurons to choose which personality should govern this
     event.
 
@@ -3754,7 +3754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758845d976e94ee28e1e54ad0bffc1a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
 --- !u!114 &1417376905
 MonoBehaviour:
   m_ObjectHideFlags: 0

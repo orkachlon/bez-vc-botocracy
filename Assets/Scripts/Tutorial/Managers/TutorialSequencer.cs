@@ -59,6 +59,7 @@ namespace Tutorial.Managers {
 
         private TutorialStage _currentStage;
         private int _hoverCounter = 0;
+        private int _neuronsPlaced = 0;
         private bool _boardModified = false;
 
         private async void Start() {
@@ -71,12 +72,14 @@ namespace Tutorial.Managers {
         private void OnEnable() {
             tutorialEventManager.Register(TutorialEvents.OnTraitHover, CountTraitHover);
             boardEventManager.Register(ExternalBoardEvents.OnTraitCompassEnter, CountEffectHover);
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementTurnDone, OnNeuronPlaced);
             boardEventManager.Register(ExternalBoardEvents.OnBoardModified, OnBoardModified);
         }
 
         private void OnDisable() {
             tutorialEventManager.Unregister(TutorialEvents.OnTraitHover, CountTraitHover);
             boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassEnter, CountEffectHover);
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementTurnDone, OnNeuronPlaced);
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, OnBoardModified);
         }
 
@@ -87,11 +90,9 @@ namespace Tutorial.Managers {
             await AsyncHelpers.WaitUntil(() => boardController.Board.GetPosition(new Hex(0, -2)).HasData());
             await Personalities();
             await AsyncHelpers.WaitUntil(() => _hoverCounter >= 3);
-            _hoverCounter = 0;
             await Task.Delay(1000);
             await BoardEffects();
-            await AsyncHelpers.WaitUntil(() => _hoverCounter >= 3);
-            _hoverCounter = 0;
+            await AsyncHelpers.WaitUntil(() => _neuronsPlaced >= 3);
             await Decisions();
             await AsyncHelpers.WaitUntil(() => _boardModified);
             await NeuronTypeIntro();
@@ -149,7 +150,7 @@ namespace Tutorial.Managers {
         private async Task Personalities() {
             _currentStage = TutorialStage.Personalities;
             // enable hexes to remove shadow effect
-            boardController.EnableHexes();
+            boardController.DisableHexes();
             // split BG to 3
             bgColorController.EnableLines();
             // show labels
@@ -172,20 +173,23 @@ namespace Tutorial.Managers {
             await Task.WhenAny(
                 tutorialStoryPointManager.ShowTutorialSP(),
                 DisplayMessage(boardEffectMessage));
+            tutorialStoryPointManager.IsSPEnabled = false;
             // place reward tiles
             neuronRewarder.RewardRandomTiles();
             // enable effect hover
             bgHoverController.EnableHover();
+            boardController.EnableHexes(new[] { new Hex(1, -1), new Hex(-1, 0), new Hex(0, 1) });
         }
 
         private async Task Decisions() {
             _currentStage = TutorialStage.Decisions;
             // refresh message
             await tutorialMessage.AwaitHideAnimation();
-            await Task.WhenAny(outcomesController.Show(), DisplayMessage(decisionMessage));
+            await Task.WhenAny(/*outcomesController.Show(),*/ DisplayMessage(decisionMessage));
             // enable SP and let player play
             neuronController.IsSPEnabled = true;
             bgColorController.IsSPEnabled = true;
+            tutorialStoryPointManager.IsSPEnabled = true;
             boardController.EnableHexes();
         }
 
@@ -204,7 +208,7 @@ namespace Tutorial.Managers {
             // wait till board full
             await AsyncHelpers.WaitUntil(() => boardController.Board.Positions.All(p => p.HasData()));
             // hide anything SP related
-            await outcomesController.Hide();
+            await Task.WhenAny(neuronQueue.Clear() , outcomesController.Hide());
             labels.ForEach(l => l.IsSPEnabled = false);
             // remove all tiles and recreate board
             await RemoveAllTraitTiles();
@@ -236,6 +240,7 @@ namespace Tutorial.Managers {
             };
             neuronQueue.Enqueue(new StackNeuron(modifiedTraveller));
             neuronQueue.StartNeurons();
+            boardController.DisableHexes();
             boardController.EnableHexes(new Hex[] { new Hex(-1, 2) });
         }
 
@@ -246,6 +251,7 @@ namespace Tutorial.Managers {
             neuronQueue.neuronPool = new() { ENeuronType.Decaying };
             neuronQueue.EnqueueFromPool();
             neuronQueue.StartNeurons();
+            boardController.DisableHexes();
             boardController.EnableHexes(new Hex[] {new Hex(-1, 0) });
         }
 
@@ -256,6 +262,7 @@ namespace Tutorial.Managers {
             neuronQueue.neuronPool = new() { ENeuronType.Exploding };
             neuronQueue.EnqueueFromPool();
             neuronQueue.StartNeurons();
+            boardController.DisableHexes();
             boardController.EnableHexes(new Hex[] { new Hex(-1, 1) });
         }
 
@@ -314,7 +321,13 @@ namespace Tutorial.Managers {
             if (_currentStage == TutorialStage.Decisions) {
                 _boardModified = true;
             }
-        } 
+        }
+
+        private void OnNeuronPlaced(EventArgs args) {
+            if (_currentStage == TutorialStage.BoardEffects) {
+                _neuronsPlaced++;
+            }
+        }
 
         #endregion
     }
