@@ -1,29 +1,47 @@
-﻿using Core.EventSystem;
+﻿using Assets.Scripts.Tutorial.Neurons;
+using Core.EventSystem;
 using Events.Board;
 using Events.Neuron;
 using Events.Tutorial;
 using Neurons.NeuronQueue;
+using Neurons.Runtime;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Types.Neuron;
 using Types.Neuron.Runtime;
 using UnityEngine;
 
 namespace Tutorial.Neurons {
     public class MTutorialNeuronQueue : MNeuronQueue {
 
+        [SerializeField] private MUITutorialNeuronQueue uiQueue;
+
         [SerializeField] private SEventManager tutorialEventManager;
 
+        public HashSet<ENeuronType> neuronPool = new();
+
+        protected override void Awake() {
+            base.Awake();
+            uiQueue = GetComponent<MUITutorialNeuronQueue>();
+        }
+
         protected override void OnEnable() {
-            tutorialEventManager.Register(TutorialEvents.OnEnableBoard, StartProvidingNeurons);
-            tutorialEventManager.Register(TutorialEvents.OnDisableBoard, StopProvidingNeurons);
             neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
-            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementPreActivation, OnNeuronPlaced);
+            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementPreActivation, BeforeElementActivation);
+            boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, StartProvidingNeurons);
         }
 
         protected override void OnDisable() {
-            tutorialEventManager.Unregister(TutorialEvents.OnEnableBoard, StartProvidingNeurons);
-            tutorialEventManager.Unregister(TutorialEvents.OnDisableBoard, StopProvidingNeurons);
             neuronEventManager.Unregister(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
-            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementPreActivation, OnNeuronPlaced);
+            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementPreActivation, BeforeElementActivation);
+            boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, StartProvidingNeurons);
+        }
+
+        public void EnqueueFromPool(int amount = 1) {
+            for (int _ = 0; _ < amount; _++) {
+                Enqueue(new StackNeuron(NeuronFactory.GetRandomNeuron(neuronPool)));
+            }
         }
 
         public override IStackNeuron Dequeue() {
@@ -50,8 +68,33 @@ namespace Tutorial.Neurons {
             return null;
         }
 
-        private void Hide(EventArgs args = null) {
+        public void StopNeurons() {
+            StopProvidingNeurons();
+        }
 
+        public void StartNeurons() {
+            StartProvidingNeurons();
+        }
+
+        public async Task Hide(bool immediate) {
+            await uiQueue.Hide(immediate);
+        }
+
+        public async Task Show(bool immediate) {
+            await uiQueue.Show(immediate);
+        }
+
+        public async Task Clear() {
+            while (!IsInfinite && Count > 0) {
+                Dequeue();
+                await Task.Delay(500);
+            }
+        }
+
+        protected override void OnRewardNeurons(EventArgs eventArgs) {
+            if (eventArgs is NeuronRewardEventArgs reward) {
+                EnqueueFromPool(reward.Amount);
+            }
         }
     }
 }

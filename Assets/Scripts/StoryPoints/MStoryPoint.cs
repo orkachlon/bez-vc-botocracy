@@ -18,9 +18,9 @@ namespace StoryPoints {
         [SerializeField] private AnimationCurve neuronEvaluationWeight;
 
         [Header("Event Managers"), SerializeField]
-        private SEventManager storyEventManager;
-        [SerializeField] private SEventManager boardEventManager;
-        [SerializeField] private SEventManager gmEventManager;
+        protected SEventManager storyEventManager;
+        [SerializeField] protected SEventManager boardEventManager;
+        [SerializeField] protected SEventManager gmEventManager;
 
         public int Id => _spData.id;
         public string Title => _spData.title;
@@ -61,7 +61,7 @@ namespace StoryPoints {
         
         #region EventHandlers
 
-        private void OnAfterGameState(EventArgs obj) {
+        protected void OnAfterGameState(EventArgs obj) {
             if (obj is not GameStateEventArgs {State: EGameState.StoryTurn}) {
                 return;
             }
@@ -97,7 +97,7 @@ namespace StoryPoints {
             await _uiSP.PlayEvaluateAnimation();
         }
 
-        private async void HandleStoryTurn() {
+        protected virtual async void HandleStoryTurn() {
             await Decrement();
             if (TurnsToEvaluation > 0) {
                 return;

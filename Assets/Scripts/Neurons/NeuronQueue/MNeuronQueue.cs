@@ -66,10 +66,6 @@ namespace Neurons.NeuronQueue {
             }
         }
 
-        public void Enqueue(IBoardNeuron boardNeuron) {
-            Enqueue(new StackNeuron(boardNeuron));
-        }
-
         public void Enqueue(IStackNeuron stackNeuron) {
             Neurons.Enqueue(stackNeuron);
             neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, new NeuronQueueEventArgs(this));
@@ -128,7 +124,7 @@ namespace Neurons.NeuronQueue {
 
         #region EventHandlers
         
-        protected void OnRewardNeurons(EventArgs eventArgs) {
+        protected virtual void OnRewardNeurons(EventArgs eventArgs) {
             if (eventArgs is NeuronRewardEventArgs reward) {
                 Enqueue(reward.Amount);
             }

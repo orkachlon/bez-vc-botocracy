@@ -132,7 +132,7 @@ namespace Neurons.Runtime {
             TurnsToStop--;
         }
 
-        private Hex[] GetEmptyNeighbors() {
+        protected virtual Hex[] GetEmptyNeighbors() {
             var neighbours = Controller.Manipulator.GetNeighbours(Position)
                 .Where(h => !Controller.Board.GetPosition(h).HasData() && !PickedPositions.ContainsKey(h))
                 .ToArray();

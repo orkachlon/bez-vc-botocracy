@@ -1929,6 +1929,52 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!1 &1562870224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1562870226}
+  - component: {fileID: 1562870225}
+  m_Layer: 0
+  m_Name: Tester
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1562870225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562870224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cfe12cd2484c9d478e1e54b56c57307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 615794156}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+--- !u!4 &1562870226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562870224}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1648069766
 GameObject:
   m_ObjectHideFlags: 0
@@ -3061,7 +3107,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1639060064816519149, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
 --- !u!1001 &2883184649275028136
 PrefabInstance:
@@ -3800,18 +3847,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1834
       objectReference: {fileID: 0}
-    - target: {fileID: 4608811126475259318, guid: 9a8eae1e6eb73004d8c9d3268ef442f2, type: 3}
-      propertyPath: m_Color.b
-      value: 0.7372549
-      objectReference: {fileID: 0}
-    - target: {fileID: 4608811126475259318, guid: 9a8eae1e6eb73004d8c9d3268ef442f2, type: 3}
-      propertyPath: m_Color.g
-      value: 0.6156863
-      objectReference: {fileID: 0}
-    - target: {fileID: 4608811126475259318, guid: 9a8eae1e6eb73004d8c9d3268ef442f2, type: 3}
-      propertyPath: m_Color.r
-      value: 0.6666667
-      objectReference: {fileID: 0}
     - target: {fileID: 4608811126899281203, guid: 9a8eae1e6eb73004d8c9d3268ef442f2, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3906,23 +3941,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4608811127475473432, guid: 9a8eae1e6eb73004d8c9d3268ef442f2, type: 3}
       propertyPath: m_Size
-      value: 0.5451762
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4608811127475473432, guid: 9a8eae1e6eb73004d8c9d3268ef442f2, type: 3}
       propertyPath: m_Value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4608811127475473432, guid: 9a8eae1e6eb73004d8c9d3268ef442f2, type: 3}
-      propertyPath: m_Colors.m_NormalColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4608811127475473432, guid: 9a8eae1e6eb73004d8c9d3268ef442f2, type: 3}
-      propertyPath: m_Colors.m_NormalColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4608811127475473432, guid: 9a8eae1e6eb73004d8c9d3268ef442f2, type: 3}
-      propertyPath: m_Colors.m_NormalColor.r
-      value: 1
+      value: 0.61566615
       objectReference: {fileID: 0}
     - target: {fileID: 4608811127579335421, guid: 9a8eae1e6eb73004d8c9d3268ef442f2, type: 3}
       propertyPath: m_AnchorMax.x
@@ -5269,18 +5292,6 @@ PrefabInstance:
     - target: {fileID: 8715965746229964941, guid: e84bf272025f6754499856141936d02c, type: 3}
       propertyPath: m_Name
       value: NeuronQueueCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 8715965746339647286, guid: e84bf272025f6754499856141936d02c, type: 3}
-      propertyPath: m_Color.b
-      value: 0.735849
-      objectReference: {fileID: 0}
-    - target: {fileID: 8715965746339647286, guid: e84bf272025f6754499856141936d02c, type: 3}
-      propertyPath: m_Color.g
-      value: 0.6155215
-      objectReference: {fileID: 0}
-    - target: {fileID: 8715965746339647286, guid: e84bf272025f6754499856141936d02c, type: 3}
-      propertyPath: m_Color.r
-      value: 0.6648928
       objectReference: {fileID: 0}
     - target: {fileID: 8715965746339647287, guid: e84bf272025f6754499856141936d02c, type: 3}
       propertyPath: m_SizeDelta.x

@@ -122,6 +122,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             var mouseHex = ScreenToHex(screenPos);
             return boardController.Board.HasPosition(mouseHex) &&
                    !boardController.Board.GetPosition(mouseHex).HasData() &&
+                   boardController.Board.GetPosition(mouseHex).IsEnabled &&
                    boardController.Manipulator.GetNeighbours(mouseHex)
                        .Any(h => boardController.Board.HasPosition(h) 
                                  && boardController.Board.GetPosition(h).HasData());

@@ -1,8 +1,10 @@
 ﻿using Core.EventSystem;
+using DG.Tweening;
 using Events.Tutorial;
 using Neurons.NeuronQueue;
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,26 +16,20 @@ namespace Assets.Scripts.Tutorial.Neurons {
         [SerializeField] private Image bg;
 
 
-
-        protected override void OnEnable() {
-            base.OnEnable();
-            tutorialEventManager.Register(TutorialEvents.OnHideNeuronQueue, Hide);
-            tutorialEventManager.Register(TutorialEvents.OnShowNeuronQueue, Show);
+        public async Task Hide(bool immediate = false, EventArgs args = null) {
+            if (immediate) {
+                bg.rectTransform.anchoredPosition = new Vector2(-bg.rectTransform.sizeDelta.x, bg.rectTransform.anchoredPosition.y);
+                return;
+            }
+            await bg.rectTransform.DOAnchorPosX(-bg.rectTransform.sizeDelta.x, 0.5f).AsyncWaitForCompletion();
         }
 
-
-        protected override void OnDisable() {
-            base.OnDisable();
-            tutorialEventManager.Unregister(TutorialEvents.OnHideNeuronQueue, Hide);
-            tutorialEventManager.Unregister(TutorialEvents.OnShowNeuronQueue, Show);
-        }
-
-        private void Hide(EventArgs args = null) {
-            bg.rectTransform.anchoredPosition = new Vector2(-bg.rectTransform.sizeDelta.x, bg.rectTransform.anchoredPosition.y);
-        }
-
-        private void Show(EventArgs args = null) {
-            bg.rectTransform.anchoredPosition = new Vector2(100, bg.rectTransform.anchoredPosition.y);
+        public async Task Show(bool immediate = false,  EventArgs args = null) {
+            if (immediate) {
+                bg.rectTransform.anchoredPosition = new Vector2(100, bg.rectTransform.anchoredPosition.y);
+                return;
+            }
+            await bg.rectTransform.DOAnchorPosX(100, 0.5f).AsyncWaitForCompletion();
         }
     }
 }

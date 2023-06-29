@@ -4,6 +4,7 @@ using ExternBoardSystem.Events;
 using Types.Board;
 using Types.Board.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 namespace ExternBoardSystem.Ui.Board {
@@ -16,7 +17,7 @@ namespace ExternBoardSystem.Ui.Board {
         protected Tilemap TileMap { get; private set; }
         
         protected virtual void Awake() {
-            TileMap = GetComponentInChildren<Tilemap>();
+            TileMap = GetComponent<Tilemap>();
         }
 
         protected virtual void OnEnable() {

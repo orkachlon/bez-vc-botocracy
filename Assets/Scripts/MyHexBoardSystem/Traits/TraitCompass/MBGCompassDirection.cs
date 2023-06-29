@@ -17,7 +17,7 @@ namespace MyHexBoardSystem.Traits.TraitCompass {
 
 
         private bool HasEffect { get; set; }
-        private bool IsEnabled { get; set; } = true;
+        public bool IsEnabled { get; set; } = true;
 
         private void OnEnable() {
             storyEventManager.Register(StoryEvents.OnBeforeEvaluate, OnBeforeEvaluate);

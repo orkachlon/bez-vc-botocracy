@@ -17,10 +17,9 @@ namespace Tutorial.Managers {
             var firstNeuronEventData = new BoardElementEventArgs<IBoardNeuron>(invulnerableBoardNeuron, new Hex(0, 0));
             boardEventManager.Raise(ExternalBoardEvents.OnSetFirstElement, firstNeuronEventData);
             // add some neurons to the queue
-            neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(1));
+            //neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(1));
             // start game loop
             gmEventManager.Raise(GameManagerEvents.OnGameLoopStart, EventArgs.Empty);
-
         }
     }
 }

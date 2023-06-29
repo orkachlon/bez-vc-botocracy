@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Core.EventSystem;
+using DG.Tweening;
 using Events.Tutorial;
 using Main.BG;
 using Types.Trait;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Tutorial.BG {
     public class MBGTutorialColorController : MBGColorController {
@@ -14,24 +17,18 @@ namespace Tutorial.BG {
 
         [Header("Event Managers"), SerializeField] private SEventManager tutorialEventManager;
 
-        protected override void Awake() {
-            base.Awake();
-        }
-
-        protected override void OnEnable() {
-            tutorialEventManager.Register(TutorialEvents.OnEnableBGInteraction, EnableLines);
-            tutorialEventManager.Register(TutorialEvents.OnDisableBGInteraction, DisableLines);
-        }
-
-        protected override void OnDisable() {
-            tutorialEventManager.Unregister(TutorialEvents.OnEnableBGInteraction, EnableLines);
-            tutorialEventManager.Unregister(TutorialEvents.OnDisableBGInteraction, DisableLines);
-        }
+        public bool IsSPEnabled { get; set; } = false;
 
         public void SetDecidingTraits(ETrait[] deciders) {
             _decidingTraits = traits.Where(deciders.Contains).ToArray();
         }
-        
+
+        protected override void UpdateBGColors(EventArgs args) {
+            if (IsSPEnabled) {
+                base.UpdateBGColors(args);
+            }
+        }
+
         protected override void ColorBG() {
             foreach (var trait in traits) {
                 SetTraitBGColor(trait, _decidingTraits.Contains(trait));
@@ -50,12 +47,50 @@ namespace Tutorial.BG {
             };
         }
 
-        private void EnableLines(EventArgs args = null) {
-            outlineMaterial.SetFloat("_Threshold", outlineThickness * 0.1f);
+        public void ToDefaultColors(bool immediate = false) {
+            if (immediate) {
+                foreach (var trait in TutorialConstants.Traits) {
+                    _material.SetColor(TraitToVariableName(trait), TraitToDefaultColor(trait));
+                    _traitCurrentColors[trait] = TraitToDefaultColor(trait);
+                }
+                return;
+            }
+            foreach (var trait in TutorialConstants.Traits) {
+                InterpolateColor(trait, _traitCurrentColors[trait], TraitToDefaultColor(trait));
+            }
         }
 
-        private void DisableLines(EventArgs args = null) {
-            outlineMaterial.SetFloat("_Threshold", 0);
+        public void EnableLines(bool immediate = false) {
+            if (immediate) {
+                outlineMaterial.SetFloat("_Threshold", outlineThickness * 0.1f);
+                outlineMaterial.SetFloat("_Length", -1);
+                return;
+            }
+            outlineMaterial.SetFloat("_Threshold", outlineThickness * 0.1f);
+            outlineMaterial.SetFloat("_Length", 0);
+            DOVirtual.Float(0, 20, 0.5f, length => outlineMaterial.SetFloat("_Length", length));
+        }
+
+        public void DisableLines(bool immediate = false) {
+            if (immediate) {
+                outlineMaterial.SetFloat("_Threshold", 0);
+                return;
+            }
+            outlineMaterial.SetFloat("_Threshold", outlineThickness * 0.1f);
+            outlineMaterial.SetFloat("_Length", 20);
+            DOVirtual.Float(20, 0, 0.5f, length => outlineMaterial.SetFloat("_Length", length));
+        }
+
+        protected override Color TraitToDefaultColor(ETrait trait) {
+            return trait switch {
+                ETrait.Protector => colorB,
+                ETrait.Commander => colorB,
+                ETrait.Entrepreneur => colorB,
+                ETrait.Logistician => colorB,
+                ETrait.Entropist => colorB,
+                ETrait.Mediator => colorB,
+                _ => throw new ArgumentOutOfRangeException(nameof(trait), trait, null)
+            };
         }
     }
 }

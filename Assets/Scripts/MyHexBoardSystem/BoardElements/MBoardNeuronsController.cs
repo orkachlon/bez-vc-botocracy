@@ -9,6 +9,7 @@ using Events.Neuron;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
+using MyHexBoardSystem.BoardSystem;
 using Types.Board;
 using Types.Board.UI;
 using Types.Hex.Coordinates;
@@ -28,12 +29,14 @@ namespace MyHexBoardSystem.BoardElements {
         public int CountNeurons => Board.Positions.Count(p => p.HasData());
         // For faster access to max trait
         private IDictionary<ETrait, int> NeuronsPerTrait { get; } = new Dictionary<ETrait, int>();
+        private ITraitAccessor _traitAccessor;
         private bool _placed;
 
         #region UnityMethods
 
         protected override void Awake() {
             base.Awake();
+            _traitAccessor = GetComponent<ITraitAccessor>();
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 NeuronsPerTrait[trait] = 0;
             }
@@ -231,7 +234,7 @@ namespace MyHexBoardSystem.BoardElements {
             
             // check position validity
             var position = Board.GetPosition(hex);
-            if (position == null || position.HasData() || !HasNeighbors(cell) || !IncrementTrait(hex)) {
+            if (position == null || position.HasData() || !HasNeighbors(cell) || !IncrementTrait(hex) || !position.IsEnabled) {
                 DispatchOnAddElementFailed(element, cell);
                 return;
             }
@@ -271,7 +274,7 @@ namespace MyHexBoardSystem.BoardElements {
         #region Traits
 
         protected bool DecrementTrait(Hex hex) {
-            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(hex));
+            var trait = _traitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(hex));
             if (!trait.HasValue) {
                 return false;
             }
@@ -281,7 +284,7 @@ namespace MyHexBoardSystem.BoardElements {
         }
 
         protected bool IncrementTrait(Hex hex) {
-            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+            var trait = _traitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
             if (!trait.HasValue) {
                 return false;
             }

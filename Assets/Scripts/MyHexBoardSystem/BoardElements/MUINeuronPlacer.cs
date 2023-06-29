@@ -36,6 +36,9 @@ namespace MyHexBoardSystem.BoardElements {
         }
 
         public async Task AddElementAsync(IBoardNeuron element, Vector3Int cell) {
+            if (TileMap == null) {
+                return;
+            }
             var uiBoardElement = element.Pool();
             var worldPosition = TileMap.CellToWorld(cell);
             uiBoardElement.SetWorldPosition(worldPosition);

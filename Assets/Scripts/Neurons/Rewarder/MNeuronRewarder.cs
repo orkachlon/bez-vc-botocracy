@@ -18,14 +18,14 @@ namespace Neurons.Rewarder {
 
         [SerializeField] private int minReward, maxReward;
         
-        private ITraitAccessor _traitAccessor;
+        protected ITraitAccessor _traitAccessor;
         
         [Header("Event Managers"), SerializeField]
-        private SEventManager boardEventManager;
-        [SerializeField] private SEventManager storyEventManager;
-        [SerializeField] private SEventManager neuronEventManager;
+        protected SEventManager boardEventManager;
+        [SerializeField] protected SEventManager storyEventManager;
+        [SerializeField] protected SEventManager neuronEventManager;
 
-        private readonly Dictionary<Hex, int> _rewardHexes = new Dictionary<Hex, int>();
+        protected readonly Dictionary<Hex, int> _rewardHexes = new Dictionary<Hex, int>();
         
 
         #region UnityMethods
@@ -34,14 +34,14 @@ namespace Neurons.Rewarder {
             _traitAccessor = GetComponent<ITraitAccessor>();
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, PickRewardTilesRandomly);
             boardEventManager.Register(ExternalBoardEvents.OnTileOccupied, CheckForRewardTiles);
             boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
             boardEventManager.Register(ExternalBoardEvents.OnBoardModified, PickRewardTilesRandomly);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, PickRewardTilesRandomly);
             boardEventManager.Unregister(ExternalBoardEvents.OnTileOccupied, CheckForRewardTiles);
             boardEventManager.Unregister(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
@@ -52,7 +52,7 @@ namespace Neurons.Rewarder {
 
         #region EVentHandlers
 
-        private void PickRewardTilesRandomly(EventArgs obj) {
+        protected virtual void PickRewardTilesRandomly(EventArgs obj) {
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 // each trait has a separate chance to get a reward tile
                 var currentAmount = _rewardHexes.Keys.Count(h => trait.Equals(_traitAccessor.HexToTrait(h)));
@@ -81,7 +81,7 @@ namespace Neurons.Rewarder {
             }
         }
 
-        private void CheckForRewardTiles(EventArgs obj) {
+        protected void CheckForRewardTiles(EventArgs obj) {
             if (obj is not BoardElementEventArgs<IBoardNeuron> addEventArgs) {
                 return;
             }

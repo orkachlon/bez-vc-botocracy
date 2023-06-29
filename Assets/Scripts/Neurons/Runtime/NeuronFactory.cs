@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Core.Utils;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
@@ -21,8 +23,9 @@ namespace Neurons.Runtime {
             };
         }
         
-        public static BoardNeuron GetRandomNeuron() {
-            var asArray = EnumUtil.GetValues<ENeuronType>()
+        public static BoardNeuron GetRandomNeuron(IEnumerable<ENeuronType> fromTypes = null) {
+            fromTypes ??= EnumUtil.GetValues<ENeuronType>();
+            var asArray = fromTypes
                 .Where(t => t != ENeuronType.Undefined)
                 .ToArray();
             var rnd = asArray[Random.Range(0, asArray.Length)];

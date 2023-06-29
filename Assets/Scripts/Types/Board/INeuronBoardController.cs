@@ -1,4 +1,5 @@
-﻿using Types.Neuron.Runtime;
+﻿using System.Threading.Tasks;
+using Types.Neuron.Runtime;
 using Types.Trait;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -17,8 +18,9 @@ namespace Types.Board {
         Hex.Coordinates.Hex WorldPosToHex(Vector3 position);
         Vector3 HexToWorldPos(Hex.Coordinates.Hex hex);
 
-        void RemoveTile(Hex.Coordinates.Hex hex);
-        void AddTile(Hex.Coordinates.Hex hex);
+        Task RemoveTile(Hex.Coordinates.Hex hex);
+        Task AddTile(Hex.Coordinates.Hex hex);
+        void RecalculateTiles();
         TileBase GetTraitTileBase(ETrait trait);
     }
 }

@@ -10,6 +10,7 @@ using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Types.Board;
 using Types.Hex.Coordinates;
+using Types.Neuron.Runtime;
 using Types.StoryPoint;
 using Types.Trait;
 using UnityEngine;
@@ -21,30 +22,34 @@ namespace MyHexBoardSystem.BoardSystem {
     [RequireComponent(typeof(INeuronBoardController)), RequireComponent(typeof(IBoardNeuronsController))]
     public class MBoardModifier : MonoBehaviour {
 
+
         [Header("Modification Controls"), SerializeField]
         private int maxEffectStrength;
         [SerializeField, Range(1, 5)] private float effectScale;
 
         [Header("Event Managers"), SerializeField]
-        private SEventManager storyEventManager;
-        [SerializeField] private SEventManager boardEventManager;
+        protected SEventManager storyEventManager;
+        [SerializeField] protected SEventManager boardEventManager;
 
-        private INeuronBoardController _boardController;
-        private IBoardNeuronsController _neuronsController;
+        protected INeuronBoardController BoardController;
+        protected IBoardNeuronsController NeuronsController;
+        protected virtual ITraitAccessor TraitAccessor { get; private set; }
+        
         private IStoryPoint _currentSP;
 
         #region UnityMethods
 
-        private void Awake() {
-            _boardController = GetComponent<INeuronBoardController>();
-            _neuronsController = GetComponent<IBoardNeuronsController>();
+        protected virtual void Awake() {
+            BoardController = GetComponent<INeuronBoardController>();
+            NeuronsController = GetComponent<IBoardNeuronsController>();
+            TraitAccessor = GetComponent<ITraitAccessor>();
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             storyEventManager.Register(StoryEvents.OnEvaluate, OnBoardEffect);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnEvaluate, OnBoardEffect);
         }
 
@@ -60,15 +65,16 @@ namespace MyHexBoardSystem.BoardSystem {
             ModifyBoard(boardEffect);
         }
 
-        private async void ModifyBoard(Dictionary<ETrait, int> boardEffect) {
+        protected virtual async void ModifyBoard(Dictionary<ETrait, int> boardEffect) {
             var tileEffectTasks = new List<Task>();
             foreach (var trait in boardEffect.Keys) {
-                var neuronsInTrait = _neuronsController.GetTraitCount(trait);
+                var neuronsInTrait = NeuronsController.GetTraitCount(trait);
                 var effectStrength = GetTileAmountBasedOnNeurons(neuronsInTrait);
 #if UNITY_EDITOR
                 Assert.IsTrue(neuronsInTrait > 0 && effectStrength > 0 || neuronsInTrait == 0 && effectStrength == 0);
 #endif
-                if (effectStrength > _boardController.GetTraitTileCount(trait)) {
+                // todo move the event to after modifying the board, and clamp the effecct strength to available tiles
+                if (effectStrength > BoardController.GetTraitTileCount(trait)) {
                     boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));
                 }
                 if (boardEffect[trait] < 0) {
@@ -83,23 +89,24 @@ namespace MyHexBoardSystem.BoardSystem {
             boardEventManager.Raise(ExternalBoardEvents.OnBoardModified, EventArgs.Empty);
         }
 
-        private async Task RemoveTilesFromTrait(ETrait trait, int amount) {
-            var isOutOfTiles = _boardController.GetTraitTileCount(trait) <= amount;
-            var removeTasks = new List<Task>();
-            for(var i = 0; i < amount; i++) {
-                removeTasks.Add(RemoveTileFromTrait(trait, i * 100));
+        #region RemoveTiles
+
+        public async Task RemoveTilesFromTrait(ETrait trait, int amount) {
+            var isOutOfTiles = BoardController.GetTraitTileCount(trait) <= amount;
+            //var removeTasks = new List<Task>();
+            for (var i = 0; i < amount; i++) {
+                await RemoveTileFromTrait(trait);
             }
 
-            await Task.WhenAll(removeTasks);
             if (isOutOfTiles) {
                 // lose game
                 boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));
             }
         }
-        
-        private async Task RemoveTileFromTrait(ETrait trait, int delay = 0) {
-            var edgeHexes = _boardController.Manipulator
-                .GetEdge(ITraitAccessor.TraitToDirection(trait));
+
+        protected virtual async Task RemoveTileFromTrait(ETrait trait, int delay = 0) {
+            var edgeHexes = BoardController.Manipulator
+                .GetEdge(TraitAccessor.TraitToDirection(trait));
             if (edgeHexes.Length == 0) {
                 return;
             }
@@ -107,34 +114,36 @@ namespace MyHexBoardSystem.BoardSystem {
             await AnimationManager.Register(RemoveTile(randomHex, delay));
         }
 
-        private async Task AddTilesToTrait(ETrait trait, int amount) {
+        protected async Task RemoveTile(Hex hex, int delay = 0) {
+            await NeuronsController.RemoveNeuron(hex);
+            await Task.Delay(delay);
+            await BoardController.RemoveTile(hex);
+        }
+
+        #endregion
+
+        #region AddTiles
+
+        public virtual async Task AddTilesToTrait(ETrait trait, int amount) {
             var addTilesTasks = new List<Task>();
             for (var i = 0; i < amount; i++) {
-                addTilesTasks.Add(AddTileToTrait(trait, i * 100));
+                addTilesTasks.Add(AddTileToTrait(trait, RandomEmptyHexSelector, i * 100));
             }
 
             await Task.WhenAll(addTilesTasks);
         }
-        
-        private async Task AddTileToTrait(ETrait trait, int delay = 0) {
-            var edgeHexes = _boardController.Manipulator
-                .GetEdge(ITraitAccessor.TraitToDirection(trait));
-            var surroundingHexes = _boardController.Manipulator.GetSurroundingHexes(edgeHexes, true);
-            var onlyEmptySurroundingHexes = surroundingHexes.Where(h => !_boardController.Board.HasPosition(h));
-            var onlyContainedInTrait = onlyEmptySurroundingHexes.Where(h =>
-                    ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(h)) == trait)
-                .ToArray();
-            var randomHex = onlyContainedInTrait[Random.Range(0, onlyContainedInTrait.Length)];
-            
-            // give priority to tiles with neighbors in order to promote island connection
-            // var orderedByExistingNeighbors = onlyContainedInTrait
-            //     .OrderByDescending(h =>
-            //         BoardManipulationOddR<IBoardNeuron>.GetNeighboursStatic(h)
-            //             .Count(n => _boardController.Board.HasPosition(n)))
-            //     .ToArray();
-            // var bestConnection = orderedByExistingNeighbors[0];
-            await AnimationManager.Register(AddTile(randomHex, delay));
+
+        public async Task AddTileToTrait(ETrait trait, Func<INeuronBoardController, ETrait, Hex> selector, int delay = 0) {
+            var selectedHex = selector.Invoke(BoardController, trait);
+            await AnimationManager.Register(AddTile(selectedHex, delay));
         }
+
+        private async Task AddTile(Hex hex, int delay = 0) {
+            await Task.Delay(delay);
+            await BoardController.AddTile(hex);
+        }
+
+        #endregion
 
         private int GetTileAmountBasedOnNeurons(int neuronAmount) {
             // var frac = (float) neuronAmount / _neuronsController.CountNeurons;
@@ -142,15 +151,32 @@ namespace MyHexBoardSystem.BoardSystem {
             return Mathf.Clamp(Mathf.RoundToInt(effectScale * Mathf.Log(neuronAmount + 1)), 0, maxEffectStrength);
         }
 
-        private async Task RemoveTile(Hex hex, int delay = 0) {
-            await _neuronsController.RemoveNeuron(hex);
-            await Task.Delay(delay);
-            _boardController.RemoveTile(hex);
+        public Hex RandomEmptyHexSelector(INeuronBoardController boardController, ETrait trait) {
+            var edgeHexes = BoardController.Manipulator
+                .GetEdge(TraitAccessor.TraitToDirection(trait));
+            var surroundingHexes = BoardController.Manipulator.GetSurroundingHexes(edgeHexes, true);
+            var onlyEmptySurroundingHexes = surroundingHexes.Where(h => !BoardController.Board.HasPosition(h));
+            var onlyContainedInTrait = onlyEmptySurroundingHexes.Where(h =>
+                    TraitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(h)) == trait)
+                .ToArray();
+            return onlyContainedInTrait[Random.Range(0, onlyContainedInTrait.Length)];
         }
 
-        private async Task AddTile(Hex hex, int delay = 0) {
-            await Task.Delay(delay);
-            _boardController.AddTile(hex);
+        public Hex MaxNeighborEmptyHexSelector(INeuronBoardController boardController, ETrait trait) {
+            var edgeHexes = BoardController.Manipulator
+                .GetEdge(TraitAccessor.TraitToDirection(trait));
+            var surroundingHexes = BoardController.Manipulator.GetSurroundingHexes(edgeHexes, true);
+            var onlyEmptySurroundingHexes = surroundingHexes.Where(h => !BoardController.Board.HasPosition(h));
+            var onlyContainedInTrait = onlyEmptySurroundingHexes.Where(h =>
+                    TraitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(h)) == trait)
+                .ToArray();
+            // give priority to tiles with neighbors in order to promote island connection
+            var orderedByExistingNeighbors = onlyContainedInTrait
+                 .OrderByDescending(h =>
+                     BoardManipulationOddR<IBoardNeuron>.GetNeighboursStatic(h)
+                         .Count(n => BoardController.Board.HasPosition(n)))
+                 .ToArray();
+            return orderedByExistingNeighbors[0];
 
         }
     }

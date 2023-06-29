@@ -14,6 +14,7 @@ namespace ExternBoardSystem.BoardSystem.Position
         public Position(Hex point, T baseData = default) {
             Point = point;
             Data = baseData;
+            IsEnabled = true;
         }
 
         /// <summary>
@@ -21,6 +22,8 @@ namespace ExternBoardSystem.BoardSystem.Position
         ///     <remarks> Consider make it an Array if it can hold more than one single object. </remarks>>
         /// </summary>
         public T Data { get; private set; }
+
+        public bool IsEnabled { get; set; }
 
         public Hex Point { get; }
 

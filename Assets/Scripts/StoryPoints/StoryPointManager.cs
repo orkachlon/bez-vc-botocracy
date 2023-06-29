@@ -12,39 +12,39 @@ namespace StoryPoints {
     public class StoryPointManager : MonoBehaviour {
 
         [Header("Event Managers"), SerializeField]
-        private SEventManager storyEventManager;
-        [SerializeField] private SEventManager boardEventManager;
+        protected SEventManager storyEventManager;
+        [SerializeField] protected SEventManager boardEventManager;
 
         [Header("Visuals")] [SerializeField] private MStoryPoint storyPointPrefab;
         
-        private IStoryPoint _currentStory;
-        private ISPProvider _spProvider;
+        protected IStoryPoint _currentStory;
+        protected ISPProvider _spProvider;
 
         private readonly List<int> _completedSPs = new();
 
         #region UnityMethods
 
-        private void Awake() {
+        protected virtual void Awake() {
             _spProvider = GetComponent<ISPProvider>();
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardModified, StoryTurn);
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, StoryTurn);
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
         #endregion
 
-        private async void Init(EventArgs obj) {
+        protected virtual async void Init(EventArgs obj) {
             await NextStoryPoint();
         }
 
-        private async void StoryTurn(EventArgs eventArgs) {
+        protected virtual async void StoryTurn(EventArgs eventArgs) {
             //if (eventArgs is not StoryEventArgs storyEventArgs) {
             //    return;
             //}
@@ -57,7 +57,7 @@ namespace StoryPoints {
             storyEventManager.Raise(StoryEvents.OnStoryTurn, EventArgs.Empty);
         }
 
-        private async Task NextStoryPoint() {
+        protected virtual async Task NextStoryPoint() {
             if (_spProvider.IsEmpty() && _currentStory.Evaluated) {
                 DispatchNoMoreSPs();
                 return;
@@ -75,7 +75,7 @@ namespace StoryPoints {
             await _currentStory.AwaitInitAnimation();
         }
 
-        private void DispatchNoMoreSPs() {
+        protected virtual void DispatchNoMoreSPs() {
             MLogger.LogEditor("No more story points in queue!");
             storyEventManager.Raise(StoryEvents.OnNoMoreStoryPoints, EventArgs.Empty);
         }

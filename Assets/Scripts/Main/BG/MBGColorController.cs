@@ -14,8 +14,8 @@ using UnityEngine.Assertions;
 namespace Main.BG {
     public class MBGColorController : MonoBehaviour {
 
-        [Header("Colors"), SerializeField] private Color colorA;
-        [SerializeField] private Color colorB;
+        [Header("Colors"), SerializeField] protected Color colorA;
+        [SerializeField] protected Color colorB;
         [SerializeField] private Color nonDecidingColor;
         [SerializeField] private float transitionDuration;
 
@@ -25,8 +25,8 @@ namespace Main.BG {
 
         [Header("Data accessors"), SerializeField] private MBoardNeuronsController neuronsController;
 
-        private readonly Dictionary<ETrait, Color> _traitCurrentColors = new Dictionary<ETrait, Color>();
-        private Material _material;
+        protected readonly Dictionary<ETrait, Color> _traitCurrentColors = new Dictionary<ETrait, Color>();
+        protected Material _material;
         protected ETrait[] _decidingTraits;
 
         protected virtual void Awake() {
@@ -55,7 +55,7 @@ namespace Main.BG {
             ColorBG();
         }
 
-        private void UpdateBGColors(EventArgs args) {
+        protected virtual void UpdateBGColors(EventArgs args) {
             ColorBG();
         }
 
@@ -74,20 +74,22 @@ namespace Main.BG {
         }
 
         private void SetDecidingTraitColor(ETrait trait) {
-            DOVirtual.Color(_traitCurrentColors[trait], DecidingTraitColorBasedOnNeurons(trait), transitionDuration, col => {
-                _material.SetColor(TraitToVariableName(trait), col);
-            })
+            InterpolateColor(trait, _traitCurrentColors[trait], DecidingTraitColorBasedOnNeurons(trait))
             .OnComplete(() => {
                 _traitCurrentColors[trait] = DecidingTraitColorBasedOnNeurons(trait);
             });
         }
 
         private void SetNonDecidingTraitColor(ETrait trait) {
-            DOVirtual.Color(_traitCurrentColors[trait], nonDecidingColor, transitionDuration, col => {
-                _material.SetColor(TraitToVariableName(trait), col);
-            })
+            InterpolateColor(trait, _traitCurrentColors[trait], nonDecidingColor)
             .OnComplete(() => {
                 _traitCurrentColors[trait] = nonDecidingColor;
+            });
+        }
+
+        protected Tweener InterpolateColor(ETrait trait, Color from, Color to) {
+            return DOVirtual.Color(from, to, transitionDuration, col => {
+                _material.SetColor(TraitToVariableName(trait), col);
             });
         }
 
@@ -119,7 +121,7 @@ namespace Main.BG {
             };
         }
 
-        private Color TraitToDefaultColor(ETrait trait) {
+        protected virtual Color TraitToDefaultColor(ETrait trait) {
             return trait switch {
                 ETrait.Protector => colorA,
                 ETrait.Commander => colorB,

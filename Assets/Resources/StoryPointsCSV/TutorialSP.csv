@@ -1,0 +1,7 @@
+ID,Title,Scenario,Traits,Commander,Entrepreneur,Mediator,Protector,Entropist,Logistician,,Action,Outcome,"OutcomeID, Current: 0",Turns,Prerequisites (OutcomeID)
+1,"Happy birthday, get to work.",Your creator decided to let you lead a country.,Commander,0,-1,1,0,0,0,-,Planned the Olympics efficiently but forgot to invite the local mascot.,"The mascot union protested, leading to a parade of angry mascots taking over the streets.",-,3,
+,,,Entrepreneur,-1,1,1,0,0,0,+,"Attracted investments, supported local businesses, and introduced a new Olympic-themed pizza.","The pizza became a sensation, with athletes endorsing it and fans worldwide craving a slice.",-,,
+,,,Mediator,1,0,1,0,0,0,+,"Organized a cultural exchange fair for Olympic nations, featuring a dance-off between diplomats.","Dance moves went viral, bringing joy and strengthening diplomatic bonds among nations.",-,,
+,,,Protector,0,0,0,0,0,0,,-,-,-,,
+,,,Entropist,0,0,0,0,0,0,,-,-,-,,
+,,,Logistician,0,0,0,0,0,0,,-,-,-,,

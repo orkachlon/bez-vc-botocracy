@@ -12,12 +12,12 @@ namespace Main.Managers {
 
         private EGameState _currentState;
 
-        [Header("Event Managers"), SerializeField] private SEventManager gmEventManager;
-        [SerializeField] private SEventManager neuronEventManager;
-        [SerializeField] private SEventManager storyEventManager;
-        [SerializeField] private SEventManager boardEventManager;
+        [Header("Event Managers"), SerializeField] protected SEventManager gmEventManager;
+        [SerializeField] protected SEventManager neuronEventManager;
+        [SerializeField] protected SEventManager storyEventManager;
+        [SerializeField] protected SEventManager boardEventManager;
         
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             // game state loop:
             // initGrid > playerTurn > eventTurn( > evaluation > outcome) > statTurn > playerTurn ...
             gmEventManager.Register(GameManagerEvents.OnGameLoopStart, PlayerTurn);
@@ -31,7 +31,7 @@ namespace Main.Managers {
             storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, Win);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             gmEventManager.Unregister(GameManagerEvents.OnGameLoopStart, PlayerTurn);
             boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, StoryTurn);
             storyEventManager.Unregister(StoryEvents.OnStoryTurn, PlayerTurn);
@@ -76,11 +76,11 @@ namespace Main.Managers {
             ChangeState(EGameState.Win, customArgs);
         }
 
-        private void PlayerTurn(EventArgs customArgs) {
+        protected void PlayerTurn(EventArgs customArgs) {
             ChangeState(EGameState.PlayerTurn, customArgs);
         }
-        
-        private void StoryTurn(EventArgs customArgs) {
+
+        protected void StoryTurn(EventArgs customArgs) {
             ChangeState(EGameState.StoryTurn, customArgs);
         }
     }

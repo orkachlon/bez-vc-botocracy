@@ -2,6 +2,7 @@
     Properties {
         _MainTex ("_MainTetx", 2D) = "white" {}
         _Threshold ("_Threshold", float) = 1
+        _Length ("_Length", float) = -1
     }
     SubShader {
         // No culling or depth
@@ -37,6 +38,7 @@
             }
             
             uniform float _Threshold;
+            uniform float _Length;
 
             fixed4 frag (v2f i) : SV_Target {
                 for (int j = 0; j < 3; j++) {
@@ -45,7 +47,14 @@
                     const float3 dir = normalize(mul(rot, float3(0, 1, 0)));
                     const float3 proj = dot(i.world_pos, dir) / dot(dir, dir) * dir;
                     const float3 rej = i.world_pos - proj;
-                    if (length(rej) < _Threshold && sign(i.world_pos.y) == sign(dir.y)) {
+                    // show only the line in the direction we want
+                    // if (sign(i.world_pos.y) != sign(dir.y)) {
+                    //     return 0;
+                    // }
+                    // length -1 means do not use length - always show
+                    if (sign(i.world_pos.y) == sign(dir.y) && length(rej) < _Threshold && _Length == -1) {
+                        return i.color;
+                    } else if (sign(i.world_pos.y) == sign(dir.y) && length(rej) < _Threshold && length(proj) < _Length) {
                         return i.color;
                     }
                 }

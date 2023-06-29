@@ -28,18 +28,16 @@ namespace MyHexBoardSystem.UI {
             _camera = Camera.main;
             _rt = GetComponent<RectTransform>();
             _bounds = _rt.parent.GetComponent<RectTransform>();
-            _traitDirection = ITraitAccessor.TraitToVectorDirection(trait).normalized;
-        }
-
-        private void Start() {
-            RepositionLabel();
+            _traitDirection = traitAccessor.TraitToVectorDirection(trait).normalized;
         }
 
         private void OnEnable() {
+            boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, RepositionLabel);
             boardEventManager.Register(ExternalBoardEvents.OnBoardModified, RepositionLabel);
         }
 
         private void OnDisable() {
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, RepositionLabel);
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, RepositionLabel);
         }
 

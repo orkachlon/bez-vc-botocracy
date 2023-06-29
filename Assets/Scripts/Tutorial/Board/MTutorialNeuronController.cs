@@ -8,6 +8,8 @@ namespace Tutorial.Board {
     public class MTutorialNeuronController : MBoardNeuronsController, ITutorialNeuronController {
         
         [Header("Neuron Board Event Managers"), SerializeField] private SEventManager tutorialEventManager;
+
+        public bool IsSPEnabled { get; set; }
         
         #region UnityMethods
 
@@ -27,8 +29,11 @@ namespace Tutorial.Board {
         // protected override void UpdateNextNeuron(EventArgs obj) {
         // }
 
-        protected override void OnSingleNeuronDone(EventArgs args) {
-        }
+        //protected override void OnSingleNeuronDone(EventArgs args) {
+        //    if (IsSPEnabled) {
+        //        base.OnSingleNeuronDone(args);
+        //    }
+        //}
 
         #endregion
     }

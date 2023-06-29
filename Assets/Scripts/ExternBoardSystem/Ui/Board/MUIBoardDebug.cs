@@ -37,12 +37,13 @@ namespace ExternBoardSystem.Ui.Board {
             ClearPositions();
             ClearDirection();
             _positions = new GameObject[CurrentBoard.Positions.Count];
-            for (var i = 0; i < CurrentBoard.Positions.Count; i++) {
-                var hex = CurrentBoard.Positions[i].Point;
+            var i = 0;
+            foreach (var pos in CurrentBoard.Positions) {
+                var hex = pos.Point;
                 var cell = BoardManipulationOddR<T>.GetCellCoordinate(hex);
                 var worldPosition = tileMap.CellToWorld(cell);
                 var gameObj = Instantiate(textPosition, worldPosition, identity, transform);
-                _positions[i] = gameObj;
+                _positions[i++] = gameObj;
                 var tmpText = gameObj.GetComponent<TMP_Text>();
                 var sPosition = $"q:{hex.q}\nr:{hex.r}\ns:{hex.s}";
 //                var sPosition = $"x:{cell.x}\ny:{cell.y}";

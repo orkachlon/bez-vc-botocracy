@@ -52,8 +52,12 @@ namespace StoryPoints.SPProviders {
 
         protected override DecidingTraits GetDecidingTraits(List<Dictionary<string, object>> entries) {
             var deciders = new DecidingTraits();
-            // deciding traits are chosen randomly
-            entries = entries.OrderBy(_ => Random.value).Take(numberOfDecidingTraits).ToList();
+            // deciding traits are chosen randomly (filter traits that can't decide)
+            entries = entries
+                .Where(e => (string) e[Header.outcomes] != "-")
+                .OrderBy(_ => Random.value)
+                .Take(numberOfDecidingTraits)
+                .ToList();
             foreach (var entry in entries) {
                 var deciderAction = (string) entry[((CSVHeaderWithActions) Header).actions];
                 if (deciderAction == null) {

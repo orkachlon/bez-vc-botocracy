@@ -17,6 +17,11 @@ namespace Neurons.Rewarder {
         [Header("Event Managers"), SerializeField]
         private SEventManager neuronEventManager;
 
+        private ITraitAccessor _traitAccessor;
+
+        private void Awake() {
+            _traitAccessor = GetComponent<ITraitAccessor>();
+        }
 
         private void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnRewardTilePicked, PlaceRewardTile);
@@ -41,7 +46,7 @@ namespace Neurons.Rewarder {
                 return;
             }
 
-            var trait = ITraitAccessor.DirectionToTrait(hexDirection.Value);
+            var trait = _traitAccessor.DirectionToTrait(hexDirection.Value);
             if (!trait.HasValue) {
                 MLogger.LogEditor($"Trait not found for hex {rewardArgs.RewardHex}");
                 return;

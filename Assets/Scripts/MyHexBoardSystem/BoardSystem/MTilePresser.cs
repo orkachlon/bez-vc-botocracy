@@ -14,19 +14,23 @@ namespace MyHexBoardSystem.BoardSystem {
         [SerializeField] private TraitTiles pressedTileBases;
         [Header("Event Managers"), SerializeField] private SEventManager boardEventManager;
 
-        private INeuronBoardController _controller;
-        private void Awake() {
+        protected INeuronBoardController _controller;
+        private ITraitAccessor _traitAccessor;
+
+
+        protected virtual void Awake() {
             _controller = GetComponent<INeuronBoardController>();
+            _traitAccessor = GetComponent<ITraitAccessor>();
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnTileOccupied, OnTilePressed);
             boardEventManager.Register(ExternalBoardEvents.OnTileUnoccupied, OnTileUnpressed);
             boardEventManager.Register(ExternalBoardEvents.OnTileOccupantMoved, OnNeuronMoved);
             boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateTiles);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnTileOccupied, OnTilePressed);
             boardEventManager.Unregister(ExternalBoardEvents.OnTileUnoccupied, OnTileUnpressed);
             boardEventManager.Unregister(ExternalBoardEvents.OnTileOccupantMoved, OnNeuronMoved);
@@ -75,7 +79,7 @@ namespace MyHexBoardSystem.BoardSystem {
         #endregion
         
         
-        private void PressTile(Hex hex) {
+        protected virtual void PressTile(Hex hex) {
             if (!_controller.Board.HasPosition(hex)) {
                 return;
             }
@@ -85,7 +89,7 @@ namespace MyHexBoardSystem.BoardSystem {
                 return;
             }
 
-            var trait = ITraitAccessor.DirectionToTrait(dir.Value);
+            var trait = _traitAccessor.DirectionToTrait(dir.Value);
             if (!trait.HasValue) {
                 return;
             }
@@ -93,7 +97,7 @@ namespace MyHexBoardSystem.BoardSystem {
             _controller.SetTile(hex, pressedTileBases[trait.Value]);
         }
 
-        private void UnpressTile(Hex hex) {
+        protected virtual void UnpressTile(Hex hex) {
             if (!_controller.Board.HasPosition(hex)) {
                 return;
             }
@@ -103,7 +107,7 @@ namespace MyHexBoardSystem.BoardSystem {
                 return;
             }
 
-            var trait = ITraitAccessor.DirectionToTrait(dir.Value);
+            var trait = _traitAccessor.DirectionToTrait(dir.Value);
             if (!trait.HasValue) {
                 return;
             }

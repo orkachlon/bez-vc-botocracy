@@ -1,7 +1,10 @@
 ﻿using Core.EventSystem;
+using DG.Tweening;
+using Events.SP;
 using Events.Tutorial;
 using StoryPoints.Outcomes;
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,23 +24,34 @@ namespace Assets.Scripts.Tutorial.StoryPoints {
 
         protected override void OnEnable() {
             base.OnEnable();
-            tutorialEventManager.Register(TutorialEvents.OnHideOutcomes, Hide);
-            tutorialEventManager.Register(TutorialEvents.OnShowOutcomes, Show);
+            storyEventManager.Register(StoryEvents.OnEvaluate, ShowPanel);
         }
-
 
         protected override void OnDisable() {
             base.OnDisable();
-            tutorialEventManager.Unregister(TutorialEvents.OnHideOutcomes, Hide);
-            tutorialEventManager.Unregister(TutorialEvents.OnShowOutcomes, Show);
+            storyEventManager.Unregister(StoryEvents.OnEvaluate, ShowPanel);
         }
 
-        private void Hide(EventArgs args = null) {
-            bg.rectTransform.anchoredPosition = new Vector2 (bg.rectTransform.sizeDelta.x, bg.rectTransform.anchoredPosition.y);
+        private async void ShowPanel(EventArgs args) {
+            await Show();
         }
 
-        private void Show(EventArgs args = null) {
-            bg.rectTransform.anchoredPosition = new Vector2(-100, bg.rectTransform.anchoredPosition.y);
+        public async Task Hide(bool immediate = false) {
+            var hidePos = new Vector2(bg.rectTransform.anchoredPosition.x, -bg.rectTransform.sizeDelta.y - 50); // added 50 for the expand button
+            if (immediate) {
+                bg.rectTransform.anchoredPosition = hidePos;
+                return;
+            }
+            await bg.rectTransform.DOAnchorPosY(hidePos.y, 0.5f).AsyncWaitForCompletion();
+        }
+
+        public async Task Show(bool immediate = false) {
+            var showPos = new Vector2(bg.rectTransform.anchoredPosition.x, 50);
+            if (immediate) {
+                bg.rectTransform.anchoredPosition = showPos;
+                return;
+            }
+            await bg.rectTransform.DOAnchorPosY(showPos.y, 0.5f).AsyncWaitForCompletion();
         }
 
     }

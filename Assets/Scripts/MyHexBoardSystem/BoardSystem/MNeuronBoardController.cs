@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Core.EventSystem;
+using Core.Utils;
 using Core.Utils.DataStructures;
 using Events.Board;
 using ExternBoardSystem.BoardSystem;
@@ -15,26 +17,37 @@ using UnityEngine.Tilemaps;
 
 namespace MyHexBoardSystem.BoardSystem {
     public class MNeuronBoardController : MBoardController<IBoardNeuron>, INeuronBoardController {
-        
+
+
         [Header("Tilemap"), SerializeField] private TraitTiles traitTileBases;
         [SerializeField] private TraitTiles traitTileOutlines;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager externalBoardEventManager;
 
+        protected ITraitAccessor _traitAccessor;
+
+        protected readonly object BoardLock = new();
+
+
         protected override void CollectExistingTiles() {
             base.CollectExistingTiles();
 
             foreach (var hex in GetHexPoints()) {
-                var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+                var trait = _traitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
                 if (!trait.HasValue) {
                     continue;
                 }
                 tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait.Value]);
             }
         }
-        
+
         #region UnityMethods
+
+        protected override void Awake() {
+            _traitAccessor = GetComponent<ITraitAccessor>();
+            base.Awake();
+        }
 
         protected override void Start() {
             base.Start();
@@ -45,8 +58,8 @@ namespace MyHexBoardSystem.BoardSystem {
 
         #region InterfaceMethods
 
-        public int GetTraitTileCount(ETrait trait) {
-            return Manipulator.GetTriangle(ITraitAccessor.TraitToDirection(trait)).Count(h => Board.HasPosition(h));
+        public virtual int GetTraitTileCount(ETrait trait) {
+            return Manipulator.GetTriangle(_traitAccessor.TraitToDirection(trait)).Count(h => Board.HasPosition(h));
         }
 
         public void SetColor(Hex[] hexTiles, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
@@ -89,30 +102,39 @@ namespace MyHexBoardSystem.BoardSystem {
             return tilemapLayers[BaseTilemapLayer].CellToWorld(cell);
         }
 
-        public void RemoveTile(Hex hex) {
+        public Task RemoveTile(Hex hex) {
             if (!Board.HasPosition(hex)) {
-                return;
+                return Task.CompletedTask;
             }
             // notify that tile is being removed before removing it
             externalBoardEventManager.Raise(ExternalBoardEvents.OnRemoveTile, new OnTileModifyEventArgs(hex));
-            Board.RemovePosition(hex);
-            tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
-            tilemapLayers[BaseTilemapLayer].RefreshAllTiles();
-            tilemapLayers[BaseTilemapLayer].CompressBounds();
-            // outlines and fills are done separately
-            tilemapLayers[BoardConstants.OutlineTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
+            lock (BoardLock) {
+                Board.RemovePosition(hex);
+                tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
+                RecalculateTiles();
+                // outlines and fills are done separately
+                tilemapLayers[BoardConstants.OutlineTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
+            }
+            return Task.CompletedTask;
         }
 
-        public void AddTile(Hex hex) {
-            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+        public Task AddTile(Hex hex) {
+            var trait = _traitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
             if (!trait.HasValue) {
-                return;
+                return Task.CompletedTask;
             }
-
-            Board.AddPosition(hex);
-            tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait.Value]);
-            tilemapLayers[BoardConstants.OutlineTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileOutlines[trait.Value]);
+            lock (BoardLock) {
+                Board.AddPosition(hex);
+                tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait.Value]);
+                tilemapLayers[BoardConstants.OutlineTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileOutlines[trait.Value]);
+            }
             externalBoardEventManager.Raise(ExternalBoardEvents.OnAddTile, new OnTileModifyEventArgs(hex));
+            return Task.CompletedTask;
+        }
+
+            public void RecalculateTiles() {
+            tilemapLayers[BaseTilemapLayer].RefreshAllTiles();
+            tilemapLayers[BaseTilemapLayer].CompressBounds();
         }
 
         public TileBase GetTraitTileBase(ETrait trait) {

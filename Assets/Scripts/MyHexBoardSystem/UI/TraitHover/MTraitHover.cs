@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core.EventSystem;
 using Events.Board;
 using Events.SP;
+using MyHexBoardSystem.BoardSystem;
 using Types.Board;
 using Types.StoryPoint;
 using Types.Trait;
@@ -14,8 +15,9 @@ namespace MyHexBoardSystem.UI.TraitHover {
     /// <summary>
     ///     This class highlights the traits affected by the next neuron placement
     /// </summary>
-    [RequireComponent(typeof(ITraitAccessor))]
     public class MTraitHover : MonoBehaviour {
+        [SerializeField] protected MTraitAccessor TraitAccessor;
+
         [Header("Highlighting"), SerializeField] protected TileBase positiveTile;
         [SerializeField] protected TileBase negativeTile;
 
@@ -23,7 +25,6 @@ namespace MyHexBoardSystem.UI.TraitHover {
         protected SEventManager boardEventManager;
         [SerializeField] protected SEventManager storyEventManager;
 
-        protected ITraitAccessor TraitAccessor { get; set; }
         protected IStoryPoint CurrentSP;
         protected ETrait? CurrentHighlightedTrait;
 
@@ -31,11 +32,6 @@ namespace MyHexBoardSystem.UI.TraitHover {
         protected readonly HashSet<ETrait> CurrentNegative = new ();
 
         #region UnityMethods
-
-        protected virtual void Awake() {
-            TraitAccessor = GetComponent<ITraitAccessor>();
-            // get the references to the effects
-        }
 
         protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnTraitCompassEnter, OnShow);

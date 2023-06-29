@@ -99,7 +99,7 @@ namespace MyHexBoardSystem.UI {
 
             var canBePlaced = false;
             
-            if (_currentNeuron != null && !boardController.Board.GetPosition(hex).HasData()) {
+            if (_currentNeuron != null && !boardController.Board.GetPosition(hex).HasData() && boardController.Board.GetPosition(hex).IsEnabled) {
                 var neighbors = boardController.Manipulator.GetNeighbours(hex);
                 canBePlaced = neighbors.Any(h =>
                     boardController.Board.HasPosition(h) && boardController.Board.GetPosition(h).HasData());

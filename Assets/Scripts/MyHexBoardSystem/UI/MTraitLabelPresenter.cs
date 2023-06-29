@@ -15,25 +15,25 @@ namespace MyHexBoardSystem.UI {
         private SEventManager boardEventManager;
         [SerializeField] private SEventManager storyEventManager;
 
-        [Header("Visuals"), SerializeField] private ETrait trait;
-        [SerializeField] private TextMeshProUGUI textField;
+        [Header("Visuals"), SerializeField] protected ETrait trait;
+        [SerializeField] protected TextMeshProUGUI textField;
         [SerializeField] private Color highlightColor;
 
-        private Color _baseColor;
-        private IBoardNeuronsController _neuronController;
+        protected Color _baseColor;
+        protected IBoardNeuronsController _neuronController;
         private DecidingTraits _currentDecidingTraits;
 
-        private void Awake() {
+        protected virtual void Awake() {
             SetText(0);
             _baseColor = textField.color;
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateCounter);
             storyEventManager.Register(StoryEvents.OnInitStory, SetIsDeciding);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, UpdateCounter);
             storyEventManager.Unregister(StoryEvents.OnInitStory, SetIsDeciding);
         }
@@ -70,11 +70,11 @@ namespace MyHexBoardSystem.UI {
             textField.text = $"{amount}\n{trait}";
         }
 
-        private void Highlight() {
+        protected virtual void Highlight() {
             textField.color = highlightColor;
         }
 
-        private void Lowlight() {
+        protected virtual void Lowlight() {
             textField.color = _baseColor;
         }
 
