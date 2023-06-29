@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BGMaterial
-  m_Shader: {fileID: 4800000, guid: ede7203b20524f41ac21bf644cede1e2, type: 3}
+  m_Name: NeuronQueueBGMaterial
+  m_Shader: {fileID: 4800000, guid: 6d982c421dcae054db405abd340fb996, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -56,14 +60,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints:
-    - _Selected: -1
+    m_Ints: []
     m_Floats:
+    - PixelSnap: 0
     - _BumpScale: 1
+    - _ColorMask: 15
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Feather: 0
+    - _EnableExternalAlpha: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -71,26 +76,23 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Radius: 2
-    - _Selected: 3.78
-    - _SelectedColorStrength: 1
+    - _Scale: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorA: {r: 1, g: 0.7607843, b: 0.6392157, a: 1}
-    - _ColorB: {r: 0.97647065, g: 0.92549026, b: 0.85098046, a: 1}
-    - _ColorBot: {r: 0.97647065, g: 0.92549026, b: 0.85098046, a: 1}
-    - _ColorBotLeft: {r: 0.9764706, g: 0.9254902, b: 0.8509804, a: 1}
-    - _ColorBotRight: {r: 0.9764706, g: 0.9254902, b: 0.8509804, a: 1}
-    - _ColorLeft: {r: 0.9764706, g: 0.9254902, b: 0.8509804, a: 1}
-    - _ColorNonDeciding: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _ColorRight: {r: 0.9764706, g: 0.9254902, b: 0.8509804, a: 1}
-    - _ColorTopLeft: {r: 0.9764706, g: 0.9254902, b: 0.8509804, a: 1}
-    - _ColorTopRight: {r: 0.9764706, g: 0.9254902, b: 0.8509804, a: 1}
+    - _BotColor: {r: 0.9622642, g: 0.29654676, b: 0.29654676, a: 1}
+    - _Color: {r: 0.12156863, g: 0.47843137, b: 0.54901963, a: 1}
+    - _Color2: {r: 0.121568635, g: 0.47843137, b: 0.54901963, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TopColor: {r: 0.24421497, g: 0.7924528, b: 0.35685217, a: 1}
   m_BuildTextureStacks: []

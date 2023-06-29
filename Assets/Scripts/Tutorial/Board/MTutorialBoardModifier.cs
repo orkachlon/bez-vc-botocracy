@@ -32,23 +32,19 @@ namespace Assets.Scripts.Tutorial.Board {
             if (edgeHexes.Length == 0) {
                 return;
             }
-            Hex chosenHex;
-            if (edgeHexes.All(h => BoardController.Manipulator.GetNeighbours(h).Length <= 1)) {
-                chosenHex = edgeHexes[Random.Range(0, edgeHexes.Length)]; 
-            } else {
-                var hexesWithMoreThan1Neighbor = edgeHexes.Where(h => BoardController.Manipulator.GetNeighbours(h).Length > 1).ToArray();
-                chosenHex = hexesWithMoreThan1Neighbor[Random.Range(0, hexesWithMoreThan1Neighbor.Length)];
-            }
+            var maxRadius = edgeHexes.Max(h => h.Length);
+            var eligibleHexes = edgeHexes.Where(h => h.Length == maxRadius).ToArray();
+            var chosenHex = eligibleHexes[Random.Range(0, eligibleHexes.Length)];
             await AnimationManager.Register(RemoveTile(chosenHex, delay));
         }
 
         public Hex TutorialAddTileSelector(INeuronBoardController controller, ETrait trait) {
-            var edgeHexes = BoardController.Manipulator.GetEdge();
+            var edgeHexes = controller.Manipulator.GetEdge();
             if (edgeHexes.Length == 0) {
                 return TutorialTraitAccessor.TraitToDirection(trait);
             }
-            var surroundingHexes = BoardController.Manipulator.GetSurroundingHexes(edgeHexes, true);
-            var onlyEmptySurroundingHexes = surroundingHexes.Where(h => !BoardController.Board.HasPosition(h));
+            var surroundingHexes = controller.Manipulator.GetSurroundingHexes(edgeHexes, true);
+            var onlyEmptySurroundingHexes = surroundingHexes.Where(h => !controller.Board.HasPosition(h));
             var onlyContainedInTrait = onlyEmptySurroundingHexes.Where(h =>
                     TutorialTraitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(h)) == trait)
                 .ToArray();
@@ -58,5 +54,6 @@ namespace Assets.Scripts.Tutorial.Board {
                  .ToArray();
             return orderedByRadius[0];
         }
+
     }
 }

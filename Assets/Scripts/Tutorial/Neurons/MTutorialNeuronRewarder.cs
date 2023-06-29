@@ -1,15 +1,10 @@
-﻿using Core.EventSystem;
-using Events.Board;
+﻿using Events.Board;
 using Events.Neuron;
-using Events.Tutorial;
 using Neurons.Rewarder;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Tutorial;
 using Types.Hex.Coordinates;
-using Types.Trait;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Tutorial.Neurons {
@@ -61,6 +56,10 @@ namespace Assets.Scripts.Tutorial.Neurons {
 
         public void RewardRandomTiles() {
             PickRewardTilesRandomly(null);
+        }
+
+        public void Clear() {
+            _rewardHexes.Clear();
         }
     }
 }

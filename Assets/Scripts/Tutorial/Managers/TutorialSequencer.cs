@@ -56,6 +56,7 @@ namespace Tutorial.Managers {
         [SerializeField] TutorialStoryPointManager tutorialStoryPointManager;
 
         [SerializeField] private List<MTutorialTraitLabelController> labels;
+        [SerializeField] private string nextSceneName;
 
         private TutorialStage _currentStage;
         private int _hoverCounter = 0;
@@ -66,7 +67,7 @@ namespace Tutorial.Managers {
             await TutorialSequence();
             MEventManagerSceneBinder.ResetAllEventManagers();
             await Task.Delay(1000);
-            SceneManager.LoadScene("Level");
+            SceneManager.LoadScene(nextSceneName);
         }
 
         private void OnEnable() {
@@ -136,7 +137,7 @@ namespace Tutorial.Managers {
             // reward 2 neurons
             neuronQueue.EnqueueFromPool(2);
             // add reward tile
-            neuronRewarder.SelectRewardHex(new Hex(0, -2), 5);
+            neuronRewarder.SelectRewardHex(new Hex(0, -2), 6);
             // show neuron queue
             await Task.WhenAny(neuronQueue.Show(false), DisplayMessage(neuronRewardMessage));
             // disable all tiles but two
@@ -293,6 +294,7 @@ namespace Tutorial.Managers {
             foreach (var trait in TutorialConstants.Traits) {
                 await boardModifier.RemoveTilesFromTrait(trait, boardController.GetTraitTileCount(trait));
             }
+            neuronRewarder.Clear();
         }
 
         private async Task ExpandBoard(Func<ETrait, int> amountGiver) {

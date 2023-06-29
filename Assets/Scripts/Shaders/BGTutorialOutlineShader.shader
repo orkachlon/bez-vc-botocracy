@@ -47,14 +47,9 @@
                     const float3 dir = normalize(mul(rot, float3(0, 1, 0)));
                     const float3 proj = dot(i.world_pos, dir) / dot(dir, dir) * dir;
                     const float3 rej = i.world_pos - proj;
-                    // show only the line in the direction we want
-                    // if (sign(i.world_pos.y) != sign(dir.y)) {
-                    //     return 0;
-                    // }
                     // length -1 means do not use length - always show
-                    if (sign(i.world_pos.y) == sign(dir.y) && length(rej) < _Threshold && _Length == -1) {
-                        return i.color;
-                    } else if (sign(i.world_pos.y) == sign(dir.y) && length(rej) < _Threshold && length(proj) < _Length) {
+                    // show only the line in the direction we want
+                    if (sign(i.world_pos.y) == sign(dir.y) && length(rej) < _Threshold && (_Length == -1 || length(proj) < _Length)) {
                         return i.color;
                     }
                 }

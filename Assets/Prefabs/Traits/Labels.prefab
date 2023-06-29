@@ -181,8 +181,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285154876
-  m_fontColor: {r: 0.23475555, g: 0.2749111, b: 0.417, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -257,7 +257,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 3
   textField: {fileID: 8414945712944762363}
-  highlightColor: {r: 0.30437645, g: 0.48762336, b: 0.792, a: 1}
+  highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}
 --- !u!114 &8414945712944762364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,8 +513,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285154876
-  m_fontColor: {r: 0.23475555, g: 0.2749111, b: 0.417, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -589,7 +589,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 2
   textField: {fileID: 8414945713394972183}
-  highlightColor: {r: 0.30437645, g: 0.48762336, b: 0.792, a: 1}
+  highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}
 --- !u!114 &8414945713394972168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -744,8 +744,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285154876
-  m_fontColor: {r: 0.23475555, g: 0.2749111, b: 0.417, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -820,7 +820,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 5
   textField: {fileID: 8414945713540249896}
-  highlightColor: {r: 0.30437645, g: 0.48762336, b: 0.792, a: 1}
+  highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}
 --- !u!114 &8414945713540249901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -975,8 +975,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285154876
-  m_fontColor: {r: 0.23475555, g: 0.2749111, b: 0.417, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1051,7 +1051,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 4
   textField: {fileID: 8414945713557797748}
-  highlightColor: {r: 0.30437645, g: 0.48762336, b: 0.792, a: 1}
+  highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}
 --- !u!114 &8414945713557797737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1206,8 +1206,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285154876
-  m_fontColor: {r: 0.23475555, g: 0.2749111, b: 0.417, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1282,7 +1282,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 0
   textField: {fileID: 8414945713918042839}
-  highlightColor: {r: 0.30437645, g: 0.48762336, b: 0.792, a: 1}
+  highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}
 --- !u!114 &8414945713918042824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1437,8 +1437,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285154876
-  m_fontColor: {r: 0.23475555, g: 0.2749111, b: 0.417, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1513,7 +1513,7 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   trait: 1
   textField: {fileID: 8414945714037237177}
-  highlightColor: {r: 0.30437645, g: 0.48762336, b: 0.792, a: 1}
+  highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}
 --- !u!114 &8414945714037237178
 MonoBehaviour:
   m_ObjectHideFlags: 0

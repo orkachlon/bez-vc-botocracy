@@ -2,6 +2,8 @@
     Properties {
         _MainTex ("_MainTetx", 2D) = "white" {}
         _Threshold ("_Threshold", float) = 1
+        _Length ("_Length", float) = -1
+
     }
     SubShader {
         // No culling or depth
@@ -37,15 +39,16 @@
             }
             
             uniform float _Threshold;
+            uniform float _Length;
 
             fixed4 frag (v2f i) : SV_Target {
-                for (int j = 0; j < 3; j++) {
-                    const float alpha = j * UNITY_TWO_PI / 3.0;
+                for (int j = 0; j < 6; j++) {
+                    const float alpha = j * UNITY_TWO_PI / 6.0;
                     const float3x3 rot = float3x3(float3(cos(alpha), -sin(alpha), 0), float3(sin(alpha), cos(alpha), 0), float3(0, 0, 1));
                     const float3 dir = normalize(mul(rot, float3(0, 1, 0)));
                     const float3 proj = dot(i.world_pos, dir) / dot(dir, dir) * dir;
                     const float3 rej = i.world_pos - proj;
-                    if (length(rej) < _Threshold) {
+                    if (sign(i.world_pos.y) == sign(dir.y) && length(rej) < _Threshold && (_Length == -1 || length(proj) < _Length)) {
                         return i.color;
                     }
                 }
