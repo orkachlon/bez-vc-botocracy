@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using ExternBoardSystem.BoardSystem.Position;
@@ -11,7 +12,9 @@ namespace ExternBoardSystem.BoardSystem.Board {
     /// </summary>
     public class Board<T> : IBoard<T>  where T : IBoardElement{
         public EOrientation Orientation { get; }
-        public List<IPosition<T>> Positions { get; private set; }
+        public List<IPosition<T>> Positions { get => _positions.Values.ToList(); }
+
+        private ConcurrentDictionary<Hex, IPosition<T>> _positions;
 
         public Board(IBoardController<T> controller, EOrientation orientation) {
             Orientation = orientation;
@@ -28,27 +31,27 @@ namespace ExternBoardSystem.BoardSystem.Board {
         }
 
         public IPosition<T> GetPosition(Hex point) {
-            return Positions.FirstOrDefault(pos => pos.Point == point);
+            _positions.TryGetValue(point, out var pos);
+            return pos;
         }
 
         public void RemovePosition(Hex point) {
-            // this is not optimal
-            var pos = Positions.First(p => p.Point == point);
+            var pos = _positions[point];
             if (pos.HasData()) {
                 pos.RemoveData();
             }
-            Positions.Remove(pos);
+            _positions.TryRemove(point, out _);
         }
 
         public void AddPosition(Hex hex) {
-            Positions.Add(new Position<T>(hex));
+            _positions[hex] = new Position<T>(hex);
         }
 
         private void GeneratePositions(IBoardController<T> hexProvider) {
             var points = hexProvider.GetHexPoints();
-            Positions = new List<IPosition<T>>(points.Length);
+            _positions = new ConcurrentDictionary<Hex, IPosition<T>>();
             foreach (var hex in points) {
-                Positions.Add(new Position<T>(hex));
+                _positions[hex] = new Position<T>(hex);
             }
 
             // OnCreateBoard();
