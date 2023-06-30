@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 8414945712944762364}
   m_Layer: 0
   m_Name: Logistician
-  m_TagString: Untagged
+  m_TagString: TraitLabel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 8414945713394972168}
   m_Layer: 0
   m_Name: Entrepreneur
-  m_TagString: Untagged
+  m_TagString: TraitLabel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -624,7 +624,7 @@ GameObject:
   - component: {fileID: 8414945713540249901}
   m_Layer: 0
   m_Name: Mediator
-  m_TagString: Untagged
+  m_TagString: TraitLabel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -855,7 +855,7 @@ GameObject:
   - component: {fileID: 8414945713557797737}
   m_Layer: 0
   m_Name: Entropist
-  m_TagString: Untagged
+  m_TagString: TraitLabel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1086,7 +1086,7 @@ GameObject:
   - component: {fileID: 8414945713918042824}
   m_Layer: 0
   m_Name: Protector
-  m_TagString: Untagged
+  m_TagString: TraitLabel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1317,7 +1317,7 @@ GameObject:
   - component: {fileID: 8414945714037237178}
   m_Layer: 0
   m_Name: Commander
-  m_TagString: Untagged
+  m_TagString: TraitLabel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

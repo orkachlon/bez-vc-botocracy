@@ -14,12 +14,15 @@ using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
 using Types.Neuron.Runtime;
+using UnityEngine;
 
 namespace Neurons.Runtime {
     public class DecayNeuron : BoardNeuron {
 
         private int _turnsToDeath;
 
+
+        public override Color ConnectionColor { get => DataProvider.ConnectionColor; }
         public sealed override INeuronDataBase DataProvider { get; }
         protected sealed override IBoardNeuronConnector Connector { get; set; }
         

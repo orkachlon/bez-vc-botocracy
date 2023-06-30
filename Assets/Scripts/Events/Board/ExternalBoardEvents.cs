@@ -24,7 +24,9 @@ namespace Events.Board {
         public const string OnTraitCompassHide = "Board_OnTraitCompassHide";
         public const string OnTraitCompassEnter = "Board_OnTraitCompassEnter";
         public const string OnTraitCompassExit = "Board_OnTraitCompassExit";
-        
+        public const string OnTraitCompassEnterStatic = "Board_OnTraitCompassEnterStatic";
+        public const string OnTraitCompassExitStatic = "Board_OnTraitCompassExitStatic";
+
         // by click
         public const string OnPlaceElementTurnDone = "Board_OnPlaceElement";
         // by any means

@@ -13,6 +13,7 @@ using Types.Hex.Coordinates;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
 using Types.Neuron.Runtime;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 using Vector3 = UnityEngine.Vector3;
 
@@ -24,6 +25,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Runtime {
 
         public Hex Position { get; protected set; }
         public bool Connectable { get; protected set; }
+        public abstract Color ConnectionColor { get; }
         public bool TurnDone { get; protected set; }
 
         protected SEventManager NeuronEventManager;

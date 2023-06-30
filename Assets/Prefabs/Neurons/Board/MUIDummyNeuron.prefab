@@ -129,3 +129,6 @@ MonoBehaviour:
   hoverSortingLayer: Hover
   belowConnSortingLayer: BelowConnections
   aboveConnSortingLayer: AboveConnections
+  addVolume: 0.5
+  removeVolume: 0.5
+  moveVolume: 0.5

@@ -22,6 +22,8 @@ namespace Neurons.Runtime {
         public int TurnsToStop { get; private set; }
         private Hex _prevPos;
 
+        public override Color ConnectionColor { get => DataProvider.ConnectionColor; }
+
         public sealed override INeuronDataBase DataProvider { get; }
         protected sealed override IBoardNeuronConnector Connector { get; set; }
 
@@ -126,7 +128,9 @@ namespace Neurons.Runtime {
         private async Task TravelTo(Hex from, Hex to) {
             await Controller.MoveNeuron(from, to);
             Connectable = true;
-            await Controller.AddElement(NeuronFactory.GetBoardNeuron(ENeuronType.Dummy), from);
+            var dummy = NeuronFactory.GetBoardNeuron(ENeuronType.Dummy) as DummyNeuron;
+            dummy.Tint = DataProvider.ConnectionColor;
+            await Controller.AddElement(dummy, from);
             PickedPositions.TryRemove(to, out _);
             await Connect();
             TurnsToStop--;

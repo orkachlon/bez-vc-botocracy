@@ -19,7 +19,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
 
         public IBoardNeuron RuntimeElement => GetNewElement();
 
-        public Color ConnectionColor => connectionColor;
+        public virtual Color ConnectionColor { get => connectionColor; }
 
         [Header("Sprites"), SerializeField] private Sprite boardArtwork;
         [SerializeField] private Sprite UIStackArtwork;
@@ -35,7 +35,7 @@ namespace MyHexBoardSystem.BoardElements.Neuron.Data {
 
         [Header("Effect Markers"), SerializeField] protected TileBase effectTile;
 
-        public void SetData(INeuronDataBase other) {
+        public virtual void SetData(INeuronDataBase other) {
             Type = other.Type;
             boardArtwork = other.GetBoardArtwork();
             boardModel = other.GetModel() as MUIBoardNeuron;

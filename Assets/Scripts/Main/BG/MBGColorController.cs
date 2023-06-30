@@ -39,15 +39,15 @@ namespace Main.BG {
         protected virtual void OnEnable() {
             storyEventManager.Register(StoryEvents.OnInitStory, UpdateCurrentSP);
             boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, UpdateBGColors);
-            boardEventManager.Register(ExternalBoardEvents.OnTraitCompassEnter, HighlightTrait);
-            boardEventManager.Register(ExternalBoardEvents.OnTraitCompassExit, LowlightTraits);
+            boardEventManager.Register(ExternalBoardEvents.OnTraitCompassEnterStatic, HighlightTrait);
+            boardEventManager.Register(ExternalBoardEvents.OnTraitCompassExitStatic, LowlightTraits);
         }
-
+        
         protected virtual void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnInitStory, UpdateCurrentSP);
             boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, UpdateBGColors);
-            boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassEnter, HighlightTrait);
-            boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassExit, LowlightTraits);
+            boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassEnterStatic, HighlightTrait);
+            boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassExitStatic, LowlightTraits);
         }
 
         private void LowlightTraits(EventArgs args) {

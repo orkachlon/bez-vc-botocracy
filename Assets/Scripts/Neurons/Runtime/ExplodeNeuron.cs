@@ -14,10 +14,12 @@ using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
 using Types.Neuron.Runtime;
+using UnityEngine;
 
 namespace Neurons.Runtime {
     public class ExplodeNeuron : BoardNeuron {
-        
+
+        public override Color ConnectionColor { get => DataProvider.ConnectionColor; }
         public override INeuronDataBase DataProvider { get; }
 
         private MUIExplodeNeuron UIExplodeNeuron => UINeuron as MUIExplodeNeuron;

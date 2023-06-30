@@ -14,7 +14,6 @@ namespace StoryPoints.Outcomes {
         private IExpandable _outcomesContainer;
 
         private bool _isExpanded;
-        private RectTransform _bottomOutcomeRect;
 
         private void Start() {
             _outcomesContainer = transform.parent.GetComponent<MOutcomesController>();
@@ -32,7 +31,7 @@ namespace StoryPoints.Outcomes {
 
         public void OnPointerClick(PointerEventData eventData) {
             _isExpanded = !_isExpanded;
-            transform.eulerAngles = Vector3.forward * 270 - transform.rotation.eulerAngles;
+            transform.eulerAngles = Vector3.forward * 90 - transform.rotation.eulerAngles;
             UpdateSize();
             uiEventManager.Raise(UIEvents.OnOutcomesPanelExpanded, new UIExpandEventArgs(_isExpanded));
         }
