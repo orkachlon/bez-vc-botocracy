@@ -40,9 +40,11 @@
             uniform float _Threshold;
             uniform float _Length;
 
+            #define THIRD 0.33333333333333333333f
+
             fixed4 frag (v2f i) : SV_Target {
                 for (int j = 0; j < 3; j++) {
-                    const float alpha = j * UNITY_TWO_PI * 0.33333333333333333333f;
+                    const float alpha = j * UNITY_TWO_PI * THIRD;
                     const float3x3 rot = float3x3(float3(cos(alpha), -sin(alpha), 0), float3(sin(alpha), cos(alpha), 0), float3(0, 0, 1));
                     const float3 dir = normalize(mul(rot, float3(0, 1, 0)));
                     const float3 proj = dot(i.world_pos, dir) / dot(dir, dir) * dir;
