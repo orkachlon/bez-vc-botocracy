@@ -58,6 +58,9 @@ namespace Tutorial.Neurons {
         }
 
         public void Clear() {
+            foreach (var hex in RewardHexes.Keys) {
+                neuronEventManager.Raise(NeuronEvents.OnRewardTileRemoved, new RewardTileArgs(hex, -1));
+            }
             RewardHexes.Clear();
         }
     }
