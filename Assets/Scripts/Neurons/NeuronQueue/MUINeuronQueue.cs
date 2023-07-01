@@ -1,31 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Core.EventSystem;
+using DG.Tweening;
 using Events.Neuron;
 using TMPro;
 using Types.Neuron;
 using Types.Neuron.Runtime;
 using Types.Neuron.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Neurons.NeuronQueue {
     public class MUINeuronQueue : MonoBehaviour {
+        [SerializeField] private Image bg;
         [SerializeField, Range(3, 10)] private int neuronsToShow = 7;
         [SerializeField] private TextMeshProUGUI neuronCountDisplay;
         [SerializeField] private RectTransform stack;
         [SerializeField] private int stackSpacing = 100, top3Spacing = 150, topPadding = -50;
+        [SerializeField] private float enqueueShakeStrength;
         
         [Header("Event Managers"), SerializeField]
         protected SEventManager neuronEventManager;
-        
-        protected const string InfiniteNeuronsMark = "-";
+
+        private const string InfiniteNeuronsMark = "-";
         private readonly Queue<IStackNeuron> _registerUiElements = new ();
+
+        private Color _baseColor;
 
         public float StackSpacing => stackSpacing;
         public float Top3Spacing => top3Spacing;
 
+        private void Awake() {
+            _baseColor = bg.color;
+        }
 
         protected virtual void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
@@ -39,6 +47,7 @@ namespace Neurons.NeuronQueue {
 
         private void Enqueue(INeuronQueue neuronQueue) {
             SetNeuronCounterText(neuronQueue.IsInfinite, neuronQueue.Count);
+            AnimateBG(neuronQueue.IsInfinite);
             
             if (!neuronQueue.IsInfinite && neuronQueue.Count > neuronsToShow) {
                 return;
@@ -49,6 +58,16 @@ namespace Neurons.NeuronQueue {
             }
             
             ShowNeuron(neuronQueue.PeekLast());
+        }
+
+        private void AnimateBG(bool isInfinite) {
+            if (isInfinite) {
+                return;
+            }
+            bg.color = Color.white;
+            bg.DOColor(_baseColor, 0.5f);
+            bg.rectTransform.DOShakePosition(0.5f, Vector3.up * enqueueShakeStrength,
+                randomness: 0, fadeOut: true, randomnessMode:ShakeRandomnessMode.Harmonic);
         }
 
         private void Dequeue(INeuronQueue neuronQueue) {
@@ -75,11 +94,9 @@ namespace Neurons.NeuronQueue {
         private void ShowNeuron(IStackNeuron stackNeuron) {
             var uiElement = stackNeuron.Pool(stack);
             uiElement.Default();
-            // can't use the isntantiate overload with position because
+            // can't use the instantiate overload with position because
             // parenting is done after setting position 
             uiElement.GO.GetComponent<RectTransform>().anchoredPosition = Vector3.up * top3Spacing;
-            // scale the entire neuron with the canvas in order to fit to different screen sizes
-            //uiElement.GO.transform.localScale *= _queueCanvas.scaleFactor;
 
             var placeInQueue = _registerUiElements.Count;
             _registerUiElements.Enqueue(stackNeuron);
@@ -106,7 +123,13 @@ namespace Neurons.NeuronQueue {
         }
 
         private void SetNeuronCounterText(bool isInfinite, int amount = 0) {
-            neuronCountDisplay.text = isInfinite ? InfiniteNeuronsMark : $"{amount}";
+            if (isInfinite) {
+                neuronCountDisplay.text = InfiniteNeuronsMark;
+                return;
+            }
+            var currentAmount = int.Parse(neuronCountDisplay.text);
+            DOVirtual.Int(currentAmount, amount, 0.3f * Mathf.Abs(amount - currentAmount),
+                i => neuronCountDisplay.text = $"{i}");
         }
 
         #region EventHandlers

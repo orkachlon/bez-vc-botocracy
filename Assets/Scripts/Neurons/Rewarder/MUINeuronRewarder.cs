@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Core.EventSystem;
 using Core.Utils;
+using DG.Tweening;
 using Events.Neuron;
 using MyHexBoardSystem.BoardSystem;
 using Types.Board;
@@ -11,8 +13,11 @@ namespace Neurons.Rewarder {
     public class MUINeuronRewarder : MonoBehaviour {
 
         [SerializeField] private TileBase rewardTile;
+        [SerializeField] private SpriteRenderer rewardPrefab;
+        [SerializeField] private float rewardAnimationHeight;
 
         [SerializeField] private MNeuronBoardController boardController;
+        [SerializeField] private float rewardAnimationDuration;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager neuronEventManager;
@@ -25,12 +30,12 @@ namespace Neurons.Rewarder {
 
         private void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnRewardTilePicked, PlaceRewardTile);
-            // neuronEventManager.Register(NeuronEvents.OnRewardTileReached, RemoveRewardTile);
+            neuronEventManager.Register(NeuronEvents.OnRewardTileReached, PlayRewardEffect);
         }
 
         private void OnDisable() {
             neuronEventManager.Unregister(NeuronEvents.OnRewardTilePicked, PlaceRewardTile);
-            // neuronEventManager.Unregister(NeuronEvents.OnRewardTileReached, RemoveRewardTile);
+            neuronEventManager.Unregister(NeuronEvents.OnRewardTileReached, PlayRewardEffect);
         }
 
         // tiles are automatically changed to pressed tiles when a neuron is placed on them.
@@ -52,6 +57,22 @@ namespace Neurons.Rewarder {
                 return;
             }
             // boardController.SetTile(rewardArgs.RewardHex, boardController.GetTraitTileBase(trait.Value));
+        }
+
+        private async void PlayRewardEffect(EventArgs obj) {
+            if (obj is not RewardTileArgs rewardArgs) {
+                return;
+            }
+
+            var amount = rewardArgs.Amount;
+            for (var i = 0; i < amount; i++) {
+                var effect = Instantiate(rewardPrefab, boardController.HexToWorldPos(rewardArgs.RewardHex), Quaternion.identity);
+                DOTween.Sequence()
+                    .Insert(0, effect.transform.DOMoveY(effect.transform.position.y + rewardAnimationHeight, rewardAnimationDuration))
+                    .Insert(0, effect.DOFade(0, rewardAnimationDuration))
+                    .OnComplete(() => Destroy(effect.gameObject));
+                await Task.Delay((int)(rewardAnimationDuration * 500));
+            }
         }
 
         private void PlaceRewardTile(EventArgs obj) {

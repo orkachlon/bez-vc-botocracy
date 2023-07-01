@@ -192,39 +192,45 @@
                 return normalize(mul(rot, v));
             }
 
-            fixed4 frag (v2f i) : SV_Target {
+            fixed4 frag (const v2f i) : SV_Target {
                 if (_Selected < 0 || _Selected > 5) {
                     return 0;
                 }
                 const float3 w_pos = normalize(i.world_pos);
-                const float dp = dot(w_pos, float3(0, 1, 0));
-                const float angle = acos(dp) * UNITY_INV_PI;
 
-                float3 dir1 = 0, dir2 = 0;
-                float alpha = _Selected * UNITY_TWO_PI * SIXTH;
-                float beta = (_Selected + 1) * UNITY_TWO_PI * SIXTH;
-                dir1 = normalize(rotateBy(float3(0, 1, 0), alpha));
-                dir2 = normalize(rotateBy(float3(0, 1, 0), beta));
+                // angles of the two borders of the triangle
+                const float alpha = _Selected * UNITY_TWO_PI * SIXTH;
+                const float beta = (_Selected + 1) * UNITY_TWO_PI * SIXTH;
+                // vectors of those borders
+                const float3 dir1 = normalize(rotateBy(float3(0, 1, 0), alpha));
+                const float3 dir2 = normalize(rotateBy(float3(0, 1, 0), beta));
+                // make sure they're valid
                 if (all(dir1 == dir2)) {
                     return 0;
                 }
-                float angleFromDir1 = acos(dot(w_pos, dir1)) * UNITY_INV_PI;
-                float angleFromDir2 = acos(dot(w_pos, dir2)) * UNITY_INV_PI;
-                if (angleFromDir1 + angleFromDir2 > THIRD) {
+                // measure the pixel's worldPos angle from each of the vectors
+                const float angle_from_dir1 = acos(dot(w_pos, dir1)) * UNITY_INV_PI;
+                const float angle_from_dir2 = acos(dot(w_pos, dir2)) * UNITY_INV_PI;
+                // if (angle_from_dir2 < 0 || angle_from_dir1 < 0) {
+                //     return float4(1, 0, 0, 1);
+                // }
+                if (angle_from_dir1 + angle_from_dir2 >= THIRD) {
                     return 0;
                 }
                 float3 proj = dot(i.world_pos, dir1) / dot(dir1, dir1) * dir1;
                 float3 rej = i.world_pos - proj;
                 if (length(rej) < _Radius) {
                     float4 col = _SelectedColor;
-                    col.a *= (_Radius - length(rej)) / _Radius;
+                    // enable this line for fade effect
+                    // col.a *= (_Radius - length(rej)) / _Radius;
                     return col;
                 }
                 proj = dot(i.world_pos, dir2) / dot(dir2, dir2) * dir2;
                 rej = i.world_pos - proj;
                 if (length(rej) < _Radius) {
                     float4 col = _SelectedColor;
-                    col.a *= (_Radius - length(rej)) / _Radius;
+                    // enable this line for fade effect
+                    // col.a *= (_Radius - length(rej)) / _Radius;
                     return col;
                 }
                 return 0;

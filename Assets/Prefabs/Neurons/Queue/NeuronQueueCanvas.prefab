@@ -285,6 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c9659ae94a4baa9d08430544be3855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bg: {fileID: 0}
   neuronsToShow: 7
   neuronCountDisplay: {fileID: 8715965745997624384}
   stack: {fileID: 8715965745273122970}
@@ -352,7 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 8d5ec42419e4adf4885f4046e69c7048, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 0.9764706, g: 0.9254902, b: 0.8509804, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}

@@ -1385,6 +1385,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3248637299825296988, guid: 3bdafe5792518514697d06c91b7814fb, type: 3}
+      propertyPath: m_text
+      value: <u>Message</u>Text
+      objectReference: {fileID: 0}
     - target: {fileID: 3248637300724779813, guid: 3bdafe5792518514697d06c91b7814fb, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -1818,23 +1822,22 @@ MonoBehaviour:
   introductionMessage: 'Happy birthday, and welcome to the _________ orientation
     program!
 
-    I''m your guide, _________, and you''ve been chosen to govern ________!
+    Can you feel your brain stem?'
+  neuronRewardMessage: 'Great! Here are some <u>neurons</u>. You''ll be using  them
+    to learn and grow.
 
-    Can
-    you feel your brain stem?'
-  neuronRewardMessage: 'Great! Here are some neurons.
-
-    Place them to get more.'
-  personalityMessage: 'Good. In order to govern, you''ll need to choose between personalities.
+    Connect them to get more.'
+  personalityMessage: 'Good. In order to govern, you''ll need to choose between <u>personalities</u>.
 
     Hover
-    over each personality to learn about it.'
-  boardEffectMessage: 'Events happen in <country-name> all the time. Each event can
-    be governed by 1 personality. Your decision will affect the capacity of different
-    personalities.
+    over each <u>personality</u> to learn about it.'
+  boardEffectMessage: 'In reality, <u>events</u> happen all the time. Each <u>event</u>
+    can be governed by 1 <u>personality</u>. Your decision will affect the capacity
+    of your <u>personalities</u>.
 
-    Hover over the personalities to see their effects in this
-    event. When you''re done, place a neuron in each personality to proceed.'
+    Hover over the personalities to see their
+    effects in this event. When you''re done, place a neuron in each personality
+    to proceed.'
   decisionMessage: 'Place neurons to choose which personality should govern this
     event.
 
@@ -2042,7 +2045,7 @@ GameObject:
   - component: {fileID: 5093785329261064130}
   m_Layer: 0
   m_Name: Board
-  m_TagString: Untagged
+  m_TagString: Board
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3683,9 +3686,6 @@ MonoBehaviour:
   - {fileID: 1430596440}
   - {fileID: 526428382}
   - {fileID: 1648974409}
-  - {fileID: 6065409365906193144}
-  - {fileID: 6065409365539727674}
-  - {fileID: 6065409365409261086}
 --- !u!1001 &1342894152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4560,7 +4560,7 @@ GameObject:
   - component: {fileID: 1609176197}
   m_Layer: 0
   m_Name: BaseTilemap
-  m_TagString: Untagged
+  m_TagString: Board
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6226,11 +6226,10 @@ GameObject:
   - component: {fileID: 6065409365409261083}
   - component: {fileID: 6065409365409261062}
   - component: {fileID: 6065409365409261087}
-  - component: {fileID: 6065409365409261086}
   - component: {fileID: 6065409365409261080}
   m_Layer: 0
   m_Name: Mediator
-  m_TagString: Untagged
+  m_TagString: TraitLabel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6410,21 +6409,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6065409365409261058}
   m_CullTransparentMesh: 1
---- !u!114 &6065409365409261086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6065409365409261058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d4b63504b454f979ee196b172fc2984, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trait: 5
-  boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
-  storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
 --- !u!114 &6065409365409261087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6480,11 +6464,10 @@ GameObject:
   - component: {fileID: 6065409365539727654}
   - component: {fileID: 6065409365539727653}
   - component: {fileID: 6065409365539727675}
-  - component: {fileID: 6065409365539727674}
   - component: {fileID: 6065409365539727655}
   m_Layer: 0
   m_Name: Entrepreneur
-  m_TagString: Untagged
+  m_TagString: TraitLabel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6644,21 +6627,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6065409365539727674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6065409365539727649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d4b63504b454f979ee196b172fc2984, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trait: 2
-  boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
-  storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
 --- !u!114 &6065409365539727675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6813,11 +6781,10 @@ GameObject:
   - component: {fileID: 6065409365906193140}
   - component: {fileID: 6065409365906193143}
   - component: {fileID: 6065409365906193145}
-  - component: {fileID: 6065409365906193144}
   - component: {fileID: 6065409365906193033}
   m_Layer: 0
   m_Name: Commander
-  m_TagString: Untagged
+  m_TagString: TraitLabel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6878,21 +6845,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   header: Commander
   content: Assertive and results-oriented, focusing on efficiency and productivity.
---- !u!114 &6065409365906193144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6065409365906193139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d4b63504b454f979ee196b172fc2984, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trait: 1
-  boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
-  storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
 --- !u!114 &6065409365906193145
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,20 +18,20 @@ namespace Neurons.Rewarder {
 
         [SerializeField] private int minReward, maxReward;
         
-        protected ITraitAccessor _traitAccessor;
+        protected ITraitAccessor TraitAccessor;
         
         [Header("Event Managers"), SerializeField]
         protected SEventManager boardEventManager;
         [SerializeField] protected SEventManager storyEventManager;
         [SerializeField] protected SEventManager neuronEventManager;
 
-        protected readonly Dictionary<Hex, int> _rewardHexes = new Dictionary<Hex, int>();
+        protected readonly Dictionary<Hex, int> RewardHexes = new();
         
 
         #region UnityMethods
 
         private void Awake() {
-            _traitAccessor = GetComponent<ITraitAccessor>();
+            TraitAccessor = GetComponent<ITraitAccessor>();
         }
 
         protected virtual void OnEnable() {
@@ -55,20 +55,20 @@ namespace Neurons.Rewarder {
         protected virtual void PickRewardTilesRandomly(EventArgs obj) {
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 // each trait has a separate chance to get a reward tile
-                var currentAmount = _rewardHexes.Keys.Count(h => trait.Equals(_traitAccessor.HexToTrait(h)));
+                var currentAmount = RewardHexes.Keys.Count(h => trait.Equals(TraitAccessor.HexToTrait(h)));
                 var rewardTileChance = 1f / (1 + currentAmount);
                 if (rewardTileChance < Random.value) {
                     continue;
                 }
 
-                var rewardPossibleTiles = _traitAccessor.GetTraitEdgeHexes(trait);     
+                var rewardPossibleTiles = TraitAccessor.GetTraitEdgeHexes(trait);     
                 if (rewardPossibleTiles.Length == 0) {
                     continue;
                 }
-                var emptyTiles = _traitAccessor.GetTraitEmptyHexes(trait, rewardPossibleTiles);
+                var emptyTiles = TraitAccessor.GetTraitEmptyHexes(trait, rewardPossibleTiles);
                 if (emptyTiles.Length == 0 && currentAmount == 0) {
                     // try to use any empty tile
-                    emptyTiles = _traitAccessor.GetTraitEmptyHexes(trait);
+                    emptyTiles = TraitAccessor.GetTraitEmptyHexes(trait);
                 }
                 if (emptyTiles.Length == 0) {
                     continue;
@@ -76,8 +76,8 @@ namespace Neurons.Rewarder {
 
 
                 var randomEmptyTile = emptyTiles[Random.Range(0, emptyTiles.Length)];
-                _rewardHexes[randomEmptyTile] = Random.Range(minReward, maxReward);
-                neuronEventManager.Raise(NeuronEvents.OnRewardTilePicked, new RewardTileArgs(randomEmptyTile));
+                RewardHexes[randomEmptyTile] = Random.Range(minReward, maxReward);
+                neuronEventManager.Raise(NeuronEvents.OnRewardTilePicked, new RewardTileArgs(randomEmptyTile, RewardHexes[randomEmptyTile]));
             }
         }
 
@@ -87,13 +87,13 @@ namespace Neurons.Rewarder {
             }
 
             var hex = addEventArgs.Hex;
-            if (!_rewardHexes.ContainsKey(hex)) {
+            if (!RewardHexes.ContainsKey(hex)) {
                 return;
             }
             // reward neurons!
-            neuronEventManager.Raise(NeuronEvents.OnRewardTileReached, new RewardTileArgs(hex));
-            neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(_rewardHexes[hex]));
-            _rewardHexes.Remove(hex);
+            neuronEventManager.Raise(NeuronEvents.OnRewardTileReached, new RewardTileArgs(hex, RewardHexes[hex]));
+            neuronEventManager.Raise(NeuronEvents.OnRewardNeurons, new NeuronRewardEventArgs(RewardHexes[hex]));
+            RewardHexes.Remove(hex);
         }
 
         private void OnTileRemoved(EventArgs obj) {
@@ -101,8 +101,8 @@ namespace Neurons.Rewarder {
                 return;
             }
 
-            if (_rewardHexes.ContainsKey(tileArgs.Hex)) {
-                _rewardHexes.Remove(tileArgs.Hex);
+            if (RewardHexes.ContainsKey(tileArgs.Hex)) {
+                RewardHexes.Remove(tileArgs.Hex);
             }
         }
 

@@ -2616,7 +2616,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardTile: {fileID: 11400000, guid: 21c445ce253f9a04ba465f2cea281b34, type: 2}
+  rewardPrefab: {fileID: 3391563543272389983, guid: 86e3cd1481a138044a3d0f8e9f346430, type: 3}
+  rewardAnimationHeight: 1
   boardController: {fileID: 1639060064745615111}
+  rewardAnimationDuration: 0.5
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
 --- !u!114 &4398573500386396985
 MonoBehaviour:

@@ -45,9 +45,11 @@ namespace Events.Neuron {
 
     public class RewardTileArgs : EventArgs {
         public Hex RewardHex;
+        public int Amount;
 
-        public RewardTileArgs(Hex rewardHex) {
+        public RewardTileArgs(Hex rewardHex, int amount) {
             RewardHex = rewardHex;
+            Amount = amount;
         }
     }
 
