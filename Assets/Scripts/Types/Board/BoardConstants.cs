@@ -5,5 +5,6 @@
         public const string SPEffectHoverTileLayer = "SPEffectHover";
         public const string BaseTilemapLayer = "base";
         public const string OutlineTilemapLayer = "baseOutline";
+        public const string RewardTilemapLayer = "rewards";
     }
 }

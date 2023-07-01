@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.EventSystem;
-using Core.Utils;
 using DG.Tweening;
 using Events.Neuron;
 using MyHexBoardSystem.BoardSystem;
 using Types.Board;
+using Types.Hex.Coordinates;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -24,6 +25,8 @@ namespace Neurons.Rewarder {
 
         private ITraitAccessor _traitAccessor;
 
+        private readonly Dictionary<Hex, Sequence> _rewardAnimationSeqs = new();
+
         private void Awake() {
             _traitAccessor = GetComponent<ITraitAccessor>();
         }
@@ -31,11 +34,13 @@ namespace Neurons.Rewarder {
         private void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnRewardTilePicked, PlaceRewardTile);
             neuronEventManager.Register(NeuronEvents.OnRewardTileReached, PlayRewardEffect);
+            neuronEventManager.Register(NeuronEvents.OnRewardTileRemoved, RemoveRewardTile);
         }
 
         private void OnDisable() {
             neuronEventManager.Unregister(NeuronEvents.OnRewardTilePicked, PlaceRewardTile);
             neuronEventManager.Unregister(NeuronEvents.OnRewardTileReached, PlayRewardEffect);
+            neuronEventManager.Unregister(NeuronEvents.OnRewardTileRemoved, RemoveRewardTile);
         }
 
         // tiles are automatically changed to pressed tiles when a neuron is placed on them.
@@ -44,42 +49,59 @@ namespace Neurons.Rewarder {
             if (obj is not RewardTileArgs rewardArgs) {
                 return;
             }
-
-            var hexDirection = boardController.Manipulator.GetDirection(rewardArgs.RewardHex);
-            if (!hexDirection.HasValue) {
-                MLogger.LogEditor($"Reward hex {rewardArgs.RewardHex} is out of board bounds!");
-                return;
-            }
-
-            var trait = _traitAccessor.DirectionToTrait(hexDirection.Value);
-            if (!trait.HasValue) {
-                MLogger.LogEditor($"Trait not found for hex {rewardArgs.RewardHex}");
-                return;
-            }
-            // boardController.SetTile(rewardArgs.RewardHex, boardController.GetTraitTileBase(trait.Value));
+            
+            boardController.SetTile(rewardArgs.RewardHex, null, BoardConstants.RewardTilemapLayer);
         }
 
         private async void PlayRewardEffect(EventArgs obj) {
             if (obj is not RewardTileArgs rewardArgs) {
                 return;
             }
+            var hex = rewardArgs.RewardHex;
+            _rewardAnimationSeqs[hex]?.Complete();
+            _rewardAnimationSeqs[hex]?.Kill();
 
+            var startColor = boardController.GetColor(hex, BoardConstants.RewardTilemapLayer);
+            DOVirtual.Color(startColor, Color.white, rewardAnimationDuration * 0.3f,
+                c => boardController.SetColor(hex, c, BoardConstants.RewardTilemapLayer));
+            
             var amount = rewardArgs.Amount;
+            var effectsTasks = new List<Task>();
             for (var i = 0; i < amount; i++) {
                 var effect = Instantiate(rewardPrefab, boardController.HexToWorldPos(rewardArgs.RewardHex), Quaternion.identity);
-                DOTween.Sequence()
-                    .Insert(0, effect.transform.DOMoveY(effect.transform.position.y + rewardAnimationHeight, rewardAnimationDuration))
-                    .Insert(0, effect.DOFade(0, rewardAnimationDuration))
-                    .OnComplete(() => Destroy(effect.gameObject));
-                await Task.Delay((int)(rewardAnimationDuration * 500));
+                var effectTask = DOTween.Sequence()
+                    .AppendInterval(i * rewardAnimationDuration * 0.5f)
+                    .Append(effect.transform.DOMoveY(effect.transform.position.y + rewardAnimationHeight, rewardAnimationDuration))
+                    .Join(effect.DOFade(0, rewardAnimationDuration))
+                    .OnComplete(() => Destroy(effect.gameObject))
+                    .AsyncWaitForCompletion();
+                effectsTasks.Add(effectTask);
             }
+
+            await Task.WhenAll(effectsTasks);
+
+            DOTween.Sequence()
+                .Append(DOVirtual.Color(Color.white, Color.clear, rewardAnimationDuration * 0.5f,
+                    c => boardController.SetColor(hex, c, BoardConstants.RewardTilemapLayer)))
+                .OnComplete(() => boardController.SetTile(hex, null, BoardConstants.RewardTilemapLayer));
+
         }
 
         private void PlaceRewardTile(EventArgs obj) {
             if (obj is not RewardTileArgs rewardArgs) {
                 return;
             }
-            boardController.SetTile(rewardArgs.RewardHex, rewardTile);
+
+            var hex = rewardArgs.RewardHex;
+            boardController.SetTile(hex, rewardTile, BoardConstants.RewardTilemapLayer);
+            boardController.SetColor(hex, Color.clear, BoardConstants.RewardTilemapLayer);
+            var hexSeq = DOTween.Sequence()
+                .Append(DOVirtual.Color(new Color(1, 1, 1, 0f), new Color(1, 1, 1, 0.7f), rewardAnimationDuration * 5,
+                    c => boardController.SetColor(hex, c, BoardConstants.RewardTilemapLayer)))
+                .Append(DOVirtual.Color(new Color(1, 1, 1, 0.7f), new Color(1, 1, 1, 0f), rewardAnimationDuration * 5,
+                    c => boardController.SetColor(hex, c, BoardConstants.RewardTilemapLayer)))
+                .SetLoops(-1, LoopType.Restart);
+            _rewardAnimationSeqs[hex] = hexSeq;
         }
     }
 }

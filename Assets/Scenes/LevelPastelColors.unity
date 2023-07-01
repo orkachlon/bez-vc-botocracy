@@ -4294,6 +4294,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615131, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardTile
+      value: 
+      objectReference: {fileID: 11400000, guid: a51057307d7c33f4b9cd067199285c94, type: 2}
     m_RemovedComponents:
     - {fileID: 1639060064816519149, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}

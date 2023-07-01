@@ -20,6 +20,7 @@ namespace Events.Neuron {
         public const string OnRewardNeurons = "Neurons_OnRewardNeurons";
         public const string OnRewardTileReached = "Neurons_OnRewardTileReached";
         public const string OnRewardTilePicked = "Neurons_OnRewardTilePicked";
+        public const string OnRewardTileRemoved = "Neurons_OnRewardTileRemoved";
         
         // travel
         public const string OnTravelNeuronReady = "Neurons_OnTravelNeuronReady";

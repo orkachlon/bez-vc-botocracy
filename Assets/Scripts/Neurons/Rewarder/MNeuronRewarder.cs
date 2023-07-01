@@ -53,6 +53,8 @@ namespace Neurons.Rewarder {
         #region EVentHandlers
 
         protected virtual void PickRewardTilesRandomly(EventArgs obj) {
+            RemoveOutOfBoundsRewardTiles();
+            
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 // each trait has a separate chance to get a reward tile
                 var currentAmount = RewardHexes.Keys.Count(h => trait.Equals(TraitAccessor.HexToTrait(h)));
@@ -78,6 +80,16 @@ namespace Neurons.Rewarder {
                 var randomEmptyTile = emptyTiles[Random.Range(0, emptyTiles.Length)];
                 RewardHexes[randomEmptyTile] = Random.Range(minReward, maxReward);
                 neuronEventManager.Raise(NeuronEvents.OnRewardTilePicked, new RewardTileArgs(randomEmptyTile, RewardHexes[randomEmptyTile]));
+            }
+        }
+
+        private void RemoveOutOfBoundsRewardTiles() {
+            foreach (var hex in RewardHexes.Keys) {
+                if (TraitAccessor.HexToTrait(hex).HasValue) {
+                    continue;
+                }
+                neuronEventManager.Raise(NeuronEvents.OnRewardTileRemoved, new RewardTileArgs(hex, -1));
+                RewardHexes.Remove(hex);
             }
         }
 
