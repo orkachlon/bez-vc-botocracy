@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 namespace Neurons.NeuronQueue {
     public class MUINeuronQueue : MonoBehaviour {
-        [SerializeField] private Image bg;
+        [SerializeField] protected Image bg;
         [SerializeField, Range(3, 10)] private int neuronsToShow = 7;
         [SerializeField] private TextMeshProUGUI neuronCountDisplay;
         [SerializeField] private RectTransform stack;
