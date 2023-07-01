@@ -2,12 +2,11 @@
 using MyHexBoardSystem.BoardElements.Neuron.UI;
 using Neurons.Data;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Neurons.UI.Queue {
+namespace Neurons.UI.Queue {
     public class MUIQueueExplodeNeuron : MUIQueueNeuron {
 
         [Header("Spikes"), SerializeField] private List<Image> spikes;
@@ -21,12 +20,10 @@ namespace Assets.Scripts.Neurons.UI.Queue {
 
         protected override void UpdateView() {
             base.UpdateView();
-            if (RuntimeData.PlaceInQueue > 2) {
-                spikes.ForEach(s => {
-                    s.color = Color.white;
-                    s.gameObject.SetActive(false);
-                });
-            }
+            spikes.ForEach(s => {
+                s.color = Color.white;
+                s.gameObject.SetActive(RuntimeData.PlaceInQueue <= 2);
+            });
         }
 
         public override async Task PlayAnimation() {

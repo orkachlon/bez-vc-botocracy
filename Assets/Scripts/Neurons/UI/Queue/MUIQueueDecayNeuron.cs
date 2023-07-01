@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Neurons.UI.Queue {
+namespace Neurons.UI.Queue {
     public class MUIQueueDecayNeuron : MUIQueueNeuron {
         [Header("Dots"), SerializeField] private List<Image> dots;
         [SerializeField] private float dotDuration;
@@ -18,12 +18,10 @@ namespace Assets.Scripts.Neurons.UI.Queue {
 
         protected override void UpdateView() {
             base.UpdateView();
-            if (RuntimeData.PlaceInQueue > 2) {
-                dots.ForEach(d => {
-                    d.color = Color.white;
-                    d.gameObject.SetActive(false);
-                }); 
-            }
+            dots.ForEach(d => {
+                d.color = Color.white;
+                d.gameObject.SetActive(RuntimeData.PlaceInQueue <= 2);
+            }); 
         }
 
         #region Animation

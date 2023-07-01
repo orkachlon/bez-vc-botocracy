@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Neurons.UI.Queue {
+namespace Neurons.UI.Queue {
     public class MUIQueueExpandNeuron : MUIQueueNeuron {
 
         [Header("Expand Neuron")]
@@ -21,12 +21,10 @@ namespace Assets.Scripts.Neurons.UI.Queue {
 
         protected override void UpdateView() {
             base.UpdateView();
-            if (RuntimeData.PlaceInQueue > 2) {
-                blobs.ForEach(b => {
-                    b.color = Color.white;
-                    b.gameObject.SetActive(false);
-                });
-            }
+            blobs.ForEach(b => {
+                b.color = Color.white;
+                b.gameObject.SetActive(RuntimeData.PlaceInQueue <= 2);
+            });
         }
 
         public override async Task PlayAnimation() {
