@@ -82,6 +82,7 @@
             ENDCG
         }
 
+        // ---------- Gradient effect -----------
         // Pass {
 
         //     CGPROGRAM
@@ -151,6 +152,7 @@
         //     ENDCG
         // }
 
+        // -------------- Triangle pressed down effect --------------
         Pass {
 
             CGPROGRAM
@@ -209,12 +211,12 @@
                     return 0;
                 }
                 // measure the pixel's worldPos angle from each of the vectors
-                const float angle_from_dir1 = acos(dot(w_pos, dir1)) * UNITY_INV_PI;
-                const float angle_from_dir2 = acos(dot(w_pos, dir2)) * UNITY_INV_PI;
-                // if (angle_from_dir2 < 0 || angle_from_dir1 < 0) {
-                //     return float4(1, 0, 0, 1);
-                // }
-                if (angle_from_dir1 + angle_from_dir2 >= THIRD) {
+                // using dot products, and compare it to the dot of the two directions.
+                const float dp1 = dot(w_pos, dir1);
+                const float dp2 = dot(w_pos, dir2);
+                const float dp12 = dot(dir1, dir2);
+
+                if (dp1 < dp12 || dp2 < dp12) {
                     return 0;
                 }
                 float3 proj = dot(i.world_pos, dir1) / dot(dir1, dir1) * dir1;

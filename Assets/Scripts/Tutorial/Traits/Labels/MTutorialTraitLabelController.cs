@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Tutorial.Traits.Labels {
-    public class MTutorialTraitLabelController : MTraitLabelPresenter, IPointerEnterHandler {
+    public class MTutorialTraitLabelController : MTraitLabelPresenter/*, IPointerExitHandler*/ {
 
         [SerializeField] private MTraitAccessor traitAccessor;
         [SerializeField] private int distanceFromBoard;
@@ -26,9 +26,9 @@ namespace Tutorial.Traits.Labels {
         public async Task Hide(bool immediate = false) {
             var direction = traitAccessor.TraitToVectorDirection(trait).normalized;
             if (immediate) {
-                textField.enabled = false;
                 textField.color = new Color(_baseColor.r, _baseColor.g, _baseColor.b, 0);
                 textField.rectTransform.anchoredPosition = direction * outOfScreenDistance;
+                textField.enabled = false;
                 return;
             }
             var rt = textField.rectTransform;
@@ -41,8 +41,8 @@ namespace Tutorial.Traits.Labels {
 
         public async Task Show(bool immediate = false) {
             textField.enabled = true;
+            textField.color = new Color(_baseColor.r, _baseColor.g, _baseColor.b, 1);
             if (immediate) {
-                textField.color = new Color(_baseColor.r, _baseColor.g, _baseColor.b, 1);
                 textField.rectTransform.anchoredPosition = traitAccessor.TraitToVectorDirection(trait).normalized * distanceFromBoard;
                 return;
             }
@@ -54,7 +54,11 @@ namespace Tutorial.Traits.Labels {
                 textField.DOFade(1, animationDuration).AsyncWaitForCompletion());
         }
 
-        public void OnPointerEnter(PointerEventData eventData) {
+        public void UpdateColor() {
+            UpdateHighlightState();
+        }
+
+        public void OnPointerExit(PointerEventData eventData) {
             tutorialEventManager.Raise(TutorialEvents.OnTraitHover, new TutorialTraitHoverEventArgs(trait));
         }
 
@@ -63,6 +67,14 @@ namespace Tutorial.Traits.Labels {
                 base.Highlight();
             } else {
                 Lowlight();
+            }
+        }
+
+        protected override void Lowlight() {
+            if (IsSPEnabled) {
+                textField.color = Color.white;
+            } else {
+                textField.color = _baseColor;
             }
         }
     }

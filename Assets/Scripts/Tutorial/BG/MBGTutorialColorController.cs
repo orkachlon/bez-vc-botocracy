@@ -92,5 +92,14 @@ namespace Tutorial.BG {
                 _ => throw new ArgumentOutOfRangeException(nameof(trait), trait, null)
             };
         }
+
+        protected override int TraitToShaderSelection(ETrait trait) {
+            return trait switch {
+                ETrait.Commander => 0,
+                ETrait.Entrepreneur => 1,
+                ETrait.Mediator => 2,
+                _ => throw new NotImplementedException(),
+            };
+        }
     }
 }

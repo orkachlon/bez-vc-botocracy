@@ -7,9 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 760992605066012206, guid: d334e31a4f449ad4b99151cdcf69b8d8, type: 3}
+      propertyPath: m_Color.b
+      value: 0.59607846
+      objectReference: {fileID: 0}
+    - target: {fileID: 760992605066012206, guid: d334e31a4f449ad4b99151cdcf69b8d8, type: 3}
+      propertyPath: m_Color.g
+      value: 0.4745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 760992605066012206, guid: d334e31a4f449ad4b99151cdcf69b8d8, type: 3}
+      propertyPath: m_Color.r
+      value: 0.2784314
+      objectReference: {fileID: 0}
     - target: {fileID: 760992605881345594, guid: d334e31a4f449ad4b99151cdcf69b8d8, type: 3}
       propertyPath: m_Name
-      value: TooltipCanvas
+      value: TooltipCanvasPastel
       objectReference: {fileID: 0}
     - target: {fileID: 760992605881345598, guid: d334e31a4f449ad4b99151cdcf69b8d8, type: 3}
       propertyPath: m_Pivot.x

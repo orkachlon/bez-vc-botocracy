@@ -57,7 +57,7 @@ namespace MyHexBoardSystem.UI {
             UpdateHighlightState();
         }
 
-        private void UpdateHighlightState() {
+        protected void UpdateHighlightState() {
             if (IsCurrentlyDeciding() && IsMaxTrait()) {
                 Highlight();
             }

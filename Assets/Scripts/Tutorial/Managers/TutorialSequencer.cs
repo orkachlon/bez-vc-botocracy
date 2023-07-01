@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Tutorial.BG;
 using Assets.Scripts.Tutorial.Board;
-using Assets.Scripts.Tutorial.Neurons;
 using Assets.Scripts.Tutorial.Neurons.Board;
 using Assets.Scripts.Tutorial.StoryPoints;
 using Core.EventSystem;
@@ -157,7 +156,7 @@ namespace Tutorial.Managers {
             // show labels
             var labelShowTasks = new List<Task>();
             foreach (var label in labels) {
-                label.IsSPEnabled = true;
+                label.IsSPEnabled = false;
                 labelShowTasks.Add(label.Show());
             }
             await Task.WhenAny(labelShowTasks);
@@ -175,6 +174,10 @@ namespace Tutorial.Managers {
                 tutorialStoryPointManager.ShowTutorialSP(),
                 DisplayMessage(boardEffectMessage));
             tutorialStoryPointManager.IsSPEnabled = false;
+            foreach (var label in labels) {
+                label.IsSPEnabled = true;
+                label.UpdateColor();
+            }
             // enable effect hover
             bgHoverController.EnableHover();
             boardController.EnableHexes(new[] { new Hex(1, -1), new Hex(-1, 0), new Hex(0, 1) });
