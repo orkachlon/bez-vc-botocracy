@@ -9,6 +9,7 @@ using Types.Board;
 using Types.Hex.Coordinates;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 namespace Neurons.Rewarder {
     public class MUINeuronRewarder : MonoBehaviour {
@@ -96,6 +97,7 @@ namespace Neurons.Rewarder {
             boardController.SetTile(hex, rewardTile, BoardConstants.RewardTilemapLayer);
             boardController.SetColor(hex, Color.clear, BoardConstants.RewardTilemapLayer);
             var hexSeq = DOTween.Sequence()
+                .AppendInterval(Random.value)
                 .Append(DOVirtual.Color(new Color(1, 1, 1, 0f), new Color(1, 1, 1, 0.7f), rewardAnimationDuration * 5,
                     c => boardController.SetColor(hex, c, BoardConstants.RewardTilemapLayer)))
                 .Append(DOVirtual.Color(new Color(1, 1, 1, 0.7f), new Color(1, 1, 1, 0f), rewardAnimationDuration * 5,
