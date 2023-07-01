@@ -1843,14 +1843,16 @@ MonoBehaviour:
     govern this <u>event</u>.
 
     In this <u>event</u> you have 3 turns to decide.'
-  neuronIntroductionMessage: 'Oh by the way, try to keep your stem surrounded by
-    tiles, unless you''ve had enough of "life".
+  neuronIntroductionMessage: 'I''m sure you''ll do better with your country :)
 
-    Before you go, you''ll need
-    to learn how to use real <u>neurons</u>. Yeah you''ve been using dummies all
-    this time.
+    Oh
+    by the way, try to keep your stem surrounded by tiles if you want to keep living.
 
-    Fill your capacity to reset yourself.'
+    Next
+    up - real <u>neurons</u>. Yeah, you''ve been using dummies all this time.
+
+    Fill
+    your capacity to reset yourself.'
   expandNeuronMessage: 'Okay, first up is the Expander. This <u>neuron</u> expands
     once to all available positions.
 

@@ -1,7 +1,7 @@
 ID,Title,Scenario,Traits,Commander,Entrepreneur,Mediator,Protector,Entropist,Logistician,,Action,Outcome,"OutcomeID, Current: 0",Turns,Prerequisites (OutcomeID)
-1,"Happy birthday, get to work.",Your creator decided to let you lead a country.,Commander,0,-1,1,0,0,0,-,Planned the Olympics efficiently but forgot to invite the local mascot.,"The mascot union protested, leading to a parade of angry mascots taking over the streets.",-,3,
-,,,Entrepreneur,-1,1,1,0,0,0,+,"Attracted investments, supported local businesses, and introduced a new Olympic-themed pizza.","The pizza became a sensation, with athletes endorsing it and fans worldwide craving a slice.",-,,
-,,,Mediator,1,0,1,0,0,0,+,"Organized a cultural exchange fair for Olympic nations, featuring a dance-off between diplomats.","Dance moves went viral, bringing joy and strengthening diplomatic bonds among nations.",-,,
+1,Happy birthday! Get to work.,Your creator decided to let you lead a country.,Commander,0,-1,1,0,0,0,-,"Spent all of the budget on the military, growing the largest, most advanced army on earth.",Most people fled your country. The ones that didn't make it were accused of treason and sentenced to death. Your country dissolved into tribes and forgotten in history.,-,3,
+,,,Entrepreneur,-1,1,1,0,0,0,+,Lowered every existing tax and adopted bitcoin as the single official currency.,"The inventor of Bitcoin sold all of his coins, dropping its value till it had no worth. You couldn't pay off your debts and had to give all of your lands away.",-,,
+,,,Mediator,1,0,1,0,0,0,+,"Tried to befriend every country in the world, but ended up tangled in diplomatic feuds.","Countries stopped trusting you because you worked with everyone. When the war started everyone targeted you first in a blitz attack, leaving your country in ashes.",-,,
 ,,,Protector,0,0,0,0,0,0,,-,-,-,,
 ,,,Entropist,0,0,0,0,0,0,,-,-,-,,
 ,,,Logistician,0,0,0,0,0,0,,-,-,-,,
