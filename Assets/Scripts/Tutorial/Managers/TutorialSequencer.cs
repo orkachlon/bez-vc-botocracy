@@ -175,8 +175,6 @@ namespace Tutorial.Managers {
                 tutorialStoryPointManager.ShowTutorialSP(),
                 DisplayMessage(boardEffectMessage));
             tutorialStoryPointManager.IsSPEnabled = false;
-            // place reward tiles
-            neuronRewarder.RewardRandomTiles();
             // enable effect hover
             bgHoverController.EnableHover();
             boardController.EnableHexes(new[] { new Hex(1, -1), new Hex(-1, 0), new Hex(0, 1) });
@@ -187,6 +185,8 @@ namespace Tutorial.Managers {
             // refresh message
             await tutorialMessage.AwaitHideAnimation();
             await Task.WhenAny(/*outcomesController.Show(),*/ DisplayMessage(decisionMessage));
+            // place reward tiles
+            neuronRewarder.RewardRandomTiles();
             // enable SP and let player play
             neuronController.IsSPEnabled = true;
             bgColorController.IsSPEnabled = true;
