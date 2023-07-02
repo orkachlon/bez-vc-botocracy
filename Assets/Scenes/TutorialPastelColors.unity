@@ -1372,7 +1372,7 @@ MonoBehaviour:
     neurons.
   tutorialEndMessage: Fill your capacity to end the tutorial and start leading humans!
   tutorialEventManager: {fileID: 11400000, guid: 087edbf803ee8624381e2d314a47b570, type: 2}
-  neuronEventManager: {fileID: 11400000, guid: 3531c9893208d16409c6bd8954ef14b9, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
   neuronQueue: {fileID: 1561506451}
   bgColorController: {fileID: 1209675627}
@@ -1434,6 +1434,10 @@ PrefabInstance:
       propertyPath: m_fontColor.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3561039130696448769, guid: b0f14614c8b343944803d371e1822bf0, type: 3}
+      propertyPath: UIEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
     - target: {fileID: 3561039130696448890, guid: b0f14614c8b343944803d371e1822bf0, type: 3}
       propertyPath: m_Name
       value: TooltipCanvasPastel

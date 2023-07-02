@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Tutorial.BG;
-using Assets.Scripts.Tutorial.Board;
+﻿using Assets.Scripts.Tutorial.Board;
 using Assets.Scripts.Tutorial.Neurons.Board;
 using Assets.Scripts.Tutorial.StoryPoints;
 using Core.EventSystem;
@@ -12,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Events.UI;
 using Tutorial.BG;
 using Tutorial.Board;
 using Tutorial.Message;
@@ -41,7 +41,7 @@ namespace Tutorial.Managers {
         [TextArea(5, 7), SerializeField] private string tutorialEndMessage;
 
         [Header("Event Managers"), SerializeField] private SEventManager tutorialEventManager;
-        [SerializeField] private SEventManager neuronEventManager;
+        [SerializeField] private SEventManager uiEventManager;
         [SerializeField] private SEventManager boardEventManager;
 
         [Header("Dependencies"), SerializeField]
@@ -71,14 +71,14 @@ namespace Tutorial.Managers {
         }
 
         private void OnEnable() {
-            tutorialEventManager.Register(TutorialEvents.OnTraitHover, CountTraitHover);
+            uiEventManager.Register(UIEvents.OnTooltipHide, CountTraitHover);
             boardEventManager.Register(ExternalBoardEvents.OnTraitCompassEnter, CountEffectHover);
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElementTurnDone, OnNeuronPlaced);
             boardEventManager.Register(ExternalBoardEvents.OnBoardModified, OnBoardModified);
         }
 
         private void OnDisable() {
-            tutorialEventManager.Unregister(TutorialEvents.OnTraitHover, CountTraitHover);
+            uiEventManager.Unregister(UIEvents.OnTooltipHide, CountTraitHover);
             boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassEnter, CountEffectHover);
             boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementTurnDone, OnNeuronPlaced);
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, OnBoardModified);

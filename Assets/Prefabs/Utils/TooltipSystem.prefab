@@ -392,6 +392,7 @@ MonoBehaviour:
   isDontDestroyOnLoad: 0
   isSilent: 1
   tooltip: {fileID: 760992605066012202}
+  UIEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
 --- !u!1 &760992606351955679
 GameObject:
   m_ObjectHideFlags: 0

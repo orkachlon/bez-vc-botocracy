@@ -34,6 +34,10 @@ PrefabInstance:
     - target: {fileID: 1562096529421226880, guid: aab8d8256d2443f4d9a117b7cc5d6e47, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 741161099832948703}
+    - target: {fileID: 1562096529421226880, guid: aab8d8256d2443f4d9a117b7cc5d6e47, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseDecisionPopup
       objectReference: {fileID: 0}
     - target: {fileID: 2360074653019515670, guid: aab8d8256d2443f4d9a117b7cc5d6e47, type: 3}
       propertyPath: m_Name
@@ -361,6 +365,32 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2360074653019515670, guid: aab8d8256d2443f4d9a117b7cc5d6e47, type: 3}
   m_PrefabInstance: {fileID: 5911495980894306971}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &741161099832948703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8271266584588937613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb3dca8098b7ae4d81d6281fff05bb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spCanvas: {fileID: 1395939651910966346}
+  backGround: {fileID: 1395939653163425237}
+  title: {fileID: 4337444529351860752}
+  description: {fileID: 2020554542204446118}
+  turnSection: {fileID: 6598637265462178746}
+  turnCounter: {fileID: 8189631466357880028}
+  artwork: {fileID: 5233530685760855589}
+  closeButton: {fileID: 6436004439891451792}
+  decrementShakeStrength: 20
+  decisionSection: {fileID: 8078582999681373022}
+  deciderText: {fileID: 8308001650634525221}
+  decisionText: {fileID: 1244810436971711290}
+  outcomeText: {fileID: 934465627633350680}
+  storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
 --- !u!114 &6789954639468826986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,32 +439,6 @@ MonoBehaviour:
   storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
   gmEventManager: {fileID: 11400000, guid: ee44ac6473649754baeabe94b54b1989, type: 2}
---- !u!114 &741161099832948703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8271266584588937613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cb3dca8098b7ae4d81d6281fff05bb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spCanvas: {fileID: 1395939651910966346}
-  backGround: {fileID: 1395939653163425237}
-  title: {fileID: 4337444529351860752}
-  description: {fileID: 2020554542204446118}
-  turnSection: {fileID: 6598637265462178746}
-  turnCounter: {fileID: 8189631466357880028}
-  artwork: {fileID: 5233530685760855589}
-  closeButton: {fileID: 6436004439891451792}
-  decrementShakeStrength: 20
-  decisionSection: {fileID: 8078582999681373022}
-  deciderText: {fileID: 8308001650634525221}
-  decisionText: {fileID: 1244810436971711290}
-  outcomeText: {fileID: 934465627633350680}
-  storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
 --- !u!114 &8308001650634525221 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2396523297898809534, guid: aab8d8256d2443f4d9a117b7cc5d6e47, type: 3}

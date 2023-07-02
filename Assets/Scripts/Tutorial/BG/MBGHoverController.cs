@@ -1,9 +1,9 @@
-﻿using Core.EventSystem;
+﻿using System;
+using Core.EventSystem;
 using MyHexBoardSystem.Traits.TraitCompass;
-using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Tutorial.BG {
+namespace Tutorial.BG {
     public class MBGHoverController : MonoBehaviour {
 
         [SerializeField] private SEventManager tutorialEventManager;

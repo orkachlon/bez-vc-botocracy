@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Core.EventSystem;
 using DG.Tweening;
-using Events.Tutorial;
 using Main.BG;
 using Types.Trait;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Tutorial.BG {
     public class MBGTutorialColorController : MBGColorController {

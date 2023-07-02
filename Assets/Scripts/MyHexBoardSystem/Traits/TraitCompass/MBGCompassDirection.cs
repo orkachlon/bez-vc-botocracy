@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 namespace MyHexBoardSystem.Traits.TraitCompass {
     public class MBGCompassDirection : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
-        [SerializeField] private ETrait trait;
+        [SerializeField] protected ETrait trait;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager boardEventManager;
@@ -61,7 +61,7 @@ namespace MyHexBoardSystem.Traits.TraitCompass {
             DispatchPointerExit();
         }
 
-        private void DispatchPointerExit() {
+        protected virtual void DispatchPointerExit() {
             boardEventManager.Raise(ExternalBoardEvents.OnTraitCompassExitStatic, new TraitCompassHoverEventArgs(trait));
             if (HasEffect) {
                 boardEventManager.Raise(ExternalBoardEvents.OnTraitCompassExit, new TraitCompassHoverEventArgs(trait));
