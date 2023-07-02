@@ -72,9 +72,9 @@ namespace Tutorial.Traits.Labels {
 
         protected override void Lowlight() {
             if (IsSPEnabled) {
-                textField.color = Color.white;
+                textField.DOColor(Color.white, 0.5f);
             } else {
-                textField.color = _baseColor;
+                textField.DOColor(_baseColor, 0.5f);
             }
         }
     }

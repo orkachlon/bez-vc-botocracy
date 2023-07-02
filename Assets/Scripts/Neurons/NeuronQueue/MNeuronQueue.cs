@@ -154,7 +154,7 @@ namespace Neurons.NeuronQueue {
             Dequeue();
         }
 
-        private void OnSPDecrement(EventArgs args) {
+        protected void OnSPDecrement(EventArgs args) {
             if (args is not StoryEventArgs spArgs) {
                 return;
             }

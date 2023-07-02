@@ -42,6 +42,15 @@ namespace Neurons.Rewarder {
             neuronEventManager.Unregister(NeuronEvents.OnRewardTilePicked, PlaceRewardTile);
             neuronEventManager.Unregister(NeuronEvents.OnRewardTileReached, PlayRewardEffect);
             neuronEventManager.Unregister(NeuronEvents.OnRewardTileRemoved, RemoveRewardTile);
+
+            DisableAnimations();
+        }
+
+        private void DisableAnimations() {
+            foreach (var seq in _rewardAnimationSeqs.Values) {
+                seq?.Complete();
+                seq?.Kill();
+            }
         }
 
         // tiles are automatically changed to pressed tiles when a neuron is placed on them.
@@ -102,7 +111,8 @@ namespace Neurons.Rewarder {
                     c => boardController.SetColor(hex, c, BoardConstants.RewardTilemapLayer)))
                 .Append(DOVirtual.Color(new Color(1, 1, 1, 0.7f), new Color(1, 1, 1, 0f), rewardAnimationDuration * 5,
                     c => boardController.SetColor(hex, c, BoardConstants.RewardTilemapLayer)))
-                .SetLoops(-1, LoopType.Restart);
+                .SetLoops(-1, LoopType.Restart)
+                .SetAutoKill(false);
             _rewardAnimationSeqs[hex] = hexSeq;
         }
     }

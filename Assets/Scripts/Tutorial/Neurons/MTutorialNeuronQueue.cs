@@ -8,6 +8,7 @@ using Neurons.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Events.SP;
 using Types.Neuron;
 using Types.Neuron.Runtime;
 using UnityEngine;
@@ -19,7 +20,8 @@ namespace Tutorial.Neurons {
 
         [SerializeField] private SEventManager tutorialEventManager;
 
-        public HashSet<ENeuronType> neuronPool = new();
+        public HashSet<ENeuronType> NeuronPool = new();
+        public bool IsSPEnabled { get; set; } = false;
 
         protected override void Awake() {
             base.Awake();
@@ -27,20 +29,24 @@ namespace Tutorial.Neurons {
         }
 
         protected override void OnEnable() {
+            storyEventManager.Register(StoryEvents.OnDecrement, OnTutorialSPDecrement);
             neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
+            boardEventManager.Register(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElementPreActivation, BeforeElementActivation);
-            boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, StartProvidingNeurons);
+            boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, OnAllNeuronsDone);
         }
 
         protected override void OnDisable() {
+            storyEventManager.Unregister(StoryEvents.OnDecrement, OnTutorialSPDecrement);
             neuronEventManager.Unregister(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
             boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementPreActivation, BeforeElementActivation);
-            boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, StartProvidingNeurons);
+            boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, OnAllNeuronsDone);
         }
 
         public void EnqueueFromPool(int amount = 1) {
             for (int _ = 0; _ < amount; _++) {
-                Enqueue(new StackNeuron(NeuronFactory.GetRandomNeuron(neuronPool)));
+                Enqueue(new StackNeuron(NeuronFactory.GetRandomNeuron(NeuronPool)));
             }
         }
 
@@ -91,10 +97,25 @@ namespace Tutorial.Neurons {
             }
         }
 
+        private void OnAllNeuronsDone(EventArgs args) {
+            if (IsSPEnabled) {
+                return;
+            }
+            StartProvidingNeurons();
+        }
+
         protected override void OnRewardNeurons(EventArgs eventArgs) {
             if (eventArgs is NeuronRewardEventArgs reward) {
                 EnqueueFromPool(reward.Amount);
             }
+        }
+
+        private void OnTutorialSPDecrement(EventArgs obj) {
+            if (!IsSPEnabled) {
+                return;
+            }
+
+            OnSPDecrement(obj);
         }
     }
 }

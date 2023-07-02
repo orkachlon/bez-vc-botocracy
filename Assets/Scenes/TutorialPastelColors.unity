@@ -1958,11 +1958,11 @@ Tilemap:
       e00: 0
       e01: 0
       e02: 0
-      e03: 2.1048852e+22
+      e03: 0.00000089275
       e10: 0
       e11: 0
       e12: 0
-      e13: 2.9e-43
+      e13: 1.47e-43
       e20: 0
       e21: 0
       e22: 0
@@ -1973,22 +1973,22 @@ Tilemap:
       e33: 0
   - m_RefCount: 0
     m_Data:
-      e00: 0
+      e00: 3.544043e-24
       e01: 0
-      e02: 0
-      e03: 2.1048852e+22
-      e10: 0
+      e02: -3.8750038
+      e03: -3.8750038
+      e10: 5.69e-43
       e11: 0
-      e12: 0
-      e13: 2.9e-43
-      e20: 0
-      e21: 0
-      e22: 0
-      e23: 0
-      e30: 0
+      e12: 5.65e-43
+      e13: 5.65e-43
+      e20: -2.3023942e+37
+      e21: 1e-45
+      e22: 2.1144112e-19
+      e23: 4.342216e+19
+      e30: 4.5904e-41
       e31: 0
-      e32: 0
-      e33: 0
+      e32: 5.66e-43
+      e33: 5.69e-43
   - m_RefCount: 1
     m_Data:
       e00: 1
@@ -2611,6 +2611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1333356375}
   - component: {fileID: 1333356376}
+  - component: {fileID: 1333356377}
   m_Layer: 0
   m_Name: BGColliders
   m_TagString: Untagged
@@ -2653,6 +2654,23 @@ MonoBehaviour:
   - {fileID: 1430596440}
   - {fileID: 526428382}
   - {fileID: 1648974409}
+--- !u!114 &1333356377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333356374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd870b029a8566440b51cb3aba027500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deciderSound: {fileID: 8300000, guid: 117dd9089ab46894a9ceb89def1467bd, type: 3}
+  nonDeciderSound: {fileID: 8300000, guid: 9111495a605300c4c8dd2b232e7b10f3, type: 3}
+  volume: 0.523
+  storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
 --- !u!1 &1403889763
 GameObject:
   m_ObjectHideFlags: 0
@@ -5893,6 +5911,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6632963840186320067, guid: 6ed7c3805de403a4baeb9f1ecaee1094, type: 3}
+      propertyPath: uiEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
     - target: {fileID: 7430900296813886027, guid: 6ed7c3805de403a4baeb9f1ecaee1094, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0

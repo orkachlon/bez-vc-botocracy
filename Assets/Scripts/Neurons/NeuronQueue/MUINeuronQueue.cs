@@ -122,9 +122,14 @@ namespace Neurons.NeuronQueue {
             await Task.WhenAll(shiftTasks);
         }
 
-        private void SetNeuronCounterText(bool isInfinite, int amount = 0) {
+        private void SetNeuronCounterText(bool isInfinite, int amount = 0, bool immediate = false) {
             if (isInfinite) {
                 neuronCountDisplay.text = InfiniteNeuronsMark;
+                return;
+            }
+
+            if (immediate) {
+                neuronCountDisplay.text = $"{amount}";
                 return;
             }
             var currentAmount = int.Parse(neuronCountDisplay.text);

@@ -17,8 +17,11 @@ namespace Core.UI.Tooltip {
         }
         
         public static void Hide() {
+            var wasShown = Instance.tooltip.gameObject.activeInHierarchy;
             Instance.tooltip.gameObject.SetActive(false);
-            Instance.UIEventManager.Raise(UIEvents.OnTooltipHide, EventArgs.Empty);
+            if (wasShown) {
+                Instance.UIEventManager.Raise(UIEvents.OnTooltipHide, EventArgs.Empty);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Core.EventSystem;
+using DG.Tweening;
 using Events.Board;
 using Events.SP;
 using TMPro;
@@ -71,11 +72,12 @@ namespace MyHexBoardSystem.UI {
         }
 
         protected virtual void Highlight() {
-            textField.color = highlightColor;
+            textField.DOColor(highlightColor, 0.5f);
+            // textField.color = highlightColor;
         }
 
         protected virtual void Lowlight() {
-            textField.color = _baseColor;
+            textField.DOColor(_baseColor, 0.5f);
         }
 
         private bool IsCurrentlyDeciding() {

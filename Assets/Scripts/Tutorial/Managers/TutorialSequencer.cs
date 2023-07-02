@@ -1,10 +1,8 @@
 ﻿using Assets.Scripts.Tutorial.Board;
 using Assets.Scripts.Tutorial.Neurons.Board;
-using Assets.Scripts.Tutorial.StoryPoints;
 using Core.EventSystem;
 using Core.Utils;
 using Events.Board;
-using Events.Tutorial;
 using Main.Managers;
 using Neurons.Runtime;
 using System;
@@ -16,6 +14,7 @@ using Tutorial.BG;
 using Tutorial.Board;
 using Tutorial.Message;
 using Tutorial.Neurons;
+using Tutorial.StoryPoints;
 using Tutorial.Traits.Labels;
 using Types.Hex.Coordinates;
 using Types.Neuron;
@@ -112,7 +111,7 @@ namespace Tutorial.Managers {
         private async Task Introduction() {
             _currentStage = TutorialStage.Introdution;
             // give 1 neuron, disable placement and hide
-            neuronQueue.neuronPool = new() { Types.Neuron.ENeuronType.Dummy };
+            neuronQueue.NeuronPool = new() { Types.Neuron.ENeuronType.Dummy };
             neuronQueue.EnqueueFromPool();
             neuronQueue.StopNeurons();
             await neuronQueue.Hide(true);
@@ -194,6 +193,7 @@ namespace Tutorial.Managers {
             // enable SP and let player play
             neuronController.IsSPEnabled = true;
             bgColorController.IsSPEnabled = true;
+            neuronQueue.IsSPEnabled = true;
             tutorialStoryPointManager.IsSPEnabled = true;
             boardController.EnableHexes();
         }
@@ -203,8 +203,13 @@ namespace Tutorial.Managers {
             // disable SP and bg effects
             neuronController.IsSPEnabled = false;
             bgColorController.IsSPEnabled = false;
+            neuronQueue.IsSPEnabled = false;
             bgHoverController.DisableHover();
             bgColorController.ToDefaultColors();
+            labels.ForEach(l => {
+                l.IsSPEnabled = false;
+                l.UpdateColor();
+            });
             // refresh message
             await tutorialMessage.AwaitHideAnimation();
             await DisplayMessage(neuronIntroductionMessage);
@@ -230,7 +235,7 @@ namespace Tutorial.Managers {
             boardController.EnableHexes(new Hex[] { new Hex(1, 0) });
             // change queue to have only a single expand neuron
             await neuronQueue.Clear();
-            neuronQueue.neuronPool = new(){ ENeuronType.Expanding };
+            neuronQueue.NeuronPool = new(){ ENeuronType.Expanding };
             neuronQueue.EnqueueFromPool();
             neuronQueue.StartNeurons();
         }
@@ -239,7 +244,7 @@ namespace Tutorial.Managers {
             _currentStage = TutorialStage.TravellerType;
             await tutorialMessage.AwaitHideAnimation();
             await DisplayMessage(travellerNeuronMessage);
-            neuronQueue.neuronPool = null;
+            neuronQueue.NeuronPool = null;
             var modifiedTraveller = new TutorialTravelNeuron {
                 UnavailableHexes = new[] { new Hex(0, 2), new Hex(-1, 1) }
             };
@@ -253,7 +258,7 @@ namespace Tutorial.Managers {
             _currentStage = TutorialStage.TimerType;
             await tutorialMessage.AwaitHideAnimation();
             await DisplayMessage(timerNeuronMessage);
-            neuronQueue.neuronPool = new() { ENeuronType.Decaying };
+            neuronQueue.NeuronPool = new() { ENeuronType.Decaying };
             neuronQueue.EnqueueFromPool();
             neuronQueue.StartNeurons();
             boardController.DisableHexes();
@@ -264,7 +269,7 @@ namespace Tutorial.Managers {
             _currentStage = TutorialStage.CullerType;
             await tutorialMessage.AwaitHideAnimation();
             await DisplayMessage(cullerNeuronMessage);
-            neuronQueue.neuronPool = new() { ENeuronType.Exploding };
+            neuronQueue.NeuronPool = new() { ENeuronType.Exploding };
             neuronQueue.EnqueueFromPool();
             neuronQueue.StartNeurons();
             boardController.DisableHexes();
@@ -276,7 +281,7 @@ namespace Tutorial.Managers {
             await tutorialMessage.AwaitHideAnimation();
             await DisplayMessage(tutorialEndMessage);
             // provide neurons
-            neuronQueue.neuronPool = new() { ENeuronType.Expanding, ENeuronType.Travelling, ENeuronType.Decaying };
+            neuronQueue.NeuronPool = new() { ENeuronType.Expanding, ENeuronType.Travelling, ENeuronType.Decaying };
             neuronQueue.EnqueueFromPool(20);
             // enable board
             boardController.EnableHexes();
