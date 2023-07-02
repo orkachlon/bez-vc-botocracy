@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Animation;
 using Core.EventSystem;
@@ -22,7 +23,11 @@ namespace Neurons.Connections {
         private SEventManager neuronEventManager;
 
         private readonly ConcurrentDictionary<string, MNeuronConnection> _connections = new();
+        private static readonly SemaphoreSlim ConnectionLockInner = new(1, 1);
 
+        public SemaphoreSlim ConnectionLock => ConnectionLockInner;
+
+        
         #region UnityMethods
 
         private void OnEnable() {

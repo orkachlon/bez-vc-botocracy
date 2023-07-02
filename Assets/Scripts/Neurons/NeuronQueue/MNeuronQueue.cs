@@ -28,6 +28,7 @@ namespace Neurons.NeuronQueue {
 
         protected Queue<IStackNeuron> Neurons;
         protected bool IsProviding;
+        protected bool GameEnded;
 
         #region UnityMethods
 
@@ -143,6 +144,7 @@ namespace Neurons.NeuronQueue {
                 return;
             }
 
+            GameEnded = true;
             StopProvidingNeurons();
         }
 
@@ -180,6 +182,9 @@ namespace Neurons.NeuronQueue {
         }
 
         protected void StartProvidingNeurons(EventArgs args = null) {
+            if (GameEnded) {
+                return;
+            }
             IsProviding = true;
             neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
         }

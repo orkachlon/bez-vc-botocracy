@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Utils;
 using Events.Board;
 using Events.Neuron;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
@@ -21,6 +22,7 @@ namespace Neurons.Runtime {
 
         public int TurnsToStop { get; private set; }
         private Hex _prevPos;
+        private Hex _nextPos;
 
         public override Color ConnectionColor { get => DataProvider.ConnectionColor; }
 
@@ -91,10 +93,9 @@ namespace Neurons.Runtime {
             if (neighbours.Length > 0) {
                 var randomNeighbor = neighbours[Random.Range(0, neighbours.Length)];
                 PickedPositions[randomNeighbor] = this;
+                _nextPos = randomNeighbor;
                 _prevPos = Position;
                 Connectable = false;
-                await Disconnect();
-                Position = randomNeighbor;
                 NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronReady, new BoardElementEventArgs<IBoardNeuron>(this, Position));
                 return;
             }
@@ -108,7 +109,7 @@ namespace Neurons.Runtime {
             }
 
             UITravelNeuron.PlayTurnAnimation();
-            await TravelTo(_prevPos, Position);
+            await TravelTo(_prevPos, _nextPos);
             if (!CanTravel()) {
                 StopTravelling();
                 return;
@@ -126,16 +127,28 @@ namespace Neurons.Runtime {
         #endregion
 
         private async Task TravelTo(Hex from, Hex to) {
-            await Controller.MoveNeuron(from, to);
-            Connectable = true;
-            var dummy = NeuronFactory.GetBoardNeuron(ENeuronType.Dummy) as DummyNeuron;
-            dummy.Tint = DataProvider.ConnectionColor;
-            await Controller.AddElement(dummy, from);
-            PickedPositions.TryRemove(to, out _);
-            await Connect();
-            TurnsToStop--;
-        }
+            await Connector.ConnectionLock.WaitAsync();
+            try {
+                await Disconnect();
+                Position = _nextPos;
+                await Controller.MoveNeuron(from, to);
+                Connectable = true;
+                await Connect();
+                if (NeuronFactory.GetBoardNeuron(ENeuronType.Dummy) is not DummyNeuron dummy) {
+                    MLogger.LogEditorError("Got null or wrong type of neuron from factory!");
+                    return;
+                }
 
+                dummy.Tint = DataProvider.ConnectionColor;
+                await Controller.AddElement(dummy, from);
+                PickedPositions.TryRemove(to, out _);
+                TurnsToStop--;
+            }
+            finally {
+                Connector.ConnectionLock.Release();
+            }
+        }
+        
         protected virtual Hex[] GetEmptyNeighbors() {
             var neighbours = Controller.Manipulator.GetNeighbours(Position)
                 .Where(h => !Controller.Board.GetPosition(h).HasData() && !PickedPositions.ContainsKey(h))

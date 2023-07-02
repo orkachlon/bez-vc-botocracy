@@ -69,18 +69,29 @@ namespace MyHexBoardSystem.BoardSystem {
         }
 
         public void SetColor(Hex hexTile, Color color, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
+            var tilemap = GetTilemap(tilemapLayer);
+            if (tilemap == null) {
+                return;
+            }
             var offsetCoord = OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, hexTile);
-            tilemapLayers[tilemapLayer].RemoveTileFlags(offsetCoord.ToVector3Int(), TileFlags.LockColor);
-            tilemapLayers[tilemapLayer].SetColor(offsetCoord.ToVector3Int(), color);
+            tilemap.RemoveTileFlags(offsetCoord.ToVector3Int(), TileFlags.LockColor);
+            tilemap.SetColor(offsetCoord.ToVector3Int(), color);
         }
 
         public TileBase GetTile(Hex hex, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
-            return tilemapLayers[tilemapLayer].GetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex));
+            var tilemap = GetTilemap(tilemapLayer);
+            return tilemap == null ?
+                null : 
+                tilemap.GetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex));
         }
 
         public void SetTile(Hex hexTile, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
+            var tilemap = GetTilemap(tilemapLayer);
+            if (tilemap == null) {
+                return;
+            }
             var cell = OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, hexTile).ToVector3Int();
-            tilemapLayers[tilemapLayer].SetTile(cell, tile);
+            tilemap.SetTile(cell, tile);
         }
 
         public void SetTiles(Hex[] hexTiles, TileBase tile, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
@@ -90,7 +101,10 @@ namespace MyHexBoardSystem.BoardSystem {
         }
 
         public Color GetColor(Hex tile, string tilemapLayer = BoardConstants.BaseTilemapLayer) {
-            return tilemapLayers[tilemapLayer].GetColor(OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, tile).ToVector3Int());
+            var tilemap = GetTilemap(tilemapLayer);
+            return tilemap == null ? 
+                Color.clear : 
+                tilemap.GetColor(OffsetCoordHelper.RoffsetFromCube(OffsetCoord.Parity.Odd, tile).ToVector3Int());
         }
 
         public Hex WorldPosToHex(Vector3 position) {
@@ -98,43 +112,55 @@ namespace MyHexBoardSystem.BoardSystem {
         }
 
         public Vector3 HexToWorldPos(Hex hex) {
+            var tilemap = GetTilemap(BaseTilemapLayer);
+            if (tilemap == null) {
+                return Vector3.zero;
+            }
             var cell = BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex);
-            return tilemapLayers[BaseTilemapLayer].CellToWorld(cell);
+            return tilemap.CellToWorld(cell);
         }
 
         public Task RemoveTile(Hex hex) {
-            if (!Board.HasPosition(hex)) {
+            var tilemap = GetTilemap(BaseTilemapLayer);
+            var outlineTilemap = GetTilemap(BoardConstants.OutlineTilemapLayer);
+            if (!Board.HasPosition(hex) || tilemap == null || outlineTilemap == null) {
                 return Task.CompletedTask;
             }
             // notify that tile is being removed before removing it
             externalBoardEventManager.Raise(ExternalBoardEvents.OnRemoveTile, new OnTileModifyEventArgs(hex));
             lock (BoardLock) {
                 Board.RemovePosition(hex);
-                tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
+                tilemap.SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
                 RecalculateTiles();
                 // outlines and fills are done separately
-                tilemapLayers[BoardConstants.OutlineTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
+                outlineTilemap.SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), null);
             }
             return Task.CompletedTask;
         }
 
         public Task AddTile(Hex hex) {
+            var tilemap = GetTilemap(BaseTilemapLayer);
+            var outlineTilemap = GetTilemap(BoardConstants.OutlineTilemapLayer);
             var trait = _traitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
-            if (!trait.HasValue) {
+            if (!trait.HasValue || tilemap == null || outlineTilemap == null) {
                 return Task.CompletedTask;
             }
             lock (BoardLock) {
                 Board.AddPosition(hex);
-                tilemapLayers[BaseTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait.Value]);
-                tilemapLayers[BoardConstants.OutlineTilemapLayer].SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileOutlines[trait.Value]);
+                tilemap.SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileBases[trait.Value]);
+                outlineTilemap.SetTile(BoardManipulationOddR<BoardNeuron>.GetCellCoordinate(hex), traitTileOutlines[trait.Value]);
             }
             externalBoardEventManager.Raise(ExternalBoardEvents.OnAddTile, new OnTileModifyEventArgs(hex));
             return Task.CompletedTask;
         }
 
             public void RecalculateTiles() {
-            tilemapLayers[BaseTilemapLayer].RefreshAllTiles();
-            tilemapLayers[BaseTilemapLayer].CompressBounds();
+                var tilemap = GetTilemap(BaseTilemapLayer);
+                if (tilemap == null) {
+                    return;
+                }
+                tilemap.RefreshAllTiles();
+                tilemap.CompressBounds();
         }
 
         public TileBase GetTraitTileBase(ETrait trait) {
@@ -142,6 +168,14 @@ namespace MyHexBoardSystem.BoardSystem {
         }
 
         #endregion
+
+        private Tilemap GetTilemap(string layer) {
+            if (tilemapLayers != null && tilemapLayers.ContainsKey(layer) && tilemapLayers[layer] != null) {
+                return tilemapLayers[layer];
+            }
+
+            return null;
+        }
     }
     
     [Serializable]

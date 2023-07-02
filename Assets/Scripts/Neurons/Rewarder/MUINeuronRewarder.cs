@@ -43,10 +43,14 @@ namespace Neurons.Rewarder {
             neuronEventManager.Unregister(NeuronEvents.OnRewardTileReached, PlayRewardEffect);
             neuronEventManager.Unregister(NeuronEvents.OnRewardTileRemoved, RemoveRewardTile);
 
-            DisableAnimations();
+            KillAnimations();
         }
 
-        private void DisableAnimations() {
+        private void OnDestroy() {
+            KillAnimations();
+        }
+
+        private void KillAnimations() {
             foreach (var seq in _rewardAnimationSeqs.Values) {
                 seq?.Complete();
                 seq?.Kill();
@@ -59,7 +63,8 @@ namespace Neurons.Rewarder {
             if (obj is not RewardTileArgs rewardArgs) {
                 return;
             }
-            
+            _rewardAnimationSeqs[rewardArgs.RewardHex]?.Complete();
+            _rewardAnimationSeqs[rewardArgs.RewardHex]?.Kill();
             boardController.SetTile(rewardArgs.RewardHex, null, BoardConstants.RewardTilemapLayer);
         }
 

@@ -273,7 +273,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 244.33035, y: -549.25}
-  m_SizeDelta: {x: 391.3574, y: 128.18}
+  m_SizeDelta: {x: 391.3574, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3027246747288982701
 CanvasRenderer:
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Cnaan
+  m_text: Canaan
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
   m_sharedMaterial: {fileID: 8845025251329881265, guid: 00f2679586c723d4cab56e0430a6709c, type: 2}
@@ -422,8 +422,8 @@ RectTransform:
   m_Father: {fileID: 3027246748393446306}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 967.3529}
   m_Pivot: {x: 0.5, y: 0.5}

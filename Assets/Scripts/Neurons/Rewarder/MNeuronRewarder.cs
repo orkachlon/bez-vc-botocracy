@@ -48,6 +48,10 @@ namespace Neurons.Rewarder {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, PickRewardTilesRandomly);
         }
 
+        private void OnDestroy() {
+            RewardHexes.Clear();
+        }
+
         #endregion
 
         #region EVentHandlers
@@ -113,9 +117,11 @@ namespace Neurons.Rewarder {
                 return;
             }
 
-            if (RewardHexes.ContainsKey(tileArgs.Hex)) {
-                RewardHexes.Remove(tileArgs.Hex);
+            if (!RewardHexes.ContainsKey(tileArgs.Hex)) {
+                return;
             }
+            RewardHexes.Remove(tileArgs.Hex);
+            neuronEventManager.Raise(NeuronEvents.OnRewardTileRemoved, new RewardTileArgs(tileArgs.Hex, -1));
         }
 
         // might not need this if i have trait accessor

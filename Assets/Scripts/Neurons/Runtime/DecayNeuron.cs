@@ -61,8 +61,11 @@ namespace Neurons.Runtime {
         public override async Task AwaitRemoval() {
             if (_turnsToDeath == 0) {
                 UIDecayNeuron.PlayRemoveSound();
+                await DisconnectDuringDecay();
             }
-            await Disconnect();
+            else {
+                await Disconnect();
+            }
             await UIDecayNeuron.PlayRemoveAnimation();
             NeuronEventManager.Raise(NeuronEvents.OnNeuronFinishedRemoveAnimation, new BoardElementEventArgs<IBoardNeuron>(this, Position));
         }
@@ -84,6 +87,16 @@ namespace Neurons.Runtime {
                 Controller.RemoveNeuron(Position);
             }
             ReportTurnDone();
+        }
+
+        private async Task DisconnectDuringDecay() {
+            await Connector.ConnectionLock.WaitAsync();
+            try {
+                await Disconnect();
+            }
+            finally {
+                Connector.ConnectionLock.Release();
+            }
         }
 
         protected override void RegisterTurnDone() { }
