@@ -44,7 +44,8 @@ namespace Tutorial.Managers {
         [SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager boardEventManager;
 
-        [Header("Dependencies"), SerializeField] MTutorialNeuronQueue neuronQueue;
+        [Header("Dependencies"), SerializeField]
+        private MTutorialNeuronQueue neuronQueue;
         [SerializeField] private MBGTutorialColorController bgColorController;
         [SerializeField] private MBGHoverController bgHoverController;
         [SerializeField] private MTutorialOutcomesController outcomesController;

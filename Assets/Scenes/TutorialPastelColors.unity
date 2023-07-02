@@ -1387,7 +1387,7 @@ MonoBehaviour:
   - {fileID: 6065409365906193145}
   - {fileID: 6065409365539727675}
   - {fileID: 6065409365409261087}
-  nextSceneName: LevelPastelColors
+  nextSceneName: Menu
 --- !u!4 &558517738
 Transform:
   m_ObjectHideFlags: 0
