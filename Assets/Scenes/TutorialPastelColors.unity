@@ -389,6 +389,8 @@ GameObject:
   - component: {fileID: 338035998}
   - component: {fileID: 338036000}
   - component: {fileID: 338035999}
+  - component: {fileID: 338036002}
+  - component: {fileID: 338036001}
   m_Layer: 5
   m_Name: PauseButton
   m_TagString: Untagged
@@ -429,7 +431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16078432, g: 0.18823531, b: 0.28627452, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -454,6 +456,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338035997}
   m_CullTransparentMesh: 1
+--- !u!114 &338036001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338035997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6587332b26a984b9ab126468bf8894, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: Menu
+--- !u!114 &338036002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338035997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 338035999}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 338036001}
+        m_TargetAssemblyTypeName: MPauseButton, Main
+        m_MethodName: OnButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &347942107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,7 +1410,7 @@ MonoBehaviour:
     over each <u>personality</u> to learn about it.'
   boardEffectMessage: 'In reality, <u>events</u> happen all the time. Each <u>event</u>
     can be governed by 1 <u>personality</u>. Aside from playing with people''s lives,
-    your decision will affect the capacity of your <u>personalities</u>.
+    your decision will affect the tiles of your <u>personalities</u>.
 
     Hover
     over the <u>personalities</u> to see their effects in this <u>event</u>. When
@@ -1357,11 +1428,11 @@ MonoBehaviour:
     up - real <u>neurons</u>. Yeah, you''ve been using dummies all this time.
 
     Fill
-    your capacity to reset yourself.'
+    all tiles to reset yourself.'
   expandNeuronMessage: 'Okay, first up is the Expander. This <u>neuron</u> expands
     once to all available positions.
 
-    Place it to continue.'
+    Connect it to continue.'
   travellerNeuronMessage: 'Now the Traveller.
 
     This <u>neuron</u> will grow to
@@ -1370,7 +1441,7 @@ MonoBehaviour:
     6 turns, and cannot be removed before that.
   cullerNeuronMessage: Lastly, the Culler. This <u>neuron</u> removes all neighboring
     neurons.
-  tutorialEndMessage: Fill your capacity to end the tutorial and start leading humans!
+  tutorialEndMessage: Fill all tiles to end the tutorial and start leading humans!
   tutorialEventManager: {fileID: 11400000, guid: 087edbf803ee8624381e2d314a47b570, type: 2}
   uiEventManager: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
