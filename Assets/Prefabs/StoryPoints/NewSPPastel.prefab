@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 229472144679399421, guid: dfd4cf519d0a1f64589a44587bae8f7f, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 267398125502072776, guid: dfd4cf519d0a1f64589a44587bae8f7f, type: 3}
       propertyPath: m_fontColor.b
       value: 1

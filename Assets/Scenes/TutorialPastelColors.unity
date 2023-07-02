@@ -1370,7 +1370,7 @@ MonoBehaviour:
     6 turns, and cannot be removed before that.
   cullerNeuronMessage: Lastly, the Culler. This <u>neuron</u> removes all neighboring
     neurons.
-  tutorialEndMessage: Fill your capacity to start!
+  tutorialEndMessage: Fill your capacity to end the tutorial and start leading humans!
   tutorialEventManager: {fileID: 11400000, guid: 087edbf803ee8624381e2d314a47b570, type: 2}
   neuronEventManager: {fileID: 11400000, guid: 3531c9893208d16409c6bd8954ef14b9, type: 2}
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}

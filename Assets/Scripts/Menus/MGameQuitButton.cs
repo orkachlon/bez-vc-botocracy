@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Menus;
-using Types.Menus;
+﻿using Types.Menus;
 using UnityEngine;
 
 namespace Menus {

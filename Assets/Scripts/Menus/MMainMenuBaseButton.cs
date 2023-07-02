@@ -2,27 +2,27 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Assets.Scripts.Menus {
+namespace Menus {
     public abstract class MMainMenuBaseButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
-        protected RectTransform _rt;
+        protected RectTransform RT;
 
         protected virtual void Awake() {
-            _rt = GetComponent<RectTransform>();
+            RT = GetComponent<RectTransform>();
         }
 
         public virtual void OnPointerEnter(PointerEventData eventData) {
-            if (_rt == null) {
+            if (RT == null) {
                 return;
             }
-            _rt.DOAnchorPosX(250, 0.2f);
+            RT.DOAnchorPosX(250, 0.2f);
         }
 
         public virtual void OnPointerExit(PointerEventData eventData) {
-            if (_rt == null) {
+            if (RT == null) {
                 return;
             }
-            _rt.DOAnchorPosX(200, 0.2f);
+            RT.DOAnchorPosX(200, 0.2f);
         }
     }
 }
