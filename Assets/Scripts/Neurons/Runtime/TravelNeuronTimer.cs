@@ -1,9 +1,8 @@
-﻿
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
-using Core.Utils;
 using Events.Board;
 using Events.Neuron;
 using Types.Hex.Coordinates;
@@ -16,7 +15,7 @@ namespace Neurons.Runtime {
         [SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager boardEventManager;
 
-        private readonly Dictionary<TravelNeuron, Hex> _travellers = new ();
+        private readonly ConcurrentDictionary<TravelNeuron, Hex> _travellers = new ();
 
         private void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnTravelNeuronReady, CountTravellers);
@@ -38,7 +37,7 @@ namespace Neurons.Runtime {
             }
 
             if (neuronArgs.Element.DataProvider.Type == ENeuronType.Travelling) {
-                _travellers.Remove((TravelNeuron) neuronArgs.Element);
+                _travellers.TryRemove((TravelNeuron) neuronArgs.Element, out _);
             }
         }
 

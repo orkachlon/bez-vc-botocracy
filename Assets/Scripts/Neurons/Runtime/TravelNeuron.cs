@@ -96,7 +96,7 @@ namespace Neurons.Runtime {
                 _nextPos = randomNeighbor;
                 _prevPos = Position;
                 Connectable = false;
-                NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronReady, new BoardElementEventArgs<IBoardNeuron>(this, Position));
+                NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronReady, new BoardElementEventArgs<IBoardNeuron>(this, _nextPos));
                 return;
             }
             // stop travelling if you couldn't travel this turn
