@@ -13,7 +13,7 @@ namespace StoryPoints.SPProviders {
         public int Count => _spQueue.Count;
 
         private Queue<TextAsset> _spQueue;
-        private int[] _outcomeIDs;
+        private HashSet<int> _outcomeIDs;
 
         private void Awake() {
 #if UNITY_EDITOR
@@ -40,13 +40,24 @@ namespace StoryPoints.SPProviders {
             return Count == 0;
         }
 
-        public void Reset() {
+        public void ResetProvider() {
             _spQueue.Clear();
             EnqueueStoryPoints(storyTextAssets);
         }
 
         public void AddOutcome(int outcomeID) {
-            _outcomeIDs ??= _outcomeIDs.Append(outcomeID) as int[];
+            if (_outcomeIDs == null) {
+                _outcomeIDs = new HashSet<int> { outcomeID };
+                return;
+            }
+            _outcomeIDs.Add(outcomeID);
+        }
+
+        public void RemoveOutcome(int outcomeID) {
+            if (_outcomeIDs == null || !_outcomeIDs.Contains(outcomeID)) {
+                return;
+            }
+            _outcomeIDs.Remove(outcomeID);
         }
 
         private StoryPointData ReadStoryPointFromJson() {
@@ -58,5 +69,6 @@ namespace StoryPoints.SPProviders {
 
             return data;
         }
+
     }
 }

@@ -6,6 +6,7 @@ using Core.Utils;
 using Events.Board;
 using Events.General;
 using Events.SP;
+using StoryPoints.Interfaces;
 using Types.Board;
 using Types.GameState;
 using Types.StoryPoint;
@@ -139,6 +140,13 @@ namespace StoryPoints {
             Evaluated = true;
             storyEventManager.Raise(StoryEvents.OnBeforeEvaluate, new StoryEventArgs(this));
             await AwaitRemoveAnimation();
+        }
+
+        public void RegisterOutcome(ISPProvider SPProvider) {
+            if (string.IsNullOrEmpty(DecisionEffects.OutcomeModification)) {
+                OutcomeModificationParser.ModifyOutcomes(SPProvider, DecisionEffects.OutcomeModification);
+            }
+            SPProvider.AddOutcome(DecisionEffects.OutcomeID);
         }
     }
 }

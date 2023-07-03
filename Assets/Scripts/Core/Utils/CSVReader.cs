@@ -43,6 +43,7 @@ namespace Core.Utils {
                     }
                     entry[header[j]] = finalValue;
                 }
+                MLogger.LogEditor($"{entry[header[0]]}");
                 list.Add(entry);
             }
             return list;

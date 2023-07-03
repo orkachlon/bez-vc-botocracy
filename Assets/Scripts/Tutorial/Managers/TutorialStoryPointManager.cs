@@ -17,7 +17,7 @@ namespace Tutorial.Managers {
                 _isSPEnabled = value;
             }
         }
-        private MTutorialStoryPoint _currentSP => _currentStory as MTutorialStoryPoint;
+        private MTutorialStoryPoint _currentSP => CurrentStory as MTutorialStoryPoint;
 
         protected override void OnEnable() {
         }

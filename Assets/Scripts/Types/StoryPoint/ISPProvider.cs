@@ -10,9 +10,8 @@ namespace Types.StoryPoint {
         int Count { get; }
         
         StoryPointData? Next();
-        bool IsEmpty();
-        void Reset();
         void AddOutcome(int outcomeID);
+        void RemoveOutcome(int outcomeID);
     }
     
     [Serializable]
@@ -42,8 +41,10 @@ namespace Types.StoryPoint {
         public static readonly TraitDecisionEffects NoDecision = new();
 
         public ETrait DecidingTrait;
+        public int OutcomeID;
         public string Decision;
         public string Outcome;
+        public string OutcomeModification;
         public Dictionary<ETrait, int> BoardEffect;
     }
 

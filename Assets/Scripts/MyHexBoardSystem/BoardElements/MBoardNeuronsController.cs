@@ -245,10 +245,10 @@ namespace MyHexBoardSystem.BoardElements {
 
             // dispatch inner event (does nothing rn)
             DispatchOnAddElement(element, cell);
-            // dispatch pre activation event
-            externalEventManager.Raise(ExternalBoardEvents.OnPlaceElementPreActivation, eventData); // disable click
             // tile related actions
             externalEventManager.Raise(ExternalBoardEvents.OnTileOccupied, new BoardElementEventArgs<IBoardNeuron>(element, hex));
+            // dispatch pre activation event
+            externalEventManager.Raise(ExternalBoardEvents.OnPlaceElementPreActivation, eventData); // disable click
             // wait for neuron add animation and connections
             await placer.AddElementAsync(element, GetCellCoordinate(hex));
             await element.Activate();

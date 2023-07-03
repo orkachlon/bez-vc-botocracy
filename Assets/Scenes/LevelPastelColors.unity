@@ -3439,7 +3439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9860f866704542f5a6ccc93994c0cfcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StoryPointsCSV: {fileID: 4900000, guid: 3bfc5c09be668da4aa529a7a910e1b88, type: 3}
+  StoryPointsCSV: {fileID: 4900000, guid: 23365a6b1899aa9438e663b0d3eefd26, type: 3}
   modificationsEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
   numberOfDecidingTraits: 4
   spImagesPath: StoryPointsSprites
@@ -4317,6 +4317,50 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardAmountDistribution.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardAmountDistribution.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardAmountDistribution.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardAmountDistribution.m_Curve.Array.data[0].value
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardAmountDistribution.m_Curve.Array.data[1].value
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardAmountDistribution.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardAmountDistribution.m_Curve.Array.data[1].inSlope
+      value: 6.303038
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardAmountDistribution.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardAmountDistribution.m_Curve.Array.data[1].inWeight
+      value: 0.029408753
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardAmountDistribution.m_Curve.Array.data[1].outSlope
+      value: 6.303038
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: rewardAmountDistribution.m_Curve.Array.data[0].outWeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1639060064745615131, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
       propertyPath: rewardTile
       value: 
@@ -4338,10 +4382,6 @@ PrefabInstance:
     - target: {fileID: 2883184648831337473, guid: 0672931386439804ab244e309a06f42f, type: 3}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2883184648831337473, guid: 0672931386439804ab244e309a06f42f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -13
       objectReference: {fileID: 0}
     - target: {fileID: 2883184648831337473, guid: 0672931386439804ab244e309a06f42f, type: 3}
       propertyPath: m_LocalPosition.y

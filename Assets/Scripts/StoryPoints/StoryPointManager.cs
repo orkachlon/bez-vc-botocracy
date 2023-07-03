@@ -11,15 +11,18 @@ using UnityEngine;
 namespace StoryPoints {
     public class StoryPointManager : MonoBehaviour {
 
+        [SerializeField] private int spAmountToWinGame;
+        
         [Header("Event Managers"), SerializeField]
         protected SEventManager storyEventManager;
         [SerializeField] protected SEventManager boardEventManager;
 
         [Header("Visuals")] [SerializeField] private MStoryPoint storyPointPrefab;
         
-        protected IStoryPoint _currentStory;
-        protected ISPProvider _spProvider;
-
+        protected IStoryPoint CurrentStory;
+        
+        private ISPProvider _spProvider;
+        
         private readonly List<int> _completedSPs = new();
 
         #region UnityMethods
@@ -49,16 +52,19 @@ namespace StoryPoints {
             //    return;
             //}
             // add to completed SPs
-            _completedSPs.Add(_currentStory.Id);
+            _completedSPs.Add(CurrentStory.Id);
             // first SP
-            if (_currentStory == null || _currentStory.Evaluated) {
+            if (CurrentStory == null || CurrentStory.Evaluated) {
                 await NextStoryPoint();
             }
             storyEventManager.Raise(StoryEvents.OnStoryTurn, EventArgs.Empty);
         }
 
         protected virtual async Task NextStoryPoint() {
-            if (_spProvider.IsEmpty() && _currentStory.Evaluated) {
+            if (CurrentStory is {Evaluated: true}) {
+                CurrentStory.RegisterOutcome(_spProvider);
+            }
+            if (_completedSPs.Count == spAmountToWinGame) {
                 DispatchNoMoreSPs();
                 return;
             }
@@ -69,10 +75,10 @@ namespace StoryPoints {
                 return;
             }
 
-            _currentStory?.Destroy();
-            _currentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
-            _currentStory.InitData(storyPointData.Value);
-            await _currentStory.AwaitInitAnimation();
+            CurrentStory?.Destroy();
+            CurrentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
+            CurrentStory.InitData(storyPointData.Value);
+            await CurrentStory.AwaitInitAnimation();
         }
 
         protected virtual void DispatchNoMoreSPs() {

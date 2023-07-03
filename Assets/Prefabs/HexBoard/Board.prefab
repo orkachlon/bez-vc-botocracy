@@ -2721,8 +2721,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84866fa00bf44cd883663383c4671562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minReward: 3
-  maxReward: 5
+  minReward: 2
+  maxReward: 4
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}

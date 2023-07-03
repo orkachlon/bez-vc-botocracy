@@ -22,8 +22,9 @@ namespace Types.StoryPoint {
 
         #region Methods
 
-        public void InitData(StoryPointData spData);
-        public void Destroy();
+        void InitData(StoryPointData spData);
+        void RegisterOutcome(ISPProvider SPProvider);
+        void Destroy();
 
         Task AwaitInitAnimation();
         Task AwaitRemoveAnimation();

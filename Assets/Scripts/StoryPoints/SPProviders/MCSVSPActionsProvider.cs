@@ -10,8 +10,10 @@ namespace StoryPoints.SPProviders {
         
         protected override TraitDecisionEffects GetTraitDecisionEffects(IReadOnlyDictionary<string, object> entry) {
             var deciderEffects = new TraitDecisionEffects {
-                Decision = (string) entry[((CSVHeaderWithActions) Header).actions],
-                Outcome = (string) entry[Header.outcomes],
+                Decision = (string) entry[((CSVHeaderWithActions) Header).Actions],
+                OutcomeID = (int) entry[Header.OutcomeID],
+                Outcome = (string) entry[Header.Outcomes],
+                OutcomeModification = (string) entry[((CSVHeaderWithActions) Header).OutcomeModifications],
                 BoardEffect = new Dictionary<ETrait, int>()
             };
             EnumUtil.GetValues<ETrait>()
@@ -19,29 +21,30 @@ namespace StoryPoints.SPProviders {
                 .ForEach(t =>
                     deciderEffects.BoardEffect.Add(t, (int) entry[t.ToString()]));
             deciderEffects.DecidingTrait = EnumUtil.GetValues<ETrait>()
-                .First(t => t.ToString().Equals(entry[Header.decidingTraits]));
+                .First(t => t.ToString().Equals(entry[Header.DecidingTraits]));
             return deciderEffects;
         }
 
         protected override void InitHeader() {
             var headerAsArray = CSVReader.GetHeader(StoryPointsCSV);
             Header = new CSVHeaderWithActions {
-                id = headerAsArray[0],
-                title = headerAsArray[1],
-                description = headerAsArray[2],
-                decidingTraits = headerAsArray[3],
-                cmmndr = headerAsArray[4],
-                ntrpnr = headerAsArray[5],
-                mdtr = headerAsArray[6],
-                dfndr = headerAsArray[7],
-                ntrpst = headerAsArray[8],
-                lgstcn = headerAsArray[9],
+                ID = headerAsArray[0],
+                Title = headerAsArray[1],
+                Description = headerAsArray[2],
+                DecidingTraits = headerAsArray[3],
+                Cmmndr = headerAsArray[4],
+                Ntrpnr = headerAsArray[5],
+                Mdtr = headerAsArray[6],
+                Dfndr = headerAsArray[7],
+                Ntrpst = headerAsArray[8],
+                Lgstcn = headerAsArray[9],
                 // skip 10, it's just for validation
-                actions = headerAsArray[11],
-                outcomes = headerAsArray[12],
-                outcomeID = headerAsArray[13],
-                turnsToEvaluation = headerAsArray[14],
-                prerequisites = headerAsArray[15]
+                Actions = headerAsArray[11],
+                Outcomes = headerAsArray[12],
+                OutcomeID = headerAsArray[13],
+                TurnsToEvaluation = headerAsArray[14],
+                Prerequisites = headerAsArray[15],
+                OutcomeModifications = headerAsArray[16]
             };
         }
     }
