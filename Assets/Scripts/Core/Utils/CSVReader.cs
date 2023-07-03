@@ -34,14 +34,17 @@ namespace Core.Utils {
                     value = value.TrimStart(TrimChars).TrimEnd(TrimChars).Replace("\\", string.Empty);
                     
                     // combined cells return empty values for all but first row
-                    var finalValue = value == string.Empty && list.Count > 0 ? list[i - 2][header[j]] : value;
+                    // var finalValue = value == string.Empty && list.Count > 0 ? list[i - 2][header[j]] : value;
                     
                     if(int.TryParse(value, out var n)) {
-                        finalValue = n;
+                        // finalValue = n;
+                        entry[header[j]] = n;
                     } else if (float.TryParse(value, out var f)) {
-                        finalValue = f;
+                        // finalValue = f;
+                        entry[header[j]] = f;
+                    } else {
+                        entry[header[j]] = value;
                     }
-                    entry[header[j]] = finalValue;
                 }
                 MLogger.LogEditor($"{entry[header[0]]}");
                 list.Add(entry);

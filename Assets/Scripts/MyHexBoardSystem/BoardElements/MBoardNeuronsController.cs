@@ -96,7 +96,7 @@ namespace MyHexBoardSystem.BoardElements {
             }
 
             await AsyncHelpers.WaitUntil(() => _placed);
-            MLogger.LogEditor("All neurons done!");
+            // MLogger.LogEditor("All neurons done!");
             DispatchNeuronsAdded();
             _placed = false;
         }

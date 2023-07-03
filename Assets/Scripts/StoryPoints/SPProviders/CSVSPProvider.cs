@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using Core.Utils;
-using Events.General;
 using JetBrains.Annotations;
 using StoryPoints.Interfaces;
 using Types.StoryPoint;
@@ -14,6 +13,7 @@ using Random = UnityEngine.Random;
 namespace StoryPoints.SPProviders {
     public class CSVSPProvider : MonoBehaviour, ISPProvider {
 
+        [SerializeField] protected int memorySize;
         [SerializeField] protected TextAsset StoryPointsCSV;
         
         [Header("Event Managers"), SerializeField] protected SEventManager modificationsEventManager;
@@ -23,8 +23,7 @@ namespace StoryPoints.SPProviders {
         private List<Dictionary<string, object>> _allEntries = new();
         private Dictionary<int, StoryPointData> _allSPs = new();
         private HashSet<int> _outcomeIDs = new();
-        private HashSet<int> _usedSPs = new();
-        private bool _isInfinite;
+        private Queue<int> _usedSPs;
         
         protected virtual CSVHeader Header { get; set; }
         
@@ -36,16 +35,9 @@ namespace StoryPoints.SPProviders {
         private void Awake() {
             InitHeader();
             GetAllSPsFromFile();
+            _usedSPs = new Queue<int>(memorySize);
             // ResetProvider();
             // ClearOutcomes();
-        }
-
-        private void OnEnable() {
-            modificationsEventManager.Register(GameModificationEvents.OnInfiniteSP, OnInfiniteStoryPoints);
-        }
-
-        private void OnDisable() {
-            modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteSP, OnInfiniteStoryPoints);
         }
 
         #endregion
@@ -62,10 +54,19 @@ namespace StoryPoints.SPProviders {
         }
 
         private StoryPointData? GetNextSP() {
-            return _allSPs.Values
+            var sp = _allSPs.Values
                 .Where(IsValidSP)
                 .OrderBy(_ => Random.value)
                 .First();
+            RecordSP(sp);
+            return sp;
+        }
+
+        private void RecordSP(StoryPointData sp) {
+            if (_usedSPs.Count == memorySize) {
+                _usedSPs.TryDequeue(out _);
+            }
+            _usedSPs.Enqueue(sp.id);
         }
 
         private bool IsValidSP(StoryPointData sp) {
@@ -99,11 +100,6 @@ namespace StoryPoints.SPProviders {
                     _allSPs[trySP.Value.id] = trySP.Value;
                 }
             }
-        }
-
-        private void ClearOutcomes() {
-            _outcomeIDs?.Clear();
-            _outcomeIDs = new HashSet<int>();
         }
 
         public void AddOutcome(int outcomeID) {
@@ -198,18 +194,6 @@ namespace StoryPoints.SPProviders {
                 Prerequisites = headerAsArray[13]
             };
         }
-
-        #region EventHandlers
-
-        private void OnInfiniteStoryPoints(EventArgs eventArgs) {
-            if (eventArgs is not IsInfiniteStoryPointsEventArgs infiniteSPArgs) {
-                return;
-            }
-
-            _isInfinite = infiniteSPArgs.IsInfinite;
-        }
-
-        #endregion
 
         protected class CSVHeader {
             public string ID;
