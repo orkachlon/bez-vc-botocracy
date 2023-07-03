@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   header: Logistician
-  content: Detail-oriented and organized, focusing on practicality and smooth operations.
+  content: Detail-oriented and organized, focusing on practicality.
 --- !u!222 &8414945712944762362
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -704,7 +704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   header: Mediator
-  content: Diplomatic, focuses on fostering harmony and understanding.
+  content: Diplomatic, focuses on harmony and understanding.
 --- !u!222 &8414945713540249899
 CanvasRenderer:
   m_ObjectHideFlags: 0
