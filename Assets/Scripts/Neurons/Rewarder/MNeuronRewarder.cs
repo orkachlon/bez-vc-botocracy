@@ -16,7 +16,7 @@ namespace Neurons.Rewarder {
     [RequireComponent(typeof(ITraitAccessor))]
     public class MNeuronRewarder : MonoBehaviour {
 
-        [SerializeField] private int minReward, maxReward;
+        [SerializeField] private AnimationCurve rewardAmountDistribution;
         
         protected ITraitAccessor TraitAccessor;
         
@@ -82,9 +82,13 @@ namespace Neurons.Rewarder {
 
 
                 var randomEmptyTile = emptyTiles[Random.Range(0, emptyTiles.Length)];
-                RewardHexes[randomEmptyTile] = Random.Range(minReward, maxReward);
+                RewardHexes[randomEmptyTile] = GetRewardAmount();
                 neuronEventManager.Raise(NeuronEvents.OnRewardTilePicked, new RewardTileArgs(randomEmptyTile, RewardHexes[randomEmptyTile]));
             }
+        }
+
+        private int GetRewardAmount() {
+            return Mathf.RoundToInt(rewardAmountDistribution.Evaluate(Random.value));
         }
 
         private void RemoveOutOfBoundsRewardTiles() {
@@ -123,12 +127,7 @@ namespace Neurons.Rewarder {
             RewardHexes.Remove(tileArgs.Hex);
             neuronEventManager.Raise(NeuronEvents.OnRewardTileRemoved, new RewardTileArgs(tileArgs.Hex, -1));
         }
-
-        // might not need this if i have trait accessor
-        // private void UpdateEmptyTiles(EventArgs obj) {
-        //     
-        // }
-
+        
         #endregion
     }
 }
