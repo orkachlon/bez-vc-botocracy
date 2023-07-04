@@ -10,6 +10,14 @@ using Random = UnityEngine.Random;
 
 namespace Neurons.Runtime {
     public static class NeuronFactory {
+
+        public static readonly ENeuronType[] PlaceableNeurons = new[] {
+            ENeuronType.Decaying,
+            ENeuronType.Expanding,
+            ENeuronType.Exploding,
+            ENeuronType.Travelling
+        };
+        
         public static BoardNeuron GetBoardNeuron(ENeuronType neuronType) {
             return neuronType switch {
                 ENeuronType.Undefined => null,
@@ -34,7 +42,7 @@ namespace Neurons.Runtime {
         
         public static BoardNeuron GetRandomPlaceableNeuron() {
             var asArray = EnumUtil.GetValues<ENeuronType>()
-                .Where(t => t != ENeuronType.Undefined && t != ENeuronType.Dummy && t != ENeuronType.Invulnerable)
+                .Where(t => PlaceableNeurons.Contains(t))
                 .ToArray();
             var rnd = asArray[Random.Range(0, asArray.Length)];
             return GetBoardNeuron(rnd);

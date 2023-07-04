@@ -14,5 +14,9 @@ namespace Core.Utils {
             var rndSelection = Random.Range(0, allValues.Length);
             return allValues[rndSelection];
         }
+
+        public static int Count<T>() {
+            return Enum.GetValues(typeof(T)).Length;
+        }
     }
 }
