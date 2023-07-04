@@ -67,20 +67,23 @@ namespace Neurons.Rewarder {
                     continue;
                 }
 
-                var rewardPossibleTiles = TraitAccessor.GetTraitEdgeHexes(trait);     
+                var rewardPossibleTiles = TraitAccessor.GetTraitEdgeHexes(trait)
+                    .Where(h => !RewardHexes.ContainsKey(h))
+                    .ToArray();
                 if (rewardPossibleTiles.Length == 0) {
                     continue;
                 }
                 var emptyTiles = TraitAccessor.GetTraitEmptyHexes(trait, rewardPossibleTiles);
                 if (emptyTiles.Length == 0 && currentAmount == 0) {
                     // try to use any empty tile
-                    emptyTiles = TraitAccessor.GetTraitEmptyHexes(trait);
+                    emptyTiles = TraitAccessor.GetTraitEmptyHexes(trait)
+                        .Where(h => !RewardHexes.ContainsKey(h))
+                        .ToArray();
                 }
                 if (emptyTiles.Length == 0) {
                     continue;
                 }
-
-
+                
                 var randomEmptyTile = emptyTiles[Random.Range(0, emptyTiles.Length)];
                 RewardHexes[randomEmptyTile] = GetRewardAmount();
                 neuronEventManager.Raise(NeuronEvents.OnRewardTilePicked, new RewardTileArgs(randomEmptyTile, RewardHexes[randomEmptyTile]));
