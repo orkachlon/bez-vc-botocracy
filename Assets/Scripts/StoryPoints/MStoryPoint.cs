@@ -142,11 +142,11 @@ namespace StoryPoints {
             await AwaitRemoveAnimation();
         }
 
-        public void RegisterOutcome(ISPProvider SPProvider) {
-            if (string.IsNullOrEmpty(DecisionEffects.OutcomeModification)) {
-                OutcomeModificationParser.ModifyOutcomes(SPProvider, DecisionEffects.OutcomeModification);
+        public void RegisterOutcome(ISPProvider spProvider) {
+            if (!string.IsNullOrEmpty(DecisionEffects.OutcomeModification)) {
+                OutcomeModificationParser.ModifyOutcomes(spProvider, DecisionEffects.OutcomeModification);
             }
-            SPProvider.AddOutcome(DecisionEffects.OutcomeID);
+            spProvider.AddOutcome(DecisionEffects.OutcomeID);
         }
     }
 }

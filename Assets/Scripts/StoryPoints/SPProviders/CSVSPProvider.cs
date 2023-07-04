@@ -137,7 +137,7 @@ namespace StoryPoints.SPProviders {
         protected virtual DecidingTraits GetDecidingTraits(List<Dictionary<string, object>> entries) {
             var deciders = new DecidingTraits();
             foreach (var entry in entries) {
-                if ((string) entry[Header.Outcomes] == "-") {
+                if ((int) entry[Header.OutcomeID] < 0) {
                     continue;
                 }
 

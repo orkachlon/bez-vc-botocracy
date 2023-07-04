@@ -4483,6 +4483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9860f866704542f5a6ccc93994c0cfcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  memorySize: 1
   StoryPointsCSV: {fileID: 4900000, guid: 5ac83f2b0a8f1874fbc0685969f2724f, type: 3}
   modificationsEventManager: {fileID: 11400000, guid: 65913a2a4f37e4f46b53251714a78182, type: 2}
   numberOfDecidingTraits: 2
@@ -4499,6 +4500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a3246518093e064d9bd4e0190b20d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spAmountToWinGame: 1
   storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
   storyPointPrefab: {fileID: 6789954639468826986, guid: bdd546ae1bb7f1c4088d32d243167c4e, type: 3}
@@ -5116,8 +5118,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9614cee165eefb149bb1c4c077dfe7e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minReward: 2
-  maxReward: 2
+  rewardAmountDistribution:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
   storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
   neuronEventManager: {fileID: 11400000, guid: 3531c9893208d16409c6bd8954ef14b9, type: 2}
