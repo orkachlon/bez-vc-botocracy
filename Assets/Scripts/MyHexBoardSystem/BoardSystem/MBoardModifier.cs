@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Animation;
 using Core.EventSystem;
+using Core.Utils;
 using Events.Board;
 using Events.SP;
 using ExternBoardSystem.BoardSystem.Board;
-using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Types.Board;
 using Types.Hex.Coordinates;
 using Types.Neuron.Runtime;
@@ -35,8 +35,6 @@ namespace MyHexBoardSystem.BoardSystem {
         protected IBoardNeuronsController NeuronsController;
         protected virtual ITraitAccessor TraitAccessor { get; private set; }
         
-        private IStoryPoint _currentSP;
-
         #region UnityMethods
 
         protected virtual void Awake() {
@@ -55,33 +53,39 @@ namespace MyHexBoardSystem.BoardSystem {
 
         #endregion
 
+        #region EventHandlers
 
-        private void OnBoardEffect(EventArgs eventArgs) {
+        private async void OnBoardEffect(EventArgs eventArgs) {
             if (eventArgs is not StoryEventArgs storyEventArgs) {
                 return;
             }
 
+            if (IsGameLosingSP(storyEventArgs.Story)) {
+                await RemoveAllTiles();
+                return;
+            }
             var boardEffect = storyEventArgs.Story.DecisionEffects.BoardEffect;
             ModifyBoard(boardEffect);
         }
+
+        #endregion
 
         protected virtual async void ModifyBoard(Dictionary<ETrait, int> boardEffect) {
             var tileEffectTasks = new List<Task>();
             foreach (var trait in boardEffect.Keys) {
                 var neuronsInTrait = NeuronsController.GetTraitCount(trait);
-                var effectStrength = GetTileAmountBasedOnNeurons(neuronsInTrait);
+                var effectStrength = Mathf.Clamp(GetEffectStrengthBasedOnNeurons(neuronsInTrait), 0, BoardController.GetTraitTileCount(trait));
 #if UNITY_EDITOR
                 Assert.IsTrue(neuronsInTrait > 0 && effectStrength > 0 || neuronsInTrait == 0 && effectStrength == 0);
 #endif
-                // todo move the event to after modifying the board, and clamp the effecct strength to available tiles
-                if (effectStrength > BoardController.GetTraitTileCount(trait)) {
-                    boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));
-                }
                 if (boardEffect[trait] < 0) {
                     tileEffectTasks.Add(RemoveTilesFromTrait(trait, effectStrength));
                 }
                 else if (boardEffect[trait] > 0) {
                     tileEffectTasks.Add(AddTilesToTrait(trait, effectStrength));
+                }
+                if (effectStrength > BoardController.GetTraitTileCount(trait)) {
+                    boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));
                 }
             }
 
@@ -89,7 +93,23 @@ namespace MyHexBoardSystem.BoardSystem {
             boardEventManager.Raise(ExternalBoardEvents.OnBoardModified, EventArgs.Empty);
         }
 
+        // ReSharper disable once InconsistentNaming
+
+        private bool IsGameLosingSP(IStoryPoint sp) {
+            return sp.DecidingTraits.Values.All(decisionEffects =>
+                decisionEffects.BoardEffect.Values.All(effect => effect == -1));
+        }
+
         #region RemoveTiles
+
+        private async Task RemoveAllTiles() {
+            var tileRemoveTasks = EnumUtil.GetValues<ETrait>()
+                .Select(trait => RemoveTilesFromTrait(trait, BoardController.GetTraitTileCount(trait)));
+
+            await Task.WhenAll(tileRemoveTasks);
+            // lose game
+            boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(ETrait.Commander));
+        }
 
         public async Task RemoveTilesFromTrait(ETrait trait, int amount) {
             var isOutOfTiles = BoardController.GetTraitTileCount(trait) <= amount;
@@ -145,7 +165,7 @@ namespace MyHexBoardSystem.BoardSystem {
 
         #endregion
 
-        private int GetTileAmountBasedOnNeurons(int neuronAmount) {
+        private int GetEffectStrengthBasedOnNeurons(int neuronAmount) {
             // var frac = (float) neuronAmount / _neuronsController.CountNeurons;
             // return Mathf.RoundToInt(Mathf.SmoothStep(0, maxEffectStrength, frac));
             return Mathf.Clamp(Mathf.RoundToInt(effectScale * Mathf.Log(neuronAmount + 1)), 0, maxEffectStrength);

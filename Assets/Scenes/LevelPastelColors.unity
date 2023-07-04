@@ -6477,10 +6477,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -380
       objectReference: {fileID: 0}
-    - target: {fileID: 8715965746229964936, guid: e84bf272025f6754499856141936d02c, type: 3}
-      propertyPath: enqueueShakeStrength
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 8715965746229964937, guid: e84bf272025f6754499856141936d02c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -6564,10 +6560,6 @@ PrefabInstance:
     - target: {fileID: 8715965746229964937, guid: e84bf272025f6754499856141936d02c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8715965746229964939, guid: e84bf272025f6754499856141936d02c, type: 3}
-      propertyPath: memorySize
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8715965746229964941, guid: e84bf272025f6754499856141936d02c, type: 3}
       propertyPath: m_Name
