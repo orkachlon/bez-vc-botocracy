@@ -1398,7 +1398,10 @@ MonoBehaviour:
   introductionMessage: 'Happy birthday, and welcome to the Botocracy orientation
     program!
 
-    Can you feel your stem?'
+    Here you''ll learn how to lead a country to sweet utopia.
+
+    Can
+    you feel your stem?'
   neuronRewardMessage: 'Great! Here are some <u>neurons</u>. You''ll need  them to
     learn and grow. Also you''ll die if you run out.
 
@@ -1406,8 +1409,12 @@ MonoBehaviour:
     more.'
   personalityMessage: 'Good. In order to govern, you''ll need to choose between <u>personalities</u>.
 
-    Hover
-    over each <u>personality</u> to learn about it.'
+    For
+    each decision, some of the <u>personalities</u> will be unable to decide. These
+    will be marked in a darker color.
+
+    Hover over each <u>personality</u> to
+    learn about it.'
   boardEffectMessage: 'In reality, <u>events</u> happen all the time. Each <u>event</u>
     can be governed by 1 <u>personality</u>. Aside from playing with people''s lives,
     your decision will affect the tiles of your <u>personalities</u>.
@@ -1441,7 +1448,10 @@ MonoBehaviour:
     6 turns, and cannot be removed before that.
   cullerNeuronMessage: Lastly, the Culler. This <u>neuron</u> removes all neighboring
     neurons.
-  tutorialEndMessage: Fill all tiles to end the tutorial and start leading humans!
+  tutorialEndMessage: 'That''s all! Now it''s all up to you to make your country
+    survive.
+
+    Fill all tiles to end the tutorial and start leading humans!'
   tutorialEventManager: {fileID: 11400000, guid: 087edbf803ee8624381e2d314a47b570, type: 2}
   uiEventManager: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
@@ -2720,7 +2730,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a47647070fb6648a76e27b7d5f6511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialEventManager: {fileID: 11400000, guid: 087edbf803ee8624381e2d314a47b570, type: 2}
   hoverAreas:
   - {fileID: 1430596440}
   - {fileID: 526428382}

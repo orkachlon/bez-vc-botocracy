@@ -45,12 +45,14 @@ namespace Events.Tutorial {
     }
 
     public class TutorialTilesEventArgs : EventArgs {
-        public IEnumerable<Hex> Hexes;
+        public Hex[] Hexes;
         public bool Enabled;
+        public bool Immediate;
 
-        public TutorialTilesEventArgs(IEnumerable<Hex> hexes, bool enabled) {
+        public TutorialTilesEventArgs(Hex[] hexes, bool enabled, bool immediate = false) {
             Hexes = hexes;
             Enabled = enabled;
+            Immediate = immediate;
         }
     }
 }

@@ -150,7 +150,7 @@ namespace Tutorial.Managers {
         private async Task Personalities() {
             _currentStage = TutorialStage.Personalities;
             // enable hexes to remove shadow effect
-            boardController.DisableHexes();
+            boardController.DisableHexes(new[]{new Hex(0, -1), new Hex(0, -2) });
             // split BG to 3
             bgColorController.EnableLines();
             // show labels
@@ -300,9 +300,11 @@ namespace Tutorial.Managers {
         #region BoardModification
         
         private async Task RemoveAllTraitTiles() {
-            foreach (var trait in TutorialConstants.Traits) {
-                await boardModifier.RemoveTilesFromTrait(trait, boardController.GetTraitTileCount(trait));
-            }
+            var removeTasks = TutorialConstants.Traits
+                .Select(trait => 
+                    boardModifier.RemoveTilesFromTrait(trait, boardController.GetTraitTileCount(trait)));
+
+            await Task.WhenAll(removeTasks);
             neuronRewarder.Clear();
         }
 

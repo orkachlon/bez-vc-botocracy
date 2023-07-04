@@ -28,24 +28,24 @@ namespace Tutorial.Board {
 
         #endregion
 
-        public void DisableHexes(IEnumerable<Hex> hexes = null) {
+        public void DisableHexes(Hex[] hexes = null, bool immediate = false) {
             hexes ??= Board.Positions.Select(p => p.Point).ToArray();
             foreach (var hex in hexes) {
                 if (Board.HasPosition(hex)) {
                     Board.GetPosition(hex).IsEnabled = false;
                 }
             }
-            tutorialEventManager.Raise(TutorialEvents.OnTilesDisabled, new TutorialTilesEventArgs(hexes, false));
+            tutorialEventManager.Raise(TutorialEvents.OnTilesDisabled, new TutorialTilesEventArgs(hexes, false, immediate));
         }
 
-        public void EnableHexes(IEnumerable<Hex> hexes = null) {
+        public void EnableHexes(Hex[] hexes = null, bool immediate = false) {
             hexes ??= Board.Positions.Select(p => p.Point).ToArray();
             foreach (var hex in hexes) {
                 if (Board.HasPosition(hex)) {
                     Board.GetPosition(hex).IsEnabled = true;
                 }
             }
-            tutorialEventManager.Raise(TutorialEvents.OnTilesDisabled, new TutorialTilesEventArgs(hexes, true));
+            tutorialEventManager.Raise(TutorialEvents.OnTilesEnabled, new TutorialTilesEventArgs(hexes, true, immediate));
         }
     }
 }
