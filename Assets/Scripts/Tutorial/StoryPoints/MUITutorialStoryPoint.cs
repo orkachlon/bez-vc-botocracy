@@ -1,13 +1,12 @@
 ﻿using StoryPoints.UI;
-using System.Collections;
 using Types.StoryPoint;
 using UnityEngine;
 
-namespace Assets.Scripts.Tutorial.StoryPoints {
+namespace Tutorial.StoryPoints {
     public class MUITutorialStoryPoint : MUIStoryPoint, IUIStoryPoint {
 
         public void Hide() {
-
+            backGround.rectTransform.anchoredPosition = new Vector2(-backGround.rectTransform.sizeDelta.x, 50);
         }
     }
 }

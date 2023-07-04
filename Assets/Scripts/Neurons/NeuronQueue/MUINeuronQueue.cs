@@ -27,10 +27,8 @@ namespace Neurons.NeuronQueue {
         private readonly Queue<IStackNeuron> _registerUiElements = new ();
 
         private Color _baseColor;
-
-        public float StackSpacing => stackSpacing;
-        public float Top3Spacing => top3Spacing;
-
+        private Tween _shakeTween;
+        
         private void Awake() {
             _baseColor = bg.color;
         }
@@ -64,10 +62,19 @@ namespace Neurons.NeuronQueue {
             if (isInfinite) {
                 return;
             }
+
             bg.color = Color.white;
-            bg.DOColor(_baseColor, 0.5f);
-            bg.rectTransform.DOShakePosition(0.5f, Vector3.up * enqueueShakeStrength,
-                randomness: 0, fadeOut: true, randomnessMode:ShakeRandomnessMode.Harmonic);
+            if (_shakeTween != null && _shakeTween.IsPlaying()) {
+                _shakeTween.Rewind();
+                _shakeTween.Play();
+            }
+            else {
+                _shakeTween = DOTween.Sequence()
+                    .Append(bg.rectTransform.DOShakePosition(0.5f, Vector3.up * enqueueShakeStrength,
+                    randomness: 0, fadeOut: true, randomnessMode:ShakeRandomnessMode.Harmonic))
+                    .Join(bg.DOColor(_baseColor, 0.5f))
+                    .SetAutoKill(false);
+            }
         }
 
         private void Dequeue(INeuronQueue neuronQueue) {

@@ -94,7 +94,7 @@ namespace Neurons.Rewarder {
             return Mathf.RoundToInt(rewardAmountDistribution.Evaluate(Random.value));
         }
 
-        private void RemoveOutOfBoundsRewardTiles() {
+        protected void RemoveOutOfBoundsRewardTiles() {
             foreach (var hex in RewardHexes.Keys) {
                 if (TraitAccessor.HexToTrait(hex).HasValue) {
                     continue;
@@ -119,7 +119,7 @@ namespace Neurons.Rewarder {
             RewardHexes.Remove(hex);
         }
 
-        private void OnTileRemoved(EventArgs obj) {
+        protected void OnTileRemoved(EventArgs obj) {
             if (obj is not OnTileModifyEventArgs tileArgs) {
                 return;
             }

@@ -12,14 +12,18 @@ namespace Tutorial.Neurons {
         public int Count => RewardHexes.Count;
 
         protected override void OnEnable() {
+            boardEventManager.Register(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
             boardEventManager.Register(ExternalBoardEvents.OnTileOccupied, CheckForRewardTiles);
         }
 
         protected override void OnDisable() {
+            boardEventManager.Unregister(ExternalBoardEvents.OnRemoveTile, OnTileRemoved);
             boardEventManager.Unregister(ExternalBoardEvents.OnTileOccupied, CheckForRewardTiles);
         }
 
         protected override void PickRewardTilesRandomly(EventArgs obj) {
+            RemoveOutOfBoundsRewardTiles();
+            
             foreach (var trait in TutorialConstants.Traits) {
                 // each trait has a separate chance to get a reward tile
                 var currentAmount = RewardHexes.Keys.Count(h => trait.Equals(TraitAccessor.HexToTrait(h)));
@@ -49,6 +53,9 @@ namespace Tutorial.Neurons {
         }
 
         public void SelectRewardHex(Hex hex, int rewardAmount) {
+            if (RewardHexes.ContainsKey(hex)) {
+                return;
+            }
             RewardHexes[hex] = rewardAmount;
             neuronEventManager.Raise(NeuronEvents.OnRewardTilePicked, new RewardTileArgs(hex, RewardHexes[hex]));
         }

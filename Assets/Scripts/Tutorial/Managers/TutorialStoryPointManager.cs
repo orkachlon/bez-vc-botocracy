@@ -1,7 +1,7 @@
-using Assets.Scripts.Tutorial.StoryPoints;
 using StoryPoints;
 using System;
 using System.Threading.Tasks;
+using Tutorial.StoryPoints;
 
 namespace Tutorial.Managers {
 
@@ -26,8 +26,22 @@ namespace Tutorial.Managers {
         protected override void OnDisable() {
         }
 
+        public void InitTutorialSP() {
+            var sp = SPProvider.Next();
+            if (!sp.HasValue) {
+                DispatchNoMoreSPs();
+                return;
+            }
+            InitNewSP(sp.Value);
+            HideTutorialSP();
+        }
+
+        public void HideTutorialSP() {
+            _currentSP.AwaitHideAnimation();
+        }
+        
         public async Task ShowTutorialSP() {
-            await NextStoryPoint();
+            await _currentSP.AwaitInitAnimation();
             _currentSP.IsSPEnabled = IsSPEnabled;
         }
     }

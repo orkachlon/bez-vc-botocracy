@@ -85,14 +85,15 @@ namespace Neurons.UI.Queue {
 
                 _animationSequence = DOTween.Sequence(this);
                 var randomAngle = 60 * Random.Range(1, 4) * (Random.value > 0.5f ? 1 : -1);
-                for (var i = 0; i < probes.Count; i++) {
-                    var probe = probes[i];
-                    var line = lines[i];
+                foreach (var probe in probes) {
                     probe.gameObject.SetActive(true);
-                    line.gameObject.SetActive(true);
                     _animationSequence.Insert(0, probe.transform
                         .DORotate(Vector3.forward * randomAngle, probeDuration, RotateMode.LocalAxisAdd)
                         .SetEase(probeEasing));
+                }
+
+                foreach (var line in lines) {
+                    line.gameObject.SetActive(true);
                     _animationSequence.Insert(0, line.transform
                         .DORotate(Vector3.forward * randomAngle, probeDuration, RotateMode.LocalAxisAdd)
                         .SetEase(probeEasing));

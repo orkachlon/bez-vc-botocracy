@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Core.Utils;
 using Events.Board;
@@ -33,7 +34,9 @@ namespace Neurons.Runtime {
         
         protected MUITravelNeuron UITravelNeuron => UINeuron as MUITravelNeuron;
 
-
+        private static readonly SemaphoreSlim TravelLock = new (1, 1);
+        
+        
         public TravelNeuron() {
             DataProvider = MNeuronTypeToBoardData.GetNeuronData(ENeuronType.Travelling);
             TurnsToStop = ((STravelNeuronData) DataProvider).TurnsToStop;
@@ -89,16 +92,25 @@ namespace Neurons.Runtime {
             }
 
             // expand to 1 random neighbor
-            var neighbours = GetEmptyNeighbors();
-            if (neighbours.Length > 0) {
-                var randomNeighbor = neighbours[Random.Range(0, neighbours.Length)];
-                PickedPositions[randomNeighbor] = this;
-                _nextPos = randomNeighbor;
-                _prevPos = Position;
-                Connectable = false;
-                NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronReady, new BoardElementEventArgs<IBoardNeuron>(this, _nextPos));
-                return;
+            await TravelLock.WaitAsync();
+            try {
+                var neighbours = GetEmptyNeighbors();
+                if (neighbours.Length > 0) {
+                    var randomNeighbor = neighbours[Random.Range(0, neighbours.Length)];
+                    PickedPositions[randomNeighbor] = this;
+                    _nextPos = randomNeighbor;
+                    _prevPos = Position;
+                    Connectable = false;
+                    NeuronEventManager.Raise(NeuronEvents.OnTravelNeuronReady,
+                        new BoardElementEventArgs<IBoardNeuron>(this, _nextPos));
+                    MLogger.LogEditor($"Picked hex: {_prevPos} -> {_nextPos}");
+                    return;
+                }
             }
+            finally {
+                TravelLock.Release();
+            }
+
             // stop travelling if you couldn't travel this turn
             StopTravelling();
         }
@@ -129,6 +141,7 @@ namespace Neurons.Runtime {
         private async Task TravelTo(Hex from, Hex to) {
             await Connector.ConnectionLock.WaitAsync();
             try {
+                MLogger.LogEditor($"Travelling: {from} -> {to}");
                 await Disconnect();
                 Position = _nextPos;
                 await Controller.MoveNeuron(from, to);

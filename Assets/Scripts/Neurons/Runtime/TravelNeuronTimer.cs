@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Core.EventSystem;
+using Core.Utils;
 using Events.Board;
 using Events.Neuron;
 using Types.Hex.Coordinates;
@@ -16,6 +17,8 @@ namespace Neurons.Runtime {
         [SerializeField] private SEventManager boardEventManager;
 
         private readonly ConcurrentDictionary<TravelNeuron, Hex> _travellers = new ();
+
+        private SemaphoreSlim countLock = new(1, 1);
 
         private void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnTravelNeuronReady, CountTravellers);
@@ -51,18 +54,25 @@ namespace Neurons.Runtime {
             }
         }
 
-        private void CountTravellers(EventArgs obj) {
+        private async void CountTravellers(EventArgs obj) {
             if (obj is not BoardElementEventArgs<IBoardNeuron> neuronArgs) {
                 return;
             }
 
-            _travellers[(TravelNeuron) neuronArgs.Element] = neuronArgs.Hex;
-            if (_travellers.Where(thp => !thp.Key.TurnDone).Select(thp => thp.Value).All(h => h != Hex.zero)) {
-                //MLogger.LogEditor($" {_travellers.Count} Travelling!");
-                neuronEventManager.Raise(NeuronEvents.OnTravellersReady, EventArgs.Empty);
-                foreach (var traveller in _travellers.Keys.ToArray()) {
-                    _travellers[traveller] = Hex.zero;
-                } 
+            await countLock.WaitAsync();
+            try {
+                _travellers[(TravelNeuron) neuronArgs.Element] = neuronArgs.Hex;
+                MLogger.LogEditor($"registered {neuronArgs.Hex}");
+                if (_travellers.Where(thp => !thp.Key.TurnDone).Select(thp => thp.Value).All(h => h != Hex.zero)) {
+                    //MLogger.LogEditor($" {_travellers.Count} Travelling!");
+                    neuronEventManager.Raise(NeuronEvents.OnTravellersReady, EventArgs.Empty);
+                    foreach (var traveller in _travellers.Keys.ToArray()) {
+                        _travellers[traveller] = Hex.zero;
+                    }
+                }
+            }
+            finally {
+                countLock.Release();
             }
         }
     }

@@ -4318,54 +4318,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardAmountDistribution.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardAmountDistribution.m_Curve.Array.data[0].time
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardAmountDistribution.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardAmountDistribution.m_Curve.Array.data[0].value
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardAmountDistribution.m_Curve.Array.data[1].value
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardAmountDistribution.m_Curve.Array.data[0].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardAmountDistribution.m_Curve.Array.data[1].inSlope
-      value: 6.303038
-      objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardAmountDistribution.m_Curve.Array.data[0].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardAmountDistribution.m_Curve.Array.data[1].inWeight
-      value: 0.029408753
-      objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardAmountDistribution.m_Curve.Array.data[1].outSlope
-      value: 6.303038
-      objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615130, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardAmountDistribution.m_Curve.Array.data[0].outWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1639060064745615131, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
-      propertyPath: rewardTile
-      value: 
-      objectReference: {fileID: 11400000, guid: a51057307d7c33f4b9cd067199285c94, type: 2}
     m_RemovedComponents:
     - {fileID: 1639060064816519149, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}

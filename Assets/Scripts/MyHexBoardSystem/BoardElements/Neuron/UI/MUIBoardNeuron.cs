@@ -25,6 +25,14 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
         [SerializeField, Range(0, 1)] protected float removeVolume = 0.5f;
         [SerializeField, Range(0, 1)] protected float moveVolume = 0.5f;
 
+        #region UnityMethods
+
+        protected virtual void OnDestroy() {
+            StopHoverAnimation();
+        }
+
+        #endregion
+        
         #region Layers
 
         public virtual void ToHoverLayer() {

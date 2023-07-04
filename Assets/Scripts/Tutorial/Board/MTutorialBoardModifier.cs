@@ -1,11 +1,8 @@
-﻿using Animation;
-using Core.Utils;
-using Events.Board;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Animation;
 using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardSystem;
-using System.Collections;
-using System.Linq;
-using System.Threading.Tasks;
 using Tutorial.Traits;
 using Types.Board;
 using Types.Hex.Coordinates;
@@ -13,7 +10,7 @@ using Types.Neuron.Runtime;
 using Types.Trait;
 using UnityEngine;
 
-namespace Assets.Scripts.Tutorial.Board {
+namespace Tutorial.Board {
     public class MTutorialBoardModifier : MBoardModifier {
 
         private MTutorialTraitAccessor TutorialTraitAccessor => base.TraitAccessor as MTutorialTraitAccessor;

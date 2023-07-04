@@ -13,7 +13,7 @@ using UnityEngine.UI;
 namespace StoryPoints.UI {
     public class MUIStoryPoint : MonoBehaviour, IUIStoryPoint, IAnimatable {
         [Header("Visuals"), SerializeField] private Canvas spCanvas;
-        [SerializeField] private Image backGround; 
+        [SerializeField] protected Image backGround; 
         [SerializeField] private TextMeshProUGUI title;
         [SerializeField] private TextMeshProUGUI description;
         [SerializeField] private GameObject turnSection;

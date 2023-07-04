@@ -21,14 +21,14 @@ namespace StoryPoints {
         
         protected IStoryPoint CurrentStory;
         
-        private ISPProvider _spProvider;
+        protected ISPProvider SPProvider;
         
         private readonly List<int> _completedSPs = new();
 
         #region UnityMethods
 
         protected virtual void Awake() {
-            _spProvider = GetComponent<ISPProvider>();
+            SPProvider = GetComponent<ISPProvider>();
         }
 
         protected virtual void OnEnable() {
@@ -62,23 +62,27 @@ namespace StoryPoints {
 
         protected virtual async Task NextStoryPoint() {
             if (CurrentStory is {Evaluated: true}) {
-                CurrentStory.RegisterOutcome(_spProvider);
+                CurrentStory.RegisterOutcome(SPProvider);
             }
             if (_completedSPs.Count == spAmountToWinGame) {
                 DispatchNoMoreSPs();
                 return;
             }
 
-            var storyPointData = _spProvider.Next();
+            var storyPointData = SPProvider.Next();
             if (!storyPointData.HasValue) {
                 DispatchNoMoreSPs();
                 return;
             }
 
             CurrentStory?.Destroy();
-            CurrentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
-            CurrentStory.InitData(storyPointData.Value);
+            InitNewSP(storyPointData.Value);
             await CurrentStory.AwaitInitAnimation();
+        }
+
+        protected void InitNewSP(StoryPointData storyPointData) {
+            CurrentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
+            CurrentStory.InitData(storyPointData);
         }
 
         protected virtual void DispatchNoMoreSPs() {

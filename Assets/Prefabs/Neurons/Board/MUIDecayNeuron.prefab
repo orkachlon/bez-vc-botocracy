@@ -636,8 +636,9 @@ MonoBehaviour:
   hoverSortingLayer: Hover
   belowConnSortingLayer: BelowConnections
   aboveConnSortingLayer: AboveConnections
-  addVolume: 0.5
-  removeVolume: 0.5
+  addVolume: 0.8
+  removeVolume: 0.8
+  moveVolume: 0.8
   dots:
   - {fileID: 2570061195963382088}
   - {fileID: 279265863476071149}

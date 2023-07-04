@@ -1,10 +1,13 @@
-﻿using Events.General;
+﻿using System.Threading.Tasks;
+using Events.General;
 using StoryPoints;
 
-namespace Assets.Scripts.Tutorial.StoryPoints {
+namespace Tutorial.StoryPoints {
     public class MTutorialStoryPoint : MStoryPoint {
 
         public bool IsSPEnabled { get; set; }
+        
+        private MUITutorialStoryPoint _tutUISP => UISP as MUITutorialStoryPoint;
 
         protected override void HandleStoryTurn() {
             if (!IsSPEnabled) {
@@ -14,6 +17,11 @@ namespace Assets.Scripts.Tutorial.StoryPoints {
             if (Evaluated) {
                 gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnAfterGameState); 
             }
+        }
+
+        public Task AwaitHideAnimation() {
+            _tutUISP.Hide();
+            return Task.CompletedTask;
         }
     }
 }

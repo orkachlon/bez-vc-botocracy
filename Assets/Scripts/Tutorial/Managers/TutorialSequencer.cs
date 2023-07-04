@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Tutorial.Board;
-using Assets.Scripts.Tutorial.Neurons.Board;
+﻿using Assets.Scripts.Tutorial.Neurons.Board;
 using Core.EventSystem;
 using Core.Utils;
 using Events.Board;
@@ -27,17 +26,17 @@ namespace Tutorial.Managers {
 
         [Header("Messages"), SerializeField] private MTutorialMessage tutorialMessage;
 
-        [TextArea(5, 7), SerializeField] private string introductionMessage;
-        [TextArea(5, 7), SerializeField] private string neuronRewardMessage;
-        [TextArea(5, 7), SerializeField] private string personalityMessage;
-        [TextArea(5, 7), SerializeField] private string boardEffectMessage;
-        [TextArea(5, 7), SerializeField] private string decisionMessage;
-        [TextArea(5, 7), SerializeField] private string neuronIntroductionMessage;
-        [TextArea(5, 7), SerializeField] private string expandNeuronMessage;
-        [TextArea(5, 7), SerializeField] private string travellerNeuronMessage;
-        [TextArea(5, 7), SerializeField] private string timerNeuronMessage;
-        [TextArea(5, 7), SerializeField] private string cullerNeuronMessage;
-        [TextArea(5, 7), SerializeField] private string tutorialEndMessage;
+        [TextArea(5, 15), SerializeField] private string introductionMessage;
+        [TextArea(5, 15), SerializeField] private string neuronRewardMessage;
+        [TextArea(5, 15), SerializeField] private string personalityMessage;
+        [TextArea(5, 15), SerializeField] private string boardEffectMessage;
+        [TextArea(5, 15), SerializeField] private string decisionMessage;
+        [TextArea(5, 15), SerializeField] private string neuronIntroductionMessage;
+        [TextArea(5, 15), SerializeField] private string expandNeuronMessage;
+        [TextArea(5, 15), SerializeField] private string travellerNeuronMessage;
+        [TextArea(5, 15), SerializeField] private string timerNeuronMessage;
+        [TextArea(5, 15), SerializeField] private string cullerNeuronMessage;
+        [TextArea(5, 15), SerializeField] private string tutorialEndMessage;
 
         [Header("Event Managers"), SerializeField] private SEventManager tutorialEventManager;
         [SerializeField] private SEventManager uiEventManager;
@@ -88,9 +87,9 @@ namespace Tutorial.Managers {
             await AsyncHelpers.WaitUntil(() => boardController.Board.GetPosition(new Hex(1, 0)).HasData());
             await NeuronRewards();
             await AsyncHelpers.WaitUntil(() => boardController.Board.GetPosition(new Hex(0, -2)).HasData());
+            await Task.Delay(500);
             await Personalities();
             await AsyncHelpers.WaitUntil(() => _hoverCounter >= 3);
-            await Task.Delay(1000);
             await BoardEffects();
             await AsyncHelpers.WaitUntil(() => _neuronsPlaced >= 3);
             await Decisions();
@@ -111,7 +110,7 @@ namespace Tutorial.Managers {
         private async Task Introduction() {
             _currentStage = TutorialStage.Introdution;
             // give 1 neuron, disable placement and hide
-            neuronQueue.NeuronPool = new() { Types.Neuron.ENeuronType.Dummy };
+            neuronQueue.NeuronPool = new HashSet<ENeuronType> { ENeuronType.Dummy };
             neuronQueue.EnqueueFromPool();
             neuronQueue.StopNeurons();
             await neuronQueue.Hide(true);
@@ -153,11 +152,15 @@ namespace Tutorial.Managers {
             boardController.DisableHexes(new[]{new Hex(0, -1), new Hex(0, -2) });
             // split BG to 3
             bgColorController.EnableLines();
+            // enable bg colors
+            bgColorController.IsSPEnabled = true;
+            tutorialStoryPointManager.InitTutorialSP();
             // show labels
             var labelShowTasks = new List<Task>();
             foreach (var label in labels) {
-                label.IsSPEnabled = false;
+                label.IsSPEnabled = true;
                 labelShowTasks.Add(label.Show());
+                label.UpdateColor();
             }
             await Task.WhenAny(labelShowTasks);
             // display message
@@ -174,10 +177,10 @@ namespace Tutorial.Managers {
                 tutorialStoryPointManager.ShowTutorialSP(),
                 DisplayMessage(boardEffectMessage));
             tutorialStoryPointManager.IsSPEnabled = false;
-            foreach (var label in labels) {
-                label.IsSPEnabled = true;
-                label.UpdateColor();
-            }
+            // foreach (var label in labels) {
+            //     label.IsSPEnabled = true;
+            //     label.UpdateColor();
+            // }
             // enable effect hover
             bgHoverController.EnableHover();
             boardController.EnableHexes(new[] { new Hex(1, -1), new Hex(-1, 0), new Hex(0, 1) });
@@ -192,7 +195,6 @@ namespace Tutorial.Managers {
             neuronRewarder.RewardRandomTiles();
             // enable SP and let player play
             neuronController.IsSPEnabled = true;
-            bgColorController.IsSPEnabled = true;
             neuronQueue.IsSPEnabled = true;
             tutorialStoryPointManager.IsSPEnabled = true;
             boardController.EnableHexes();

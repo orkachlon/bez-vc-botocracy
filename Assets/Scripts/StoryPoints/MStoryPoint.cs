@@ -16,8 +16,6 @@ using Random = UnityEngine.Random;
 namespace StoryPoints {
     public class MStoryPoint : MonoBehaviour, IStoryPoint {
         
-        [SerializeField] private AnimationCurve neuronEvaluationWeight;
-
         [Header("Event Managers"), SerializeField]
         protected SEventManager storyEventManager;
         [SerializeField] protected SEventManager boardEventManager;
@@ -34,14 +32,14 @@ namespace StoryPoints {
         public bool Evaluated { get; private set; } = false;
 
         
+        protected IUIStoryPoint UISP;
         private StoryPointData _spData;
-        private IUIStoryPoint _uiSP;
         private IBoardNeuronsController _neuronsController;
 
         #region UnityMethods
 
         private void Awake() {
-            _uiSP = GetComponent<IUIStoryPoint>();
+            UISP = GetComponent<IUIStoryPoint>();
         }
 
         private void OnEnable() {
@@ -85,17 +83,17 @@ namespace StoryPoints {
             _spData = spData;
             TurnsToEvaluation = spData.turnsToEvaluation;
             
-            _uiSP.InitSPUI();
+            UISP.InitSPUI();
             // notify
             storyEventManager.Raise(StoryEvents.OnInitStory, new StoryEventArgs(this));
         }
 
         public async Task AwaitInitAnimation() {
-            await _uiSP.PlayInitAnimation();
+            await UISP.PlayInitAnimation();
         }
 
         public async Task AwaitRemoveAnimation() {
-            await _uiSP.PlayEvaluateAnimation();
+            await UISP.PlayEvaluateAnimation();
         }
 
         protected virtual async void HandleStoryTurn() {
@@ -116,9 +114,9 @@ namespace StoryPoints {
                 MLogger.LogEditor("Event turn counter < 0 !!!");
             }
             TurnsToEvaluation--;
-            _uiSP.UpdateTurnCounter(TurnsToEvaluation);
+            UISP.UpdateTurnCounter(TurnsToEvaluation);
             if (TurnsToEvaluation > 0) {
-                await _uiSP.PlayDecrementAnimation();
+                await UISP.PlayDecrementAnimation();
             }
             storyEventManager.Raise(StoryEvents.OnDecrement, new StoryEventArgs(this));
         }

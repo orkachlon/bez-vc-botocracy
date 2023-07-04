@@ -20,7 +20,12 @@ namespace Neurons.UI {
         private int _turnCounter;
 
         private STravelNeuronData TravelData => RuntimeData.DataProvider as STravelNeuronData;
-
+        
+        protected override void OnDestroy() {
+            base.OnDestroy();
+            _hoverAnimation?.Kill();
+            _hoverAnimation = null;
+        }
 
         #region Pooling
 
@@ -57,8 +62,11 @@ namespace Neurons.UI {
                 probes[i].gameObject.SetActive(true);
                 probes[i].transform.localScale = Vector3.one;
                 probes[i].transform.eulerAngles = Vector3.forward * (60 * i);
-                lines[i].gameObject.SetActive(true);
-                lines[i].transform.localScale = Vector3.one;
+            }
+
+            foreach (var line in lines) {
+                line.gameObject.SetActive(true);
+                line.transform.localScale = Vector3.one;
             }
         }
 

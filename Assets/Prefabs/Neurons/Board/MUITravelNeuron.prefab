@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4107342697601352399
 Transform:
   m_ObjectHideFlags: 0
@@ -270,7 +270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6210210924473191124
 Transform:
   m_ObjectHideFlags: 0
@@ -354,7 +354,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8355773458588537005
 Transform:
   m_ObjectHideFlags: 0
@@ -1175,9 +1175,9 @@ MonoBehaviour:
   hoverSortingLayer: Hover
   belowConnSortingLayer: BelowConnections
   aboveConnSortingLayer: AboveConnections
-  addVolume: 0.5
-  removeVolume: 0.5
-  moveVolume: 0.249
+  addVolume: 0.8
+  removeVolume: 0.8
+  moveVolume: 0.6
   probes:
   - {fileID: 2685396084492765442}
   - {fileID: 554159739837967621}
@@ -1238,12 +1238,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   probeDuration: 1
   lines:
-  - {fileID: 3138074546236129364}
-  - {fileID: 8618286115949921443}
-  - {fileID: 8304869193992932808}
-  - {fileID: 7998383603903724913}
-  - {fileID: 7908573293531538713}
   - {fileID: 1036066553831858303}
+  - {fileID: 8618286115949921443}
+  - {fileID: 7998383603903724913}
 --- !u!212 &4195609266804193939 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2694280456325238718, guid: 196442da5d50ed74180cf1c60823182f, type: 3}
