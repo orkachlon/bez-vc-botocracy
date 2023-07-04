@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 4958885507159116108}
   - component: {fileID: 4958885507159116109}
   - component: {fileID: 4958885507159116106}
+  - component: {fileID: 9100381208010019762}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -371,3 +372,20 @@ MonoBehaviour:
   feather: 2.78
   tint: {r: 0.3137255, g: 0.36862746, b: 0.56078434, a: 1}
   invertColor: 0
+--- !u!114 &9100381208010019762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4958885507159116210}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84823c3d791c8f941b1d164fd7d645d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blurShader: {fileID: 4800000, guid: c68436221dff1794dab2806a2610277d, type: 3}
+  blurMaterial: {fileID: 2100000, guid: fd15211945e7d8f41a8cfa0136752062, type: 2}
+  radius: 10
+  qualityIterations: 6
+  filter: 2
