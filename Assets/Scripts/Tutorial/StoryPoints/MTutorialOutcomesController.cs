@@ -1,53 +1,65 @@
 ﻿using System;
-using System.Threading.Tasks;
-using DG.Tweening;
+using Core.EventSystem;
 using Events.SP;
+using Events.Tutorial;
 using StoryPoints.Outcomes;
+using Types.Tutorial;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Tutorial.StoryPoints {
     public class MTutorialOutcomesController : MOutcomesController {
 
-        private Image _bg;
-
-
-        protected override void Awake() {
-            base.Awake();
-            _bg = GetComponent<Image>();
-        }
+        [SerializeField] private SEventManager tutorialEventManager;
+        
+        private bool IsPauseEnabled { get; set; }
 
         protected override void OnEnable() {
             base.OnEnable();
             storyEventManager.Register(StoryEvents.OnEvaluate, ShowPanel);
+            tutorialEventManager.Register(TutorialEvents.OnBeforeStage, UpdatePauseState);
         }
 
         protected override void OnDisable() {
             base.OnDisable();
             storyEventManager.Unregister(StoryEvents.OnEvaluate, ShowPanel);
+            tutorialEventManager.Unregister(TutorialEvents.OnBeforeStage, UpdatePauseState);
+        }
+
+        protected override void PauseHide(EventArgs args) {
+            if (IsPauseEnabled && Count > 0) {
+                base.PauseHide(args);
+            }
+        }
+
+        protected override void PauseShow(EventArgs args) {
+            if (IsPauseEnabled && Count > 0) {
+                base.PauseShow(args);
+            }
         }
 
         private async void ShowPanel(EventArgs args) {
             await Show();
         }
-
-        public async Task Hide(bool immediate = false) {
-            var hidePos = new Vector2(_bg.rectTransform.anchoredPosition.x, -_bg.rectTransform.sizeDelta.y - 50); // added 50 for the expand button
-            if (immediate) {
-                _bg.rectTransform.anchoredPosition = hidePos;
+        
+        private void UpdatePauseState(EventArgs obj) {
+            if (obj is not TutorialStageEventArgs tutArgs) {
                 return;
             }
-            await _bg.rectTransform.DOAnchorPosY(hidePos.y, 0.5f).AsyncWaitForCompletion();
-        }
 
-        public async Task Show(bool immediate = false) {
-            var showPos = new Vector2(_bg.rectTransform.anchoredPosition.x, 50);
-            if (immediate) {
-                _bg.rectTransform.anchoredPosition = showPos;
-                return;
-            }
-            await _bg.rectTransform.DOAnchorPosY(showPos.y, 0.5f).AsyncWaitForCompletion();
+            IsPauseEnabled = tutArgs.Stage switch {
+                ETutorialStage.Introduction => false,
+                ETutorialStage.NeuronRewards => false,
+                ETutorialStage.Personalities => false,
+                ETutorialStage.BoardEffects => false,
+                ETutorialStage.Decisions => true,
+                ETutorialStage.NeuronTypeIntro => true,
+                ETutorialStage.ExpanderType => false,
+                ETutorialStage.TravellerType => false,
+                ETutorialStage.TimerType => false,
+                ETutorialStage.CullerType => false,
+                ETutorialStage.End => false,
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
-
     }
 }

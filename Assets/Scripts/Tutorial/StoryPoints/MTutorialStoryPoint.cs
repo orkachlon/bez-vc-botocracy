@@ -19,9 +19,8 @@ namespace Tutorial.StoryPoints {
             }
         }
 
-        public Task AwaitHideAnimation() {
-            _tutUISP.Hide();
-            return Task.CompletedTask;
+        public async Task AwaitHideAnimation(bool immediate = false) {
+            await _tutUISP.Hide(immediate);
         }
     }
 }

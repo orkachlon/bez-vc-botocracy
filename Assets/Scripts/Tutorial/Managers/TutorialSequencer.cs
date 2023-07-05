@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Events.Tutorial;
 using Events.UI;
 using Tutorial.BG;
 using Tutorial.Board;
@@ -18,6 +19,7 @@ using Tutorial.Traits.Labels;
 using Types.Hex.Coordinates;
 using Types.Neuron;
 using Types.Trait;
+using Types.Tutorial;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -56,7 +58,7 @@ namespace Tutorial.Managers {
         [SerializeField] private List<MTutorialTraitLabelController> labels;
         [SerializeField] private string nextSceneName;
 
-        private TutorialStage _currentStage;
+        private ETutorialStage _currentStage;
         private int _hoverCounter = 0;
         private int _neuronsPlaced = 0;
         private bool _boardModified = false;
@@ -83,32 +85,38 @@ namespace Tutorial.Managers {
         }
 
         private async Task TutorialSequence() {
-            await Introduction();
+            await AwaitStage(Introduction(), ETutorialStage.Introduction);
             await AsyncHelpers.WaitUntil(() => boardController.Board.GetPosition(new Hex(1, 0)).HasData());
-            await NeuronRewards();
+            await AwaitStage(NeuronRewards(), ETutorialStage.NeuronRewards);
             await AsyncHelpers.WaitUntil(() => boardController.Board.GetPosition(new Hex(0, -2)).HasData());
             await Task.Delay(500);
-            await Personalities();
+            await AwaitStage(Personalities(), ETutorialStage.Personalities);
             await AsyncHelpers.WaitUntil(() => _hoverCounter >= 3);
-            await BoardEffects();
+            await AwaitStage(BoardEffects(), ETutorialStage.BoardEffects);
             await AsyncHelpers.WaitUntil(() => _neuronsPlaced >= 3);
-            await Decisions();
+            await AwaitStage(Decisions(), ETutorialStage.Decisions);
             await AsyncHelpers.WaitUntil(() => _boardModified);
-            await NeuronTypeIntro();
-            await ExpandNeuron();
+            await AwaitStage(NeuronTypeIntro(), ETutorialStage.NeuronTypeIntro);
+            await AwaitStage(ExpandNeuron(), ETutorialStage.ExpanderType);
             await AsyncHelpers.WaitUntil(() => boardController.Board.GetPosition(new Hex(1, 0)).HasData());
-            await TravelNeuron();
+            await AwaitStage(TravelNeuron(), ETutorialStage.TravellerType);
             await AsyncHelpers.WaitUntil(() => boardController.Board.GetPosition(new Hex(-1, 2)).HasData());
-            await TimerNeuron();
+            await AwaitStage(TimerNeuron(), ETutorialStage.TimerType);
             await AsyncHelpers.WaitUntil(() => boardController.Board.GetPosition(new Hex(-1, 0)).HasData());
-            await CullerNeuron();
+            await AwaitStage(CullerNeuron(), ETutorialStage.CullerType);
             await AsyncHelpers.WaitUntil(() => boardController.Board.GetPosition(new Hex(-1, 1)).HasData());
-            await TutorialEnd();
+            await AwaitStage(TutorialEnd(), ETutorialStage.End);
             await AsyncHelpers.WaitUntil(() => boardController.Board.Positions.All(p => p.HasData()));
         }
 
+        private async Task AwaitStage(Task stageFunc, ETutorialStage stage) {
+            tutorialEventManager.Raise(TutorialEvents.OnBeforeStage, new TutorialStageEventArgs(stage));
+            await stageFunc;
+            tutorialEventManager.Raise(TutorialEvents.OnAfterStage, new TutorialStageEventArgs(stage));
+        }
+
         private async Task Introduction() {
-            _currentStage = TutorialStage.Introdution;
+            _currentStage = ETutorialStage.Introduction;
             // give 1 neuron, disable placement and hide
             neuronQueue.NeuronPool = new HashSet<ENeuronType> { ENeuronType.Dummy };
             neuronQueue.EnqueueFromPool();
@@ -126,28 +134,27 @@ namespace Tutorial.Managers {
         }
 
         private async Task NeuronRewards() {
-            _currentStage = TutorialStage.NeuronRewards;
+            _currentStage = ETutorialStage.NeuronRewards;
             // refresh message
             // add tiles
             await Task.WhenAll(ExpandBoard(t => t == ETrait.Commander ? 5 : 6), tutorialMessage.AwaitHideAnimation());
             // disable board interaction
             neuronQueue.StopNeurons();
-            // reward 2 neurons
-            neuronQueue.EnqueueFromPool(2);
             // add reward tile
             neuronRewarder.SelectRewardHex(new Hex(0, -2), 6);
             // show neuron queue
             await Task.WhenAny(neuronQueue.Show(false), DisplayMessage(neuronRewardMessage));
+            // reward 2 neurons
+            neuronQueue.EnqueueFromPool(2);
             // disable all tiles but two
             boardController.DisableHexes();
             boardController.EnableHexes(new[]{new Hex(0, -1), new Hex(0, -2) });
-            // todo indicate which tiles are available
             // enabled board interaction
             neuronQueue.StartNeurons();
         }
 
         private async Task Personalities() {
-            _currentStage = TutorialStage.Personalities;
+            _currentStage = ETutorialStage.Personalities;
             // enable hexes to remove shadow effect
             boardController.DisableHexes(new[]{new Hex(0, -1), new Hex(0, -2) });
             // split BG to 3
@@ -169,7 +176,7 @@ namespace Tutorial.Managers {
         }
 
         private async Task BoardEffects() {
-            _currentStage = TutorialStage.BoardEffects;
+            _currentStage = ETutorialStage.BoardEffects;
             await tutorialMessage.AwaitHideAnimation();
             // show SP
             // show message
@@ -187,7 +194,7 @@ namespace Tutorial.Managers {
         }
 
         private async Task Decisions() {
-            _currentStage = TutorialStage.Decisions;
+            _currentStage = ETutorialStage.Decisions;
             // refresh message
             await tutorialMessage.AwaitHideAnimation();
             await Task.WhenAny(/*outcomesController.Show(),*/ DisplayMessage(decisionMessage));
@@ -201,7 +208,7 @@ namespace Tutorial.Managers {
         }
 
         private async Task NeuronTypeIntro() {
-            _currentStage = TutorialStage.NeuronTypeIntro;
+            _currentStage = ETutorialStage.NeuronTypeIntro;
             // disable SP and bg effects
             neuronController.IsSPEnabled = false;
             bgColorController.IsSPEnabled = false;
@@ -228,7 +235,7 @@ namespace Tutorial.Managers {
         }
 
         private async Task ExpandNeuron() {
-            _currentStage = TutorialStage.ExpanderType;
+            _currentStage = ETutorialStage.ExpanderType;
             // refresh message
             await tutorialMessage.AwaitHideAnimation();
             await DisplayMessage(expandNeuronMessage);
@@ -243,7 +250,7 @@ namespace Tutorial.Managers {
         }
 
         private async Task TravelNeuron() {
-            _currentStage = TutorialStage.TravellerType;
+            _currentStage = ETutorialStage.TravellerType;
             await tutorialMessage.AwaitHideAnimation();
             await DisplayMessage(travellerNeuronMessage);
             neuronQueue.NeuronPool = null;
@@ -257,7 +264,7 @@ namespace Tutorial.Managers {
         }
 
         private async Task TimerNeuron() {
-            _currentStage = TutorialStage.TimerType;
+            _currentStage = ETutorialStage.TimerType;
             await tutorialMessage.AwaitHideAnimation();
             await DisplayMessage(timerNeuronMessage);
             neuronQueue.NeuronPool = new() { ENeuronType.Decaying };
@@ -268,7 +275,7 @@ namespace Tutorial.Managers {
         }
 
         private async Task CullerNeuron() {
-            _currentStage = TutorialStage.CullerType;
+            _currentStage = ETutorialStage.CullerType;
             await tutorialMessage.AwaitHideAnimation();
             await DisplayMessage(cullerNeuronMessage);
             neuronQueue.NeuronPool = new() { ENeuronType.Exploding };
@@ -279,7 +286,7 @@ namespace Tutorial.Managers {
         }
 
         private async Task TutorialEnd() {
-            _currentStage = TutorialStage.End;
+            _currentStage = ETutorialStage.End;
             await tutorialMessage.AwaitHideAnimation();
             await DisplayMessage(tutorialEndMessage);
             // provide neurons
@@ -321,43 +328,29 @@ namespace Tutorial.Managers {
         #region EventHandlers
         
         private void CountTraitHover(EventArgs args) {
-            if (_currentStage == TutorialStage.Personalities) {
+            if (_currentStage == ETutorialStage.Personalities) {
                 _hoverCounter++;
             }
         }
 
         private void CountEffectHover(EventArgs args) {
-            if (_currentStage == TutorialStage.BoardEffects) {
+            if (_currentStage == ETutorialStage.BoardEffects) {
                 _hoverCounter++;
             }
         }
 
         private void OnBoardModified(EventArgs args) {
-            if (_currentStage == TutorialStage.Decisions) {
+            if (_currentStage == ETutorialStage.Decisions) {
                 _boardModified = true;
             }
         }
 
         private void OnNeuronPlaced(EventArgs args) {
-            if (_currentStage == TutorialStage.BoardEffects) {
+            if (_currentStage == ETutorialStage.BoardEffects) {
                 _neuronsPlaced++;
             }
         }
 
         #endregion
-    }
-
-    internal enum TutorialStage {
-        Introdution,
-        NeuronRewards,
-        Personalities,
-        BoardEffects,
-        Decisions,
-        NeuronTypeIntro,
-        ExpanderType,
-        TravellerType,
-        TimerType,
-        CullerType,
-        End
     }
 }

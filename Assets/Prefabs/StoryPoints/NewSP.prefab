@@ -1071,39 +1071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c27b22d2fa464896454dad0b8dfabe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  neuronEvaluationWeight:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 7.8240943
-      outSlope: 7.8240943
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.04975048
-    - serializedVersion: 3
-      time: 0.20881757
-      value: 0.7666507
-      inSlope: 0.8690709
-      outSlope: 0.8690709
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.23202172
-      outWeight: 0.094910845
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   gmEventManager: {fileID: 11400000, guid: da5fbe8daab46c14780444ed40e883a7, type: 2}
@@ -1128,11 +1095,46 @@ MonoBehaviour:
   artwork: {fileID: 8585395336044051453}
   closeButton: {fileID: 7409837611491244616}
   decrementShakeStrength: 20
+  animationDuration: 0.3
+  animationEasing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 21.415316
+      outSlope: 21.415316
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0
+      outWeight: 0.108572155
+    - serializedVersion: 3
+      time: 0.32904896
+      value: 1.1508272
+      inSlope: 0.029224377
+      outSlope: 0.029224377
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.5474803
+      outWeight: 0.26031575
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.027038503
+      outSlope: -0.027038503
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.6769638
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   decisionSection: {fileID: 5735522775860655750}
   deciderText: {fileID: 5534849759157465085}
   decisionText: {fileID: 3369320907145703138}
   outcomeText: {fileID: 3707496539807505856}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
 --- !u!1 &5735522775860655750
 GameObject:
   m_ObjectHideFlags: 0

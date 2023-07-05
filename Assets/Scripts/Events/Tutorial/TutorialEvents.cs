@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Types.Hex.Coordinates;
 using Types.Trait;
+using Types.Tutorial;
 
 namespace Events.Tutorial {
     public static class TutorialEvents {
@@ -31,9 +32,9 @@ namespace Events.Tutorial {
     }
 
     public class TutorialStageEventArgs : EventArgs {
-        public int Stage;
+        public ETutorialStage Stage;
 
-        public TutorialStageEventArgs(int stage) { Stage = stage; }
+        public TutorialStageEventArgs(ETutorialStage stage) { Stage = stage; }
     }
 
     public class TutorialTraitHoverEventArgs : EventArgs {

@@ -33,11 +33,11 @@ namespace Tutorial.Managers {
                 return;
             }
             InitNewSP(sp.Value);
-            HideTutorialSP();
+            HideTutorialSP(true);
         }
 
-        public void HideTutorialSP() {
-            _currentSP.AwaitHideAnimation();
+        public async void HideTutorialSP(bool immediate = false) {
+            await _currentSP.AwaitHideAnimation(immediate);
         }
         
         public async Task ShowTutorialSP() {

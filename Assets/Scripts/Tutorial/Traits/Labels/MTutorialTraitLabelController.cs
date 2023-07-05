@@ -1,29 +1,84 @@
-﻿using Core.EventSystem;
+﻿using System;
+using System.Threading.Tasks;
+using Core.EventSystem;
 using DG.Tweening;
 using Events.Tutorial;
 using MyHexBoardSystem.BoardSystem;
 using MyHexBoardSystem.UI;
-using System.Threading.Tasks;
+using Types.Tutorial;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Tutorial.Traits.Labels {
-    public class MTutorialTraitLabelController : MTraitLabelPresenter/*, IPointerExitHandler*/ {
+    public class MTutorialTraitLabelController : MTraitLabelPresenter {
 
-        [SerializeField] private MTraitAccessor traitAccessor;
-        [SerializeField] private int distanceFromBoard;
+        [Header("Dependencies"), SerializeField] private MTraitAccessor traitAccessor;
+        [Header("Animation"), SerializeField] private int distanceFromBoard;
         [SerializeField] private int outOfScreenDistance;
         [SerializeField] private float animationDuration;
-        [SerializeField] private SEventManager tutorialEventManager;
+
+        [Header("Event Managers"), SerializeField]
+        private SEventManager tutorialEventManager;
 
         public bool IsSPEnabled { get; set; }
+        public bool IsPauseEnabled { get; set; }
+
+        #region UnityMethods
 
         protected override async void Awake() {
             base.Awake();
             await Hide(true);
         }
 
-        public async Task Hide(bool immediate = false) {
+        protected override void OnEnable() {
+            base.OnEnable();
+            tutorialEventManager.Register(TutorialEvents.OnBeforeStage, UpdatePauseState);
+        }
+
+        protected override void OnDisable() {
+            base.OnDisable();
+            tutorialEventManager.Unregister(TutorialEvents.OnBeforeStage, UpdatePauseState);
+        }
+
+        #endregion
+
+        #region EventHandlers
+
+        private void UpdatePauseState(EventArgs obj) {
+            if (obj is not TutorialStageEventArgs tutArgs) {
+                return;
+            }
+
+            IsPauseEnabled = tutArgs.Stage switch {
+                ETutorialStage.Introduction => false,
+                ETutorialStage.NeuronRewards => false,
+                ETutorialStage.Personalities => true,
+                ETutorialStage.BoardEffects => true,
+                ETutorialStage.Decisions => true,
+                ETutorialStage.NeuronTypeIntro => true,
+                ETutorialStage.ExpanderType => true,
+                ETutorialStage.TravellerType => true,
+                ETutorialStage.TimerType => true,
+                ETutorialStage.CullerType => true,
+                ETutorialStage.End => true,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        protected override void PauseHide(EventArgs args) {
+            if (IsPauseEnabled) {
+                base.Hide();
+            }
+        }
+
+        protected override void PauseShow(EventArgs args) {
+            if (IsPauseEnabled) {
+                base.Show();
+            }
+        }
+
+        #endregion
+
+        public override async Task Hide(bool immediate = false) {
             var direction = traitAccessor.TraitToVectorDirection(trait).normalized;
             if (immediate) {
                 textField.color = new Color(_baseColor.r, _baseColor.g, _baseColor.b, 0);
@@ -39,7 +94,7 @@ namespace Tutorial.Traits.Labels {
             textField.enabled = false;
         }
 
-        public async Task Show(bool immediate = false) {
+        public override async Task Show(bool immediate = false) {
             textField.enabled = true;
             textField.color = new Color(_baseColor.r, _baseColor.g, _baseColor.b, 1);
             if (immediate) {
@@ -56,10 +111,6 @@ namespace Tutorial.Traits.Labels {
 
         public void UpdateColor() {
             UpdateHighlightState();
-        }
-
-        public void OnPointerExit(PointerEventData eventData) {
-            tutorialEventManager.Raise(TutorialEvents.OnTraitHover, new TutorialTraitHoverEventArgs(trait));
         }
 
         protected override void Highlight() {

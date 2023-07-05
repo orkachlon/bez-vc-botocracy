@@ -386,11 +386,47 @@ MonoBehaviour:
   artwork: {fileID: 5233530685760855589}
   closeButton: {fileID: 6436004439891451792}
   decrementShakeStrength: 20
+  animationDuration: 0.3
+  animationEasing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 21.415316
+      outSlope: 21.415316
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0
+      outWeight: 0.108572155
+    - serializedVersion: 3
+      time: 0.32904896
+      value: 1.1508272
+      inSlope: 0.029224377
+      outSlope: 0.029224377
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.5474803
+      outWeight: 0.26031575
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.027038503
+      outSlope: -0.027038503
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.6769638
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   decisionSection: {fileID: 8078582999681373022}
   deciderText: {fileID: 8308001650634525221}
   decisionText: {fileID: 1244810436971711290}
   outcomeText: {fileID: 934465627633350680}
   storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
+  tutorialEventManager: {fileID: 11400000, guid: 087edbf803ee8624381e2d314a47b570, type: 2}
 --- !u!114 &6789954639468826986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,39 +439,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5581ca29111d1124c800f8b9638ddb91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  neuronEvaluationWeight:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 7.8240943
-      outSlope: 7.8240943
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.04975048
-    - serializedVersion: 3
-      time: 0.20881757
-      value: 0.7666507
-      inSlope: 0.8690709
-      outSlope: 0.8690709
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.23202172
-      outWeight: 0.094910845
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
   gmEventManager: {fileID: 11400000, guid: ee44ac6473649754baeabe94b54b1989, type: 2}

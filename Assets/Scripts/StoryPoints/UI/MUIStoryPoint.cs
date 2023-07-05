@@ -4,14 +4,16 @@ using Animation;
 using Core.EventSystem;
 using DG.Tweening;
 using Events.SP;
+using Events.UI;
 using TMPro;
 using Types.Animation;
 using Types.StoryPoint;
+using Types.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace StoryPoints.UI {
-    public class MUIStoryPoint : MonoBehaviour, IUIStoryPoint, IAnimatable {
+    public class MUIStoryPoint : MonoBehaviour, IUIStoryPoint, IAnimatable, IHideable, IShowable {
         [Header("Visuals"), SerializeField] private Canvas spCanvas;
         [SerializeField] protected Image backGround; 
         [SerializeField] private TextMeshProUGUI title;
@@ -20,27 +22,42 @@ namespace StoryPoints.UI {
         [SerializeField] private TextMeshProUGUI turnCounter;
         [SerializeField] private Image artwork;
         [SerializeField] private GameObject closeButton;
-        [SerializeField] private float decrementShakeStrength;
         
+        [Header("Animation"), SerializeField] protected float decrementShakeStrength;
+        [SerializeField] protected float animationDuration;
+        [SerializeField] protected AnimationCurve animationEasing;
+  
         [Header("Decision"), SerializeField] private GameObject decisionSection;
         [SerializeField] private TextMeshProUGUI deciderText;
         [SerializeField] private TextMeshProUGUI decisionText;
         [SerializeField] private TextMeshProUGUI outcomeText;
 
         [Header("Event Managers"), SerializeField]
-        private SEventManager storyEventManager;
+        protected SEventManager storyEventManager;
+        [SerializeField] protected SEventManager uiEventManager;
 
         private const string DeciderPrefix =
             "<size=75%><font=\"EzerBlockTRIALONLY-Regular SDF\">Decided by:\n</size></font>";
         private const string ActionPrefix = "<font=\"EzerBlock Bold SDF\">Action: </font>";
         private const string OutcomePrefix = "<font=\"EzerBlock Bold SDF\">Outcome: </font>";
         
-        private IStoryPoint _sp;
+        protected IStoryPoint SP;
+        protected bool IsPopup = false;
 
         #region UnityMethods
 
-        private void Awake() {
-            _sp = GetComponent<IStoryPoint>();
+        protected virtual  void Awake() {
+            SP = GetComponent<IStoryPoint>();
+        }
+
+        protected virtual void OnEnable() {
+            uiEventManager.Register(UIEvents.OnGamePaused, PauseHide);
+            uiEventManager.Register(UIEvents.OnGameUnpaused, PauseShow);
+        }
+
+        protected virtual void OnDisable() {
+            uiEventManager.Unregister(UIEvents.OnGamePaused, PauseHide);
+            uiEventManager.Unregister(UIEvents.OnGameUnpaused, PauseShow);
         }
 
         #endregion
@@ -63,18 +80,25 @@ namespace StoryPoints.UI {
             UpdateTurnCounter(storyEventArgs.Story.TurnsToEvaluation);
         }
 
+        protected virtual async void PauseHide(EventArgs args) {
+            await Hide();
+        }
+        
+        protected virtual async void PauseShow(EventArgs args) {
+            await Show();
+        }
+
         #endregion
 
         public void InitSPUI() {
-            title.text = _sp.Title;
-            description.text = _sp.Description;
-            artwork.sprite = _sp.Artwork;
-            UpdateTurnCounter(_sp.TurnsToEvaluation);
+            title.text = SP.Title;
+            description.text = SP.Description;
+            artwork.sprite = SP.Artwork;
+            UpdateTurnCounter(SP.TurnsToEvaluation);
         }
 
         public async Task PlayInitAnimation() {
-            backGround.rectTransform.anchoredPosition = new Vector2(-backGround.rectTransform.sizeDelta.x, 50);
-            await backGround.rectTransform.DOAnchorPosX(100, 0.5f).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+            await Show();
         }
 
         public async Task PlayDecrementAnimation() {
@@ -88,8 +112,9 @@ namespace StoryPoints.UI {
         }
 
         public async Task PlayEvaluateAnimation() {
+            IsPopup = true;
             await AnimationManager.WaitForElement(this);
-            await backGround.rectTransform.DOAnchorPosX((Screen.width * 0.5f / spCanvas.scaleFactor) - (backGround.rectTransform.sizeDelta.x * 0.5f), 0.2f)
+            await backGround.rectTransform.DOAnchorPosX(Screen.width * 0.5f / spCanvas.scaleFactor - backGround.rectTransform.sizeDelta.x * 0.5f, 0.2f)
                 .SetEase(Ease.Linear)
                 .OnComplete(() => {
                     turnSection.SetActive(false);
@@ -103,10 +128,10 @@ namespace StoryPoints.UI {
                 .SetEase(Ease.OutQuad));
         }
 
-        public async void CloseDecisionPopup() {
-            await backGround.rectTransform.DOAnchorPosY(-backGround.rectTransform.sizeDelta.y, 0.5f).SetEase(Ease.InOutQuad)
+        public virtual async void CloseDecisionPopup() {
+            await backGround.rectTransform.DOAnchorPosY(-backGround.rectTransform.sizeDelta.y, animationDuration).SetEase(Ease.InOutQuad)
                 .AsyncWaitForCompletion();
-            storyEventManager.Raise(StoryEvents.OnEvaluate, new StoryEventArgs(_sp));
+            storyEventManager.Raise(StoryEvents.OnEvaluate, new StoryEventArgs(SP));
         }
 
         public void UpdateTurnCounter(int turns) {
@@ -114,9 +139,51 @@ namespace StoryPoints.UI {
         }
 
         private void ShowDecisionData() {
-            deciderText.text = $"{DeciderPrefix}{_sp.DecisionEffects.DecidingTrait}";
-            decisionText.text = $"{ActionPrefix}{_sp.DecisionEffects.Decision}";
-            outcomeText.text = $"{OutcomePrefix}{_sp.DecisionEffects.Outcome}";
+            deciderText.text = $"{DeciderPrefix}{SP.DecisionEffects.DecidingTrait}";
+            decisionText.text = $"{ActionPrefix}{SP.DecisionEffects.Decision}";
+            outcomeText.text = $"{OutcomePrefix}{SP.DecisionEffects.Outcome}";
+        }
+
+        public async Task Hide(bool immediate = false) {
+            if (immediate) {
+                if (IsPopup) {
+                    backGround.rectTransform.anchoredPosition = new Vector2(backGround.rectTransform.anchoredPosition.x, -backGround.rectTransform.sizeDelta.y);
+                    return;
+                }
+                backGround.rectTransform.anchoredPosition = new Vector2(-backGround.rectTransform.sizeDelta.x, backGround.rectTransform.anchoredPosition.y);
+                return;
+            }
+
+            if (IsPopup) {
+                await backGround.rectTransform.DOAnchorPosY(-backGround.rectTransform.sizeDelta.y, animationDuration).SetEase(animationEasing).AsyncWaitForCompletion();
+                return;
+            }
+            await backGround.rectTransform.DOAnchorPosX(-backGround.rectTransform.sizeDelta.x, animationDuration).SetEase(animationEasing).AsyncWaitForCompletion();
+        }
+
+        public async Task Show(bool immediate = false) {
+            if (immediate) {
+                if (IsPopup) {
+                    var canvasScaleFactor = spCanvas.scaleFactor;
+                    var bgSize = backGround.rectTransform.sizeDelta;
+                    backGround.rectTransform.anchoredPosition = new Vector2(
+                        Screen.width * 0.5f / canvasScaleFactor - bgSize.x * 0.5f,
+                        Screen.height * 0.5f / canvasScaleFactor - bgSize.y * 0.5f);
+                    return;
+                }
+                backGround.rectTransform.anchoredPosition = new Vector2(100, backGround.rectTransform.anchoredPosition.y);
+                return;
+            }
+
+            if (IsPopup) {
+                await backGround.rectTransform.DOAnchorPosY(
+                    Screen.height * 0.5f / spCanvas.scaleFactor - backGround.rectTransform.sizeDelta.y * 0.5f, 
+                    animationDuration)
+                    .SetEase(animationEasing)
+                    .AsyncWaitForCompletion();
+                return;
+            }
+            await backGround.rectTransform.DOAnchorPosX(100, animationDuration).SetEase(animationEasing).AsyncWaitForCompletion();
         }
     }
 }

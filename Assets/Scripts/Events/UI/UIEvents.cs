@@ -3,6 +3,10 @@
 namespace Events.UI {
     public static class UIEvents {
 
+        // pause
+        public const string OnGamePaused = "UI_OnGamePaused";
+        public const string OnGameUnpaused = "UI_OnGameUnpaused";
+
         // outcomes
         public const string OnOutcomesPanelExpanded = "UI_OnOutcomesPanelExpanded";
         public const string OnOutcomeAdded = "UI_OnOutcomeAdded";
@@ -18,6 +22,14 @@ namespace Events.UI {
 
         public UIExpandEventArgs(bool expanded) {
             Expanded = expanded;
+        }
+    }
+
+    public class PauseArgs : EventArgs {
+        public bool IsPaused;
+
+        public PauseArgs(bool isPaused) {
+            IsPaused = isPaused;
         }
     }
 }

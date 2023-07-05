@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Core.EventSystem;
 using DG.Tweening;
 using Events.Board;
 using Events.SP;
+using Events.UI;
 using TMPro;
 using Types.Board;
 using Types.StoryPoint;
 using Types.Trait;
+using Types.UI;
 using UnityEngine;
 
 namespace MyHexBoardSystem.UI {
-    public class MTraitLabelPresenter : MonoBehaviour {
+    public class MTraitLabelPresenter : MonoBehaviour, IHideable, IShowable {
         [Header("Event Managers"), SerializeField]
         private SEventManager boardEventManager;
         [SerializeField] private SEventManager storyEventManager;
+        [SerializeField] private SEventManager uiEventManager;
 
         [Header("Visuals"), SerializeField] protected ETrait trait;
         [SerializeField] protected TextMeshProUGUI textField;
@@ -32,12 +36,18 @@ namespace MyHexBoardSystem.UI {
         protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateCounter);
             storyEventManager.Register(StoryEvents.OnInitStory, SetIsDeciding);
+            uiEventManager.Register(UIEvents.OnGamePaused, PauseHide);
+            uiEventManager.Register(UIEvents.OnGameUnpaused, PauseShow);
         }
 
         protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, UpdateCounter);
             storyEventManager.Unregister(StoryEvents.OnInitStory, SetIsDeciding);
+            uiEventManager.Unregister(UIEvents.OnGamePaused, PauseHide);
+            uiEventManager.Unregister(UIEvents.OnGameUnpaused, PauseShow);
         }
+
+        #region EventHandlers
 
         private void SetIsDeciding(EventArgs obj) {
             if (obj is not StoryEventArgs storyEventArgs) {
@@ -57,6 +67,16 @@ namespace MyHexBoardSystem.UI {
             SetText(_neuronController.GetTraitCount(trait));
             UpdateHighlightState();
         }
+
+        protected virtual async void PauseHide(EventArgs args) {
+            await Hide();
+        }
+        
+        protected virtual async void PauseShow(EventArgs args) {
+            await Show();
+        }
+
+        #endregion
 
         protected void UpdateHighlightState() {
             if (IsCurrentlyDeciding() && IsMaxTrait()) {
@@ -86,6 +106,24 @@ namespace MyHexBoardSystem.UI {
 
         private bool IsMaxTrait() {
             return _neuronController != null && _neuronController.GetMaxTrait(_currentDecidingTraits.Keys).Contains(trait);
+        }
+
+        public virtual async Task Hide(bool immediate = false) {
+            if (immediate) {
+                textField.color = new Color(textField.color.a, textField.color.g, textField.color.b, 0);
+                return;
+            }
+
+            await textField.DOFade(0, 0.3f).AsyncWaitForCompletion();
+        }
+
+        public virtual async Task Show(bool immediate = false) {
+            if (immediate) {
+                textField.color = new Color(textField.color.a, textField.color.g, textField.color.b, 1);
+                return;
+            }
+
+            await textField.DOFade(1, 0.3f).AsyncWaitForCompletion();
         }
     }
 }

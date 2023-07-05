@@ -1,4 +1,4 @@
-Shader "VOiD1Gaming/UnityBlurShader" {
+Shader "Custom/UnityBlurShader" {
 	Properties {
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		_Bloom ("Bloom (RGB)", 2D) = "black" {}
@@ -100,7 +100,7 @@ Shader "VOiD1Gaming/UnityBlurShader" {
 	
 	SubShader {
 	  ZTest Off Cull Off ZWrite Off Blend Off
-	  Fog { Mode off }  
+	  Fog { Mode off }
 
 	Pass { 
 	

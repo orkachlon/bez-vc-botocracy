@@ -4,24 +4,30 @@ using System.Threading.Tasks;
 using Core.EventSystem;
 using DG.Tweening;
 using Events.Neuron;
+using Events.UI;
 using TMPro;
 using Types.Neuron;
 using Types.Neuron.Runtime;
 using Types.Neuron.UI;
+using Types.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Neurons.NeuronQueue {
-    public class MUINeuronQueue : MonoBehaviour {
+    public class MUINeuronQueue : MonoBehaviour, IHideable, IShowable {
         [SerializeField] protected Image bg;
         [SerializeField, Range(3, 10)] private int neuronsToShow = 7;
         [SerializeField] private TextMeshProUGUI neuronCountDisplay;
         [SerializeField] private RectTransform stack;
         [SerializeField] private int stackSpacing = 100, top3Spacing = 150, topPadding = -50;
-        [SerializeField] private float enqueueShakeStrength;
+        
+        [Header("Animation"), SerializeField] private float enqueueShakeStrength;
+        [SerializeField] private float animationDuration;
+        [SerializeField] private AnimationCurve animationEasing;
         
         [Header("Event Managers"), SerializeField]
         protected SEventManager neuronEventManager;
+        [SerializeField] protected SEventManager uiEventManager;
 
         private const string InfiniteNeuronsMark = "-";
         private readonly Queue<IStackNeuron> _registerUiElements = new ();
@@ -36,11 +42,15 @@ namespace Neurons.NeuronQueue {
         protected virtual void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Register(NeuronEvents.OnDequeueNeuron, OnDequeue);
+            uiEventManager.Register(UIEvents.OnGamePaused, Hide);
+            uiEventManager.Register(UIEvents.OnGameUnpaused, Show);
         }
 
         protected virtual void OnDisable() {
             neuronEventManager.Unregister(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeue);
+            uiEventManager.Unregister(UIEvents.OnGamePaused, Hide);
+            uiEventManager.Unregister(UIEvents.OnGameUnpaused, Show);
         }
 
         private void Enqueue(INeuronQueue neuronQueue) {
@@ -158,6 +168,34 @@ namespace Neurons.NeuronQueue {
             }
         }
 
+        protected virtual  async void Hide(EventArgs args) {
+            await Hide();
+        }
+        
+        protected virtual async void Show(EventArgs args) {
+            await Show();
+        }
+
         #endregion
+
+        public async Task Hide(bool immediate = false) {
+            if (immediate) {
+                bg.rectTransform.anchoredPosition = new Vector2(-bg.rectTransform.sizeDelta.x, bg.rectTransform.anchoredPosition.y);
+                return;
+            }
+            await bg.rectTransform.DOAnchorPosX(-bg.rectTransform.sizeDelta.x, animationDuration)
+                .SetEase(animationEasing)
+                .AsyncWaitForCompletion();
+        }
+
+        public async Task Show(bool immediate = false) {
+            if (immediate) {
+                bg.rectTransform.anchoredPosition = new Vector2(100, bg.rectTransform.anchoredPosition.y);
+                return;
+            }
+            await bg.rectTransform.DOAnchorPosX(100, animationDuration)
+                .SetEase(animationEasing)
+                .AsyncWaitForCompletion();
+        }
     }
 }

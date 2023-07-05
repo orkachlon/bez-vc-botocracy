@@ -104,21 +104,21 @@ namespace MyHexBoardSystem.BoardSystem {
 
         private async Task RemoveAllTiles() {
             var tileRemoveTasks = EnumUtil.GetValues<ETrait>()
-                .Select(trait => RemoveTilesFromTrait(trait, BoardController.GetTraitTileCount(trait)));
+                .Select(trait => RemoveTilesFromTrait(trait, BoardController.GetTraitTileCount(trait), false));
 
             await Task.WhenAll(tileRemoveTasks);
             // lose game
             boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(ETrait.Commander));
         }
 
-        public async Task RemoveTilesFromTrait(ETrait trait, int amount) {
+        public async Task RemoveTilesFromTrait(ETrait trait, int amount, bool withLoss = true) {
             var isOutOfTiles = BoardController.GetTraitTileCount(trait) <= amount;
             //var removeTasks = new List<Task>();
             for (var i = 0; i < amount; i++) {
                 await RemoveTileFromTrait(trait);
             }
 
-            if (isOutOfTiles) {
+            if (withLoss && isOutOfTiles) {
                 // lose game
                 boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));
             }

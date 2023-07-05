@@ -213,6 +213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
   trait: 3
   textField: {fileID: 8414945712944762363}
   highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}
@@ -551,6 +552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
   trait: 2
   textField: {fileID: 8414945713394972183}
   highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}
@@ -783,6 +785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
   trait: 5
   textField: {fileID: 8414945713540249896}
   highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}
@@ -1015,6 +1018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
   trait: 4
   textField: {fileID: 8414945713557797748}
   highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}
@@ -1247,6 +1251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
   trait: 0
   textField: {fileID: 8414945713918042839}
   highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}
@@ -1479,6 +1484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
   trait: 1
   textField: {fileID: 8414945714037237177}
   highlightColor: {r: 0.12156863, g: 0.37254903, b: 0.45490196, a: 1}

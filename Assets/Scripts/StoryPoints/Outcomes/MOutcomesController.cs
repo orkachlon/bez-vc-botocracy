@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Core.EventSystem;
 using DG.Tweening;
 using Events.SP;
@@ -12,7 +13,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace StoryPoints.Outcomes {
-    public class MOutcomesController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IExpandable {
+    public class MOutcomesController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IExpandable, IHideable, IShowable {
         [Header("Outcome Prefab"), SerializeField]
         private MUIOutcome outcomePrefab;
 
@@ -20,16 +21,22 @@ namespace StoryPoints.Outcomes {
         [SerializeField] protected RectTransform verticalContainer;
         [SerializeField] protected RectTransform scrollArea;
 
+        [Header("Animation"), SerializeField] protected float animationDuration;
+        [SerializeField] protected AnimationCurve animationEasing;
+
         [Header("Event Managers"), SerializeField]
         protected SEventManager storyEventManager;
         [SerializeField] private SEventManager uiEventManager;
 
         private Queue<MUIOutcome> _outcomeQueue;
         private RectTransform _rt;
+        protected Image BG;
+        protected int Count => _outcomeQueue.Count;
 
         protected virtual void Awake() {
             _outcomeQueue = new Queue<MUIOutcome>();
             _rt = GetComponent<RectTransform>();
+            BG = GetComponent<Image>();
         }
 
         protected virtual void Start() {
@@ -38,10 +45,14 @@ namespace StoryPoints.Outcomes {
 
         protected virtual void OnEnable() {
             storyEventManager.Register(StoryEvents.OnEvaluate, OnStoryEvaluated);
+            uiEventManager.Register(UIEvents.OnGamePaused, PauseHide);
+            uiEventManager.Register(UIEvents.OnGameUnpaused, PauseShow);
         }
 
         protected virtual void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnEvaluate, OnStoryEvaluated);
+            uiEventManager.Unregister(UIEvents.OnGamePaused, PauseHide);
+            uiEventManager.Unregister(UIEvents.OnGameUnpaused, PauseShow);
         }
 
 
@@ -110,6 +121,38 @@ namespace StoryPoints.Outcomes {
             storyEventManager.Raise(StoryEvents.OnOutcomesExit, EventArgs.Empty);
         }
 
+        protected virtual async void PauseHide(EventArgs args) {
+            await Hide();
+        }
+        
+        protected virtual async void PauseShow(EventArgs args) {
+            await Show();
+        }
+
         #endregion
+
+        public virtual async Task Hide(bool immediate = false) {
+            if (immediate) {
+                BG.rectTransform.anchoredPosition =
+                    new Vector2(BG.rectTransform.sizeDelta.x, BG.rectTransform.anchoredPosition.y);
+                return;
+            }
+
+            await BG.rectTransform.DOAnchorPosX(BG.rectTransform.sizeDelta.x, animationDuration)
+                .SetEase(animationEasing)
+                .AsyncWaitForCompletion();
+        }
+
+        public virtual async Task Show(bool immediate = false) {
+            if (immediate) {
+                BG.rectTransform.anchoredPosition =
+                    new Vector2(0, BG.rectTransform.anchoredPosition.y);
+                return;
+            }
+
+            await BG.rectTransform.DOAnchorPosX(-100, animationDuration)
+                .SetEase(animationEasing)
+                .AsyncWaitForCompletion();
+        }
     }
 }
