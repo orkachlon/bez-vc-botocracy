@@ -26,15 +26,11 @@ namespace Main.Managers {
         }
 
         private void Update() {
-            if (Input.GetKeyDown(KeyCode.R)) {
-                ResetAllEventManagers();
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            if (!Input.GetKeyDown(KeyCode.R)) {
                 return;
             }
-
-            if (Input.GetKeyDown(KeyCode.Escape)) {
-                Application.Quit();
-            }
+            ResetAllEventManagers();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         private void BindAllEventManagersToScene() {

@@ -2,7 +2,7 @@
 using Types.Menus;
 using UnityEngine;
 
-namespace Menus {
+namespace Menus.MainMenu {
     public class MBackButton : MonoBehaviour, IMenuButton {
         
         [SerializeField] private RectTransform mainMenuContainer;

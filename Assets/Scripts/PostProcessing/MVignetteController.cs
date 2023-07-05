@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Main.PostProcessing {
+namespace PostProcessing {
     [ExecuteInEditMode]
     public class MVignetteController : MonoBehaviour {
 

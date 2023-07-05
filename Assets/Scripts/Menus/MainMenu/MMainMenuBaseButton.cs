@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Menus {
+namespace Menus.MainMenu {
     public abstract class MMainMenuBaseButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
         protected RectTransform RT;

@@ -2,9 +2,11 @@
 using Core.EventSystem;
 using DG.Tweening;
 using Events.UI;
+using Main.UI.PauseMenu;
+using PostProcessing;
 using UnityEngine;
 
-namespace Main.UI.PauseMenu {
+namespace Menus.PauseMenu {
     public class MPauseMenuController : MonoBehaviour {
 
         [SerializeField] private Blur bgBlurEffect;
