@@ -1191,7 +1191,7 @@ MonoBehaviour:
   outcomePanelCanvas: {fileID: 7430900297390190900}
   verticalContainer: {fileID: 7430900296813886027}
   scrollArea: {fileID: 7430900296982484081}
-  animationDuration: 0.3
+  animationDuration: 0.5
   animationEasing:
     serializedVersion: 2
     m_Curve:

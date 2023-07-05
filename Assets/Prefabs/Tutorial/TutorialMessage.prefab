@@ -117,27 +117,27 @@ MonoBehaviour:
   messageText: {fileID: 6729197945682269539}
   bg: {fileID: 6729197944920938521}
   characterWrapLimit: 80
-  animationDuration: 0
+  animationDuration: 0.5
   animationEasing:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 21.415316
-      outSlope: 21.415316
+      inSlope: 4.954013
+      outSlope: 4.954013
       tangentMode: 0
       weightedMode: 3
       inWeight: 0
-      outWeight: 0.108572155
+      outWeight: 0.35882005
     - serializedVersion: 3
-      time: 0.32904896
-      value: 1.1508272
-      inSlope: 0.029224377
-      outSlope: 0.029224377
+      time: 0.510553
+      value: 1.0484035
+      inSlope: 0.015263381
+      outSlope: 0.015263381
       tangentMode: 0
       weightedMode: 3
-      inWeight: 0.5474803
+      inWeight: 0.23629943
       outWeight: 0.26031575
     - serializedVersion: 3
       time: 1

@@ -386,7 +386,7 @@ MonoBehaviour:
   artwork: {fileID: 5233530685760855589}
   closeButton: {fileID: 6436004439891451792}
   decrementShakeStrength: 20
-  animationDuration: 0.3
+  animationDuration: 0.5
   animationEasing:
     serializedVersion: 2
     m_Curve:

@@ -1078,7 +1078,7 @@ MonoBehaviour:
   top3Spacing: -50
   topPadding: 0
   enqueueShakeStrength: 20
-  animationDuration: 0.3
+  animationDuration: 0.5
   animationEasing:
     serializedVersion: 2
     m_Curve:

@@ -83,6 +83,10 @@ PrefabInstance:
       propertyPath: uiEventManager
       value: 
       objectReference: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
+    - target: {fileID: 433030335415291280, guid: 95a7b318677c8234da425ca9ff4a548d, type: 3}
+      propertyPath: animationDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 433030335415291284, guid: 95a7b318677c8234da425ca9ff4a548d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -169,7 +173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 433030335415291311, guid: 95a7b318677c8234da425ca9ff4a548d, type: 3}
       propertyPath: m_Name
-      value: PauseMenu
+      value: TutorialPauseMenu
       objectReference: {fileID: 0}
     - target: {fileID: 433030335471709756, guid: 95a7b318677c8234da425ca9ff4a548d, type: 3}
       propertyPath: m_AnchorMax.y

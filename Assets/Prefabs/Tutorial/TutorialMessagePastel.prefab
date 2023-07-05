@@ -7,10 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6608745343579265807, guid: ba814a78033676449a12d20d59f065c7, type: 3}
-      propertyPath: animationDuration
-      value: 0.3
-      objectReference: {fileID: 0}
     - target: {fileID: 6729197944073423407, guid: ba814a78033676449a12d20d59f065c7, type: 3}
       propertyPath: m_Pivot.x
       value: 0
