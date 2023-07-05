@@ -2769,6 +2769,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5afc6ee98217784bbbdfeb2ccc09170, type: 3}
+--- !u!223 &1478875101 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 8414945713255111200, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+  m_PrefabInstance: {fileID: 8414945712329943289}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1521509070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6020,10 +6025,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 2160
       objectReference: {fileID: 0}
-    - target: {fileID: 8414945712944761860, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 349.4355
-      objectReference: {fileID: 0}
     - target: {fileID: 8414945712944762363, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: m_fontColor.b
       value: 1
@@ -6040,6 +6041,10 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 8414945712944762364, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1478875101}
     - target: {fileID: 8414945712944762364, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: controller
       value: 
@@ -6153,6 +6158,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8414945713394972168, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1478875101}
+    - target: {fileID: 8414945713394972168, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: controller
       value: 
       objectReference: {fileID: 615794156}
@@ -6172,14 +6181,6 @@ PrefabInstance:
       propertyPath: highlightColor.r
       value: 0.33333334
       objectReference: {fileID: 0}
-    - target: {fileID: 8414945713394972176, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 446.1355
-      objectReference: {fileID: 0}
-    - target: {fileID: 8414945713394972176, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -864
-      objectReference: {fileID: 0}
     - target: {fileID: 8414945713394972183, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: m_fontColor.b
       value: 1
@@ -6225,6 +6226,10 @@ PrefabInstance:
       value: 0.33333334
       objectReference: {fileID: 0}
     - target: {fileID: 8414945713540249901, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1478875101}
+    - target: {fileID: 8414945713540249901, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: controller
       value: 
       objectReference: {fileID: 615794156}
@@ -6232,10 +6237,10 @@ PrefabInstance:
       propertyPath: traitAccessor
       value: 
       objectReference: {fileID: 615794158}
-    - target: {fileID: 8414945713540249909, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 291.938
-      objectReference: {fileID: 0}
+    - target: {fileID: 8414945713557797737, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1478875101}
     - target: {fileID: 8414945713557797737, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: controller
       value: 
@@ -6244,10 +6249,6 @@ PrefabInstance:
       propertyPath: traitAccessor
       value: 
       objectReference: {fileID: 615794158}
-    - target: {fileID: 8414945713557797745, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 307.12
-      objectReference: {fileID: 0}
     - target: {fileID: 8414945713557797748, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: m_fontColor.b
       value: 1
@@ -6277,6 +6278,10 @@ PrefabInstance:
       value: 0.33333334
       objectReference: {fileID: 0}
     - target: {fileID: 8414945713918042824, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1478875101}
+    - target: {fileID: 8414945713918042824, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: controller
       value: 
       objectReference: {fileID: 615794156}
@@ -6295,14 +6300,6 @@ PrefabInstance:
     - target: {fileID: 8414945713918042825, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: highlightColor.r
       value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 8414945713918042832, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 312.8466
-      objectReference: {fileID: 0}
-    - target: {fileID: 8414945713918042832, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 432
       objectReference: {fileID: 0}
     - target: {fileID: 8414945713918042839, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: m_fontColor.b
@@ -6337,6 +6334,10 @@ PrefabInstance:
       value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 8414945714037237178, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1478875101}
+    - target: {fileID: 8414945714037237178, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: controller
       value: 
       objectReference: {fileID: 615794156}
@@ -6355,10 +6356,6 @@ PrefabInstance:
     - target: {fileID: 8414945714037237179, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
       propertyPath: highlightColor.r
       value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 8414945714037237186, guid: d868241b168421649b8f2442c6fa88f9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 395.9579
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d868241b168421649b8f2442c6fa88f9, type: 3}

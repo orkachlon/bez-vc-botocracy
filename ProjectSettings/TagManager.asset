@@ -69,3 +69,6 @@ TagManager:
   - name: Events
     uniqueID: 447066225
     locked: 0
+  - name: ScreenOverlay
+    uniqueID: 4043330361
+    locked: 0
