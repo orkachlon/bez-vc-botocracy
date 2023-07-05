@@ -235,6 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a48f266d78a465baa072a2155b3e760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
 --- !u!1 &4958885507159116210
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,6 +356,7 @@ MonoBehaviour:
   maxZoomOut: 15
   zoomSpeed: 50
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
 --- !u!114 &4958885507159116106
 MonoBehaviour:
   m_ObjectHideFlags: 0

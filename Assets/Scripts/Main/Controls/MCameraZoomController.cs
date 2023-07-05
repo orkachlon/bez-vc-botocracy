@@ -1,6 +1,7 @@
 ﻿using System;
 using Core.EventSystem;
 using Events.SP;
+using Events.UI;
 using UnityEngine;
 
 namespace Main.Controls {
@@ -14,6 +15,7 @@ namespace Main.Controls {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager storyEventManager;
+        [SerializeField] private SEventManager uiEventManager;
 
         private Camera _camera;
         private bool _zoomEnabled = true;
@@ -25,11 +27,15 @@ namespace Main.Controls {
         private void OnEnable() {
             storyEventManager.Register(StoryEvents.OnOutcomesEnter, DisableZoom);
             storyEventManager.Register(StoryEvents.OnOutcomesExit, EnableZoom);
+            uiEventManager.Register(UIEvents.OnGamePaused, DisableZoom);
+            uiEventManager.Register(UIEvents.OnGameUnpaused, EnableZoom);
         }
 
         private void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnOutcomesEnter, DisableZoom);
             storyEventManager.Unregister(StoryEvents.OnOutcomesExit, EnableZoom);
+            uiEventManager.Unregister(UIEvents.OnGamePaused, DisableZoom);
+            uiEventManager.Unregister(UIEvents.OnGameUnpaused, EnableZoom);
         }
 
         private void Update() {
