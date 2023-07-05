@@ -8,7 +8,7 @@ using Types.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Main.UI.PauseMenu {
+namespace Menus.PauseMenu {
     public class MPauseBarController : MonoBehaviour, IHideable, IShowable {
 
         [SerializeField] private float animationDuration;

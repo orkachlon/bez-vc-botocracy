@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Main.UI.PauseMenu {
+namespace Menus.PauseMenu {
     public class MPauseBGController : MonoBehaviour {
         
         private Image _blurImage;

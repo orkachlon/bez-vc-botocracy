@@ -2,8 +2,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Main.UI.PauseMenu {
-    public class MPaseMenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+namespace Menus.PauseMenu {
+    public class MPauseMenuButtonBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
         protected RectTransform RT;
         

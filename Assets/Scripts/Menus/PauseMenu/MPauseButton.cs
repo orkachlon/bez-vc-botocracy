@@ -4,7 +4,7 @@ using Events.UI;
 using Types.Menus;
 using UnityEngine;
 
-namespace Main.UI.PauseMenu {
+namespace Menus.PauseMenu {
     public class MPauseButton : MonoBehaviour, IMenuButton {
 
         [SerializeField] private SEventManager uiEventManager;

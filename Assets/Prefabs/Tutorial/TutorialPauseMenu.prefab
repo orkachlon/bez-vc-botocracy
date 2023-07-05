@@ -307,6 +307,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -64.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2138511547524542021, guid: 95a7b318677c8234da425ca9ff4a548d, type: 3}
+      propertyPath: uiEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
     - target: {fileID: 2991352768612825718, guid: 95a7b318677c8234da425ca9ff4a548d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

@@ -2,7 +2,6 @@
 using Core.EventSystem;
 using DG.Tweening;
 using Events.UI;
-using Main.UI.PauseMenu;
 using PostProcessing;
 using UnityEngine;
 
@@ -22,6 +21,7 @@ namespace Menus.PauseMenu {
 
 
         private Tween _animation;
+        private bool _isPaused;
         
         private void OnEnable() {
             uiEventManager.Register(UIEvents.OnGamePaused, ShowPauseScreen);
@@ -33,7 +33,16 @@ namespace Menus.PauseMenu {
             uiEventManager.Unregister(UIEvents.OnGameUnpaused, HidePauseScreen);
         }
 
+        private void Update() {
+            if (!Input.GetKeyDown(KeyCode.Escape)) {
+                return;
+            }
+
+            uiEventManager.Raise(_isPaused ? UIEvents.OnGameUnpaused : UIEvents.OnGamePaused, new PauseArgs(!_isPaused));
+        }
+
         private void ShowPauseScreen(EventArgs obj) {
+            _isPaused = true;
             _animation?.Kill();
             _animation = DOTween.Sequence()
                 .OnStart(() => {
@@ -53,6 +62,7 @@ namespace Menus.PauseMenu {
         }
 
         private void HidePauseScreen(EventArgs obj) {
+            _isPaused = false;
             _animation?.Kill();
             _animation = DOTween.Sequence()
                 // bring down all blur values

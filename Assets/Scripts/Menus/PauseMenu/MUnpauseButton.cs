@@ -1,11 +1,10 @@
-﻿using System;
-using Core.EventSystem;
+﻿using Core.EventSystem;
 using Events.UI;
 using Types.Menus;
 using UnityEngine;
 
-namespace Main.UI.PauseMenu {
-    public class MUnpauseButton : MPaseMenuButtonBase, IMenuButton {
+namespace Menus.PauseMenu {
+    public class MUnpauseButton : MPauseMenuButtonBase, IMenuButton {
 
         [SerializeField] private SEventManager uiEventManager;
         
