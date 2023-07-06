@@ -3,6 +3,9 @@
 namespace Events.UI {
     public static class UIEvents {
 
+        public const string OnOverlayShow = "UI_OnOverlayShow";
+        public const string OnOverlayHide = "UI_OnOverlayHide";
+
         // pause
         public const string OnGamePaused = "UI_OnGamePaused";
         public const string OnGameUnpaused = "UI_OnGameUnpaused";

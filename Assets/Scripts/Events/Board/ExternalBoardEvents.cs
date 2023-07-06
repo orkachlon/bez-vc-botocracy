@@ -51,6 +51,11 @@ namespace Events.Board {
         public const string OnPointerExit = "Board_OnPointerExit";
         public const string OnPointerStay = "Board_OnPointerStay";
         public const string OnTraitOutOfTiles = "Board_OnTraitOutOfTiles";
+        public const string OnAllTraitsOutOfTiles = "Board_OnAllTraitsOutOfTiles";
+        
+        // stat recording
+        public const string OnDummySpawned = "Neurons_OnDummySpawned";
+        public const string OnNeuronExploded = "Neurons_OnNeuronExploded";
     }
 
     public class BoardElementEventArgs<TElement> : EventArgs where TElement : IBoardElement {
@@ -109,6 +114,10 @@ namespace Events.Board {
         public TraitOutOfTilesEventArgs(ETrait trait) {
             Trait = trait;
         }
+    }
+
+    public class AllTraitsOutOfTilesEventArgs : EventArgs {
+        
     }
 
     public class TraitCompassHoverEventArgs : EventArgs {

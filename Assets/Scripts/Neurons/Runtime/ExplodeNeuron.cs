@@ -98,6 +98,7 @@ namespace Neurons.Runtime {
 private async Task KillNeighbor(Hex neighbour, int delay = 0) {
             await Task.Delay(delay);
             UIExplodeNeuron.PlayKillSound();
+            BoardEventManager.Raise(ExternalBoardEvents.OnNeuronExploded, new BoardElementEventArgs<IBoardElement>(Controller.Board.GetPosition(neighbour).Data, neighbour));
             await Controller.RemoveNeuron(neighbour);
         }
     }

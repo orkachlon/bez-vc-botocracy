@@ -42,15 +42,15 @@ namespace Neurons.NeuronQueue {
         protected virtual void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Register(NeuronEvents.OnDequeueNeuron, OnDequeue);
-            uiEventManager.Register(UIEvents.OnGamePaused, Hide);
-            uiEventManager.Register(UIEvents.OnGameUnpaused, Show);
+            uiEventManager.Register(UIEvents.OnOverlayShow, Hide);
+            uiEventManager.Register(UIEvents.OnOverlayHide, Show);
         }
 
         protected virtual void OnDisable() {
             neuronEventManager.Unregister(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeue);
-            uiEventManager.Unregister(UIEvents.OnGamePaused, Hide);
-            uiEventManager.Unregister(UIEvents.OnGameUnpaused, Show);
+            uiEventManager.Unregister(UIEvents.OnOverlayShow, Hide);
+            uiEventManager.Unregister(UIEvents.OnOverlayHide, Show);
         }
 
         private void Enqueue(INeuronQueue neuronQueue) {

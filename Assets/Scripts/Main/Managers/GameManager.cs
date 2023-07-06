@@ -25,9 +25,10 @@ namespace Main.Managers {
             storyEventManager.Register(StoryEvents.OnStoryTurn, PlayerTurn);
             
             // end of game
-            boardEventManager.Register(ExternalBoardEvents.OnBoardFull, Lose);
-            boardEventManager.Register(ExternalBoardEvents.OnTraitOutOfTiles, Lose);
-            neuronEventManager.Register(NeuronEvents.OnNoMoreNeurons, Lose);
+            boardEventManager.Register(ExternalBoardEvents.OnBoardFull, LoseBoardFull);
+            boardEventManager.Register(ExternalBoardEvents.OnTraitOutOfTiles, LostTraitNoTiles);
+            boardEventManager.Register(ExternalBoardEvents.OnAllTraitsOutOfTiles, LostFromSP);
+            neuronEventManager.Register(NeuronEvents.OnNoMoreNeurons, LoseNoNeurons);
             storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, Win);
         }
 
@@ -36,9 +37,10 @@ namespace Main.Managers {
             boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, StoryTurn);
             storyEventManager.Unregister(StoryEvents.OnStoryTurn, PlayerTurn);
             
-            boardEventManager.Unregister(ExternalBoardEvents.OnBoardFull, Lose);
-            boardEventManager.Unregister(ExternalBoardEvents.OnTraitOutOfTiles, Lose);
-            neuronEventManager.Unregister(NeuronEvents.OnNoMoreNeurons, Lose);
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardFull, LoseBoardFull);
+            boardEventManager.Unregister(ExternalBoardEvents.OnTraitOutOfTiles, LostTraitNoTiles);
+            boardEventManager.Unregister(ExternalBoardEvents.OnAllTraitsOutOfTiles, LostFromSP);
+            neuronEventManager.Unregister(NeuronEvents.OnNoMoreNeurons, LoseNoNeurons);
             storyEventManager.Unregister(StoryEvents.OnNoMoreStoryPoints, Win);
         }
 
@@ -68,8 +70,20 @@ namespace Main.Managers {
 
         #endregion
 
-        private void Lose(EventArgs customArgs) {
-            ChangeState(EGameState.Lose, customArgs);
+        private void LostFromSP(EventArgs customArgs) {
+            ChangeState(EGameState.Lose, new LoseGameEventArgs(ELoseReason.FromSP, customArgs));
+        }
+
+        private void LostTraitNoTiles(EventArgs customArgs) {
+            ChangeState(EGameState.Lose, new LoseGameEventArgs(ELoseReason.TraitOutOfTiles, customArgs));
+        }
+
+        private void LoseNoNeurons(EventArgs customArgs) {
+            ChangeState(EGameState.Lose, new LoseGameEventArgs(ELoseReason.NoMoreNeurons, customArgs));
+        }
+        
+        private void LoseBoardFull(EventArgs customArgs) {
+            ChangeState(EGameState.Lose, new LoseGameEventArgs(ELoseReason.BoardFull, customArgs));
         }
 
         private void Win(EventArgs customArgs) {
@@ -82,6 +96,31 @@ namespace Main.Managers {
 
         protected void StoryTurn(EventArgs customArgs) {
             ChangeState(EGameState.StoryTurn, customArgs);
+        }
+
+        [ContextMenu("Win Game")]
+        private void WinGameNow() {
+            ChangeState(EGameState.Win);
+        }
+        
+        [ContextMenu("Lose game full board")]
+        private void LoseGameFullBoardNow() {
+            ChangeState(EGameState.Lose, new LoseGameEventArgs(ELoseReason.BoardFull));
+        }
+        
+        [ContextMenu("Lose game trait no tiles")]
+        private void LoseGameTraitOutOfTilesNow() {
+            ChangeState(EGameState.Lose, new LoseGameEventArgs(ELoseReason.TraitOutOfTiles));
+        }
+        
+        [ContextMenu("Lose game no neurons")]
+        private void LoseGameNoNeuronsNow() {
+            ChangeState(EGameState.Lose, new LoseGameEventArgs(ELoseReason.NoMoreNeurons));
+        }
+        
+        [ContextMenu("Lose game from SP")]
+        private void LoseGameFromSP() {
+            ChangeState(EGameState.Lose, new LoseGameEventArgs(ELoseReason.FromSP));
         }
     }
 }

@@ -24,13 +24,13 @@ namespace Main.Controls {
         }
         
         private void OnEnable() {
-            uiEventManager.Register(UIEvents.OnGamePaused, DisableDrag);
-            uiEventManager.Register(UIEvents.OnGameUnpaused, EnableDrag);
+            uiEventManager.Register(UIEvents.OnOverlayShow, DisableDrag);
+            uiEventManager.Register(UIEvents.OnOverlayHide, EnableDrag);
         }
 
         private void OnDisable() {
-            uiEventManager.Unregister(UIEvents.OnGamePaused, DisableDrag);
-            uiEventManager.Unregister(UIEvents.OnGameUnpaused, EnableDrag);
+            uiEventManager.Unregister(UIEvents.OnOverlayShow, DisableDrag);
+            uiEventManager.Unregister(UIEvents.OnOverlayHide, EnableDrag);
         }
 
         private void LateUpdate() {

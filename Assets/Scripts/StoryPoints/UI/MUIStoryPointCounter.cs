@@ -40,7 +40,7 @@ namespace StoryPoints.UI {
         }
 
         private void UpdateText() {
-            _storyPointCounterText.text = $"Survived for {_spCount} year{(_spCount != 1 ? "s" : "")}";
+            _storyPointCounterText.text = $"Survived for {_spCount} event{(_spCount != 1 ? "s" : "")}";
         }
     }
 }

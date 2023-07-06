@@ -1,10 +1,9 @@
 ﻿using System;
-using Core.EventSystem;
 using Core.Utils.Singleton;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Main.Managers {
+namespace Core.EventSystem {
     public class MEventManagerSceneBinder : MSingleton<MEventManagerSceneBinder> {
         
         [Header("Event Managers"), SerializeField] private SEventManager[] eventManagers;
@@ -52,6 +51,9 @@ namespace Main.Managers {
         }
 
         public static void ResetAllEventManagers() {
+            if (Instance == null) {
+                return;
+            }
             foreach (var eventManager in Instance.eventManagers) {
                 eventManager.Raise(OnGameReloaded, EventArgs.Empty);
             }

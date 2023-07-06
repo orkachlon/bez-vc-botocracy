@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Animation;
+using Events.Board;
+using Events.Neuron;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using Neurons.Data;
 using Neurons.UI;
@@ -7,6 +9,7 @@ using Types.Board.UI;
 using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
+using Types.Neuron.Runtime;
 using UnityEngine;
 
 namespace Neurons.Runtime {
@@ -30,6 +33,7 @@ namespace Neurons.Runtime {
 
         public override async Task Activate() {
             await AnimationManager.WaitForElement(this);
+            BoardEventManager.Raise(ExternalBoardEvents.OnDummySpawned, new BoardElementEventArgs<IBoardNeuron>(this, Position));
             ReportTurnDone();
         }
 

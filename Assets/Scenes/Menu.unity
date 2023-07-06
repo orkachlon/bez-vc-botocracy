@@ -432,6 +432,7 @@ GameObject:
   - component: {fileID: 490366683}
   - component: {fileID: 490366682}
   - component: {fileID: 490366687}
+  - component: {fileID: 490366688}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -608,6 +609,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuContainer: {fileID: 2094978319}
   levelMenuContainer: {fileID: 1581251080}
+--- !u!114 &490366688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490366680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb56140a306eb374ea41e27496b48872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &507115746
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,6 +986,67 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &883609870
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7619956962784752321, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_Name
+      value: EventToSceneBinder
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752334, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7619956962784752335, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
+      propertyPath: eventManagers.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b33fc0cfe3607b34992f549b7d564da4, type: 3}
 --- !u!1 &979946572
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,6 +1362,7 @@ GameObject:
   - component: {fileID: 1278325230}
   - component: {fileID: 1278325229}
   - component: {fileID: 1278325228}
+  - component: {fileID: 1278325234}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -1460,6 +1535,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25d043c9d2b05e74a9188bf2787c2d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1278325234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278325226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb56140a306eb374ea41e27496b48872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1467763840
@@ -1680,6 +1767,7 @@ GameObject:
   - component: {fileID: 1612915126}
   - component: {fileID: 1612915130}
   - component: {fileID: 1612915129}
+  - component: {fileID: 1612915132}
   m_Layer: 5
   m_Name: TutorialButton
   m_TagString: Untagged
@@ -1855,6 +1943,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Tutorial
+--- !u!114 &1612915132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612915124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb56140a306eb374ea41e27496b48872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1731087213
 GameObject:
   m_ObjectHideFlags: 0

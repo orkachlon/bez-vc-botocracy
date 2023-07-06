@@ -27,15 +27,15 @@ namespace Main.Controls {
         private void OnEnable() {
             storyEventManager.Register(StoryEvents.OnOutcomesEnter, DisableZoom);
             storyEventManager.Register(StoryEvents.OnOutcomesExit, EnableZoom);
-            uiEventManager.Register(UIEvents.OnGamePaused, DisableZoom);
-            uiEventManager.Register(UIEvents.OnGameUnpaused, EnableZoom);
+            uiEventManager.Register(UIEvents.OnOverlayShow, DisableZoom);
+            uiEventManager.Register(UIEvents.OnOverlayHide, EnableZoom);
         }
 
         private void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnOutcomesEnter, DisableZoom);
             storyEventManager.Unregister(StoryEvents.OnOutcomesExit, EnableZoom);
-            uiEventManager.Unregister(UIEvents.OnGamePaused, DisableZoom);
-            uiEventManager.Unregister(UIEvents.OnGameUnpaused, EnableZoom);
+            uiEventManager.Unregister(UIEvents.OnOverlayShow, DisableZoom);
+            uiEventManager.Unregister(UIEvents.OnOverlayHide, EnableZoom);
         }
 
         private void Update() {

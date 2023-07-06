@@ -3,7 +3,7 @@ using Types.Menus;
 using UnityEngine;
 
 namespace Menus.MainMenu {
-    public class MLevelSelectButton : MMainMenuBaseButton, IMenuButton {
+    public class MLevelSelectButton : MonoBehaviour, IMenuButton {
 		[SerializeField] private RectTransform mainMenuContainer;
 		[SerializeField] private RectTransform levelMenuContainer;
 

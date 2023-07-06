@@ -36,15 +36,15 @@ namespace MyHexBoardSystem.UI {
         protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateCounter);
             storyEventManager.Register(StoryEvents.OnInitStory, SetIsDeciding);
-            uiEventManager.Register(UIEvents.OnGamePaused, PauseHide);
-            uiEventManager.Register(UIEvents.OnGameUnpaused, PauseShow);
+            uiEventManager.Register(UIEvents.OnOverlayShow, PauseHide);
+            uiEventManager.Register(UIEvents.OnOverlayHide, PauseShow);
         }
 
         protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, UpdateCounter);
             storyEventManager.Unregister(StoryEvents.OnInitStory, SetIsDeciding);
-            uiEventManager.Unregister(UIEvents.OnGamePaused, PauseHide);
-            uiEventManager.Unregister(UIEvents.OnGameUnpaused, PauseShow);
+            uiEventManager.Unregister(UIEvents.OnOverlayShow, PauseHide);
+            uiEventManager.Unregister(UIEvents.OnOverlayHide, PauseShow);
         }
 
         #region EventHandlers

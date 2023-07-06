@@ -45,14 +45,14 @@ namespace StoryPoints.Outcomes {
 
         protected virtual void OnEnable() {
             storyEventManager.Register(StoryEvents.OnEvaluate, OnStoryEvaluated);
-            uiEventManager.Register(UIEvents.OnGamePaused, PauseHide);
-            uiEventManager.Register(UIEvents.OnGameUnpaused, PauseShow);
+            uiEventManager.Register(UIEvents.OnOverlayShow, PauseHide);
+            uiEventManager.Register(UIEvents.OnOverlayHide, PauseShow);
         }
 
         protected virtual void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnEvaluate, OnStoryEvaluated);
-            uiEventManager.Unregister(UIEvents.OnGamePaused, PauseHide);
-            uiEventManager.Unregister(UIEvents.OnGameUnpaused, PauseShow);
+            uiEventManager.Unregister(UIEvents.OnOverlayShow, PauseHide);
+            uiEventManager.Unregister(UIEvents.OnOverlayHide, PauseShow);
         }
 
 

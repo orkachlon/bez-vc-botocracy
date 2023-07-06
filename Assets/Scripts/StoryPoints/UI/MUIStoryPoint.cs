@@ -51,13 +51,13 @@ namespace StoryPoints.UI {
         }
 
         protected virtual void OnEnable() {
-            uiEventManager.Register(UIEvents.OnGamePaused, PauseHide);
-            uiEventManager.Register(UIEvents.OnGameUnpaused, PauseShow);
+            uiEventManager.Register(UIEvents.OnOverlayShow, PauseHide);
+            uiEventManager.Register(UIEvents.OnOverlayHide, PauseShow);
         }
 
         protected virtual void OnDisable() {
-            uiEventManager.Unregister(UIEvents.OnGamePaused, PauseHide);
-            uiEventManager.Unregister(UIEvents.OnGameUnpaused, PauseShow);
+            uiEventManager.Unregister(UIEvents.OnOverlayShow, PauseHide);
+            uiEventManager.Unregister(UIEvents.OnOverlayHide, PauseShow);
         }
 
         #endregion

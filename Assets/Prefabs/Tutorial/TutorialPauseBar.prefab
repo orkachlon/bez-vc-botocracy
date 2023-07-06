@@ -201,7 +201,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 796669922232668997, guid: 70c9c801f70947c4d954872e49448a39, type: 3}
       propertyPath: m_Name
-      value: PauseBar
+      value: TutorialPauseBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 796669922540113752, guid: 70c9c801f70947c4d954872e49448a39, type: 3}
+      propertyPath: m_Padding.m_Left
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 796669922540113752, guid: 70c9c801f70947c4d954872e49448a39, type: 3}
+      propertyPath: m_Padding.m_Right
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 796669922540113753, guid: 70c9c801f70947c4d954872e49448a39, type: 3}
       propertyPath: m_SizeDelta.x
@@ -211,5 +219,9 @@ PrefabInstance:
       propertyPath: uiEventManager
       value: 
       objectReference: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
+    - target: {fileID: 796669922561793209, guid: 70c9c801f70947c4d954872e49448a39, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70c9c801f70947c4d954872e49448a39, type: 3}

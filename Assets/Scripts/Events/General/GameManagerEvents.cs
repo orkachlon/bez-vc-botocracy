@@ -17,4 +17,19 @@ namespace Events.General {
             CustomArgs = customArgs;
         }
     }
+
+    public class LoseGameEventArgs : GameStateEventArgs {
+        public ELoseReason LoseReason;
+        
+        public LoseGameEventArgs(ELoseReason reason, EventArgs customArgs = null) : base(EGameState.Lose, customArgs) {
+            LoseReason = reason;
+        }
+    }
+
+    public enum ELoseReason {
+        NoMoreNeurons,
+        BoardFull,
+        TraitOutOfTiles,
+        FromSP
+    }
 }

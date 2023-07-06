@@ -108,7 +108,7 @@ namespace MyHexBoardSystem.BoardSystem {
 
             await Task.WhenAll(tileRemoveTasks);
             // lose game
-            boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(ETrait.Commander));
+            boardEventManager.Raise(ExternalBoardEvents.OnAllTraitsOutOfTiles, new AllTraitsOutOfTilesEventArgs());
         }
 
         public async Task RemoveTilesFromTrait(ETrait trait, int amount, bool withLoss = true) {

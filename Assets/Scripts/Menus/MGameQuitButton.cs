@@ -1,9 +1,8 @@
-﻿using Menus.MainMenu;
-using Types.Menus;
+﻿using Types.Menus;
 using UnityEngine;
 
 namespace Menus {
-    public class MGameQuitButton : MMainMenuBaseButton, IMenuButton {
+    public class MGameQuitButton : MonoBehaviour, IMenuButton {
 
         public void OnButtonClick() {
             Application.Quit();

@@ -25,21 +25,21 @@ namespace Menus.PauseMenu {
         }
 
         private void OnEnable() {
-            uiEventManager.Register(UIEvents.OnGamePaused, Hide);
-            uiEventManager.Register(UIEvents.OnGameUnpaused, Show);
+            uiEventManager.Register(UIEvents.OnOverlayShow, OnOverlayShow);
+            uiEventManager.Register(UIEvents.OnOverlayHide, OnOverlayHide);
         }
 
         private void OnDisable() {
-            uiEventManager.Unregister(UIEvents.OnGamePaused, Hide);
-            uiEventManager.Unregister(UIEvents.OnGameUnpaused, Show);
+            uiEventManager.Unregister(UIEvents.OnOverlayShow, OnOverlayShow);
+            uiEventManager.Unregister(UIEvents.OnOverlayHide, OnOverlayHide);
         }
 
-        private async void Hide(EventArgs args) {
-            await Hide();
+        private async void OnOverlayShow(EventArgs args) {
+            await ChangeColorToOverlay();
         }
         
-        private async void Show(EventArgs args) {
-            await Show();
+        private async void OnOverlayHide(EventArgs args) {
+            await ChangeColorToGame();
         }
 
         public async Task Hide(bool immediate = false) {
@@ -49,8 +49,7 @@ namespace Menus.PauseMenu {
             }
 
             await DOTween.Sequence()
-                // .Append(_rt.DOAnchorPosY(_rt.sizeDelta.y, animationDuration))
-                .Join(_bg.DOColor(AnimationConstants.UIPurple, animationDuration))
+                .Append(_rt.DOAnchorPosY(_rt.sizeDelta.y, animationDuration))
                 .AsyncWaitForCompletion();
         }
 
@@ -61,7 +60,28 @@ namespace Menus.PauseMenu {
             }
 
             await DOTween.Sequence()
-                // .Append(_rt.DOAnchorPosY(0, animationDuration))
+                .Append(_rt.DOAnchorPosY(0, animationDuration))
+                .AsyncWaitForCompletion();
+        }
+
+        private async Task ChangeColorToOverlay(bool immediate = false) {
+            if (immediate) {
+                _bg.color = AnimationConstants.UIPurple;
+                return;
+            }
+
+            await DOTween.Sequence()
+                .Join(_bg.DOColor(AnimationConstants.UIPurple, animationDuration))
+                .AsyncWaitForCompletion();
+        }
+
+        private async Task ChangeColorToGame(bool immediate = false) {
+            if (immediate) {
+                _bg.color = AnimationConstants.UIBlue;
+                return;
+            }
+
+            await DOTween.Sequence()
                 .Join(_bg.DOColor(AnimationConstants.UIBlue, animationDuration))
                 .AsyncWaitForCompletion();
         }
