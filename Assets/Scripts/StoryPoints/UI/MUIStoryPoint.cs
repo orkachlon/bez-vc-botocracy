@@ -105,7 +105,7 @@ namespace StoryPoints.UI {
         public async Task PlayDecrementAnimation() {
             var baseCol = backGround.color;
             backGround.color = Color.white;
-            CurrentAnimation?.Kill();
+            StopCurrentAnimation();
             var seq = DOTween.Sequence()
                 .Insert(0, backGround.DOColor(baseCol, 0.5f))
                 .Insert(0, backGround.rectTransform.DOShakePosition(0.5f, Vector3.right * decrementShakeStrength, randomness: 0, fadeOut: true, randomnessMode:ShakeRandomnessMode.Harmonic));
@@ -116,7 +116,7 @@ namespace StoryPoints.UI {
         public async Task PlayEvaluateAnimation() {
             IsPopup = true;
             await AnimationManager.WaitForElement(this);
-            CurrentAnimation?.Kill();
+            StopCurrentAnimation();
             CurrentAnimation = backGround.rectTransform.DOAnchorPosX(Screen.width * 0.5f / spCanvas.scaleFactor - backGround.rectTransform.sizeDelta.x * 0.5f, 0.2f)
                 .SetEase(Ease.Linear)
                 .OnComplete(() => {
@@ -126,7 +126,7 @@ namespace StoryPoints.UI {
                     ShowDecisionData();
                 });
             await CurrentAnimation.AsyncWaitForCompletion();
-            CurrentAnimation?.Kill();
+            StopCurrentAnimation();
             CurrentAnimation = backGround.rectTransform
                 .DOAnchorPosY(Screen.height * 0.5f / spCanvas.scaleFactor - backGround.rectTransform.sizeDelta.y * 0.5f, 0.5f)
                 .SetEase(Ease.OutQuad);
@@ -134,7 +134,7 @@ namespace StoryPoints.UI {
         }
 
         public virtual async void CloseDecisionPopup() {
-            CurrentAnimation?.Kill();
+            StopCurrentAnimation();
             CurrentAnimation = backGround.rectTransform
                 .DOAnchorPosY(-backGround.rectTransform.sizeDelta.y, animationDuration)
                 .SetEase(Ease.InOutQuad);
@@ -162,7 +162,7 @@ namespace StoryPoints.UI {
                 return;
             }
 
-            CurrentAnimation?.Kill();
+            StopCurrentAnimation();
             CurrentAnimation = IsPopup ? 
                 backGround.rectTransform.DOAnchorPosY(-backGround.rectTransform.sizeDelta.y, animationDuration).SetEase(animationEasing) : 
                 backGround.rectTransform.DOAnchorPosX(-backGround.rectTransform.sizeDelta.x, animationDuration).SetEase(animationEasing);
@@ -183,12 +183,17 @@ namespace StoryPoints.UI {
                 return;
             }
 
-            CurrentAnimation?.Kill();
+            StopCurrentAnimation();
             var screenHalfHeight = Screen.height * 0.5f / spCanvas.scaleFactor - backGround.rectTransform.sizeDelta.y * 0.5f;
             CurrentAnimation = IsPopup ? 
                 backGround.rectTransform.DOAnchorPosY(screenHalfHeight, animationDuration).SetEase(animationEasing) :
                 backGround.rectTransform.DOAnchorPosX(100, animationDuration).SetEase(animationEasing);
             await CurrentAnimation.AsyncWaitForCompletion();
+        }
+
+        private void StopCurrentAnimation() {
+            CurrentAnimation?.Complete();
+            CurrentAnimation?.Kill();
         }
     }
 }
