@@ -51,7 +51,7 @@ namespace Neurons.NeuronQueue {
             boardEventManager.Register(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElementPreActivation, BeforeElementActivation);
             boardEventManager.Register(ExternalBoardEvents.OnPlaceElementFailed, StartProvidingNeurons);
-            boardEventManager.Register(ExternalBoardEvents.OnPlaceElementTurnDone, CheckNeuronsDepleted);
+            boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, CheckNeuronsDepleted);
             neuronEventManager.Register(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Register(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
             gmEventManager.Register(GameManagerEvents.OnAfterGameStateChanged, OnGameEnd);
@@ -62,7 +62,7 @@ namespace Neurons.NeuronQueue {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, StartProvidingNeurons);
             boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementPreActivation, BeforeElementActivation);
             boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementFailed, StartProvidingNeurons);
-            boardEventManager.Unregister(ExternalBoardEvents.OnPlaceElementTurnDone, CheckNeuronsDepleted);
+            boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, CheckNeuronsDepleted);
             neuronEventManager.Unregister(NeuronEvents.OnRewardNeurons, OnRewardNeurons);
             modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteNeurons, OnInfiniteNeurons);
             gmEventManager.Unregister(GameManagerEvents.OnAfterGameStateChanged, OnGameEnd);

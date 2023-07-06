@@ -27,6 +27,7 @@ namespace MyHexBoardSystem.UI {
         protected Color _baseColor;
         protected IBoardNeuronsController _neuronController;
         private DecidingTraits _currentDecidingTraits;
+        private bool _isHidden;
 
         protected virtual void Awake() {
             SetText(0);
@@ -93,7 +94,6 @@ namespace MyHexBoardSystem.UI {
 
         protected virtual void Highlight() {
             textField.DOColor(highlightColor, 0.5f);
-            // textField.color = highlightColor;
         }
 
         protected virtual void Lowlight() {
@@ -111,13 +111,15 @@ namespace MyHexBoardSystem.UI {
         public virtual async Task Hide(bool immediate = false) {
             if (immediate) {
                 textField.color = new Color(textField.color.a, textField.color.g, textField.color.b, 0);
+                textField.enabled = false;
                 return;
             }
 
-            await textField.DOFade(0, 0.3f).AsyncWaitForCompletion();
+            await textField.DOFade(0, 0.3f).OnComplete(() => textField.enabled = false).AsyncWaitForCompletion();
         }
 
         public virtual async Task Show(bool immediate = false) {
+            textField.enabled = true;
             if (immediate) {
                 textField.color = new Color(textField.color.a, textField.color.g, textField.color.b, 1);
                 return;

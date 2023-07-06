@@ -91,10 +91,16 @@ namespace Main.Managers {
         }
 
         protected void PlayerTurn(EventArgs customArgs) {
+            if (_currentState is EGameState.Win or EGameState.Lose) {
+                return;
+            }
             ChangeState(EGameState.PlayerTurn, customArgs);
         }
 
         protected void StoryTurn(EventArgs customArgs) {
+            if (_currentState is EGameState.Win or EGameState.Lose) {
+                return;
+            }
             ChangeState(EGameState.StoryTurn, customArgs);
         }
 

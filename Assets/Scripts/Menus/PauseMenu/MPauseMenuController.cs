@@ -9,9 +9,9 @@ using UnityEngine;
 namespace Menus.PauseMenu {
     public class MPauseMenuController : MOverlayScreen {
 
+        [SerializeField] private SEventManager gmEventManager;
         [SerializeField] private RectTransform buttonContainer;
         [SerializeField] private RectTransform controls;
-        [SerializeField] private SEventManager gmEventManager;
         
         private Tween _animation;
         private bool _isPaused;
