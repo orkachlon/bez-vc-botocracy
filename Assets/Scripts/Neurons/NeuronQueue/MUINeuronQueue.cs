@@ -34,6 +34,7 @@ namespace Neurons.NeuronQueue {
 
         private Color _baseColor;
         private Tween _shakeTween;
+        private Tween _countTween;
         
         private void Awake() {
             _baseColor = bg.color;
@@ -150,7 +151,9 @@ namespace Neurons.NeuronQueue {
                 return;
             }
             var currentAmount = int.Parse(neuronCountDisplay.text);
-            DOVirtual.Int(currentAmount, amount, 0.3f * Mathf.Abs(amount - currentAmount),
+            _countTween?.Complete();
+            _countTween?.Kill();
+            _countTween = DOVirtual.Int(currentAmount, amount, 0.3f * Mathf.Abs(amount - currentAmount),
                 i => neuronCountDisplay.text = $"{i}");
         }
 

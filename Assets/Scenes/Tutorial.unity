@@ -3001,7 +3001,7 @@ MonoBehaviour:
   boardController: {fileID: 5093785329261064124}
   canBePlacedTileBase: {fileID: 11400000, guid: 5934d8d534040ef448cabdf5df2b9f38, type: 2}
   cannotBePlacedTileBase: {fileID: 11400000, guid: e02de212b123e6143aa8b52e7291d19e, type: 2}
-  hoverOutlineTile: {fileID: 11400000, guid: b06008abbe989e6458007abc2bc534fc, type: 2}
+  hoverTileSound: {fileID: 0}
   neuronEventManager: {fileID: 11400000, guid: 3531c9893208d16409c6bd8954ef14b9, type: 2}
 --- !u!1001 &1642730184
 PrefabInstance:
@@ -4416,6 +4416,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 6404699824438934710, guid: 190316cb2ec28d648a2c402f54e98c8c, type: 3}
+      propertyPath: uiEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 190316cb2ec28d648a2c402f54e98c8c, type: 3}
 --- !u!114 &5093785329261064067
