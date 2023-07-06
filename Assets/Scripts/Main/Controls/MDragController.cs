@@ -14,7 +14,7 @@ namespace Main.Controls {
         
         private Camera _camera;
 
-        private bool _enabled;
+        private bool _enabled = true;
         
         
         #region UnityMethods
