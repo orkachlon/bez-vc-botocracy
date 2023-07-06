@@ -9,7 +9,6 @@ using Events.Neuron;
 using ExternBoardSystem.BoardElements;
 using ExternBoardSystem.BoardSystem.Board;
 using MyHexBoardSystem.BoardElements.Neuron.Runtime;
-using MyHexBoardSystem.BoardSystem;
 using Types.Board;
 using Types.Board.UI;
 using Types.Hex.Coordinates;
@@ -236,6 +235,7 @@ namespace MyHexBoardSystem.BoardElements {
             var position = Board.GetPosition(hex);
             if (position == null || position.HasData() || !HasNeighbors(cell) || !IncrementTrait(hex) || !position.IsEnabled) {
                 DispatchOnAddElementFailed(element, cell);
+                externalEventManager.Raise(ExternalBoardEvents.OnPlaceElementFailed, eventData);
                 return;
             }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Animation;
+using Audio;
 using Core.EventSystem;
 using DG.Tweening;
 using Events.SP;
@@ -26,6 +27,8 @@ namespace StoryPoints.UI {
         [Header("Animation"), SerializeField] protected float decrementShakeStrength;
         [SerializeField] protected float animationDuration;
         [SerializeField] protected AnimationCurve animationEasing;
+        
+        [Header("Sound"), SerializeField] private AudioClip decrementSound;
   
         [Header("Decision"), SerializeField] private GameObject decisionSection;
         [SerializeField] private TextMeshProUGUI deciderText;
@@ -106,6 +109,7 @@ namespace StoryPoints.UI {
             var baseCol = backGround.color;
             backGround.color = Color.white;
             StopCurrentAnimation();
+            PlayDecrementSound();
             var seq = DOTween.Sequence()
                 .Insert(0, backGround.DOColor(baseCol, 0.5f))
                 .Insert(0, backGround.rectTransform.DOShakePosition(0.5f, Vector3.right * decrementShakeStrength, randomness: 0, fadeOut: true, randomnessMode:ShakeRandomnessMode.Harmonic))
@@ -200,6 +204,11 @@ namespace StoryPoints.UI {
         private void StopCurrentAnimation() {
             CurrentAnimation?.Complete();
             CurrentAnimation?.Kill();
+            CurrentAnimation = null;
+        }
+
+        private void PlayDecrementSound() {
+            AudioSpawner.PoolSound(decrementSound);
         }
     }
 }

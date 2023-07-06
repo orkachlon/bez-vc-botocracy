@@ -87,6 +87,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.8862745
       objectReference: {fileID: 0}
+    - target: {fileID: 3588649994087143685, guid: dfd4cf519d0a1f64589a44587bae8f7f, type: 3}
+      propertyPath: decrementSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a0166e5b62e21bf4d9bd90bdf1c63760, type: 3}
     - target: {fileID: 3707496539807505856, guid: dfd4cf519d0a1f64589a44587bae8f7f, type: 3}
       propertyPath: m_fontColor.b
       value: 1

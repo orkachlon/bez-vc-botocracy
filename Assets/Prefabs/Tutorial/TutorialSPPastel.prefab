@@ -420,6 +420,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  decrementSound: {fileID: 8300000, guid: a0166e5b62e21bf4d9bd90bdf1c63760, type: 3}
   decisionSection: {fileID: 8078582999681373022}
   deciderText: {fileID: 8308001650634525221}
   decisionText: {fileID: 1244810436971711290}
