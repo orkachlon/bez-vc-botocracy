@@ -26,7 +26,11 @@ namespace MyHexBoardSystem.BoardElements.Neuron.UI {
             RectTransform = GetComponent<RectTransform>();
             BaseImage = gameObject.FindComponentInChildWithTag<Image>("NeuronBaseRenderer");
             FaceImage = gameObject.FindComponentInChildWithTag<Image>("NeuronFaceRenderer");
-        } 
+        }
+
+        protected virtual void OnDestroy() {
+            StopAnimation();
+        }
 
         #endregion
 
