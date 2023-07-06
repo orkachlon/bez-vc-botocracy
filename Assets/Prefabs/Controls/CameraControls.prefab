@@ -370,10 +370,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vignetteShader: {fileID: 4800000, guid: 9c7043498e444498a94fe9b013aa286d, type: 3}
-  radius: 0.27
-  feather: 2.78
-  tint: {r: 0.3137255, g: 0.36862746, b: 0.56078434, a: 1}
+  radius: 0.83
+  feather: 0.89
+  tint: {r: 0.2784314, g: 0.47450984, b: 0.59607846, a: 1}
   invertColor: 0
+  animationDuration: 0.5
 --- !u!114 &9100381208010019762
 MonoBehaviour:
   m_ObjectHideFlags: 0

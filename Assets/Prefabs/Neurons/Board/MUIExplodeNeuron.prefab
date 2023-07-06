@@ -652,9 +652,9 @@ MonoBehaviour:
   hoverSortingLayer: Hover
   belowConnSortingLayer: BelowConnections
   aboveConnSortingLayer: AboveConnections
-  addVolume: 0.8
-  removeVolume: 0.8
-  moveVolume: 0.8
+  addVolume: 1
+  removeVolume: 1
+  moveVolume: 1
   spikes:
   - {fileID: 2630894525828306130}
   - {fileID: 3044117660269722214}

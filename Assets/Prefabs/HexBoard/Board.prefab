@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 1639060063860473448}
   - component: {fileID: 1639060063860473455}
   - component: {fileID: 1639060063860473454}
+  - component: {fileID: 8337235428101472977}
   m_Layer: 0
   m_Name: BaseTilemap
   m_TagString: Untagged
@@ -1394,8 +1395,24 @@ MonoBehaviour:
   boardController: {fileID: 1639060064745615111}
   canBePlacedTileBase: {fileID: 11400000, guid: 5934d8d534040ef448cabdf5df2b9f38, type: 2}
   cannotBePlacedTileBase: {fileID: 11400000, guid: e02de212b123e6143aa8b52e7291d19e, type: 2}
-  hoverOutlineTile: {fileID: 11400000, guid: b06008abbe989e6458007abc2bc534fc, type: 2}
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+--- !u!114 &8337235428101472977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639060063860473491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ebdb8ce3a9e45c5b121df181b372862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverTileLegalSound: {fileID: 8300000, guid: eb14fa0444a773c489174e9b46857fb6, type: 3}
+  hoverTileIllegalSound: {fileID: 8300000, guid: bff8514eb01031845bf37aa14c61c513, type: 3}
+  volume: 0.26
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1 &1639060064492561807
 GameObject:
   m_ObjectHideFlags: 0

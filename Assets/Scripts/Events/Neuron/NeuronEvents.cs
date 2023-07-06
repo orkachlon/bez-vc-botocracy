@@ -15,6 +15,8 @@ namespace Events.Neuron {
         public const string OnEnqueueNeuron = "Neurons_OnEnqueueNeuron";
         public const string OnDequeueNeuron = "Neurons_OnDequeueNeuron";
         public const string OnQueueStateChanged = "Neurons_OnQueueStateChanged";
+        public const string OnNeuronAmountLow = "Neurons_OnNeuronAmountLow";
+        public const string OnNeuronAmountStable = "Neurons_OnNeuronAmountStable";
         
         // rewards
         public const string OnRewardNeurons = "Neurons_OnRewardNeurons";

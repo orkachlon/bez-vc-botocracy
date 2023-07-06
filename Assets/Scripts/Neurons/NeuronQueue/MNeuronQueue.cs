@@ -21,6 +21,7 @@ namespace Neurons.NeuronQueue {
     public class MNeuronQueue : MonoBehaviour, INeuronQueue, IEnumerable<IStackNeuron> {
 
         [SerializeField] private int memorySize;
+        [SerializeField] private int neuronCriticalAmount;
         
         [Header("Event Managers"), SerializeField] protected SEventManager neuronEventManager;
         [SerializeField] protected SEventManager boardEventManager;
@@ -79,8 +80,12 @@ namespace Neurons.NeuronQueue {
         public void Enqueue(IStackNeuron stackNeuron) {
             RegisterToMemory(stackNeuron.DataProvider.Type);
             Neurons.Enqueue(stackNeuron);
-            neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, new NeuronQueueEventArgs(this));
-            neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
+            var neuronQueueEventArgs = new NeuronQueueEventArgs(this);
+            neuronEventManager.Raise(NeuronEvents.OnEnqueueNeuron, neuronQueueEventArgs);
+            neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, neuronQueueEventArgs);
+            if (Count > neuronCriticalAmount) {
+                neuronEventManager.Raise(NeuronEvents.OnNeuronAmountStable, neuronQueueEventArgs);
+            }
         }
 
         public void Enqueue(int amount) {
@@ -182,8 +187,12 @@ namespace Neurons.NeuronQueue {
                 Enqueue(1);
             }
 
-            neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, new NeuronQueueEventArgs(this));
-            neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, new NeuronQueueEventArgs(this));
+            var neuronQueueEventArgs = new NeuronQueueEventArgs(this);
+            neuronEventManager.Raise(NeuronEvents.OnDequeueNeuron, neuronQueueEventArgs);
+            neuronEventManager.Raise(NeuronEvents.OnQueueStateChanged, neuronQueueEventArgs);
+            if (Count <= neuronCriticalAmount) {
+                neuronEventManager.Raise(NeuronEvents.OnNeuronAmountLow, neuronQueueEventArgs);
+            }
             return prevNeuron;
         }
 

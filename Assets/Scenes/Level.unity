@@ -4097,6 +4097,26 @@ MonoBehaviour:
   modificationsEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
   numberOfDecidingTraits: 3
   spImagesPath: StoryPointsSprites
+--- !u!1 &1993138940 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8715965746229964941, guid: e84bf272025f6754499856141936d02c, type: 3}
+  m_PrefabInstance: {fileID: 8715965745253799853}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1993138946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993138940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27200af787c44f6f99bf7a22263b82d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  neuronsCriticalColor: {r: 1, g: 0.48742133, b: 0.48742133, a: 1}
+  vignetteController: {fileID: 2047431404}
+  neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
 --- !u!1 &1994135697 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1639060064745615112, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
@@ -4109,7 +4129,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1994135697}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41756b8382cc4768b9abd350d617106a, type: 3}
   m_Name: 
@@ -4263,6 +4283,17 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84823c3d791c8f941b1d164fd7d645d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2047431404 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4958885507159116106, guid: e942699f68b271542b9e99577cc80329, type: 3}
+  m_PrefabInstance: {fileID: 4958885507141005774}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c91d83f34144087b01c0751d2712b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2086144471 stripped
@@ -5291,7 +5322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 796669921885549254, guid: 70c9c801f70947c4d954872e49448a39, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 108.706894
       objectReference: {fileID: 0}
     - target: {fileID: 796669921885549254, guid: 70c9c801f70947c4d954872e49448a39, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5315,7 +5346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 796669921977706333, guid: 70c9c801f70947c4d954872e49448a39, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 885.4529
       objectReference: {fileID: 0}
     - target: {fileID: 796669921977706333, guid: 70c9c801f70947c4d954872e49448a39, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5426,6 +5457,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1639060063860473454, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
+      propertyPath: hoverTileSound
+      value: 
+      objectReference: {fileID: 8300000, guid: bff8514eb01031845bf37aa14c61c513, type: 3}
     - target: {fileID: 1639060063860473491, guid: 7482c63748ea5764f90af5768e3dbbd1, type: 3}
       propertyPath: m_TagString
       value: Board
@@ -7004,26 +7039,6 @@ PrefabInstance:
     - target: {fileID: 4958885506518661733, guid: e942699f68b271542b9e99577cc80329, type: 3}
       propertyPath: m_Name
       value: CameraPivot
-      objectReference: {fileID: 0}
-    - target: {fileID: 4958885507159116106, guid: e942699f68b271542b9e99577cc80329, type: 3}
-      propertyPath: radius
-      value: 0.83
-      objectReference: {fileID: 0}
-    - target: {fileID: 4958885507159116106, guid: e942699f68b271542b9e99577cc80329, type: 3}
-      propertyPath: tint.b
-      value: 0.454902
-      objectReference: {fileID: 0}
-    - target: {fileID: 4958885507159116106, guid: e942699f68b271542b9e99577cc80329, type: 3}
-      propertyPath: tint.g
-      value: 0.37254903
-      objectReference: {fileID: 0}
-    - target: {fileID: 4958885507159116106, guid: e942699f68b271542b9e99577cc80329, type: 3}
-      propertyPath: tint.r
-      value: 0.121568635
-      objectReference: {fileID: 0}
-    - target: {fileID: 4958885507159116106, guid: e942699f68b271542b9e99577cc80329, type: 3}
-      propertyPath: feather
-      value: 0.89
       objectReference: {fileID: 0}
     - target: {fileID: 4958885507159116209, guid: e942699f68b271542b9e99577cc80329, type: 3}
       propertyPath: m_BackGroundColor.b

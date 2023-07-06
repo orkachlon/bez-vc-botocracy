@@ -223,5 +223,9 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6322065047121343132, guid: 70c9c801f70947c4d954872e49448a39, type: 3}
+      propertyPath: uiEventManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70c9c801f70947c4d954872e49448a39, type: 3}

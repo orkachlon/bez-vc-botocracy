@@ -154,7 +154,8 @@ namespace Neurons.NeuronQueue {
             _countTween?.Complete();
             _countTween?.Kill();
             _countTween = DOVirtual.Int(currentAmount, amount, 0.3f * Mathf.Abs(amount - currentAmount),
-                i => neuronCountDisplay.text = $"{i}");
+                i => neuronCountDisplay.text = $"{i}")
+                .OnComplete(() => _countTween = null);
         }
 
         #region EventHandlers

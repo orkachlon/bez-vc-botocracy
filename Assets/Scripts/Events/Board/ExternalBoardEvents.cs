@@ -7,14 +7,14 @@ using UnityEngine.EventSystems;
 
 namespace Events.Board {
     public static class ExternalBoardEvents {
-        public const string OnPlaceElementFailed = "Board_OnPlaceElementFailed";
+        
         public const string OnBoardModified = "Board_OnBoardModified";
-        public const string OnBoardFull = "Board_OnBoardFull";
         public const string OnRemoveTile = "Board_OnRemoveTile";
         public const string OnAddTile = "Board_OnAddTile";
         public const string OnTileOccupied = "Board_OnTileOccupied";
         public const string OnTileUnoccupied = "Board_OnTileUnoccupied";
         public const string OnTileOccupantMoved = "Board_OnTileOccupantMoved";
+        public const string OnTileHover = "Board_OnTileHover";
 
         public const string OnBoardSetupComplete = "Board_OnBoardSetupComplete";
         
@@ -28,15 +28,18 @@ namespace Events.Board {
         public const string OnTraitCompassExitStatic = "Board_OnTraitCompassExitStatic";
 
         // by click
+        public const string OnPlaceElementPreActivation = "Board_OnAddElementPreActivation";
         public const string OnPlaceElementTurnDone = "Board_OnPlaceElement";
+        public const string OnPlaceElementFailed = "Board_OnPlaceElementFailed";
+        
         // by any means
         public const string OnAddElement = "Board_OnAddElement";
-        public const string OnPlaceElementPreActivation = "Board_OnAddElementPreActivation";
         public const string OnRemoveElement = "Board_OnRemoveElement";
         public const string OnMoveElement = "Board_OnMoveElement";
         public const string OnSetFirstElement = "Board_OnSetFirstElement";
         public const string OnSingleNeuronTurn = "Board_OnSingleNeuronTurn";
         public const string OnAllNeuronsDone = "Board_OnAllNeuronsDone";
+        public const string OnBoardFull = "Board_OnBoardFull";
         
         
         // input events
@@ -125,6 +128,16 @@ namespace Events.Board {
 
         public TraitCompassHoverEventArgs(ETrait? trait) {
             HighlightedTrait = trait;
+        }
+    }
+
+    public class TileHoverArgs : EventArgs {
+        public Hex HexTile;
+        public bool LegalPlacement;
+
+        public TileHoverArgs(Hex hexTile, bool legalPlacement) {
+            HexTile = hexTile;
+            LegalPlacement = legalPlacement;
         }
     }
 }

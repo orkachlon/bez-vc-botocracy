@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Core.EventSystem;
 using Core.Utils;
 using Events.Board;
@@ -12,6 +13,7 @@ using Types.Neuron.Runtime;
 using UnityEngine;
 
 namespace Neurons.Runtime {
+    // NOT IN USE
     public class TravelNeuronTimer : MonoBehaviour {
         [SerializeField] private SEventManager neuronEventManager;
         [SerializeField] private SEventManager boardEventManager;
@@ -34,13 +36,14 @@ namespace Neurons.Runtime {
             boardEventManager.Unregister(ExternalBoardEvents.OnRemoveElement, RemoveTraveller);
         }
 
-        private void RemoveTraveller(EventArgs obj) {
+        private async void RemoveTraveller(EventArgs obj) {
             if (obj is not BoardElementEventArgs<IBoardNeuron> neuronArgs) {
                 return;
             }
 
-            if (neuronArgs.Element.DataProvider.Type == ENeuronType.Travelling) {
+            if (ENeuronType.Travelling == neuronArgs.Element.DataProvider.Type) {
                 _travellers.TryRemove((TravelNeuron) neuronArgs.Element, out _);
+                await TestAllTravellers();
             }
         }
 
@@ -49,7 +52,7 @@ namespace Neurons.Runtime {
                 return;
             }
 
-            if (neuronArgs.Element.DataProvider.Type == ENeuronType.Travelling) {
+            if (ENeuronType.Travelling == neuronArgs.Element.DataProvider.Type) {
                 _travellers[(TravelNeuron) neuronArgs.Element] = Hex.zero;
             }
         }
@@ -59,12 +62,16 @@ namespace Neurons.Runtime {
                 return;
             }
 
+            _travellers[(TravelNeuron) neuronArgs.Element] = neuronArgs.Hex;
+            MLogger.LogEditor($"registered {neuronArgs.Hex}");
+            
+            await TestAllTravellers();
+        }
+
+        private async Task TestAllTravellers() {
             await countLock.WaitAsync();
             try {
-                _travellers[(TravelNeuron) neuronArgs.Element] = neuronArgs.Hex;
-                MLogger.LogEditor($"registered {neuronArgs.Hex}");
-                if (_travellers.Where(thp => !thp.Key.TurnDone).Select(thp => thp.Value).All(h => h != Hex.zero)) {
-                    //MLogger.LogEditor($" {_travellers.Count} Travelling!");
+                if (_travellers.Where(thp => !thp.Key.TurnDone).All(thp => thp.Value != Hex.zero)) {
                     neuronEventManager.Raise(NeuronEvents.OnTravellersReady, EventArgs.Empty);
                     foreach (var traveller in _travellers.Keys.ToArray()) {
                         _travellers[traveller] = Hex.zero;

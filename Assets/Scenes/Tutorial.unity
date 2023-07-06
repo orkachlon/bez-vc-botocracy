@@ -710,6 +710,63 @@ Transform:
   m_Father: {fileID: 615794150}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &489534911
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5682843596406342600, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_RootOrder
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682843596406342600, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682843596406342600, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682843596406342600, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682843596406342600, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682843596406342600, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682843596406342600, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682843596406342600, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682843596406342600, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682843596406342600, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682843596406342600, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682843596406342602, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
+      propertyPath: m_Name
+      value: BGMController
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e72b945f570123d41878b47b7b837ab5, type: 3}
 --- !u!1001 &504562475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -975,6 +1032,7 @@ MonoBehaviour:
   feather: 1.07
   tint: {r: 0.94509804, g: 0.95686275, b: 0.8352941, a: 1}
   invertColor: 0
+  animationDuration: 0
 --- !u!114 &519420037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1105,11 +1163,11 @@ MonoBehaviour:
 
     Can
     you feel your stem?'
-  neuronRewardMessage: 'Great! Here are some <u>neurons</u>. You''ll need  them to
-    learn and grow. Also you''ll die if you run out.
+  neuronRewardMessage: 'Great! I''ve added some <u>neurons</u> to your stack on the
+    left. You''ll need  them to learn and grow. Also you''ll die if you run out.
 
-    <font=EzerBlock Bold SDF>Get
-    to that tile</font> to get more.'
+    <font=EzerBlock
+    Bold SDF>Connect to reward tiles</font> to get more.'
   personalityMessage: 'Fantastic! You''re alive. In order to govern, you''ll need
     to choose between <u>personalities</u>. Some of the <u>personalities</u> will
     be unavailable each time, they say it makes you creative. These will be marked
@@ -2636,6 +2694,7 @@ GameObject:
   - component: {fileID: 1609176195}
   - component: {fileID: 1609176196}
   - component: {fileID: 1609176197}
+  - component: {fileID: 1609176198}
   m_Layer: 0
   m_Name: BaseTilemap
   m_TagString: Board
@@ -3001,8 +3060,24 @@ MonoBehaviour:
   boardController: {fileID: 5093785329261064124}
   canBePlacedTileBase: {fileID: 11400000, guid: 5934d8d534040ef448cabdf5df2b9f38, type: 2}
   cannotBePlacedTileBase: {fileID: 11400000, guid: e02de212b123e6143aa8b52e7291d19e, type: 2}
-  hoverTileSound: {fileID: 0}
   neuronEventManager: {fileID: 11400000, guid: 3531c9893208d16409c6bd8954ef14b9, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
+--- !u!114 &1609176198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609176184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ebdb8ce3a9e45c5b121df181b372862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverTileLegalSound: {fileID: 8300000, guid: eb14fa0444a773c489174e9b46857fb6, type: 3}
+  hoverTileIllegalSound: {fileID: 8300000, guid: bff8514eb01031845bf37aa14c61c513, type: 3}
+  volume: 0.26
+  boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
 --- !u!1001 &1642730184
 PrefabInstance:
   m_ObjectHideFlags: 0
