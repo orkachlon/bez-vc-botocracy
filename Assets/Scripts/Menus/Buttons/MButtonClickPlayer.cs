@@ -13,7 +13,7 @@ namespace Menus.Buttons {
         }
 
         public void OnButtonClick() {
-            _as.pitch += (Random.value - 0.5f) * 0.25f;
+            _as.pitch = 1 + (Random.value - 0.5f) * 0.25f;
             _as.Play();
         }
     }

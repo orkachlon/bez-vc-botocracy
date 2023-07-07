@@ -3,10 +3,9 @@ using Core.EventSystem;
 using Events.UI;
 using Types.UI;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace StoryPoints.Outcomes {
-    public class MOutcomesPanelExpander : MonoBehaviour, IPointerClickHandler {
+    public class MOutcomesPanelExpander : MonoBehaviour {
 
         [Header("Event Managers"), SerializeField]
         private SEventManager uiEventManager;
@@ -29,7 +28,7 @@ namespace StoryPoints.Outcomes {
             uiEventManager.Unregister(UIEvents.OnOutcomeAdded, UpdateSize);
         }
 
-        public void OnPointerClick(PointerEventData eventData) {
+        public void OnButtonClick() {
             _isExpanded = !_isExpanded;
             transform.eulerAngles = Vector3.forward * 90 - transform.rotation.eulerAngles;
             UpdateSize();
