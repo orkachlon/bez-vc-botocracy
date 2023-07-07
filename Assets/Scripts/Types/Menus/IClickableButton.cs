@@ -1,7 +1,7 @@
 
 
 namespace Types.Menus {
-    public interface IMenuButton {
+    public interface IClickableButton {
         void OnButtonClick();
     }
 }

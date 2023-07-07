@@ -2452,7 +2452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd870b029a8566440b51cb3aba027500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deciderSound: {fileID: 8300000, guid: 117dd9089ab46894a9ceb89def1467bd, type: 3}
+  deciderSound: {fileID: 8300000, guid: 6c8857ceb65387d4d861d86b7610dfce, type: 3}
   nonDeciderSound: {fileID: 8300000, guid: 9111495a605300c4c8dd2b232e7b10f3, type: 3}
   volume: 0.523
   storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}

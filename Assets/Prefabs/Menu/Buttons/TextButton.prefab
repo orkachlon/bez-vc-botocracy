@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 795880373568435856}
   - component: {fileID: 1836190146202184073}
   - component: {fileID: 1518313263571436118}
+  - component: {fileID: 9002510226489977361}
   m_Layer: 5
   m_Name: TextButton
   m_TagString: Untagged
@@ -299,6 +300,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da935228bac0495d8a9a6e3f9c978fe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9002510226489977361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795880373568435880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84d8da1b65cb4e3daa95ac31d29e1df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: 9501bf0796a1c064f81cb1c5ce70dbf4, type: 3}
+  pitchVariation: 0.0202
 --- !u!1 &795880374475709213
 GameObject:
   m_ObjectHideFlags: 0

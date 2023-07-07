@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Menus.Buttons {
     
     [RequireComponent(typeof(AudioSource))]
-    public class MWooshPlayer : MonoBehaviour, IMenuButton {
+    public class MWooshPlayer : MonoBehaviour, IClickableButton {
 
         [SerializeField] private AudioClip wooshSound;
         

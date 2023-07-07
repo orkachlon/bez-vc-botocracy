@@ -4,7 +4,7 @@ using Types.Menus;
 using UnityEngine;
 
 namespace Menus.PauseMenu {
-    public class MUnpauseButton : MPauseMenuButtonBase, IMenuButton {
+    public class MUnpauseButton : MPauseMenuButtonBase, IClickableButton {
 
         [SerializeField] private SEventManager uiEventManager;
         

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace Menus {
-    public class MGameQuitButton : MonoBehaviour, IMenuButton {
+    public class MGameQuitButton : MonoBehaviour, IClickableButton {
 
         public void OnButtonClick() {
             Application.Quit();

@@ -1411,7 +1411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverTileLegalSound: {fileID: 8300000, guid: eb14fa0444a773c489174e9b46857fb6, type: 3}
   hoverTileIllegalSound: {fileID: 8300000, guid: bff8514eb01031845bf37aa14c61c513, type: 3}
-  volume: 0.26
+  volume: 0.15
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1 &1639060064492561807
 GameObject:

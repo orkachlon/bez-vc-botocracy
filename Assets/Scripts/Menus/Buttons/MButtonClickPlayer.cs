@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Menus.Buttons {
     
     [RequireComponent(typeof(AudioSource))]
-    public class MButtonClickPlayer : MonoBehaviour, IMenuButton {
+    public class MButtonClickPlayer : MonoBehaviour, IClickableButton {
 
         private AudioSource _as;
 

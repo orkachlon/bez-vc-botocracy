@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Menus {
-    public class MLevelLoaderButton : MonoBehaviour, IMenuButton {
+    public class MLevelLoaderButton : MonoBehaviour, IClickableButton {
 
         [SerializeField] private string sceneName;
         
