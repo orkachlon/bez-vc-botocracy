@@ -29,6 +29,7 @@ namespace StoryPoints.UI {
         [SerializeField] protected AnimationCurve animationEasing;
         
         [Header("Sound"), SerializeField] private AudioClip decrementSound;
+        [SerializeField] private AudioClip evaluateSound;
   
         [Header("Decision"), SerializeField] private GameObject decisionSection;
         [SerializeField] private TextMeshProUGUI deciderText;
@@ -120,6 +121,7 @@ namespace StoryPoints.UI {
 
         public async Task PlayEvaluateAnimation() {
             IsPopup = true;
+            PlayEvaluateSound();
             await AnimationManager.WaitForElement(this);
             StopCurrentAnimation();
             CurrentAnimation = backGround.rectTransform.DOAnchorPosX(Screen.width * 0.5f / spCanvas.scaleFactor - backGround.rectTransform.sizeDelta.x * 0.5f, 0.2f)
@@ -132,12 +134,14 @@ namespace StoryPoints.UI {
                     CurrentAnimation = null;
                 });
             await CurrentAnimation.AsyncWaitForCompletion();
+            
             StopCurrentAnimation();
-            CurrentAnimation = backGround.rectTransform
-                .DOAnchorPosY(Screen.height * 0.5f / spCanvas.scaleFactor - backGround.rectTransform.sizeDelta.y * 0.5f, 0.5f)
-                .SetEase(Ease.OutQuad)
-                .OnComplete(() => CurrentAnimation = null);
-            MCoroutineHelper.InvokeAfterNextFrame(() => CurrentAnimation.Play());
+            MCoroutineHelper.InvokeAfterNextFrame(() => {
+                CurrentAnimation = backGround.rectTransform
+                    .DOAnchorPosY(Screen.height * 0.5f / spCanvas.scaleFactor - backGround.rectTransform.sizeDelta.y * 0.5f, 0.5f)
+                    .SetEase(Ease.OutQuad)
+                    .OnComplete(() => CurrentAnimation = null);
+            });
         }
 
         public virtual async void CloseDecisionPopup() {
@@ -209,6 +213,10 @@ namespace StoryPoints.UI {
 
         private void PlayDecrementSound() {
             AudioSpawner.PoolSound(decrementSound);
+        }
+
+        private void PlayEvaluateSound() {
+            AudioSpawner.PoolSound(evaluateSound);
         }
     }
 }

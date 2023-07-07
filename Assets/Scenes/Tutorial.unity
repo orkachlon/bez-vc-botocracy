@@ -3076,7 +3076,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverTileLegalSound: {fileID: 8300000, guid: eb14fa0444a773c489174e9b46857fb6, type: 3}
   hoverTileIllegalSound: {fileID: 8300000, guid: bff8514eb01031845bf37aa14c61c513, type: 3}
-  volume: 0.26
+  volume: 0.15
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
 --- !u!1001 &1642730184
 PrefabInstance:

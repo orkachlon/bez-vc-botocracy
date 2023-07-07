@@ -50,6 +50,8 @@ MonoBehaviour:
   songs:
   - {fileID: 8300000, guid: 55e119c508ee46a42829f86275fc7f95, type: 3}
   - {fileID: 8300000, guid: a15cfc884f692724aab3c6306e5d0ddf, type: 3}
+  losePitchDuration: 3
+  gmEventManager: {fileID: 11400000, guid: da5fbe8daab46c14780444ed40e883a7, type: 2}
 --- !u!82 &2628614279436851316
 AudioSource:
   m_ObjectHideFlags: 0
