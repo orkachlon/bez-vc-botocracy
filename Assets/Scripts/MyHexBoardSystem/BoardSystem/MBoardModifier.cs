@@ -26,6 +26,7 @@ namespace MyHexBoardSystem.BoardSystem {
         [Header("Modification Controls"), SerializeField]
         private int maxEffectStrength;
         [SerializeField, Range(1, 5)] private float effectScale;
+        [SerializeField, Range(1, 3)] private float addToRemoveRatio;
 
         [Header("Event Managers"), SerializeField]
         protected SEventManager storyEventManager;
@@ -82,7 +83,7 @@ namespace MyHexBoardSystem.BoardSystem {
                     tileEffectTasks.Add(RemoveTilesFromTrait(trait, effectStrength));
                 }
                 else if (boardEffect[trait] > 0) {
-                    tileEffectTasks.Add(AddTilesToTrait(trait, effectStrength));
+                    tileEffectTasks.Add(AddTilesToTrait(trait, Mathf.RoundToInt(effectStrength * addToRemoveRatio)));
                 }
                 if (effectStrength > BoardController.GetTraitTileCount(trait)) {
                     boardEventManager.Raise(ExternalBoardEvents.OnTraitOutOfTiles, new TraitOutOfTilesEventArgs(trait));

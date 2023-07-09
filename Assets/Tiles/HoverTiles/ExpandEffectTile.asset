@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ExpandEffectTile
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 21300000, guid: 3f29d28dc2e095a47aa3e2779e162a36, type: 3}
-  m_Color: {r: 0.627451, g: 0.78431374, b: 0.8352941, a: 1}
+  m_Color: {r: 0.57254905, g: 0.8980392, b: 0.7137255, a: 1}
   m_Transform:
     e00: 1
     e01: 0

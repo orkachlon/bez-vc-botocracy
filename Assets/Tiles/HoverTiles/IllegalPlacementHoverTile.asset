@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IllegalPlacementHoverTile
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 2747690628134850419, guid: a6f1d59c3bd2fd44abda8117a6eb085e, type: 3}
-  m_Color: {r: 0.8862745, g: 0.39607844, b: 0.3647059, a: 1}
+  m_Color: {r: 0.9372549, g: 0.4627451, b: 0.47843137, a: 1}
   m_Transform:
     e00: 1
     e01: 0

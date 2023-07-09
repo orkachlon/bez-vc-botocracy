@@ -1161,20 +1161,20 @@ MonoBehaviour:
 
     Here you''ll learn how to lead a country to sweet utopia.
 
-    Can
-    you feel your stem?'
+    This
+    is your "brain stem", can you feel it?'
   neuronRewardMessage: 'Great! I''ve added some <u>neurons</u> to your stack on the
     left. You''ll need  them to learn and grow. Also you''ll die if you run out.
 
     <font=EzerBlock
-    Bold SDF>Connect to reward tiles</font> to get more.'
+    Bold SDF>Connect to reward tiles</font> to get more <u>neurons</u>.'
   personalityMessage: 'Fantastic! You''re alive. In order to govern, you''ll need
     to choose between <u>personalities</u>. Some of the <u>personalities</u> will
-    be unavailable each time, they say it makes you creative. These will be marked
-    in a darker color.
+    be unavailable each time, they say it makes you creative. The available ones
+    have a bright background.
 
-    <font=EzerBlock Bold SDF>Hover</font> over each <u>personality</u>
-    to learn about it.'
+    <font=EzerBlock Bold SDF>Hover</font> over each
+    <u>personality</u> to learn about it.'
   boardEffectMessage: 'In reality, <u>events</u> happen all the time. Each <u>event</u>
     can be governed by 1 <u>personality</u>. Your decisions will affect the tiles
     of your <u>personalities</u>.
@@ -4547,7 +4547,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: bf3237bf94af601448852413a547acd3, type: 2}
     - {fileID: 11400000, guid: e71cde60f459c5544b1467fb0095b3da, type: 2}
     - {fileID: 11400000, guid: 4fe128cbbdc76da42b0867f1317186a6, type: 2}
-    - {fileID: 11400000, guid: ba91eb52bbe632040aaa0f6e7e4bdfdd, type: 2}
+    - {fileID: 11400000, guid: 4ff1dc14add2f1e40ab5c00e4610f9f5, type: 2}
   traitTileOutlines:
     keys: 000000000100000002000000030000000400000005000000
     values:
@@ -4606,6 +4606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxEffectStrength: 10
   effectScale: 2
+  addToRemoveRatio: 0
   storyEventManager: {fileID: 11400000, guid: dc6ade6c65107874fa022d1643494588, type: 2}
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
 --- !u!114 &5093785329261064128
@@ -4646,7 +4647,7 @@ MonoBehaviour:
     values:
     - {fileID: 11400000, guid: 555a753ae071382488fe5d15ec195c95, type: 2}
     - {fileID: 11400000, guid: 7c4ccf7170879574bbe854446a9db044, type: 2}
-    - {fileID: 11400000, guid: c0e65aa35d461324787a1e0242bc123c, type: 2}
+    - {fileID: 11400000, guid: 929d3d8cbd173d84288aaece3a4e2e69, type: 2}
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}
 --- !u!114 &5093785329261064130
 MonoBehaviour:

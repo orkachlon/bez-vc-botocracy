@@ -12,6 +12,7 @@ namespace Audio {
     public class MBGMController : MSingleton<MBGMController> {
 
         [SerializeField] private AudioClip[] songs;
+        [SerializeField] private float timeBetweenSongs;
         
         [Header("Animation"), SerializeField] private float losePitchDuration;
 
@@ -61,8 +62,9 @@ namespace Audio {
         private static IEnumerator PlayOnRepeat() {
             while (true) {
                 Instance._as.Play();
-                var waitUntilSongEnd = new WaitUntil(() => Instance._as.clip.length - Instance._as.time <= 0);
+                var waitUntilSongEnd = new WaitUntil(() => Instance._as.clip.length - Instance._as.time <= 1f);
                 yield return waitUntilSongEnd;
+                yield return new WaitForSeconds(Instance.timeBetweenSongs);
                 Instance._currentSong = (Instance._currentSong + 1) % Instance.songs.Length;
                 Instance._as.clip = Instance.songs[Instance._currentSong];
             }

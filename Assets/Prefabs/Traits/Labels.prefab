@@ -671,7 +671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   header: Mediator
-  content: Diplomatic, focuses on harmony and understanding.
+  content: Diplomatic, focusing on harmony and understanding.
 --- !u!222 &8414945713540249899
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -904,7 +904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   header: Entropist
-  content: Spontaneous and open-minded, embracing unpredictability and chaos.
+  content: Spontaneous and open-minded, focusing on adapting to situations.
 --- !u!222 &8414945713557797751
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1137,7 +1137,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   header: Protector
-  content: Compassionate and values safety and well-being.
+  content: Compassionate and values safety and well-being, focusing on protecting
+    the weak.
 --- !u!222 &8414945713918042838
 CanvasRenderer:
   m_ObjectHideFlags: 0

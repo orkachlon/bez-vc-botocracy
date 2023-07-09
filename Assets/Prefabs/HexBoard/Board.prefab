@@ -2725,6 +2725,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxEffectStrength: 5
   effectScale: 2
+  addToRemoveRatio: 2
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!114 &1639060064745615130

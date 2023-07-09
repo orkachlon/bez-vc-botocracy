@@ -49,7 +49,7 @@ namespace Main.Controls {
             }
  
             // If RMB is released, stop moving the camera
-            if (Input.GetKeyUp(KeyCode.Mouse1)) {
+            if (Input.GetKeyUp(KeyCode.Mouse1) || Input.GetKeyUp(KeyCode.Mouse2)) {
                 _mouseClickPos = default;
             }
         }

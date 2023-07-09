@@ -9,21 +9,26 @@ namespace StoryPoints.Interfaces {
             if (string.IsNullOrEmpty(prerequisite)) {
                 return true;
             }
-            if (prerequisite[0] == 'C') {
-                var subSentences = prerequisite[1..].Split('|');
-                return subSentences
-                    .Any(subSentence => MatchesCNF(subSentence, input));
-            } else if (prerequisite[0] == 'D') {
-                var subSentences = prerequisite[1..].Split("&");
-                return subSentences
-                    .Any(subSentence => MatchesDNF(subSentence, input));
-            } else {
-                MLogger.LogEditorError("Unrecognized prerequisite string!");
+
+            prerequisite = prerequisite.Replace(" ", "");
+            switch (prerequisite[0]) {
+                case 'C': {
+                    var subSentences = prerequisite[1..].Split('|');
+                    return subSentences
+                        .Any(subSentence => MatchesCNF(subSentence, input.ToArray()));
+                }
+                case 'D': {
+                    var subSentences = prerequisite[1..].Split("&");
+                    return subSentences
+                        .All(subSentence => MatchesDNF(subSentence, input.ToArray()));
+                }
+                default:
+                    MLogger.LogEditorError("Unrecognized prerequisite string!");
+                    return false;
             }
-            return false;
         }
 
-        private static bool MatchesDNF(string subSentence, IEnumerable<int> input) {
+        private static bool MatchesDNF(string subSentence, int[] input) {
             subSentence = subSentence.Trim('(', ')');
             var literals = subSentence.Split('|');
             foreach (var literal in literals) {
@@ -43,7 +48,7 @@ namespace StoryPoints.Interfaces {
             return false;
         }
 
-        private static bool MatchesCNF(string subSentence, IEnumerable<int> input) {
+        private static bool MatchesCNF(string subSentence, int[] input) {
             subSentence = subSentence.Trim('(', ')');
             var literals = subSentence.Split('&');
             foreach (var literal in literals) {
