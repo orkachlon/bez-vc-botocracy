@@ -1212,10 +1212,10 @@ MonoBehaviour:
   cullerNeuronMessage: Lastly, the Culler. This <u>neuron</u> removes all neighboring
     neurons.
   tutorialEndMessage: 'That''s all! Now it''s all up to you to make your country
-    survive.
+    survive. If you ever need a reminder, just hit pause on the top left.
 
-    <font=EzerBlock Bold SDF>Fill all tiles</font> to end the tutorial
-    and start leading your country!'
+    <font=EzerBlock
+    Bold SDF>Fill all tiles</font> to end the tutorial and start leading your country!'
   tutorialEventManager: {fileID: 11400000, guid: 087edbf803ee8624381e2d314a47b570, type: 2}
   uiEventManager: {fileID: 11400000, guid: 3d70b064a009e864aa7ca6898fe7eacc, type: 2}
   boardEventManager: {fileID: 11400000, guid: 478e1da486a50d741bee596e7b3e22c6, type: 2}

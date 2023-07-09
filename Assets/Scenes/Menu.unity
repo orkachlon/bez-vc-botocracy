@@ -318,6 +318,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3732657370330243782, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6edbed364c303b845a465d819937affe, type: 3}
+    - target: {fileID: 3732657370330243782, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
+      propertyPath: m_Color.a
+      value: 0.7294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732657370330243782, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6313726
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732657370330243782, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6313726
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732657370330243782, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6313726
+      objectReference: {fileID: 0}
     - target: {fileID: 3732657370469811876, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -601,8 +621,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3027246746787814016, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
       propertyPath: m_text
-      value: Lead the young Dewish nation to salvation, as they struggle to be a
-        beacon for the world.
+      value: Lead this young nation to utopia, as they struggle to be a beacon of
+        all that's right for the world.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027246746787814016, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027246747288982702, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
+      propertyPath: m_text
+      value: Israland
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027246747288982702, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 3027246747288982703, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
       propertyPath: m_SizeDelta.y
@@ -627,6 +659,10 @@ PrefabInstance:
     - target: {fileID: 3027246747502140446, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027246748342307053, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 3027246748342307054, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
       propertyPath: m_SizeDelta.x
@@ -719,18 +755,6 @@ PrefabInstance:
     - target: {fileID: 3027246748393446307, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
       propertyPath: m_Name
       value: LevelCard
-      objectReference: {fileID: 0}
-    - target: {fileID: 3027246748511425542, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.b
-      value: 0.7372549
-      objectReference: {fileID: 0}
-    - target: {fileID: 3027246748511425542, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.g
-      value: 0.9137255
-      objectReference: {fileID: 0}
-    - target: {fileID: 3027246748511425542, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.r
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3027246748511425543, guid: 7879b1efc06d3d14ab7dad7b6c8c60c1, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1907,6 +1931,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3732657370330243782, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8ac744a78e3a8d046a62a3579347607b, type: 3}
+    - target: {fileID: 3732657370330243782, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
+      propertyPath: m_Color.a
+      value: 0.7294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732657370330243782, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6313726
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732657370330243782, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6313726
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732657370330243782, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6313726
+      objectReference: {fileID: 0}
     - target: {fileID: 3732657370469811876, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -2025,7 +2069,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3732657371540052708, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
       propertyPath: m_text
-      value: Ingland
+      value: The U.Q.
       objectReference: {fileID: 0}
     - target: {fileID: 3732657371540052709, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2033,8 +2077,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3732657372108166346, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
       propertyPath: m_text
-      value: Govern for the people of Ingland in a time without the European union
-        watchin over.
+      value: Govern the United Queendom in a time without the European union watching
+        over.
       objectReference: {fileID: 0}
     - target: {fileID: 7508697535397955934, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2297,6 +2341,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3732657370330243782, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5c879b9234c4a804d89ee0c55168f33c, type: 3}
     - target: {fileID: 3732657370469811876, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -2415,7 +2463,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3732657371540052708, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
       propertyPath: m_text
-      value: Frankia
+      value: Francia
       objectReference: {fileID: 0}
     - target: {fileID: 3732657371540052709, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2423,7 +2471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3732657372108166346, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}
       propertyPath: m_text
-      value: Reign over the once colonial empire of Frankia in its more humble modern
+      value: Reign over the once colonial empire of Francia in its more humble modern
         days.
       objectReference: {fileID: 0}
     - target: {fileID: 7508697535397955934, guid: c043f409f8557c9418d5b49c97815c3b, type: 3}

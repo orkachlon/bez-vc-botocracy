@@ -12,6 +12,7 @@ namespace Menus.PauseMenu {
         [SerializeField] private SEventManager gmEventManager;
         [SerializeField] private RectTransform buttonContainer;
         [SerializeField] private RectTransform controls;
+        [SerializeField] private RectTransform middleContainer;
         
         private Tween _animation;
         private bool _isPaused;
@@ -54,9 +55,12 @@ namespace Menus.PauseMenu {
             buttonContainer.anchoredPosition =
                 new Vector2(-buttonContainer.sizeDelta.x, buttonContainer.anchoredPosition.y);
             controls.anchoredPosition = new Vector2(controls.sizeDelta.x, controls.anchoredPosition.y);
+            middleContainer.anchoredPosition = new Vector2(middleContainer.anchoredPosition.x, -middleContainer.sizeDelta.y);
             _animation = ShowOverlay()
                 // buttons slide in
                 .Append(buttonContainer.DOAnchorPosX(0, animationDuration).SetEase(animationEasing))
+                // neuron explanations slide up
+                .Join(middleContainer.DOAnchorPosY(0, animationDuration).SetEase(animationEasing))
                 // controls slide in
                 .Join(controls.DOAnchorPosX(0, animationDuration).SetEase(animationEasing));
         }
@@ -69,6 +73,8 @@ namespace Menus.PauseMenu {
                 .Append(buttonContainer.DOAnchorPosX(-buttonContainer.sizeDelta.x, animationDuration).SetEase(animationEasing))
                 // controls slide out
                 .Join(controls.DOAnchorPosX(controls.sizeDelta.x, animationDuration).SetEase(animationEasing))
+                // neuron explanations slide down
+                .Join(middleContainer.DOAnchorPosY(-middleContainer.sizeDelta.y, animationDuration).SetEase(animationEasing))
                 .Join(HideOverlay());
         }
     }
