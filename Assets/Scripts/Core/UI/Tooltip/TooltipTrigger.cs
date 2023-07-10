@@ -11,12 +11,11 @@ namespace Core.UI.Tooltip {
         private Sequence _showSequence;
         
         public void OnPointerEnter(PointerEventData eventData) {
-
             _showSequence = DOTween.Sequence().SetDelay(0.5f).AppendCallback(() => TooltipSystem.Show(content, header)).Play();
         }
 
         public void OnPointerExit(PointerEventData eventData) {
-            _showSequence.Kill();
+            _showSequence?.Kill();
             TooltipSystem.Hide();
         }
     }

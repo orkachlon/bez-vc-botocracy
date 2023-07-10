@@ -6,7 +6,7 @@ using Core.Utils;
 using Events.Board;
 using Events.General;
 using Events.SP;
-using StoryPoints.UI;
+using StoryPoints.Interfaces;
 using Types.Board;
 using Types.GameState;
 using Types.StoryPoint;
@@ -16,12 +16,10 @@ using Random = UnityEngine.Random;
 namespace StoryPoints {
     public class MStoryPoint : MonoBehaviour, IStoryPoint {
         
-        [SerializeField] private AnimationCurve neuronEvaluationWeight;
-
         [Header("Event Managers"), SerializeField]
-        private SEventManager storyEventManager;
-        [SerializeField] private SEventManager boardEventManager;
-        [SerializeField] private SEventManager gmEventManager;
+        protected SEventManager storyEventManager;
+        [SerializeField] protected SEventManager boardEventManager;
+        [SerializeField] protected SEventManager gmEventManager;
 
         public int Id => _spData.id;
         public string Title => _spData.title;
@@ -34,14 +32,14 @@ namespace StoryPoints {
         public bool Evaluated { get; private set; } = false;
 
         
+        protected IUIStoryPoint UISP;
         private StoryPointData _spData;
-        private MUIStoryPoint _uiSP;
         private IBoardNeuronsController _neuronsController;
 
         #region UnityMethods
 
         private void Awake() {
-            _uiSP = GetComponent<MUIStoryPoint>();
+            UISP = GetComponent<IUIStoryPoint>();
         }
 
         private void OnEnable() {
@@ -62,7 +60,7 @@ namespace StoryPoints {
         
         #region EventHandlers
 
-        private void OnAfterGameState(EventArgs obj) {
+        protected void OnAfterGameState(EventArgs obj) {
             if (obj is not GameStateEventArgs {State: EGameState.StoryTurn}) {
                 return;
             }
@@ -85,20 +83,20 @@ namespace StoryPoints {
             _spData = spData;
             TurnsToEvaluation = spData.turnsToEvaluation;
             
-            _uiSP.InitSPUI();
+            UISP.InitSPUI();
             // notify
             storyEventManager.Raise(StoryEvents.OnInitStory, new StoryEventArgs(this));
         }
 
         public async Task AwaitInitAnimation() {
-            await _uiSP.PlayInitAnimation();
+            await UISP.PlayInitAnimation();
         }
 
         public async Task AwaitRemoveAnimation() {
-            await _uiSP.PlayEvaluateAnimation();
+            await UISP.PlayEvaluateAnimation();
         }
 
-        private async void HandleStoryTurn() {
+        protected virtual async void HandleStoryTurn() {
             await Decrement();
             if (TurnsToEvaluation > 0) {
                 return;
@@ -116,9 +114,9 @@ namespace StoryPoints {
                 MLogger.LogEditor("Event turn counter < 0 !!!");
             }
             TurnsToEvaluation--;
-            _uiSP.UpdateTurnCounter(TurnsToEvaluation);
+            UISP.UpdateTurnCounter(TurnsToEvaluation);
             if (TurnsToEvaluation > 0) {
-                await _uiSP.AnimateDecrement();
+                await UISP.PlayDecrementAnimation();
             }
             storyEventManager.Raise(StoryEvents.OnDecrement, new StoryEventArgs(this));
         }
@@ -140,6 +138,13 @@ namespace StoryPoints {
             Evaluated = true;
             storyEventManager.Raise(StoryEvents.OnBeforeEvaluate, new StoryEventArgs(this));
             await AwaitRemoveAnimation();
+        }
+
+        public void RegisterOutcome(ISPProvider spProvider) {
+            if (!string.IsNullOrEmpty(DecisionEffects.OutcomeModification)) {
+                OutcomeModificationParser.ModifyOutcomes(spProvider, DecisionEffects.OutcomeModification);
+            }
+            spProvider.AddOutcome(DecisionEffects.OutcomeID);
         }
     }
 }

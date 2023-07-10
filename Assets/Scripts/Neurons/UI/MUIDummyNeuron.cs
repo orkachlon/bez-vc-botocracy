@@ -17,5 +17,16 @@ namespace Neurons.UI {
 
         #endregion
         
+        public void Tint(Color color) {
+            neuronFace.color = color;
+            baseSpriteRenderer.color = color;
+        }
+
+        public override void Default() {
+            base.Default();
+            neuronFace.color = Color.white;
+            baseSpriteRenderer.color = Color.white;
+        }
+
     }
 }

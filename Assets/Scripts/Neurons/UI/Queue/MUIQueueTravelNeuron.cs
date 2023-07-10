@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Neurons.UI.Queue {
+namespace Neurons.UI.Queue {
     public class MUIQueueTravelNeuron : MUIQueueNeuron {
 
         [Header("Probes"), SerializeField] private List<Image> probes;
@@ -22,16 +22,14 @@ namespace Assets.Scripts.Neurons.UI.Queue {
 
         protected override void UpdateView() {
             base.UpdateView();
-            if (RuntimeData.PlaceInQueue > 2) {
-                probes.ForEach(p => {
-                    p.color = Color.white;
-                    p.gameObject.SetActive(false);
-                });
-                lines.ForEach(l => {
-                    l.color = Color.white;
-                    l.gameObject.SetActive(false);
-                });
-            }
+            probes.ForEach(p => {
+                p.color = Color.white;
+                p.gameObject.SetActive(RuntimeData.PlaceInQueue <= 2);
+            });
+            lines.ForEach(l => {
+                l.color = Color.white;
+                l.gameObject.SetActive(RuntimeData.PlaceInQueue <= 2);
+            });
         }
 
         #region Animation
@@ -65,7 +63,7 @@ namespace Assets.Scripts.Neurons.UI.Queue {
             await Task.WhenAll(base.AnimateDequeue(), probeSeq.AsyncWaitForCompletion());
         }
 
-        public override Task AnimateQueueShift(int queueIndex, int stackShiftAmount, int Top3ShiftAmount) {
+        public override Task AnimateQueueShift(int queueIndex, int stackShiftAmount, int top3ShiftAmount) {
             if (queueIndex <= 2) {
                 probes.ForEach(p => {
                     p.gameObject.SetActive(true);
@@ -76,7 +74,7 @@ namespace Assets.Scripts.Neurons.UI.Queue {
                     l.transform.localScale = Vector3.one;
                 });
             }
-            return base.AnimateQueueShift(queueIndex, stackShiftAmount, Top3ShiftAmount);
+            return base.AnimateQueueShift(queueIndex, stackShiftAmount, top3ShiftAmount);
         }
 
         private IEnumerator QueueAnimation() {
@@ -87,14 +85,15 @@ namespace Assets.Scripts.Neurons.UI.Queue {
 
                 _animationSequence = DOTween.Sequence(this);
                 var randomAngle = 60 * Random.Range(1, 4) * (Random.value > 0.5f ? 1 : -1);
-                for (var i = 0; i < probes.Count; i++) {
-                    var probe = probes[i];
-                    var line = lines[i];
+                foreach (var probe in probes) {
                     probe.gameObject.SetActive(true);
-                    line.gameObject.SetActive(true);
                     _animationSequence.Insert(0, probe.transform
                         .DORotate(Vector3.forward * randomAngle, probeDuration, RotateMode.LocalAxisAdd)
                         .SetEase(probeEasing));
+                }
+
+                foreach (var line in lines) {
+                    line.gameObject.SetActive(true);
                     _animationSequence.Insert(0, line.transform
                         .DORotate(Vector3.forward * randomAngle, probeDuration, RotateMode.LocalAxisAdd)
                         .SetEase(probeEasing));

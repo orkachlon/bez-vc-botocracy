@@ -9,9 +9,12 @@ using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
 using Types.Neuron.Runtime;
+using UnityEngine;
 
 namespace Neurons.Runtime {
     public class InvulnerableNeuron : BoardNeuron {
+
+        public override Color ConnectionColor { get => DataProvider.ConnectionColor; }
 
         public override INeuronDataBase DataProvider { get; }
         protected sealed override IBoardNeuronConnector Connector { get; set; }

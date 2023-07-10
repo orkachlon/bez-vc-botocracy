@@ -39,7 +39,7 @@ namespace Neurons.Connections {
             var grad = new Gradient();
             grad.SetKeys(
                 new GradientColorKey[]
-                    {new(first.DataProvider.ConnectionColor, 0), new(second.DataProvider.ConnectionColor, 1)},
+                    {new(first.ConnectionColor, 0), new(second.ConnectionColor, 1)},
                 new GradientAlphaKey[] {new(1, 0), new(1, 1)}
             );
             Line.colorGradient = grad;

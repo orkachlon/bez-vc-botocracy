@@ -15,11 +15,14 @@ namespace Events.Neuron {
         public const string OnEnqueueNeuron = "Neurons_OnEnqueueNeuron";
         public const string OnDequeueNeuron = "Neurons_OnDequeueNeuron";
         public const string OnQueueStateChanged = "Neurons_OnQueueStateChanged";
+        public const string OnNeuronAmountLow = "Neurons_OnNeuronAmountLow";
+        public const string OnNeuronAmountStable = "Neurons_OnNeuronAmountStable";
         
         // rewards
         public const string OnRewardNeurons = "Neurons_OnRewardNeurons";
         public const string OnRewardTileReached = "Neurons_OnRewardTileReached";
         public const string OnRewardTilePicked = "Neurons_OnRewardTilePicked";
+        public const string OnRewardTileRemoved = "Neurons_OnRewardTileRemoved";
         
         // travel
         public const string OnTravelNeuronReady = "Neurons_OnTravelNeuronReady";
@@ -45,9 +48,11 @@ namespace Events.Neuron {
 
     public class RewardTileArgs : EventArgs {
         public Hex RewardHex;
+        public int Amount;
 
-        public RewardTileArgs(Hex rewardHex) {
+        public RewardTileArgs(Hex rewardHex, int amount) {
             RewardHex = rewardHex;
+            Amount = amount;
         }
     }
 

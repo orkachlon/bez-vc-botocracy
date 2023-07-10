@@ -1,50 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Core.EventSystem;
+using DG.Tweening;
 using Events.Neuron;
+using Events.UI;
 using TMPro;
 using Types.Neuron;
 using Types.Neuron.Runtime;
 using Types.Neuron.UI;
+using Types.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Neurons.NeuronQueue {
-    public class MUINeuronQueue : MonoBehaviour {
+    public class MUINeuronQueue : MonoBehaviour, IHideable, IShowable {
+        [SerializeField] protected Image bg;
         [SerializeField, Range(3, 10)] private int neuronsToShow = 7;
         [SerializeField] private TextMeshProUGUI neuronCountDisplay;
         [SerializeField] private RectTransform stack;
         [SerializeField] private int stackSpacing = 100, top3Spacing = 150, topPadding = -50;
         
-        [Header("Event Managers"), SerializeField]
-        private SEventManager neuronEventManager;
+        [Header("Animation"), SerializeField] private float enqueueShakeStrength;
+        [SerializeField] private float animationDuration;
+        [SerializeField] private AnimationCurve animationEasing;
         
+        [Header("Event Managers"), SerializeField]
+        protected SEventManager neuronEventManager;
+        [SerializeField] protected SEventManager uiEventManager;
+
         private const string InfiniteNeuronsMark = "-";
         private readonly Queue<IStackNeuron> _registerUiElements = new ();
 
-        private Canvas _queueCanvas;
-
-        public float StackSpacing => stackSpacing;
-        public float Top3Spacing => top3Spacing;
-
-
+        private Color _baseColor;
+        private Tween _shakeTween;
+        private Tween _countTween;
+        
         private void Awake() {
-            _queueCanvas = GetComponent<Canvas>();
+            _baseColor = bg.color;
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             neuronEventManager.Register(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Register(NeuronEvents.OnDequeueNeuron, OnDequeue);
+            uiEventManager.Register(UIEvents.OnOverlayShow, Hide);
+            uiEventManager.Register(UIEvents.OnOverlayHide, Show);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             neuronEventManager.Unregister(NeuronEvents.OnEnqueueNeuron, OnEnqueue);
             neuronEventManager.Unregister(NeuronEvents.OnDequeueNeuron, OnDequeue);
+            uiEventManager.Unregister(UIEvents.OnOverlayShow, Hide);
+            uiEventManager.Unregister(UIEvents.OnOverlayHide, Show);
         }
 
         private void Enqueue(INeuronQueue neuronQueue) {
             SetNeuronCounterText(neuronQueue.IsInfinite, neuronQueue.Count);
+            AnimateBG(neuronQueue.IsInfinite);
             
             if (!neuronQueue.IsInfinite && neuronQueue.Count > neuronsToShow) {
                 return;
@@ -55,6 +67,25 @@ namespace Neurons.NeuronQueue {
             }
             
             ShowNeuron(neuronQueue.PeekLast());
+        }
+
+        private void AnimateBG(bool isInfinite) {
+            if (isInfinite) {
+                return;
+            }
+
+            bg.color = Color.white;
+            if (_shakeTween != null && _shakeTween.IsPlaying()) {
+                _shakeTween.Rewind();
+                _shakeTween.Play();
+            }
+            else {
+                _shakeTween = DOTween.Sequence()
+                    .Append(bg.rectTransform.DOShakePosition(0.5f, Vector3.up * enqueueShakeStrength,
+                    randomness: 0, fadeOut: true, randomnessMode:ShakeRandomnessMode.Harmonic))
+                    .Join(bg.DOColor(_baseColor, 0.5f))
+                    .SetAutoKill(false);
+            }
         }
 
         private void Dequeue(INeuronQueue neuronQueue) {
@@ -81,11 +112,9 @@ namespace Neurons.NeuronQueue {
         private void ShowNeuron(IStackNeuron stackNeuron) {
             var uiElement = stackNeuron.Pool(stack);
             uiElement.Default();
-            // can't use the isntantiate overload with position because
+            // can't use the instantiate overload with position because
             // parenting is done after setting position 
             uiElement.GO.GetComponent<RectTransform>().anchoredPosition = Vector3.up * top3Spacing;
-            // scale the entire neuron with the canvas in order to fit to different screen sizes
-            //uiElement.GO.transform.localScale *= _queueCanvas.scaleFactor;
 
             var placeInQueue = _registerUiElements.Count;
             _registerUiElements.Enqueue(stackNeuron);
@@ -111,8 +140,22 @@ namespace Neurons.NeuronQueue {
             await Task.WhenAll(shiftTasks);
         }
 
-        private void SetNeuronCounterText(bool isInfinite, int amount = 0) {
-            neuronCountDisplay.text = isInfinite ? InfiniteNeuronsMark : $"{amount}";
+        private void SetNeuronCounterText(bool isInfinite, int amount = 0, bool immediate = false) {
+            if (isInfinite) {
+                neuronCountDisplay.text = InfiniteNeuronsMark;
+                return;
+            }
+
+            if (immediate) {
+                neuronCountDisplay.text = $"{amount}";
+                return;
+            }
+            var currentAmount = int.Parse(neuronCountDisplay.text);
+            _countTween?.Complete();
+            _countTween?.Kill();
+            _countTween = DOVirtual.Int(currentAmount, amount, 0.3f * Mathf.Abs(amount - currentAmount),
+                i => neuronCountDisplay.text = $"{i}")
+                .OnComplete(() => _countTween = null);
         }
 
         #region EventHandlers
@@ -129,6 +172,34 @@ namespace Neurons.NeuronQueue {
             }
         }
 
+        protected virtual  async void Hide(EventArgs args) {
+            await Hide();
+        }
+        
+        protected virtual async void Show(EventArgs args) {
+            await Show();
+        }
+
         #endregion
+
+        public async Task Hide(bool immediate = false) {
+            if (immediate) {
+                bg.rectTransform.anchoredPosition = new Vector2(-bg.rectTransform.sizeDelta.x, bg.rectTransform.anchoredPosition.y);
+                return;
+            }
+            await bg.rectTransform.DOAnchorPosX(-bg.rectTransform.sizeDelta.x, animationDuration)
+                .SetEase(animationEasing)
+                .AsyncWaitForCompletion();
+        }
+
+        public async Task Show(bool immediate = false) {
+            if (immediate) {
+                bg.rectTransform.anchoredPosition = new Vector2(100, bg.rectTransform.anchoredPosition.y);
+                return;
+            }
+            await bg.rectTransform.DOAnchorPosX(100, animationDuration)
+                .SetEase(animationEasing)
+                .AsyncWaitForCompletion();
+        }
     }
 }

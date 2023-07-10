@@ -3,7 +3,6 @@ using System.Linq;
 using Core.EventSystem;
 using Events.Board;
 using MyHexBoardSystem.BoardSystem;
-using Types.Board;
 using Types.Trait;
 using UnityEngine;
 
@@ -11,6 +10,7 @@ namespace MyHexBoardSystem.UI {
     public class MTraitLabelPositioner : MonoBehaviour {
         [SerializeField] private ETrait trait;
         [SerializeField] private float labelBufferFromBoard;
+        [SerializeField] private Canvas canvas;
 
         [SerializeField] private MTraitAccessor traitAccessor;
         [SerializeField] private MNeuronBoardController controller;
@@ -28,30 +28,24 @@ namespace MyHexBoardSystem.UI {
             _camera = Camera.main;
             _rt = GetComponent<RectTransform>();
             _bounds = _rt.parent.GetComponent<RectTransform>();
-            _traitDirection = ITraitAccessor.TraitToVectorDirection(trait).normalized;
-        }
-
-        private void Start() {
-            RepositionLabel();
+            _traitDirection = traitAccessor.TraitToVectorDirection(trait).normalized;
         }
 
         private void OnEnable() {
-            boardEventManager.Register(ExternalBoardEvents.OnBoardModified, RepositionLabel);
+            boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, PositionInWorld);
+            boardEventManager.Register(ExternalBoardEvents.OnBoardModified, PositionInWorld);
         }
 
         private void OnDisable() {
-            boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, RepositionLabel);
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, PositionInWorld);
+            boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, PositionInWorld);
         }
 
         private void LateUpdate() {
-            var screenPos = _camera.WorldToScreenPoint(_worldPos);
-            // if (!IsInsideBounds(screenPos)) {
-            //     screenPos = ShiftIntoCameraBounds(screenPos);
-            // }
-            _rt.position = screenPos;
+            PositionOnScreen();
         }
 
-        private void RepositionLabel(EventArgs obj = null) {
+        private void PositionInWorld(EventArgs obj = null) {
             var edgeHexes = traitAccessor.GetTraitEdgeHexes(trait);
             if (edgeHexes.Length == 0) {
                 _worldPos = _traitDirection * labelBufferFromBoard;
@@ -65,48 +59,27 @@ namespace MyHexBoardSystem.UI {
             var worldPos = maxPosProjected + _traitDirection * labelBufferFromBoard;
             _worldPos = worldPos;
         }
-        
-        private bool IsInsideBounds(Vector2 screenPos) {
-            var h = _rt.sizeDelta.y * 0.5f;
-            var w = _rt.sizeDelta.x * 0.5f;
-            var yExtent = _bounds.sizeDelta.y * 0.5f;
-            var xExtent = _bounds.sizeDelta.x * 0.5f;
-            var boundsPos = _bounds.position;
-            return boundsPos.y + yExtent >= screenPos.y + h && boundsPos.y - yExtent <= screenPos.y - h &&
-                   boundsPos.x + xExtent >= screenPos.x + w && boundsPos.x - xExtent <= screenPos.x - w;
-        }
-        
-         // the correct way to do this is to move the label on the worldPos -> camWorldPos vector.
-        private Vector3 ShiftIntoCameraBounds(Vector3 screenPos) {
-            var h = _rt.sizeDelta.y * 0.5f;
-            var w = _rt.sizeDelta.x * 0.5f;
-            var yExtent = _bounds.sizeDelta.y * 0.5f;
-            var xExtent = _bounds.sizeDelta.x * 0.5f;
-            var boundsPos = _bounds.position;
-            var dir = boundsPos - _rt.position;
-            if (boundsPos.y + yExtent < screenPos.y + h) {
-                var yMag = screenPos.y + h - boundsPos.y + yExtent;
-                var cosA = Vector3.Dot(Vector3.down, dir) / dir.magnitude;
-                var a = yMag / cosA;
-                screenPos += a * dir.normalized;
-            } else if (boundsPos.y - yExtent > screenPos.y - h) {
-                var yMag = boundsPos.y + yExtent - screenPos.y + h;
-                var cosA = Vector3.Dot(Vector3.up, dir) / dir.magnitude;
-                var a = yMag / cosA;
-                screenPos += a * dir.normalized;
+
+        private void PositionOnScreen() {
+            var bubbleScreenPosition = _camera.WorldToScreenPoint(_worldPos);
+            //bubbleScreenPosition += new Vector3 (0, 0, 0); //This offsets it from the object, If you want it above a character head for example.
+            _rt.position = bubbleScreenPosition;
+            var labelRect = _rt.rect;
+            var canvasScaleFactor = canvas.scaleFactor;
+            var labelX = labelRect.width * canvasScaleFactor;
+            var labelY = labelRect.height * canvasScaleFactor;
+            var position = _rt.position;
+            if (bubbleScreenPosition.y <= 0f + labelY/2) {
+                position = new Vector3 (position.x, 0f + labelY/2, position.z);
+            } else if (bubbleScreenPosition.y >= _camera.pixelHeight - labelY/2) {
+                position = new Vector3 (position.x, _camera.pixelHeight - labelY/2, position.z);
             }
-            if (boundsPos.x + xExtent < screenPos.x + w) {
-                var xMag = boundsPos.x + xExtent - screenPos.x + w;
-                var cosA = Vector3.Dot(Vector3.left, dir) / dir.magnitude;
-                var a = xMag / cosA;
-                screenPos += a * dir.normalized;
-            } else if (boundsPos.x + xExtent > screenPos.x - w) {
-                var xMag = screenPos.x + w - boundsPos.x + xExtent;
-                var cosA = Vector3.Dot(Vector3.right, dir) / dir.magnitude;
-                var a = xMag / cosA;
-                screenPos += a * dir.normalized;
+            if (bubbleScreenPosition.x <= 0f + labelX/2) {
+                position = new Vector3 (0f + labelX/2, position.y, position.z);
+            } else if (bubbleScreenPosition.x >= _camera.pixelWidth - labelX/2) {
+                position = new Vector3 (_camera.pixelWidth - labelX/2, position.y, position.z);
             }
-            return screenPos;
+            _rt.position = position;
         }
     }
 }

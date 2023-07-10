@@ -1,42 +1,54 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Core.EventSystem;
+using DG.Tweening;
 using Events.Board;
 using Events.SP;
+using Events.UI;
 using TMPro;
 using Types.Board;
 using Types.StoryPoint;
 using Types.Trait;
+using Types.UI;
 using UnityEngine;
 
 namespace MyHexBoardSystem.UI {
-    public class MTraitLabelPresenter : MonoBehaviour {
+    public class MTraitLabelPresenter : MonoBehaviour, IHideable, IShowable {
         [Header("Event Managers"), SerializeField]
         private SEventManager boardEventManager;
         [SerializeField] private SEventManager storyEventManager;
+        [SerializeField] private SEventManager uiEventManager;
 
-        [Header("Visuals"), SerializeField] private ETrait trait;
-        [SerializeField] private TextMeshProUGUI textField;
+        [Header("Visuals"), SerializeField] protected ETrait trait;
+        [SerializeField] protected TextMeshProUGUI textField;
         [SerializeField] private Color highlightColor;
 
-        private Color _baseColor;
-        private IBoardNeuronsController _neuronController;
+        protected Color _baseColor;
+        protected IBoardNeuronsController _neuronController;
         private DecidingTraits _currentDecidingTraits;
+        private bool _isHidden;
 
-        private void Awake() {
+        protected virtual void Awake() {
             SetText(0);
             _baseColor = textField.color;
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardBroadCast, UpdateCounter);
             storyEventManager.Register(StoryEvents.OnInitStory, SetIsDeciding);
+            uiEventManager.Register(UIEvents.OnOverlayShow, PauseHide);
+            uiEventManager.Register(UIEvents.OnOverlayHide, PauseShow);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardBroadCast, UpdateCounter);
             storyEventManager.Unregister(StoryEvents.OnInitStory, SetIsDeciding);
+            uiEventManager.Unregister(UIEvents.OnOverlayShow, PauseHide);
+            uiEventManager.Unregister(UIEvents.OnOverlayHide, PauseShow);
         }
+
+        #region EventHandlers
 
         private void SetIsDeciding(EventArgs obj) {
             if (obj is not StoryEventArgs storyEventArgs) {
@@ -57,7 +69,17 @@ namespace MyHexBoardSystem.UI {
             UpdateHighlightState();
         }
 
-        private void UpdateHighlightState() {
+        protected virtual async void PauseHide(EventArgs args) {
+            await Hide();
+        }
+        
+        protected virtual async void PauseShow(EventArgs args) {
+            await Show();
+        }
+
+        #endregion
+
+        protected void UpdateHighlightState() {
             if (IsCurrentlyDeciding() && IsMaxTrait()) {
                 Highlight();
             }
@@ -70,12 +92,12 @@ namespace MyHexBoardSystem.UI {
             textField.text = $"{amount}\n{trait}";
         }
 
-        private void Highlight() {
-            textField.color = highlightColor;
+        protected virtual void Highlight() {
+            textField.DOColor(highlightColor, 0.5f);
         }
 
-        private void Lowlight() {
-            textField.color = _baseColor;
+        protected virtual void Lowlight() {
+            textField.DOColor(_baseColor, 0.5f);
         }
 
         private bool IsCurrentlyDeciding() {
@@ -84,6 +106,26 @@ namespace MyHexBoardSystem.UI {
 
         private bool IsMaxTrait() {
             return _neuronController != null && _neuronController.GetMaxTrait(_currentDecidingTraits.Keys).Contains(trait);
+        }
+
+        public virtual async Task Hide(bool immediate = false) {
+            if (immediate) {
+                textField.color = new Color(textField.color.a, textField.color.g, textField.color.b, 0);
+                textField.enabled = false;
+                return;
+            }
+
+            await textField.DOFade(0, 0.3f).OnComplete(() => textField.enabled = false).AsyncWaitForCompletion();
+        }
+
+        public virtual async Task Show(bool immediate = false) {
+            textField.enabled = true;
+            if (immediate) {
+                textField.color = new Color(textField.color.a, textField.color.g, textField.color.b, 1);
+                return;
+            }
+
+            await textField.DOFade(1, 0.3f).AsyncWaitForCompletion();
         }
     }
 }

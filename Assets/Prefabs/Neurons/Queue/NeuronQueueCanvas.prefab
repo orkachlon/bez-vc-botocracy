@@ -31,10 +31,10 @@ RectTransform:
   m_Father: {fileID: 8715965746339647287}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 322.5, y: 789.822}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -0.000061035156}
+  m_SizeDelta: {x: 0, y: 539.12}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &8715965745997624391
 GameObject:
@@ -72,7 +72,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 201.7413}
+  m_SizeDelta: {x: 0, y: 142.7556}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &8715965745997624385
 CanvasRenderer:
@@ -129,13 +129,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 128
-  m_fontSizeBase: 128
+  m_fontSize: 96
+  m_fontSizeBase: 96
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -268,6 +268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f21e32656fa49eca3b79892c271ad00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  memorySize: 10
+  neuronCriticalAmount: 5
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   modificationsEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
@@ -285,13 +287,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c9659ae94a4baa9d08430544be3855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bg: {fileID: 8715965746339647286}
   neuronsToShow: 7
   neuronCountDisplay: {fileID: 8715965745997624384}
   stack: {fileID: 8715965745273122970}
-  stackSpacing: -50
-  top3Spacing: -100
-  topPadding: -50
+  stackSpacing: -25
+  top3Spacing: -50
+  topPadding: 0
+  enqueueShakeStrength: 20
+  animationDuration: 0.3
+  animationEasing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 21.415316
+      outSlope: 21.415316
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0
+      outWeight: 0.108572155
+    - serializedVersion: 3
+      time: 0.32904896
+      value: 1.1508272
+      inSlope: 0.029224377
+      outSlope: 0.029224377
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.5474803
+      outWeight: 0.26031575
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.027038503
+      outSlope: -0.027038503
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.6769638
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
+  uiEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
 --- !u!1 &8715965746339647284
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +369,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 100, y: -405.67816}
-  m_SizeDelta: {x: 322.51, y: 889.2308}
+  m_SizeDelta: {x: 213.986, y: 539.1205}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &8715965746339647281
 CanvasRenderer:
@@ -353,7 +392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.31652173, g: 0.37130433, b: 0.56, a: 1}
+  m_Color: {r: 0.2784314, g: 0.4745098, b: 0.59607846, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

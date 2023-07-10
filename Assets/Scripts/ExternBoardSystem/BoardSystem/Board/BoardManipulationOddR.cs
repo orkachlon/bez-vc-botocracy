@@ -177,7 +177,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 var i1 = qSign;
                 while (Mathf.Abs(i1) <= Mathf.Abs(i2)) {
                     var hexToAdd = new Hex(i1, i2);
-                    if (Contains(GetCellCoordinate(hexToAdd))) {
+                    if (Contains(hexToAdd)) {
                         hexes.Add(hexToAdd);
                     }
 
@@ -196,7 +196,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 var i2 = sSign;
                 while (Mathf.Abs(i2) <= Mathf.Abs(i1)) {
                     var hexToAdd = new Hex(i1, -i1 - i2);
-                    if (Contains(GetCellCoordinate(hexToAdd))) {
+                    if (Contains(hexToAdd)) {
                         hexes.Add(hexToAdd);
                     }
 
@@ -215,7 +215,7 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 var i1 = rSign;
                 while (Mathf.Abs(i1) <= Mathf.Abs(i2)) {
                     var hexToAdd = new Hex(-i1 - i2, i1);
-                    if (Contains(GetCellCoordinate(hexToAdd))) {
+                    if (Contains(hexToAdd)) {
                         hexes.Add(hexToAdd);
                     }
 
@@ -232,6 +232,13 @@ namespace ExternBoardSystem.BoardSystem.Board {
                 return Array.Empty<Hex>();
             }
             return directionHexes
+                .Where(h => GetNeighbours(h).Length != 6)
+                .ToArray();
+        }
+
+        public Hex[] GetEdge() {
+            return _board.Positions
+                .Select(p => p.Point)
                 .Where(h => GetNeighbours(h).Length != 6)
                 .ToArray();
         }
@@ -257,8 +264,8 @@ namespace ExternBoardSystem.BoardSystem.Board {
             }
 
             return rMax > sMax ? 
-                _board.Positions.First(p => p.Point.r == rMax).Point : 
-                _board.Positions.First(p => p.Point.s == sMax).Point;
+                _board.                Positions.First(p => p.Point.r == rMax).Point : 
+                _board.                Positions.First(p => p.Point.s == sMax).Point;
         }
 
         #endregion

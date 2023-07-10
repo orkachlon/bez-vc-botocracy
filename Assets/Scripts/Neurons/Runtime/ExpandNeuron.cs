@@ -14,9 +14,13 @@ using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
 using Types.Neuron.Runtime;
+using UnityEngine;
 
 namespace Neurons.Runtime {
     public class ExpandNeuron : BoardNeuron {
+
+
+        public override Color ConnectionColor { get => DataProvider.ConnectionColor; }
 
         public override INeuronDataBase DataProvider { get; }
         protected sealed override IBoardNeuronConnector Connector { get; set; }
@@ -71,7 +75,9 @@ namespace Neurons.Runtime {
         private async Task SpawnNeighbour(Hex neighbour, int delay = 0) {
             await Task.Delay(delay);
             UIExpandNeuron.PlaySpawnSound();
-            await Controller.AddElement(NeuronFactory.GetBoardNeuron(ENeuronType.Dummy), neighbour);
+            var dummy = NeuronFactory.GetBoardNeuron(ENeuronType.Dummy) as DummyNeuron;
+            dummy.Tint = DataProvider.ConnectionColor;
+            await Controller.AddElement(dummy, neighbour);
         }
     }
 }

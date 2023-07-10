@@ -7,7 +7,6 @@ using DG.Tweening;
 using Events.Board;
 using Events.SP;
 using MyHexBoardSystem.BoardElements;
-using MyHexBoardSystem.BoardSystem;
 using Types.Trait;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -15,8 +14,8 @@ using UnityEngine.Assertions;
 namespace Main.BG {
     public class MBGColorController : MonoBehaviour {
 
-        [Header("Colors"), SerializeField] private Color colorA;
-        [SerializeField] private Color colorB;
+        [Header("Colors"), SerializeField] protected Color colorA;
+        [SerializeField] protected Color colorB;
         [SerializeField] private Color nonDecidingColor;
         [SerializeField] private float transitionDuration;
 
@@ -26,25 +25,47 @@ namespace Main.BG {
 
         [Header("Data accessors"), SerializeField] private MBoardNeuronsController neuronsController;
 
-        private readonly Dictionary<ETrait, Color> _traitCurrentColors = new Dictionary<ETrait, Color>();
-        private Material _material;
-        private ETrait[] _decidingTraits;
+        protected readonly Dictionary<ETrait, Color> _traitCurrentColors = new();
+        protected Material _material;
+        protected ETrait[] _decidingTraits;
 
-        private void Awake() {
+        protected virtual void Awake() {
             _material = GetComponent<Renderer>().material;
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 _traitCurrentColors[trait] = TraitToDefaultColor(trait);
             }
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             storyEventManager.Register(StoryEvents.OnInitStory, UpdateCurrentSP);
             boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, UpdateBGColors);
+            boardEventManager.Register(ExternalBoardEvents.OnTraitCompassEnterStatic, HighlightTrait);
+            boardEventManager.Register(ExternalBoardEvents.OnTraitCompassExitStatic, LowlightTraits);
         }
-
-        private void OnDisable() {
+        
+        protected virtual void OnDisable() {
             storyEventManager.Unregister(StoryEvents.OnInitStory, UpdateCurrentSP);
             boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, UpdateBGColors);
+            boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassEnterStatic, HighlightTrait);
+            boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassExitStatic, LowlightTraits);
+        }
+
+        private void LowlightTraits(EventArgs args) {
+            if (args is not TraitCompassHoverEventArgs traitArgs) {
+                MLogger.LogEditorWarning($"Incorrect event argument received for event {ExternalBoardEvents.OnTraitCompassEnter} in {GetType()}");
+                return;
+            }
+            _material.SetInteger("_Selected", -1);
+        }
+
+        private void HighlightTrait(EventArgs args) {
+            if (args is not TraitCompassHoverEventArgs traitArgs || !traitArgs.HighlightedTrait.HasValue) {
+                MLogger.LogEditorWarning($"Incorrect event argument received for event {ExternalBoardEvents.OnTraitCompassEnter} in {GetType()}");
+                return;
+            }
+            
+            var index = TraitToShaderSelection(traitArgs.HighlightedTrait.Value);
+            _material.SetInteger("_Selected", index);
         }
 
         private void UpdateCurrentSP(EventArgs obj) {
@@ -56,17 +77,17 @@ namespace Main.BG {
             ColorBG();
         }
 
-        private void UpdateBGColors(EventArgs args) {
+        protected virtual void UpdateBGColors(EventArgs args) {
             ColorBG();
         }
 
-        private void ColorBG() {
+        protected virtual void ColorBG() {
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 SetTraitBGColor(trait, _decidingTraits.Contains(trait));
             }
         }
 
-        private void SetTraitBGColor(ETrait trait, bool isDeciding) {
+        protected void SetTraitBGColor(ETrait trait, bool isDeciding) {
             if (!isDeciding) {
                 SetNonDecidingTraitColor(trait);
                 return;
@@ -75,20 +96,22 @@ namespace Main.BG {
         }
 
         private void SetDecidingTraitColor(ETrait trait) {
-            DOVirtual.Color(_traitCurrentColors[trait], DecidingTraitColorBasedOnNeurons(trait), transitionDuration, col => {
-                _material.SetColor(TraitToVariableName(trait), col);
-            })
+            InterpolateColor(trait, _traitCurrentColors[trait], DecidingTraitColorBasedOnNeurons(trait))
             .OnComplete(() => {
                 _traitCurrentColors[trait] = DecidingTraitColorBasedOnNeurons(trait);
             });
         }
 
         private void SetNonDecidingTraitColor(ETrait trait) {
-            DOVirtual.Color(_traitCurrentColors[trait], nonDecidingColor, transitionDuration, col => {
-                _material.SetColor(TraitToVariableName(trait), col);
-            })
+            InterpolateColor(trait, _traitCurrentColors[trait], nonDecidingColor)
             .OnComplete(() => {
                 _traitCurrentColors[trait] = nonDecidingColor;
+            });
+        }
+
+        protected Tweener InterpolateColor(ETrait trait, Color from, Color to) {
+            return DOVirtual.Color(from, to, transitionDuration, col => {
+                _material.SetColor(TraitToVariableName(trait), col);
             });
         }
 
@@ -108,7 +131,7 @@ namespace Main.BG {
             return Color.Lerp(colorA, colorB, (float) me / (amounts.Count - 1));
         }
 
-        private static string TraitToVariableName(ETrait trait) {
+        protected virtual string TraitToVariableName(ETrait trait) {
             return trait switch {
                 ETrait.Protector => "_ColorBotRight",
                 ETrait.Commander => "_ColorTopLeft",
@@ -120,7 +143,7 @@ namespace Main.BG {
             };
         }
 
-        private Color TraitToDefaultColor(ETrait trait) {
+        protected virtual Color TraitToDefaultColor(ETrait trait) {
             return trait switch {
                 ETrait.Protector => colorA,
                 ETrait.Commander => colorB,
@@ -129,6 +152,18 @@ namespace Main.BG {
                 ETrait.Entropist => colorA,
                 ETrait.Mediator => colorB,
                 _ => throw new ArgumentOutOfRangeException(nameof(trait), trait, null)
+            };
+        }
+
+        protected virtual int TraitToShaderSelection(ETrait trait) {
+            return trait switch {
+                ETrait.Protector => 3,
+                ETrait.Commander => 0,
+                ETrait.Entrepreneur => 1,
+                ETrait.Logistician => 2,
+                ETrait.Entropist => 5,
+                ETrait.Mediator => 4,
+                _ => -1
             };
         }
     }

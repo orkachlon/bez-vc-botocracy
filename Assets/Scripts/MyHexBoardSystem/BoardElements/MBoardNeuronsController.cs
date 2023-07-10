@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,29 +24,30 @@ namespace MyHexBoardSystem.BoardElements {
         [SerializeField] private MUINeuronPlacer placer;
         
         protected IBoardNeuron CurrentNeuron { get; private set; }
-
-
+        
         public int CountNeurons => Board.Positions.Count(p => p.HasData());
         // For faster access to max trait
         private IDictionary<ETrait, int> NeuronsPerTrait { get; } = new Dictionary<ETrait, int>();
+        private ITraitAccessor _traitAccessor;
         private bool _placed;
 
         #region UnityMethods
 
         protected override void Awake() {
             base.Awake();
+            _traitAccessor = GetComponent<ITraitAccessor>();
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 NeuronsPerTrait[trait] = 0;
             }
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             externalEventManager.Register(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
             externalEventManager.Register(ExternalBoardEvents.OnSingleNeuronTurn, OnSingleNeuronDone);
             neuronEventManager.Register(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             externalEventManager.Unregister(ExternalBoardEvents.OnSetFirstElement, OnSetFirstNeuron);
             externalEventManager.Unregister(ExternalBoardEvents.OnSingleNeuronTurn, OnSingleNeuronDone);
             neuronEventManager.Unregister(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
@@ -57,7 +57,7 @@ namespace MyHexBoardSystem.BoardElements {
 
         #region EventHandlers
 
-        private async void OnSetFirstNeuron(EventArgs eventData) {
+        protected virtual async void OnSetFirstNeuron(EventArgs eventData) {
             if (eventData is not BoardElementEventArgs<IBoardNeuron> neuronData) {
                 MLogger.LogEditor($"Event args type mismatch. Actual: {eventData.GetType()} != Expected: {typeof(BoardElementEventArgs<IBoardNeuron>)}");
                 return;
@@ -76,7 +76,7 @@ namespace MyHexBoardSystem.BoardElements {
             externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
         }
 
-        private void UpdateNextNeuron(EventArgs obj) {
+        protected virtual void UpdateNextNeuron(EventArgs obj) {
             if (obj is not NeuronQueueEventArgs queueEventArgs) {
                 return;
             }
@@ -84,7 +84,7 @@ namespace MyHexBoardSystem.BoardElements {
             CurrentNeuron = queueEventArgs.NeuronQueue.NextBoardNeuron;
         }
 
-        private async void OnSingleNeuronDone(EventArgs args) {
+        protected virtual async void OnSingleNeuronDone(EventArgs args) {
             if (args is not BoardElementEventArgs<IBoardNeuron> neuronArgs) {
                 return;
             }
@@ -95,7 +95,7 @@ namespace MyHexBoardSystem.BoardElements {
             }
 
             await AsyncHelpers.WaitUntil(() => _placed);
-            MLogger.LogEditor("All neurons done!");
+            // MLogger.LogEditor("All neurons done!");
             DispatchNeuronsAdded();
             _placed = false;
         }
@@ -170,7 +170,6 @@ namespace MyHexBoardSystem.BoardElements {
             var eventData = new BoardElementEventArgs<IBoardNeuron>(neuron, hex);
             externalEventManager.Raise(ExternalBoardEvents.OnAddElement, eventData);
             externalEventManager.Raise(ExternalBoardEvents.OnBoardBroadCast, new BoardStateEventArgs(this));
-            return;
         }
 
         public async Task RemoveNeuron(Hex hex) {
@@ -234,8 +233,9 @@ namespace MyHexBoardSystem.BoardElements {
             
             // check position validity
             var position = Board.GetPosition(hex);
-            if (position == null || position.HasData() || !HasNeighbors(cell) || !IncrementTrait(hex)) {
+            if (position == null || position.HasData() || !HasNeighbors(cell) || !IncrementTrait(hex) || !position.IsEnabled) {
                 DispatchOnAddElementFailed(element, cell);
+                externalEventManager.Raise(ExternalBoardEvents.OnPlaceElementFailed, eventData);
                 return;
             }
 
@@ -245,10 +245,10 @@ namespace MyHexBoardSystem.BoardElements {
 
             // dispatch inner event (does nothing rn)
             DispatchOnAddElement(element, cell);
-            // dispatch pre activation event
-            externalEventManager.Raise(ExternalBoardEvents.OnPlaceElementPreActivation, eventData); // disable click
             // tile related actions
             externalEventManager.Raise(ExternalBoardEvents.OnTileOccupied, new BoardElementEventArgs<IBoardNeuron>(element, hex));
+            // dispatch pre activation event
+            externalEventManager.Raise(ExternalBoardEvents.OnPlaceElementPreActivation, eventData); // disable click
             // wait for neuron add animation and connections
             await placer.AddElementAsync(element, GetCellCoordinate(hex));
             await element.Activate();
@@ -273,8 +273,8 @@ namespace MyHexBoardSystem.BoardElements {
 
         #region Traits
 
-        private bool DecrementTrait(Hex hex) {
-            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(hex));
+        protected bool DecrementTrait(Hex hex) {
+            var trait = _traitAccessor.DirectionToTrait(BoardManipulationOddR<IBoardNeuron>.GetDirectionStatic(hex));
             if (!trait.HasValue) {
                 return false;
             }
@@ -283,8 +283,8 @@ namespace MyHexBoardSystem.BoardElements {
             return true;
         }
 
-        private bool IncrementTrait(Hex hex) {
-            var trait = ITraitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
+        protected bool IncrementTrait(Hex hex) {
+            var trait = _traitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
             if (!trait.HasValue) {
                 return false;
             }

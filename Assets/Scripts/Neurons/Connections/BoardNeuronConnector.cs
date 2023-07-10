@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Types.Neuron.Connections;
 using Types.Neuron.Runtime;
 
 namespace Neurons.Connections {
     public class BoardNeuronConnector : IBoardNeuronConnector {
         public IConnectionManager ConnectionManager { get; }
+
+        public SemaphoreSlim ConnectionLock => ConnectionManager.ConnectionLock;
 
         public BoardNeuronConnector(IConnectionManager connectionManager) {
             ConnectionManager = connectionManager;

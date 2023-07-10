@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using Types.Events;
 using UnityEngine;
 
@@ -9,20 +9,53 @@ namespace Core.EventSystem {
 
         [SerializeField] private bool debugMessages;
         
-        private readonly Dictionary<string, Action<EventArgs>> _eventActionMap = new();
+        private readonly ConcurrentDictionary<string, Action<EventArgs>> _eventActionMap = new();
+        private readonly ConcurrentDictionary<string, Action<EventArgs>> _dontDestroyActions = new();
 
-        public virtual void Register(string eventName, Action<EventArgs> listener) {
+        public virtual void Register(string eventName, Action<EventArgs> listener, bool dontDestroyOnLoad = false) {
+            if (dontDestroyOnLoad) {
+                RegisterDontDestroyOnLoad(eventName, listener);
+            }
+            RegisterDestroyOnLoad(eventName, listener);
+        }
+
+        protected virtual void RegisterDontDestroyOnLoad(string eventName, Action<EventArgs> listener) {
+            if (_dontDestroyActions.TryGetValue(eventName, out var thisEvent)) {
+                thisEvent += listener;
+                _dontDestroyActions[eventName] = thisEvent;
+            }
+            else {
+                thisEvent += listener;
+                _dontDestroyActions.TryAdd(eventName, thisEvent);
+            }
+        }
+
+        protected virtual void RegisterDestroyOnLoad(string eventName, Action<EventArgs> listener) {
             if (_eventActionMap.TryGetValue(eventName, out var thisEvent)) {
                 thisEvent += listener;
                 _eventActionMap[eventName] = thisEvent;
             }
             else {
                 thisEvent += listener;
-                _eventActionMap.Add(eventName, thisEvent);
+                _eventActionMap.TryAdd(eventName, thisEvent);
             }
         }
 
-        public virtual void Unregister(string eventName, Action<EventArgs> listener) {
+        public virtual void Unregister(string eventName, Action<EventArgs> listener, bool dontDestroyOnLoad = false) {
+            UnregisterDestroyOnLoad(eventName, listener);
+            if (dontDestroyOnLoad) {
+                UnregisterDontDestroyOnLoad(eventName, listener);
+            }
+        }
+        
+        protected virtual void UnregisterDontDestroyOnLoad(string eventName, Action<EventArgs> listener) {
+            if (!_dontDestroyActions.TryGetValue(eventName, out var thisEvent))
+                return;
+            thisEvent -= listener;
+            _dontDestroyActions[eventName] = thisEvent;
+        }
+
+        protected virtual void UnregisterDestroyOnLoad(string eventName, Action<EventArgs> listener) {
             if (!_eventActionMap.TryGetValue(eventName, out var thisEvent))
                 return;
             thisEvent -= listener;
@@ -49,6 +82,9 @@ namespace Core.EventSystem {
 
         private void ClearAllListeners(EventArgs _) {
             _eventActionMap.Clear();
+            foreach (var (eventString, action) in _dontDestroyActions) {
+                _eventActionMap[eventString] = action;
+            }
         }
     }
 }

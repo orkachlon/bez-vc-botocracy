@@ -76,7 +76,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.41568628, g: 0.34901962, b: 0.2509804, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.11764707, g: 0.12941177, b: 0.16862746, a: 1}
+  m_Color: {r: 0.97647065, g: 0.92549026, b: 0.85098046, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -392,6 +392,7 @@ MonoBehaviour:
   isDontDestroyOnLoad: 0
   isSilent: 1
   tooltip: {fileID: 760992605066012202}
+  UIEventManager: {fileID: 11400000, guid: 5f05400278e69a1429b47685a8576834, type: 2}
 --- !u!1 &760992606351955679
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +469,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.41568628, g: 0.34901962, b: 0.2509804, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

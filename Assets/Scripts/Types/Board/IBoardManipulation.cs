@@ -15,6 +15,7 @@ namespace Types.Board {
         Hex.Coordinates.Hex[] GetPathBreadthSearch(Vector3Int begin, Vector3Int end);
         Hex.Coordinates.Hex[] GetTriangle(Hex.Coordinates.Hex direction);
         Hex.Coordinates.Hex[] GetEdge(Hex.Coordinates.Hex direction);
+        Hex.Coordinates.Hex[] GetEdge();
         Hex.Coordinates.Hex[] GetSurroundingHexes(Hex.Coordinates.Hex[] hexes, bool includeEmpty = false);
         Hex.Coordinates.Hex? GetDirection(Hex.Coordinates.Hex hex);
         Hex.Coordinates.Hex GetFarthestHex();

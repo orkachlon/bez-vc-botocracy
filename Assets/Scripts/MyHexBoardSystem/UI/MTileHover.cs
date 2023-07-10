@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
+using Events.Board;
 using Events.Neuron;
 using ExternBoardSystem.Tools.Input.Mouse;
 using MyHexBoardSystem.BoardSystem;
@@ -20,10 +21,10 @@ namespace MyHexBoardSystem.UI {
         [SerializeField] private MNeuronBoardController boardController;
         [SerializeField] private TileBase canBePlacedTileBase;
         [SerializeField] private TileBase cannotBePlacedTileBase;
-        [SerializeField] private TileBase hoverOutlineTile;
 
         [Header("Event Managers"), SerializeField]
         private SEventManager neuronEventManager;
+        [SerializeField] private SEventManager boardEventManager;
         
         private IBoardNeuron _currentNeuron;
         private IMouseInput _mouseInput;
@@ -99,7 +100,7 @@ namespace MyHexBoardSystem.UI {
 
             var canBePlaced = false;
             
-            if (_currentNeuron != null && !boardController.Board.GetPosition(hex).HasData()) {
+            if (_currentNeuron != null && !boardController.Board.GetPosition(hex).HasData() && boardController.Board.GetPosition(hex).IsEnabled) {
                 var neighbors = boardController.Manipulator.GetNeighbours(hex);
                 canBePlaced = neighbors.Any(h =>
                     boardController.Board.HasPosition(h) && boardController.Board.GetPosition(h).HasData());
@@ -110,6 +111,8 @@ namespace MyHexBoardSystem.UI {
             boardController.SetTile(hex, tileToShow, BoardConstants.MouseHoverTileLayer);
             _currentTile = hex;
 
+            boardEventManager.Raise(ExternalBoardEvents.OnTileHover, new TileHoverArgs(hex, canBePlaced));
+            
             if (canBePlaced) {
                 ShowEffect(hex);
             }

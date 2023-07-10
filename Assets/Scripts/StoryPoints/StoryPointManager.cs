@@ -11,71 +11,81 @@ using UnityEngine;
 namespace StoryPoints {
     public class StoryPointManager : MonoBehaviour {
 
+        [SerializeField] private int spAmountToWinGame;
+        
         [Header("Event Managers"), SerializeField]
-        private SEventManager storyEventManager;
-        [SerializeField] private SEventManager boardEventManager;
+        protected SEventManager storyEventManager;
+        [SerializeField] protected SEventManager boardEventManager;
 
         [Header("Visuals")] [SerializeField] private MStoryPoint storyPointPrefab;
         
-        private IStoryPoint _currentStory;
-        private ISPProvider _spProvider;
-
+        protected IStoryPoint CurrentStory;
+        
+        protected ISPProvider SPProvider;
+        
         private readonly List<int> _completedSPs = new();
 
         #region UnityMethods
 
-        private void Awake() {
-            _spProvider = GetComponent<ISPProvider>();
+        protected virtual void Awake() {
+            SPProvider = GetComponent<ISPProvider>();
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnBoardModified, StoryTurn);
             boardEventManager.Register(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardModified, StoryTurn);
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardSetupComplete, Init);
         }
 
         #endregion
 
-        private async void Init(EventArgs obj) {
+        protected virtual async void Init(EventArgs obj) {
             await NextStoryPoint();
         }
 
-        private async void StoryTurn(EventArgs eventArgs) {
+        protected virtual async void StoryTurn(EventArgs eventArgs) {
             //if (eventArgs is not StoryEventArgs storyEventArgs) {
             //    return;
             //}
             // add to completed SPs
-            _completedSPs.Add(_currentStory.Id);
+            _completedSPs.Add(CurrentStory.Id);
             // first SP
-            if (_currentStory == null || _currentStory.Evaluated) {
+            if (CurrentStory == null || CurrentStory.Evaluated) {
                 await NextStoryPoint();
             }
             storyEventManager.Raise(StoryEvents.OnStoryTurn, EventArgs.Empty);
         }
 
-        private async Task NextStoryPoint() {
-            if (_spProvider.IsEmpty() && _currentStory.Evaluated) {
+        protected virtual async Task NextStoryPoint() {
+            if (CurrentStory is {Evaluated: true}) {
+                CurrentStory.RegisterOutcome(SPProvider);
+            }
+            if (_completedSPs.Count == spAmountToWinGame) {
                 DispatchNoMoreSPs();
                 return;
             }
 
-            var storyPointData = _spProvider.Next();
+            var storyPointData = SPProvider.Next();
             if (!storyPointData.HasValue) {
                 DispatchNoMoreSPs();
                 return;
             }
 
-            _currentStory?.Destroy();
-            _currentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
-            _currentStory.InitData(storyPointData.Value);
-            await _currentStory.AwaitInitAnimation();
+            CurrentStory?.Destroy();
+            InitNewSP(storyPointData.Value);
+            await CurrentStory.AwaitInitAnimation();
         }
 
-        private void DispatchNoMoreSPs() {
+        protected void InitNewSP(StoryPointData storyPointData) {
+            CurrentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
+            CurrentStory.InitData(storyPointData);
+        }
+
+        protected virtual void DispatchNoMoreSPs() {
             MLogger.LogEditor("No more story points in queue!");
             storyEventManager.Raise(StoryEvents.OnNoMoreStoryPoints, EventArgs.Empty);
         }

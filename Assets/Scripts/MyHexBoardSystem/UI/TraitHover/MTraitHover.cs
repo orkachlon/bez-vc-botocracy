@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using Core.EventSystem;
 using Events.Board;
-using Events.Neuron;
 using Events.SP;
+using MyHexBoardSystem.BoardSystem;
 using Types.Board;
-using Types.Neuron.Runtime;
 using Types.StoryPoint;
 using Types.Trait;
 using UnityEngine;
@@ -16,135 +15,116 @@ namespace MyHexBoardSystem.UI.TraitHover {
     /// <summary>
     ///     This class highlights the traits affected by the next neuron placement
     /// </summary>
-    [RequireComponent(typeof(ITraitAccessor))]
     public class MTraitHover : MonoBehaviour {
-        [Header("Highlighting"), SerializeField] private TileBase positiveTile;
-        [SerializeField] private TileBase negativeTile;
+        [SerializeField] protected MTraitAccessor TraitAccessor;
+
+        [Header("Highlighting"), SerializeField] protected TileBase positiveTile;
+        [SerializeField] protected TileBase negativeTile;
 
         [Header("Event Managers"), SerializeField]
-        private SEventManager boardEventManager;
-        [SerializeField] private SEventManager storyEventManager;
-        [SerializeField] private SEventManager neuronEventManager;
+        protected SEventManager boardEventManager;
+        [SerializeField] protected SEventManager storyEventManager;
 
-        private ITraitAccessor TraitAccessor { get; set; }
-        private Camera _cam;
+        protected IStoryPoint CurrentSP;
+        protected ETrait? CurrentHighlightedTrait;
 
-        private ETrait? _currentHighlightedTrait;
-        private readonly HashSet<ETrait> _currentPositive = new ();
-        private readonly HashSet<ETrait> _currentNegative = new ();
-        private IBoardNeuron _currentNeuron;
-        private IStoryPoint _currentSP;
+        protected readonly HashSet<ETrait> CurrentPositive = new ();
+        protected readonly HashSet<ETrait> CurrentNegative = new ();
 
         #region UnityMethods
 
-        private void Awake() {
-            _cam = Camera.main;
-            TraitAccessor = GetComponent<ITraitAccessor>();
-            // get the references to the effects
-        }
-
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             boardEventManager.Register(ExternalBoardEvents.OnTraitCompassEnter, OnShow);
             boardEventManager.Register(ExternalBoardEvents.OnTraitCompassExit, OnHide);
             boardEventManager.Register(ExternalBoardEvents.OnTraitCompassHide, OnHide);
             storyEventManager.Register(StoryEvents.OnInitStory, OnInitStory);
-            neuronEventManager.Register(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassEnter, OnShow);
             boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassExit, OnHide);
             boardEventManager.Unregister(ExternalBoardEvents.OnTraitCompassHide, OnHide);
             storyEventManager.Unregister(StoryEvents.OnInitStory, OnInitStory);
-            neuronEventManager.Unregister(NeuronEvents.OnQueueStateChanged, UpdateNextNeuron);
         }
 
         #endregion
 
         #region EventHandlers
 
-        private void OnShow(EventArgs eventData) {
+        protected virtual void OnShow(EventArgs eventData) {
             if (eventData is not TraitCompassHoverEventArgs traitHoverArgs ||
-                _currentSP == null) {
+                CurrentSP == null) {
                 return;
             }
 
             var hoverTrait = traitHoverArgs.HighlightedTrait;
             // only highlight deciding traits
-            if (!hoverTrait.HasValue || !_currentSP.DecidingTraits.ContainsKey(hoverTrait.Value)) {
+            if (!hoverTrait.HasValue || !CurrentSP.DecidingTraits.ContainsKey(hoverTrait.Value)) {
                 return;
             }
             CacheHoverData(hoverTrait.Value);
             Show();
         }
 
-        private void OnHide(EventArgs _) {
-            if (!_currentHighlightedTrait.HasValue) {
+        protected virtual void OnHide(EventArgs _) {
+            if (!CurrentHighlightedTrait.HasValue) {
                 return;
             }
             Hide();
             ClearHoverCache();
         }
 
-        private void OnInitStory(EventArgs args) {
+        protected virtual void OnInitStory(EventArgs args) {
             if (args is not StoryEventArgs storyEventArgs) {
                 return;
             }
 
-            _currentSP = storyEventArgs.Story;
+            CurrentSP = storyEventArgs.Story;
         }
         
-        private void UpdateNextNeuron(EventArgs obj) {
-            if (obj is not NeuronQueueEventArgs queueEventArgs) {
-                return;
-            }
-
-            _currentNeuron = queueEventArgs.NeuronQueue.NextBoardNeuron;
-        }
-
         #endregion
 
-        private void CacheHoverData(ETrait hoverTrait) {
-            _currentHighlightedTrait = hoverTrait;
-            var affectedTraits = _currentSP.DecidingTraits[hoverTrait].BoardEffect;
+        protected virtual void CacheHoverData(ETrait hoverTrait) {
+            CurrentHighlightedTrait = hoverTrait;
+            var affectedTraits = CurrentSP.DecidingTraits[hoverTrait].BoardEffect;
             foreach (var trait in affectedTraits.Keys) {
                 if (affectedTraits[trait] > 0) {
-                    _currentPositive.Add(trait);
+                    CurrentPositive.Add(trait);
                 }
                 else if (affectedTraits[trait] < 0) {
-                    _currentNegative.Add(trait);
+                    CurrentNegative.Add(trait);
                 }
             }
         }
 
         private void ClearHoverCache() {
-            _currentHighlightedTrait = null;
-            _currentPositive.Clear();
-            _currentNegative.Clear();
+            CurrentHighlightedTrait = null;
+            CurrentPositive.Clear();
+            CurrentNegative.Clear();
         }
 
-        public void Show() {
-            if (!_currentHighlightedTrait.HasValue) {
+        protected virtual void Show() {
+            if (!CurrentHighlightedTrait.HasValue) {
                 return;
             }
             // TraitAccessor.SetTiles(_currentHighlightedTrait.Value, hoverTile, BoardConstants.TraitHoverTileLayer);
-            foreach (var t in _currentPositive) {
+            foreach (var t in CurrentPositive) {
                 TraitAccessor.SetTraitTiles(t, positiveTile, BoardConstants.SPEffectHoverTileLayer);
             }
-            foreach (var t in _currentNegative) {
+            foreach (var t in CurrentNegative) {
                 TraitAccessor.SetTraitTiles(t, negativeTile, BoardConstants.SPEffectHoverTileLayer);
             }
         }
 
-        public void Hide() {
-            if (!_currentHighlightedTrait.HasValue) {
+        protected virtual void Hide() {
+            if (!CurrentHighlightedTrait.HasValue) {
                 return;
             }
             // TraitAccessor.SetTiles(_currentHighlightedTrait.Value, null, BoardConstants.TraitHoverTileLayer);
-            foreach (var t in _currentPositive) {
+            foreach (var t in CurrentPositive) {
                 TraitAccessor.SetTraitTiles(t, null, BoardConstants.SPEffectHoverTileLayer);
             }
-            foreach (var t in _currentNegative) {
+            foreach (var t in CurrentNegative) {
                 TraitAccessor.SetTraitTiles(t, null, BoardConstants.SPEffectHoverTileLayer);
             }
         }

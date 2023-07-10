@@ -14,10 +14,12 @@ using Types.Neuron;
 using Types.Neuron.Connections;
 using Types.Neuron.Data;
 using Types.Neuron.Runtime;
+using UnityEngine;
 
 namespace Neurons.Runtime {
     public class ExplodeNeuron : BoardNeuron {
-        
+
+        public override Color ConnectionColor { get => DataProvider.ConnectionColor; }
         public override INeuronDataBase DataProvider { get; }
 
         private MUIExplodeNeuron UIExplodeNeuron => UINeuron as MUIExplodeNeuron;
@@ -96,6 +98,7 @@ namespace Neurons.Runtime {
 private async Task KillNeighbor(Hex neighbour, int delay = 0) {
             await Task.Delay(delay);
             UIExplodeNeuron.PlayKillSound();
+            BoardEventManager.Raise(ExternalBoardEvents.OnNeuronExploded, new BoardElementEventArgs<IBoardElement>(Controller.Board.GetPosition(neighbour).Data, neighbour));
             await Controller.RemoveNeuron(neighbour);
         }
     }

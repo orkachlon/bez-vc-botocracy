@@ -23,7 +23,7 @@ MonoBehaviour:
   addSound: {fileID: 8300000, guid: 27b72d92a668a664d947795fa9bb7ba0, type: 3}
   removeSound: {fileID: 8300000, guid: 021beb93ffe5b68489fac70a63f7f9b3, type: 3}
   effectTile: {fileID: 0}
-  turnsToStop: 6
+  turnsToStop: 3
   travelAddSound: {fileID: 8300000, guid: f1e9d725d74b24f4e8b7b98d1288b01b, type: 3}
   travelMoveSounds:
   - {fileID: 8300000, guid: 89886a82474f5414a97a9017cebdf2c7, type: 3}

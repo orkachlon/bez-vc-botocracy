@@ -1,5 +1,125 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &535037066797883345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5094531561269179860}
+  - component: {fileID: 7480821682938111379}
+  - component: {fileID: 2465100457179317193}
+  m_Layer: 0
+  m_Name: RewardTilemap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5094531561269179860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535037066797883345}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1639060064745615117}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1839735485 &7480821682938111379
+Tilemap:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535037066797883345}
+  m_Enabled: 1
+  m_Tiles: {}
+  m_AnimatedTiles: {}
+  m_TileAssetArray: []
+  m_TileSpriteArray: []
+  m_TileMatrixArray: []
+  m_TileColorArray: []
+  m_TileObjectToInstantiateArray: []
+  m_AnimationFrameRate: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Origin: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0, y: 0, z: 1}
+  m_TileAnchor: {x: 0, y: 0, z: 0}
+  m_TileOrientation: 0
+  m_TileOrientationMatrix:
+    e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+--- !u!483693784 &2465100457179317193
+TilemapRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535037066797883345}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 1553271469
+  m_SortingLayer: 3
+  m_SortingOrder: 3
+  m_ChunkSize: {x: 32, y: 32, z: 32}
+  m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
+  m_MaxChunkCount: 16
+  m_MaxFrameAge: 16
+  m_SortOrder: 0
+  m_Mode: 0
+  m_DetectChunkCullingBounds: 0
+  m_MaskInteraction: 0
 --- !u!1 &1639060063860473491
 GameObject:
   m_ObjectHideFlags: 0
@@ -19,6 +139,7 @@ GameObject:
   - component: {fileID: 1639060063860473448}
   - component: {fileID: 1639060063860473455}
   - component: {fileID: 1639060063860473454}
+  - component: {fileID: 8337235428101472977}
   m_Layer: 0
   m_Name: BaseTilemap
   m_TagString: Untagged
@@ -1274,8 +1395,24 @@ MonoBehaviour:
   boardController: {fileID: 1639060064745615111}
   canBePlacedTileBase: {fileID: 11400000, guid: 5934d8d534040ef448cabdf5df2b9f38, type: 2}
   cannotBePlacedTileBase: {fileID: 11400000, guid: e02de212b123e6143aa8b52e7291d19e, type: 2}
-  hoverOutlineTile: {fileID: 11400000, guid: b06008abbe989e6458007abc2bc534fc, type: 2}
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+--- !u!114 &8337235428101472977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639060063860473491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ebdb8ce3a9e45c5b121df181b372862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverTileLegalSound: {fileID: 8300000, guid: eb14fa0444a773c489174e9b46857fb6, type: 3}
+  hoverTileIllegalSound: {fileID: 8300000, guid: bff8514eb01031845bf37aa14c61c513, type: 3}
+  volume: 0.15
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1 &1639060064492561807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1307,7 +1444,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1639060064745615117}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1839735485 &1639060064492561804
 Tilemap:
@@ -2429,7 +2566,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1553271469
   m_SortingLayer: 3
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.02734375, y: 0.027963221, z: 0}
   m_MaxChunkCount: 16
@@ -2455,6 +2592,7 @@ GameObject:
   - component: {fileID: 1639060064745615130}
   - component: {fileID: 1639060064745615131}
   - component: {fileID: 4398573500386396985}
+  - component: {fileID: 4573728265192664719}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -2477,6 +2615,7 @@ Transform:
   - {fileID: 1639060063860473488}
   - {fileID: 1639060064816519151}
   - {fileID: 1639060064884594040}
+  - {fileID: 5094531561269179860}
   - {fileID: 1639060064492561806}
   - {fileID: 1639060064853154832}
   m_Father: {fileID: 0}
@@ -2509,16 +2648,18 @@ MonoBehaviour:
   tilemapLayers:
     keys:
     - base
-    - baseOutline
-    - mouseHover
-    - mouseHoverOutline
     - SPEffectHover
+    - mouseHover
+    - rewards
+    - baseOutline
+    - mouseHoverOutline
     values:
     - {fileID: 1639060063860473490}
-    - {fileID: 1639060064492561804}
-    - {fileID: 1639060064884594042}
-    - {fileID: 1639060064853154838}
     - {fileID: 1639060064816519147}
+    - {fileID: 1639060064884594042}
+    - {fileID: 7480821682938111379}
+    - {fileID: 1639060064492561804}
+    - {fileID: 1639060064853154838}
   innerBoardEventManager: {fileID: 11400000, guid: bc95b2a41759e0445a381295036161ab, type: 2}
   traitTileBases:
     keys: 000000000100000002000000030000000400000005000000
@@ -2570,7 +2711,6 @@ MonoBehaviour:
   boardController: {fileID: 1639060064745615111}
   neuronsController: {fileID: 1639060064745615105}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
-  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!114 &1639060064745615108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2583,8 +2723,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9274f4d3c95b4dbf9eebc0b4c686111b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxEffectStrength: 10
+  maxEffectStrength: 5
   effectScale: 2
+  addToRemoveRatio: 2
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!114 &1639060064745615130
@@ -2599,8 +2740,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84866fa00bf44cd883663383c4671562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minReward: 3
-  maxReward: 5
+  rewardAmountDistribution:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 2
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 4
+      inSlope: 6.303038
+      outSlope: 6.303038
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.029408753
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
@@ -2616,7 +2779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aa522f871ec4735a0888541a0a62e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardTile: {fileID: 11400000, guid: 21c445ce253f9a04ba465f2cea281b34, type: 2}
+  rewardPrefab: {fileID: 9036029908130677921, guid: 86e3cd1481a138044a3d0f8e9f346430, type: 3}
   boardController: {fileID: 1639060064745615111}
   neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
 --- !u!114 &4398573500386396985
@@ -2636,6 +2799,28 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c0001250bdda18a469cdf9c53d57f406, type: 3}
   - {fileID: 8300000, guid: bca7eda300666b0498bf2c9610273664, type: 3}
   - {fileID: 8300000, guid: 4e45fe10154372e4fa302d7577a058a7, type: 3}
+  boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
+--- !u!114 &4573728265192664719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639060064745615112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a41aed2cea884202b4a7d95d8e1b76fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressedTileBases:
+    keys: 000000000100000002000000030000000400000005000000
+    values:
+    - {fileID: 11400000, guid: 54e86d1b092bc044aabbe86ef3316caa, type: 2}
+    - {fileID: 11400000, guid: 555a753ae071382488fe5d15ec195c95, type: 2}
+    - {fileID: 11400000, guid: 7c4ccf7170879574bbe854446a9db044, type: 2}
+    - {fileID: 11400000, guid: c261a45c4a6c94a4c8d632b34a210e15, type: 2}
+    - {fileID: 11400000, guid: 49661a86a0528424980980aa99f0312f, type: 2}
+    - {fileID: 11400000, guid: c0e65aa35d461324787a1e0242bc123c, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
 --- !u!1 &1639060064816518676
 GameObject:
@@ -2798,7 +2983,6 @@ MonoBehaviour:
   boardController: {fileID: 1639060064745615111}
   neuronsController: {fileID: 1639060064745615105}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
-  storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
 --- !u!114 &1639060064816519150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2811,11 +2995,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ca6b71b68a4dde81da5ace71d19e76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TraitAccessor: {fileID: 1639060064745615109}
   positiveTile: {fileID: 11400000, guid: 4c226b16a161d72478f39d460b7deeed, type: 2}
   negativeTile: {fileID: 11400000, guid: 9cdc0f39ddb2370448d94d08b5ecdd7d, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
-  neuronEventManager: {fileID: 11400000, guid: b66205cfb997a564d88e8ff16ba3108b, type: 2}
 --- !u!1 &1639060064853154833
 GameObject:
   m_ObjectHideFlags: 0
@@ -2847,7 +3031,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1639060064745615117}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1839735485 &1639060064853154838
 Tilemap:
@@ -2927,7 +3111,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1553271469
   m_SortingLayer: 3
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16

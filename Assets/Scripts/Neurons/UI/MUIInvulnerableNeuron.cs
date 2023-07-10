@@ -15,7 +15,15 @@ namespace Neurons.UI {
         private List<Tween> _constantAnimations;
         
         private SInvulnerableNeuronData InvulData => RuntimeData.DataProvider as SInvulnerableNeuronData;
-        
+
+        protected override void OnDestroy() {
+            base.OnDestroy();
+            _constantAnimations?.ForEach(a => {
+                a?.Kill();
+            });
+            _constantAnimations?.Clear();
+        }
+
         public override void ToHoverLayer() {
             base.ToHoverLayer();
             rings.ForEach(s => { 
@@ -35,7 +43,9 @@ namespace Neurons.UI {
         public override async Task PlayAddAnimation() {
             await base.PlayAddAnimation();
             _constantAnimations = new List<Tween>();
+#if UNITY_EDITOR
             Assert.IsTrue(rings.Count > 1);
+#endif
             var interval = 1f / (rings.Count - 1);
             foreach (var ring in rings) {
                 await Task.Delay(Mathf.RoundToInt(1000 * (ringDuration * interval)));

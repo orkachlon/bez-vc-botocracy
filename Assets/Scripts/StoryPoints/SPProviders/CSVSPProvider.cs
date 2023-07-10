@@ -3,117 +3,118 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.EventSystem;
 using Core.Utils;
-using Events.General;
 using JetBrains.Annotations;
 using StoryPoints.Interfaces;
 using Types.StoryPoint;
 using Types.Trait;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace StoryPoints.SPProviders {
     public class CSVSPProvider : MonoBehaviour, ISPProvider {
 
+        [SerializeField] protected int memorySize;
         [SerializeField] protected TextAsset StoryPointsCSV;
         
         [Header("Event Managers"), SerializeField] protected SEventManager modificationsEventManager;
 
         private const int RowsPerSP = 6;
 
-        private IEnumerator<Dictionary<string, object>> _spEnumerator;
+        private List<Dictionary<string, object>> _allEntries = new();
+        private Dictionary<int, StoryPointData> _allSPs = new();
+        private HashSet<int> _outcomeIDs = new();
+        private Queue<int> _usedSPs;
+        
         protected virtual CSVHeader Header { get; set; }
-
-        private bool _isInfinite;
-
+        
         public int Count { get; private set; }
 
-        private int[] _outcomeIDs;
-
-        // we store SPs which haven't met their prerequisites yet to try them again later.
-        private readonly HashSet<StoryPointData> _unusedSPs = new HashSet<StoryPointData>();
 
         #region UnityMethods
 
         private void Awake() {
             InitHeader();
-            Reset();
-        }
-
-        private void OnEnable() {
-            modificationsEventManager.Register(GameModificationEvents.OnInfiniteSP, OnInfiniteStoryPoints);
-        }
-
-        private void OnDisable() {
-            modificationsEventManager.Unregister(GameModificationEvents.OnInfiniteSP, OnInfiniteStoryPoints);
+            GetAllSPsFromFile();
+            _usedSPs = new Queue<int>(memorySize);
+            // ResetProvider();
+            // ClearOutcomes();
         }
 
         #endregion
 
         [CanBeNull]
         public virtual StoryPointData? Next() {
-            if (IsEmpty()) {
+            // check that 
+            if (_allSPs.Count <= 0) {
                 throw new IndexOutOfRangeException("No more events in queue!");
             }
 
-            if (Count == 0 && _isInfinite) {
-                Reset();
-            }
-
-            // try to get event from previously unused
-            if (_unusedSPs.Any(sp => Prerequisite.Evaluate(sp.prerequisites, _outcomeIDs))) {
-                Count--;
-                return _unusedSPs.First(sp => Prerequisite.Evaluate(sp.prerequisites, _outcomeIDs));
-            }
-            
-            // read from file - I think that we can be sure we have more to read from file because we asked IsEmpty
-            var currentStoryEntries = ReadNextStoryEntriesFromFile();
-            var nextSP = TryParse(currentStoryEntries);
-
-            // if this SP's prerequisites aren't answered yet, and we haven't reached EOF. 
-            while (nextSP.HasValue && !string.IsNullOrEmpty(nextSP.Value.prerequisites) && !Prerequisite.Evaluate(nextSP.Value.prerequisites, _outcomeIDs)) {
-                // save it for later
-                _unusedSPs.Add(nextSP.Value);
-                // read the next one from file
-                currentStoryEntries = ReadNextStoryEntriesFromFile();
-                nextSP = TryParse(currentStoryEntries);
-            }
-
-            if (nextSP.HasValue) {
-                Count--;
-            }
+            var nextSP = GetNextSP();
             return nextSP;
         }
 
-        private List<Dictionary<string, object>> ReadNextStoryEntriesFromFile() {
-            var currentStoryEntries = new List<Dictionary<string, object>>();
+        private StoryPointData? GetNextSP() {
+            var sp = _allSPs.Values
+                .Where(IsValidSP)
+                .OrderBy(_ => Random.value)
+                .First();
+            RecordSP(sp);
+            return sp;
+        }
 
-            var i = 0;
-            while (i < RowsPerSP && _spEnumerator.MoveNext()) {
-                currentStoryEntries.Add(_spEnumerator.Current);
-                i++;
+        private void RecordSP(StoryPointData sp) {
+            if (_usedSPs.Count == memorySize) {
+                _usedSPs.TryDequeue(out _);
             }
-
-            return currentStoryEntries;
+            _usedSPs.Enqueue(sp.id);
         }
 
-        public bool IsEmpty() {
-            return !_isInfinite && Count == 0 && _unusedSPs.All(sp => !Prerequisite.Evaluate(sp.prerequisites, _outcomeIDs));
+        private bool IsValidSP(StoryPointData sp) {
+            return !_usedSPs.Contains(sp.id) && Prerequisite.Evaluate(sp.prerequisites, _outcomeIDs);
+        }
+        
+        private void GetAllSPsFromFile() {
+            ReadAllEntriesFromFile();
+            ParseAllSPs();
         }
 
-        public void Reset() {
-            _spEnumerator?.Dispose();
-            _spEnumerator = CSVReader.ReadIterative(StoryPointsCSV).GetEnumerator();
-            var allSPs = CSVReader.Read(StoryPointsCSV);
-            if (allSPs == null || allSPs.Count % RowsPerSP != 0) {
+        private void ReadAllEntriesFromFile() {
+            _allEntries?.Clear();
+            _allEntries = CSVReader.Read(StoryPointsCSV);
+            if (_allEntries == null || _allEntries.Count % RowsPerSP != 0) {
                 Count = 0;
             }
             else {
-                Count = allSPs.Count / RowsPerSP;
+                Count = _allEntries.Count / RowsPerSP;
             }
-            _outcomeIDs = new int[] { };
+        }
+
+        private void ParseAllSPs() {
+            if (Count == 0) {
+                return;
+            }
+            _allSPs = new Dictionary<int, StoryPointData>();
+            for (var i = 0; i < _allEntries.Count; i += 6) {
+                var trySP = TryParse(_allEntries.GetRange(i, 6));
+                if (trySP.HasValue) {
+                    _allSPs[trySP.Value.id] = trySP.Value;
+                }
+            }
         }
 
         public void AddOutcome(int outcomeID) {
-             _outcomeIDs ??= _outcomeIDs.Append(outcomeID) as int[];
+            if (_outcomeIDs == null) { 
+                _outcomeIDs = new HashSet<int> { outcomeID };
+                return;
+            }
+            _outcomeIDs.Add(outcomeID);
+        }
+
+        public void RemoveOutcome(int outcomeID) {
+            if (_outcomeIDs == null || !_outcomeIDs.Contains(outcomeID)) {
+                return;
+            }
+            _outcomeIDs.Remove(outcomeID);
         }
 
         protected virtual StoryPointData? TryParse(List<Dictionary<string, object>> entries) {
@@ -121,26 +122,22 @@ namespace StoryPoints.SPProviders {
                 return null;
             }
             var newSPData = new StoryPointData {
-                id = (int) entries[0][Header.id],
-                description = (string) entries[0][Header.description],
-                reward = (int) entries[0][Header.reward],
-                turnsToEvaluation = (int) entries[0][Header.turnsToEvaluation],
-                prerequisites = (string) entries[0][Header.prerequisites]
+                id = (int) entries[0][Header.ID],
+                description = (string) entries[0][Header.Description],
+                reward = (int) entries[0][Header.Reward],
+                turnsToEvaluation = (int) entries[0][Header.TurnsToEvaluation],
+                prerequisites = (string) entries[0][Header.Prerequisites]
             };
 
             var decidingTraits = GetDecidingTraits(entries);
-            if (decidingTraits == null) {
-                throw new Exception($"SP data couldn't be read correctly! SP: {newSPData.description}");
-            }
-
-            newSPData.decidingTraits = decidingTraits;
+            newSPData.decidingTraits = decidingTraits ?? throw new Exception($"SP data couldn't be read correctly! SP: {newSPData.description}");
             return newSPData;
         }
 
         protected virtual DecidingTraits GetDecidingTraits(List<Dictionary<string, object>> entries) {
             var deciders = new DecidingTraits();
             foreach (var entry in entries) {
-                if ((string) entry[Header.outcomes] == "-") {
+                if ((int) entry[Header.OutcomeID] < 0) {
                     continue;
                 }
 
@@ -149,7 +146,7 @@ namespace StoryPoints.SPProviders {
                     return null;
                 }
 
-                var traitString = (string) entry[Header.decidingTraits];
+                var traitString = (string) entry[Header.DecidingTraits];
                 if (Enum.TryParse<ETrait>(traitString, out var trait)) {
                     deciders[trait] = deciderEffects;
                 }
@@ -163,7 +160,8 @@ namespace StoryPoints.SPProviders {
 
         private TraitDecisionEffects GetDeciderEffects(IReadOnlyDictionary<string, object> entry) {
             var effects = new TraitDecisionEffects {
-                Outcome = (string) entry[Header.outcomes],
+                OutcomeID = (int) entry[Header.OutcomeID],
+                Outcome = (string) entry[Header.Outcomes],
                 BoardEffect = new Dictionary<ETrait, int>()
             };
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
@@ -177,82 +175,41 @@ namespace StoryPoints.SPProviders {
             return effects;
         }
 
-        // private StatToTraitWeights GetStatToTraitWeights(List<Dictionary<string, object>> entries) {
-        //     var statsToTraits = new StatToTraitWeights();
-        //     foreach (var stat in EnumUtil.GetValues<EStatType>()) {
-        //         var traitWeights = GetTraitWeightsForStat(entries, stat);
-        //         if (traitWeights == null) {
-        //             return null;
-        //         }
-        //
-        //         statsToTraits[stat] = traitWeights;
-        //     }
-        //
-        //     return statsToTraits;
-        // }
-
-        // private TraitWeights GetTraitWeightsForStat(List<Dictionary<string, object>> entries, EStatType stat) {
-        //     var weights = new TraitWeights();
-        //     foreach (var entry in entries) {
-        //         var traitString = (string) entry[Header.traits];
-        //         var weight = (int) entry[stat.ToString()];
-        //         if (Enum.TryParse<ETrait>(traitString, out var trait)) {
-        //             weights[trait] = weight;
-        //         } else {
-        //             return null;
-        //         }
-        //     }
-        //
-        //     return weights;
-        // }
-
         protected virtual  void InitHeader() {
             var headerAsArray = CSVReader.GetHeader(StoryPointsCSV);
             Header = new CSVHeader {
-                id = headerAsArray[0],
-                description = headerAsArray[1],
-                decidingTraits = headerAsArray[2],
-                cmmndr = headerAsArray[3],
-                ntrpnr = headerAsArray[4],
-                mdtr = headerAsArray[5],
-                dfndr = headerAsArray[6],
-                ntrpst = headerAsArray[7],
-                lgstcn = headerAsArray[8],
-                outcomes = headerAsArray[9],
-                outcomeID = headerAsArray[10],
-                turnsToEvaluation = headerAsArray[11],
-                reward = headerAsArray[12],
-                prerequisites = headerAsArray[13]
+                ID = headerAsArray[0],
+                Description = headerAsArray[1],
+                DecidingTraits = headerAsArray[2],
+                Cmmndr = headerAsArray[3],
+                Ntrpnr = headerAsArray[4],
+                Mdtr = headerAsArray[5],
+                Dfndr = headerAsArray[6],
+                Ntrpst = headerAsArray[7],
+                Lgstcn = headerAsArray[8],
+                Outcomes = headerAsArray[9],
+                OutcomeID = headerAsArray[10],
+                TurnsToEvaluation = headerAsArray[11],
+                Reward = headerAsArray[12],
+                Prerequisites = headerAsArray[13]
             };
         }
 
-        #region EventHandlers
-
-        private void OnInfiniteStoryPoints(EventArgs eventArgs) {
-            if (eventArgs is not IsInfiniteStoryPointsEventArgs infiniteSPArgs) {
-                return;
-            }
-
-            _isInfinite = infiniteSPArgs.IsInfinite;
-        }
-
-        #endregion
-
         protected class CSVHeader {
-            public string id;
-            public string description;
-            public string decidingTraits;
-            public string cmmndr;
-            public string ntrpnr;
-            public string mdtr;
-            public string dfndr;
-            public string ntrpst;
-            public string lgstcn;
-            public string outcomes;
-            public string outcomeID;
-            public string turnsToEvaluation;
-            public string reward;
-            public string prerequisites;
+            public string ID;
+            public string Description;
+            public string DecidingTraits;
+            public string Cmmndr;
+            public string Ntrpnr;
+            public string Mdtr;
+            public string Dfndr;
+            public string Ntrpst;
+            public string Lgstcn;
+            public string Outcomes;
+            public string OutcomeID;
+            public string TurnsToEvaluation;
+            public string Reward;
+            public string Prerequisites;
         }
 
     }

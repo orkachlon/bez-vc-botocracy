@@ -11,5 +11,13 @@ namespace Core.Utils {
             print(message);
 #endif
         }
+
+        public static void LogEditorError(string message) {
+            Debug.LogError(message);
+        }
+
+        public static void LogEditorWarning(string message) {
+            Debug.LogWarning(message);
+        }
     }
 }

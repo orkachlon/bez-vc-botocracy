@@ -14,6 +14,7 @@ namespace Types.Neuron.Runtime {
         public Types.Hex.Coordinates.Hex Position { get; }
         bool Connectable { get; }
         bool TurnDone { get; }
+        Color ConnectionColor { get; }
 
         void BindToNeurons(IEventManager neuronEventManager);
         void UnbindFromNeurons();
