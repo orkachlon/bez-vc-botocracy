@@ -14,10 +14,19 @@ namespace Menus.EndGame.LoseScreen {
         [SerializeField, TextArea(5, 15)] private string boardFullMessage;
         [SerializeField, TextArea(5, 15)] private string SPFailedMessage;
 
+        private AudioSource _as;
+
+        private void Awake() {
+            _as = GetComponent<AudioSource>();
+        }
 
         public void ShowMessage(ELoseReason reason) {
             var message = GetMessageText(reason);
-            DOVirtual.Int(0, message.Length, singleCharAnimationDuration * message.Length, i => loseMessageTextfield.text = message[..i])
+            DOVirtual.Int(0, message.Length, singleCharAnimationDuration * message.Length, i => {
+                loseMessageTextfield.text = message[..i];
+                _as.pitch = 1 + (UnityEngine.Random.value - 0.5f) * 0.1f;
+                _as.Play();
+            })
                 .SetEase(Ease.Linear);
         }
 

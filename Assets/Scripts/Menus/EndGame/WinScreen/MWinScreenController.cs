@@ -6,6 +6,7 @@ using TMPro;
 using Types.GameState;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Menus.EndGame.WinScreen {
     public class MWinScreenController : MOverlayScreen {
@@ -14,22 +15,26 @@ namespace Menus.EndGame.WinScreen {
         
         [Header("Animation"), SerializeField] private RectTransform buttonContainer;
         [SerializeField] private RectTransform stats;
-        [FormerlySerializedAs("winMessage")] [SerializeField] private RectTransform winTextRect;
+        [SerializeField] private RectTransform winTextRect;
         [SerializeField, Range(0, 0.5f)] private float singleCharAnimationDuration;
         
         [Header("Win Message"), SerializeField] private TextMeshProUGUI winMessageTextfield;
         [SerializeField, TextArea(5, 15)] private string winMessage;
+        //[SerializeField] private AudioClip winMessageTypeSound;
         
         [Header("Stats"), SerializeField] private MStatDisplayer statDisplayer;
         
         private Tween _animation;
         private MStatCollector _statProvider;
 
+        private AudioSource _as;
+
         #region UnityMethods
 
         protected override void Awake() {
             base.Awake();
             _statProvider = GetComponent<MStatCollector>();
+            _as = GetComponent<AudioSource>();
         }
 
         private void OnEnable() {
@@ -67,7 +72,11 @@ namespace Menus.EndGame.WinScreen {
         }
 
         public void AnimateWinMessage() {
-            DOVirtual.Int(0, winMessage.Length, singleCharAnimationDuration * winMessage.Length, i => winMessageTextfield.text = winMessage[..i])
+            DOVirtual.Int(0, winMessage.Length, singleCharAnimationDuration * winMessage.Length, i => {
+                winMessageTextfield.text = winMessage[..i];
+                _as.pitch = 1 + (Random.value - 0.5f) * 0.1f;
+                _as.Play();
+            })
                 .SetEase(Ease.Linear);
         }
     }

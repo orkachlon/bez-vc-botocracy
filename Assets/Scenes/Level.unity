@@ -4075,28 +4075,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1971986112 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2883184648831337487, guid: 0672931386439804ab244e309a06f42f, type: 3}
-  m_PrefabInstance: {fileID: 2883184649275028136}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1971986119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971986112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9860f866704542f5a6ccc93994c0cfcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  memorySize: 2
-  StoryPointsCSV: {fileID: 4900000, guid: 23365a6b1899aa9438e663b0d3eefd26, type: 3}
-  modificationsEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
-  numberOfDecidingTraits: 3
-  spImagesPath: StoryPointsSprites
 --- !u!1 &1993138940 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8715965746229964941, guid: e84bf272025f6754499856141936d02c, type: 3}
@@ -5505,10 +5483,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2883184648831337472, guid: 0672931386439804ab244e309a06f42f, type: 3}
-      propertyPath: storyPointPrefab
-      value: 
-      objectReference: {fileID: 779769136147531684, guid: aab8d8256d2443f4d9a117b7cc5d6e47, type: 3}
     - target: {fileID: 2883184648831337473, guid: 0672931386439804ab244e309a06f42f, type: 3}
       propertyPath: m_RootOrder
       value: 10

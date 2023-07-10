@@ -1167,7 +1167,7 @@ MonoBehaviour:
     left. You''ll need  them to learn and grow. Also you''ll die if you run out.
 
     <font=EzerBlock
-    Bold SDF>Connect to reward tiles</font> to get more <u>neurons</u>.'
+    Bold SDF>Connect</font> to <u>reward tiles</u> to get more <u>neurons</u>.'
   personalityMessage: 'Fantastic! You''re alive. In order to govern, you''ll need
     to choose between <u>personalities</u>. Some of the <u>personalities</u> will
     be unavailable each time, they say it makes you creative. The available ones

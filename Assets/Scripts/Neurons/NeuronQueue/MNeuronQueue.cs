@@ -122,7 +122,11 @@ namespace Neurons.NeuronQueue {
             foreach (var neuronType in NeuronFactory.PlaceableNeurons) {
                 nTypeToProb[neuronType] = 0;
                 for (var i = 0; i < _memory.Count; i++) {
-                    nTypeToProb[neuronType] += memoryAsArray[i] == neuronType ? i + 1 : 0;
+                    if (ENeuronType.Exploding == neuronType) { // quick path to try to make exploding neurons more common
+                        nTypeToProb[neuronType] += memoryAsArray[i] == neuronType ? i + 0.5f : 0;
+                    } else {
+                        nTypeToProb[neuronType] += memoryAsArray[i] == neuronType ? i + 1 : 0;
+                    }
                 }
             }
             var max = nTypeToProb.Values.Max();

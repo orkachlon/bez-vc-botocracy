@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2883184648831337473}
   - component: {fileID: 2883184648831337472}
+  - component: {fileID: 8172909386366403041}
   m_Layer: 0
-  m_Name: GameEventManager
+  m_Name: StoryPointManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,4 +48,21 @@ MonoBehaviour:
   spAmountToWinGame: 10
   storyEventManager: {fileID: 11400000, guid: 13c2ad381c7b5c94993f6b173b22895f, type: 2}
   boardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
-  storyPointPrefab: {fileID: 5441700835829844246, guid: 3ec40370c148c0f4db0485d38d079eee, type: 3}
+  storyPointPrefab: {fileID: 779769136147531684, guid: aab8d8256d2443f4d9a117b7cc5d6e47, type: 3}
+--- !u!114 &8172909386366403041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2883184648831337487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9860f866704542f5a6ccc93994c0cfcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  memorySize: 2
+  StoryPointsCSV: {fileID: 4900000, guid: 23365a6b1899aa9438e663b0d3eefd26, type: 3}
+  modificationsEventManager: {fileID: 11400000, guid: 1a6ab34652e658e4f84b0de98a2e0b94, type: 2}
+  numberOfDecidingTraits: 3
+  spImagesPath: StoryPointsSprites
