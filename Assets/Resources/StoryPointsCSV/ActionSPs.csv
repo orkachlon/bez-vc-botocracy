@@ -71,7 +71,7 @@ ID,Title,Scenario,Traits,Commander,Entrepreneur,Mediator,Protector,Entropist,Log
 ,,,Protector,-1,1,1,1,0,1,-,Cancelled the mission in an attempt to banish the criminal from the country.,The criminal escapes and your intelligence loses track of him.,69,,,
 ,,,Entropist,1,1,-1,-1,1,-1,+,"Approved the elimination, sending in the army to do the work.","The mission goes south and while the target is eliminated, a U.S.B. citizen is killed in the crossfire. This leads to a deterioration with your biggest international ally.",70,,,
 ,,,Logistician,1,1,-1,0,0,1,+,"Approved the elimination, sending only your best trained unit to the task.","The mission goes south and while the target is eliminated, a U.S.B. citizen is killed in the crossfire. This leads to a deterioration with your biggest international ally.",71,,,
-12,Uh-oh.,"Due to your fallout with the U.S.B, and the issues in your defense office, a hostile terrorist country has decided to nuke you.",Commander,-1,-1,-1,-1,-1,-1,-,I guess I'll die?,Correct.,72,1,D(66 | 67 | 70 | 71) & (30 | 32 | 42 | 45 | 47 | 62 | 63 | 64),
+12,Uh-oh.,"After your fallout with the U.S.B and the issues in your defense office, a terrorist organization has decided to nuke you.",Commander,-1,-1,-1,-1,-1,-1,-,I guess I'll die?,Correct.,72,1,D(66 | 67 | 70 | 71) & (30 | 32 | 42 | 45 | 47 | 62 | 63 | 64),
 ,,,Entrepreneur,-1,-1,-1,-1,-1,-1,-,I guess I'll die?,Correct.,73,,,
 ,,,Mediator,-1,-1,-1,-1,-1,-1,-,I guess I'll die?,Correct.,74,,,
 ,,,Protector,-1,-1,-1,-1,-1,-1,-,I guess I'll die?,Correct.,75,,,
