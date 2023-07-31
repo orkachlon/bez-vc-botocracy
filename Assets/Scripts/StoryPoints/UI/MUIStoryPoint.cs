@@ -107,9 +107,9 @@ namespace StoryPoints.UI {
         }
 
         public async Task PlayDecrementAnimation() {
+            StopCurrentAnimation();
             var baseCol = backGround.color;
             backGround.color = Color.white;
-            StopCurrentAnimation();
             PlayDecrementSound();
             var seq = DOTween.Sequence()
                 .Insert(0, backGround.DOColor(baseCol, 0.5f))
