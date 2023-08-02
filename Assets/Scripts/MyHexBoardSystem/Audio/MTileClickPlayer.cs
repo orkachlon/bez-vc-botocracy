@@ -24,10 +24,13 @@ namespace MyHexBoardSystem.Audio {
         }
 
         private void PlayClick(EventArgs obj) {
-            if (obj is not OnTileModifyEventArgs) {
+            if (obj is not OnTileModifyEventArgs tileModifyArgs) {
                 return;
             }
-            AudioSpawner.PoolSound(audioClips[Random.Range(0, audioClips.Count)]);
+            var s = AudioSpawner.GetAudioSource();
+            s.Source.volume = tileModifyArgs.Volume;
+            s.Source.PlayOneShot(audioClips[Random.Range(0, audioClips.Count)]);
+            AudioSpawner.ReleaseWhenDone(s);
         }
     }
 }

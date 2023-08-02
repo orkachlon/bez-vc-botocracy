@@ -106,9 +106,11 @@ namespace Events.Board {
 
     public class OnTileModifyEventArgs : EventArgs {
         public Hex Hex;
+        public float Volume;
 
-        public OnTileModifyEventArgs(Hex hex) {
+        public OnTileModifyEventArgs(Hex hex, float volume = 0.5f) {
             Hex = hex;
+            Volume = volume;
         }
     }
     

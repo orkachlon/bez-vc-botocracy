@@ -18,27 +18,27 @@ namespace MyHexBoardSystem.UI {
     [RequireComponent(typeof(IMouseInput))]
     public class MTileHover : MonoBehaviour {
 
-        [SerializeField] private MNeuronBoardController boardController;
-        [SerializeField] private TileBase canBePlacedTileBase;
-        [SerializeField] private TileBase cannotBePlacedTileBase;
+        [SerializeField] protected MNeuronBoardController boardController;
+        [SerializeField] protected TileBase canBePlacedTileBase;
+        [SerializeField] protected TileBase cannotBePlacedTileBase;
 
         [Header("Event Managers"), SerializeField]
-        private SEventManager neuronEventManager;
-        [SerializeField] private SEventManager boardEventManager;
+        protected SEventManager neuronEventManager;
+        [SerializeField] protected SEventManager boardEventManager;
         
         private IBoardNeuron _currentNeuron;
         private IMouseInput _mouseInput;
-        private Camera _cam;
+        protected Camera Cam;
         
-        private Hex? _currentTile;
-        private readonly HashSet<Hex> _highlighted = new HashSet<Hex>();
+        protected Hex? CurrentTile;
+        protected readonly HashSet<Hex> Highlighted = new HashSet<Hex>();
 
-        private void Awake() {
+        protected virtual void Awake() {
             _mouseInput = GetComponent<IMouseInput>();
-            _cam = Camera.main;
+            Cam = Camera.main;
         }
 
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             _mouseInput.OnPointerEnter += OnShow;
             _mouseInput.OnPointerStay += UpdatePosition;
             _mouseInput.OnPointerExit += OnHide;
@@ -46,7 +46,7 @@ namespace MyHexBoardSystem.UI {
             neuronEventManager.Register(NeuronEvents.OnQueueStateChanged, UpdateCurrentNeuron);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             _mouseInput.OnPointerEnter -= OnShow;
             _mouseInput.OnPointerStay -= UpdatePosition;
             _mouseInput.OnPointerExit -= OnHide;
@@ -60,8 +60,8 @@ namespace MyHexBoardSystem.UI {
             }
 
             _currentNeuron = queueArgs.NeuronQueue.NextBoardNeuron;
-            if (_currentTile.HasValue) {
-                Show(_currentTile.Value);
+            if (CurrentTile.HasValue) {
+                Show(CurrentTile.Value);
             }
         }
 
@@ -72,15 +72,15 @@ namespace MyHexBoardSystem.UI {
         }
 
         private void OnShow(PointerEventData eventData) {
-            var mouseWorld = _cam.ScreenToWorldPoint(eventData.position);
+            var mouseWorld = Cam.ScreenToWorldPoint(eventData.position);
             var mouseHex = boardController.WorldPosToHex(mouseWorld);
             Show(mouseHex);
         }
 
-        private void UpdatePosition(Vector2 mouseScreen) {
-            var mouseWorld = _cam.ScreenToWorldPoint(mouseScreen);
+        protected virtual void UpdatePosition(Vector2 mouseScreen) {
+            var mouseWorld = Cam.ScreenToWorldPoint(mouseScreen);
             var mouseHex = boardController.WorldPosToHex(mouseWorld);
-            if (mouseHex == _currentTile) {
+            if (mouseHex == CurrentTile) {
                 return;
             }
             Hide();
@@ -93,7 +93,7 @@ namespace MyHexBoardSystem.UI {
 
         #endregion
 
-        private void Show(Hex hex) {
+        protected virtual void Show(Hex hex) {
             if (!boardController.Board.HasPosition(hex)) {
                 return;
             }
@@ -109,7 +109,7 @@ namespace MyHexBoardSystem.UI {
             var tileToShow = canBePlaced ? canBePlacedTileBase : cannotBePlacedTileBase;
 
             boardController.SetTile(hex, tileToShow, BoardConstants.MouseHoverTileLayer);
-            _currentTile = hex;
+            CurrentTile = hex;
 
             boardEventManager.Raise(ExternalBoardEvents.OnTileHover, new TileHoverArgs(hex, canBePlaced));
             
@@ -118,27 +118,27 @@ namespace MyHexBoardSystem.UI {
             }
         }
 
-        private void Hide() {
-            if (_currentTile.HasValue) {
-                boardController.SetTile(_currentTile.Value, null, BoardConstants.MouseHoverTileLayer);
-                _currentTile = null;
+        protected virtual void Hide() {
+            if (CurrentTile.HasValue) {
+                boardController.SetTile(CurrentTile.Value, null, BoardConstants.MouseHoverTileLayer);
+                CurrentTile = null;
             }
 
             HideEffect();
         }
 
-        private void HideEffect() {
-            if (_highlighted.Count <= 0) {
+        protected virtual void HideEffect() {
+            if (Highlighted.Count <= 0) {
                 return;
             }
-            foreach (var hex in _highlighted) {
+            foreach (var hex in Highlighted) {
                 boardController.SetTile(hex, null, BoardConstants.MouseHoverTileLayer);
             }
 
-            _highlighted.Clear();
+            Highlighted.Clear();
         }
 
-        private void ShowEffect(Hex hex) {
+        protected virtual void ShowEffect(Hex hex) {
             if (_currentNeuron == null) {
                 return;
             }
@@ -148,7 +148,7 @@ namespace MyHexBoardSystem.UI {
                 if (!boardController.Board.HasPosition(effectTile)) {
                     continue;
                 }
-                _highlighted.Add(effectTile);
+                Highlighted.Add(effectTile);
                 boardController.SetTile(effectTile, _currentNeuron.GetEffectTile(), BoardConstants.MouseHoverTileLayer);
             } 
         }

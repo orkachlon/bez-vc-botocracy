@@ -42,12 +42,11 @@ namespace ExternBoardSystem.Ui.Util {
             var cell = ConvertPixelToCell(screenPosition);
             switch (eventData.button) {
                 case PointerEventData.InputButton.Left:
-                    // OnClickTile?.Invoke(cell);
-                    innerBoardEventManager.Raise(InnerBoardEvents.OnClickTile, new OnInputEventData(cell));
+                    innerBoardEventManager.Raise(InnerBoardEvents.OnClickTile, new InputEventData(cell));
                     break;
                 case PointerEventData.InputButton.Right:
                     OnRightClickTile?.Invoke(cell, screenPosition);
-                    innerBoardEventManager.Raise(InnerBoardEvents.OnRightClickTile, new OnInputEventData(cell));
+                    innerBoardEventManager.Raise(InnerBoardEvents.OnRightClickTile, new InputEventData(cell));
                     break;
             }
         }

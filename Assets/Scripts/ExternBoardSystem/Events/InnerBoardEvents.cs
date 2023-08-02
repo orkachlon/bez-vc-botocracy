@@ -49,10 +49,10 @@ namespace ExternBoardSystem.Events {
         }
     }
 
-    internal class OnInputEventData : EventArgs {
+    internal class InputEventData : EventArgs {
         public Vector3Int Cell;
 
-        public OnInputEventData(Vector3Int cell) {
+        public InputEventData(Vector3Int cell) {
             Cell = cell;
         }
     }

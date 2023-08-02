@@ -91,7 +91,7 @@ namespace ExternBoardSystem.BoardElements {
         }
 
         private void OnClickTile(EventArgs eventData) {
-            if (eventData is OnInputEventData inputEventData) {
+            if (eventData is InputEventData inputEventData) {
                 OnClickTile(inputEventData.Cell);
             }
         }
