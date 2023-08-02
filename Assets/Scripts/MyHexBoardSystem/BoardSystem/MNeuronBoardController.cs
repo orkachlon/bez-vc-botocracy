@@ -119,7 +119,7 @@ namespace MyHexBoardSystem.BoardSystem {
             return tilemap.CellToWorld(cell);
         }
 
-        public Task RemoveTile(Hex hex) {
+        public virtual Task RemoveTile(Hex hex) {
             var tilemap = GetTilemap(BaseTilemapLayer);
             var outlineTilemap = GetTilemap(BoardConstants.OutlineTilemapLayer);
             if (!Board.HasPosition(hex) || tilemap == null || outlineTilemap == null) {
@@ -137,7 +137,7 @@ namespace MyHexBoardSystem.BoardSystem {
             return Task.CompletedTask;
         }
 
-        public Task AddTile(Hex hex) {
+        public virtual Task AddTile(Hex hex) {
             var tilemap = GetTilemap(BaseTilemapLayer);
             var outlineTilemap = GetTilemap(BoardConstants.OutlineTilemapLayer);
             var trait = _traitAccessor.DirectionToTrait(BoardManipulationOddR<BoardNeuron>.GetDirectionStatic(hex));
@@ -168,7 +168,7 @@ namespace MyHexBoardSystem.BoardSystem {
 
         #endregion
 
-        private Tilemap GetTilemap(string layer) {
+        protected Tilemap GetTilemap(string layer) {
             if (tilemapLayers != null && tilemapLayers.ContainsKey(layer) && tilemapLayers[layer] != null) {
                 return tilemapLayers[layer];
             }
