@@ -418,8 +418,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 74172559}
-        m_TargetAssemblyTypeName: Menus.Buttons.MButtonClickPlayer, Menus
+      - m_Target: {fileID: 74172561}
+        m_TargetAssemblyTypeName: Menus.MGameQuitButton, Menus
         m_MethodName: OnButtonClick
         m_Mode: 1
         m_Arguments:
@@ -17765,6 +17765,6 @@ MonoBehaviour:
     keys: 
     values: []
   externalBoardEventManager: {fileID: 11400000, guid: 86f94812f3450794994e8c6cb6f2dd91, type: 2}
-  delayBetweenTiles: 0.015
+  delayBetweenTiles: 0.01
   animate: 1
   menuEventManager: {fileID: 11400000, guid: 63ea8ca7484def84ab58c6a7fa3b241d, type: 2}

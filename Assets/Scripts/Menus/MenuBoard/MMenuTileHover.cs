@@ -1,5 +1,4 @@
-﻿using Codice.CM.Client.Differences;
-using Events.Board;
+﻿using Events.Board;
 using Menus.Buttons;
 using MyHexBoardSystem.UI;
 using System.Collections;

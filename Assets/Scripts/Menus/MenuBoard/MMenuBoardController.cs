@@ -6,6 +6,7 @@ using MyHexBoardSystem.BoardElements.Neuron.Runtime;
 using MyHexBoardSystem.BoardSystem;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Types.Board;
@@ -34,10 +35,23 @@ namespace Menus.MenuBoard {
         }
 
         private IEnumerator AnimateAddAllTiles() {
-            foreach (var tile in GetHexPoints().OrderByDescending(t => t.Length)) {
-                AddTile(tile);
+            var numOfAddedHexes = 0;
+            var numOfAllHexes = GetHexPoints().Length;
+            var allHexes = new LinkedList<Hex>(GetHexPoints().OrderByDescending(t => t.Length));
+            while (numOfAddedHexes < numOfAllHexes) {
+                Hex hexToAdd = allHexes.FirstOrDefault(h => Board.HasPosition(h) && Manipulator.GetNeighbours(h).Length > 0);
+                if (hexToAdd == default) {
+                    hexToAdd = allHexes.First();
+                }
+                allHexes.Remove(hexToAdd);
+                numOfAddedHexes++;
+                AddTile(hexToAdd);
                 yield return new WaitForSeconds(delayBetweenTiles);
             }
+            //foreach (var tile in GetHexPoints().OrderByDescending(t => t.Length)) {
+            //    AddTile(tile);
+            //    yield return new WaitForSeconds(delayBetweenTiles);
+            //}
             menuEventManager.Raise(MenuEvents.OnBoardAnimated, EventArgs.Empty);
         }
 
