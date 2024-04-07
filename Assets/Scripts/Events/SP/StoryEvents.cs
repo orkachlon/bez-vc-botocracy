@@ -8,7 +8,7 @@ namespace Events.SP {
 
         // manager events
         public const string OnStoryTurn = "Story_OnStoryTurn";
-        public const string OnNoMoreStoryPoints = "Story_OnNoMoreEvent";
+        public const string OnNoMoreStoryPoints = "Story_OnNoMore";
         
         // instance events
         public const string OnInitStory = "Story_OnInitStory";

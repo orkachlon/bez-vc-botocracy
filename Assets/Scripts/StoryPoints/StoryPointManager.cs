@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.EventSystem;
+using Core.EventSystem.EventBus;
 using Core.Utils;
 using Events.Board;
+using Events.EventBindings;
 using Events.SP;
 using StoryPoints.Types;
 using Types.StoryPoint;
@@ -89,6 +91,7 @@ namespace StoryPoints {
         protected virtual void DispatchNoMoreSPs() {
             MLogger.LogEditor("No more story points in queue!");
             storyEventManager.Raise(StoryEvents.OnNoMoreStoryPoints, EventArgs.Empty);
+            EventBus<OnNoMoreStoryPoints>.Raise(new OnNoMoreStoryPoints());
         }
     }
 }

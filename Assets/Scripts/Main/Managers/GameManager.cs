@@ -1,6 +1,8 @@
 ﻿using System;
 using Core.EventSystem;
+using Core.EventSystem.EventBus;
 using Events.Board;
+using Events.EventBindings;
 using Events.General;
 using Events.Neuron;
 using Events.SP;
@@ -16,6 +18,8 @@ namespace Main.Managers {
         [SerializeField] protected SEventManager neuronEventManager;
         [SerializeField] protected SEventManager storyEventManager;
         [SerializeField] protected SEventManager boardEventManager;
+
+        private EventBinding<OnNoMoreStoryPoints> noMoreStoryPointsEB;
         
         protected virtual void OnEnable() {
             // game state loop:
@@ -29,7 +33,10 @@ namespace Main.Managers {
             boardEventManager.Register(ExternalBoardEvents.OnTraitOutOfTiles, LostTraitNoTiles);
             boardEventManager.Register(ExternalBoardEvents.OnAllTraitsOutOfTiles, LostFromSP);
             neuronEventManager.Register(NeuronEvents.OnNoMoreNeurons, LoseNoNeurons);
-            storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, Win);
+            //storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, Win);
+
+            noMoreStoryPointsEB = new EventBinding<OnNoMoreStoryPoints>(Win);
+            EventBus<OnNoMoreStoryPoints>.Register(noMoreStoryPointsEB);
         }
 
         protected virtual void OnDisable() {
@@ -41,7 +48,9 @@ namespace Main.Managers {
             boardEventManager.Unregister(ExternalBoardEvents.OnTraitOutOfTiles, LostTraitNoTiles);
             boardEventManager.Unregister(ExternalBoardEvents.OnAllTraitsOutOfTiles, LostFromSP);
             neuronEventManager.Unregister(NeuronEvents.OnNoMoreNeurons, LoseNoNeurons);
-            storyEventManager.Unregister(StoryEvents.OnNoMoreStoryPoints, Win);
+            //storyEventManager.Unregister(StoryEvents.OnNoMoreStoryPoints, Win);
+
+            EventBus<OnNoMoreStoryPoints>.Unregister(noMoreStoryPointsEB);
         }
 
         #region EventHandlers
@@ -88,6 +97,10 @@ namespace Main.Managers {
 
         private void Win(EventArgs customArgs) {
             ChangeState(EGameState.Win, customArgs);
+        }
+
+        private void Win(OnNoMoreStoryPoints onNoMoreStoryPoints) {
+            ChangeState(EGameState.Win);
         }
 
         protected void PlayerTurn(EventArgs customArgs) {
