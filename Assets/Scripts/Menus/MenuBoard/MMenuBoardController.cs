@@ -9,9 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Types.Board;
 using Types.Hex.Coordinates;
-using Types.Neuron.Runtime;
 using UnityEngine;
 
 namespace Menus.MenuBoard {

@@ -10,15 +10,15 @@ namespace ExternBoardSystem.BoardSystem.Board {
     ///     A board is composed by positions that, by themselves, contain a HexCoordinate.
     ///     Positions may store the game elementData. Things like monsters, items, heroes, etc.
     /// </summary>
-    public class Board<T> : IBoard<T>  where T : IBoardElement{
+    public class Board<T> : IBoard<T>  where T : IBoardElement {
         public EOrientation Orientation { get; }
         public List<IPosition<T>> Positions { get => _positions.Values.ToList(); }
 
         private ConcurrentDictionary<Hex, IPosition<T>> _positions;
 
-        public Board(IBoardController<T> controller, EOrientation orientation) {
+        public Board(Hex[] hexes, EOrientation orientation) {
             Orientation = orientation;
-            GeneratePositions(controller);
+            GeneratePositions(hexes);
         }
 
         // public Board(IBoard<T> other) {
@@ -47,10 +47,9 @@ namespace ExternBoardSystem.BoardSystem.Board {
             _positions[hex] = new Position<T>(hex);
         }
 
-        private void GeneratePositions(IBoardController<T> hexProvider) {
-            var points = hexProvider.GetHexPoints();
+        private void GeneratePositions(Hex[] hexes) {
             _positions = new ConcurrentDictionary<Hex, IPosition<T>>();
-            foreach (var hex in points) {
+            foreach (var hex in hexes) {
                 _positions[hex] = new Position<T>(hex);
             }
 

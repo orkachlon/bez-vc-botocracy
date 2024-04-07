@@ -169,10 +169,9 @@ namespace MyHexBoardSystem.BoardSystem {
         #endregion
 
         protected Tilemap GetTilemap(string layer) {
-            if (tilemapLayers != null && tilemapLayers.ContainsKey(layer) && tilemapLayers[layer] != null) {
+            if (tilemapLayers != null && tilemapLayers.ContainsKey(layer)) {
                 return tilemapLayers[layer];
             }
-
             return null;
         }
     }

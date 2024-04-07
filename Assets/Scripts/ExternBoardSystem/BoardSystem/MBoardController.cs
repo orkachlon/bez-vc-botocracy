@@ -61,8 +61,10 @@ namespace ExternBoardSystem.BoardSystem {
         }
 
         private void CreateBoard() {
-            Board = new Board<T>(this,
-                tilemapLayers[BaseTilemapLayer].orientation == Tilemap.Orientation.XY ? EOrientation.PointyTop : EOrientation.FlatTop);
+            Board = new Board<T>(GetHexPoints(),
+                tilemapLayers[BaseTilemapLayer].orientation == Tilemap.Orientation.XY 
+                ? EOrientation.PointyTop 
+                : EOrientation.FlatTop);
             Manipulator = new BoardManipulationOddR<T>(Board);
         }
 
