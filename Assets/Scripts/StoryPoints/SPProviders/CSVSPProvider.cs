@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using StoryPoints.Interfaces;
 using Types.StoryPoint;
 using Types.Trait;
+using StoryPoints.Types;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -43,7 +44,7 @@ namespace StoryPoints.SPProviders {
         #endregion
 
         [CanBeNull]
-        public virtual StoryPointData? Next() {
+        public virtual IStoryPointData Next() {
             // check that 
             if (_allSPs.Count <= 0) {
                 throw new IndexOutOfRangeException("No more events in queue!");
@@ -160,16 +161,16 @@ namespace StoryPoints.SPProviders {
 
         private TraitDecisionEffects GetDeciderEffects(IReadOnlyDictionary<string, object> entry) {
             var effects = new TraitDecisionEffects {
-                OutcomeID = (int) entry[Header.OutcomeID],
-                Outcome = (string) entry[Header.Outcomes],
-                BoardEffect = new Dictionary<ETrait, int>()
+                outcomeID = (int) entry[Header.OutcomeID],
+                outcome = (string) entry[Header.Outcomes],
+                boardEffect = new Dictionary<ETrait, int>()
             };
             foreach (var trait in EnumUtil.GetValues<ETrait>()) {
                 if (!entry.ContainsKey(trait.ToString())) {
                     return null;
                 }
 
-                effects.BoardEffect[trait] = (int) entry[trait.ToString()];
+                effects.boardEffect[trait] = (int) entry[trait.ToString()];
             }
 
             return effects;

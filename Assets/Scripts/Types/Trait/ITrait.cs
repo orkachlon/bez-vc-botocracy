@@ -1,6 +1,5 @@
 ﻿namespace Types.Trait {
     public interface ITrait {
-
         public string GetName();
         public int Sum();
     }

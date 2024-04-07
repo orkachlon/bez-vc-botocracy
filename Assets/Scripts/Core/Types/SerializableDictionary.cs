@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Types.Trait;
 using UnityEngine;
 
-namespace Types.Utils {
+namespace Core.Types {
     [Serializable, DebuggerDisplay("Count = {Count}")]
     public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.EventSystem;
@@ -26,7 +27,7 @@ namespace MyHexBoardSystem.UI {
 
         protected Color _baseColor;
         protected IBoardNeuronsController _neuronController;
-        private DecidingTraits _currentDecidingTraits;
+        private IDictionary<ETrait, ITraitDecisionEffects> _currentDecidingTraits;
         private bool _isHidden;
 
         protected virtual void Awake() {

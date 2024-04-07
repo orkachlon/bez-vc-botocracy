@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using StoryPoints.Types;
 using Types.StoryPoint;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ namespace StoryPoints.SPProviders {
             }
         }
 
-        public StoryPointData? Next() {
+        public IStoryPointData Next() {
             return ReadStoryPointFromJson();
         }
 

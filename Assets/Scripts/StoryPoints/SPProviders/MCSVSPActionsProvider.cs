@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Core.Utils;
-using Types.StoryPoint;
+using StoryPoints.Types;
 using Types.Trait;
 
 namespace StoryPoints.SPProviders {
@@ -10,17 +9,17 @@ namespace StoryPoints.SPProviders {
         
         protected override TraitDecisionEffects GetTraitDecisionEffects(IReadOnlyDictionary<string, object> entry) {
             var deciderEffects = new TraitDecisionEffects {
-                Decision = (string) entry[((CSVHeaderWithActions) Header).Actions],
-                OutcomeID = (int) entry[Header.OutcomeID],
-                Outcome = (string) entry[Header.Outcomes],
-                OutcomeModification = (string) entry[((CSVHeaderWithActions) Header).OutcomeModifications],
-                BoardEffect = new Dictionary<ETrait, int>()
+                decision = (string) entry[((CSVHeaderWithActions) Header).Actions],
+                outcomeID = (int) entry[Header.OutcomeID],
+                outcome = (string) entry[Header.Outcomes],
+                outcomeModification = (string) entry[((CSVHeaderWithActions) Header).OutcomeModifications],
+                boardEffect = new Dictionary<ETrait, int>()
             };
             EnumUtil.GetValues<ETrait>()
                 .ToList()
                 .ForEach(t =>
-                    deciderEffects.BoardEffect.Add(t, (int) entry[t.ToString()]));
-            deciderEffects.DecidingTrait = EnumUtil.GetValues<ETrait>()
+                    deciderEffects.boardEffect.Add(t, (int) entry[t.ToString()]));
+            deciderEffects.decidingTrait = EnumUtil.GetValues<ETrait>()
                 .First(t => t.ToString().Equals(entry[Header.DecidingTraits]));
             return deciderEffects;
         }

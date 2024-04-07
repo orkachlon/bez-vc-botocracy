@@ -28,11 +28,11 @@ namespace Tutorial.Managers {
 
         public void InitTutorialSP() {
             var sp = SPProvider.Next();
-            if (!sp.HasValue) {
+            if (sp == null) {
                 DispatchNoMoreSPs();
                 return;
             }
-            InitNewSP(sp.Value);
+            InitNewSP(sp);
             HideTutorialSP(true);
         }
 

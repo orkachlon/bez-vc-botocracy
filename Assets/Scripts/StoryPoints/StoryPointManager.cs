@@ -5,6 +5,7 @@ using Core.EventSystem;
 using Core.Utils;
 using Events.Board;
 using Events.SP;
+using StoryPoints.Types;
 using Types.StoryPoint;
 using UnityEngine;
 
@@ -70,17 +71,17 @@ namespace StoryPoints {
             }
 
             var storyPointData = SPProvider.Next();
-            if (!storyPointData.HasValue) {
+            if (storyPointData == null) {
                 DispatchNoMoreSPs();
                 return;
             }
 
             CurrentStory?.Destroy();
-            InitNewSP(storyPointData.Value);
+            InitNewSP(storyPointData);
             await CurrentStory.AwaitInitAnimation();
         }
 
-        protected void InitNewSP(StoryPointData storyPointData) {
+        protected void InitNewSP(IStoryPointData storyPointData) {
             CurrentStory = Instantiate(storyPointPrefab, Vector3.zero, Quaternion.identity, transform);
             CurrentStory.InitData(storyPointData);
         }

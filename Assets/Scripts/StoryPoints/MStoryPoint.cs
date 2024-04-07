@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.EventSystem;
@@ -10,6 +11,7 @@ using StoryPoints.Interfaces;
 using Types.Board;
 using Types.GameState;
 using Types.StoryPoint;
+using Types.Trait;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,19 +23,19 @@ namespace StoryPoints {
         [SerializeField] protected SEventManager boardEventManager;
         [SerializeField] protected SEventManager gmEventManager;
 
-        public int Id => _spData.id;
-        public string Title => _spData.title;
-        public string Description => _spData.description;
+        public int Id => _spData.Id;
+        public string Title => _spData.Title;
+        public string Description => _spData.Description;
         public int TurnsToEvaluation { get; private set; }
-        public int Reward => _spData.reward;
-        public DecidingTraits DecidingTraits => _spData.decidingTraits;
-        public Sprite Artwork => _spData.image;
-        public TraitDecisionEffects DecisionEffects { get; private set; }
+        public int Reward => _spData.Reward;
+        public IDictionary<ETrait, ITraitDecisionEffects> DecidingTraits => _spData.DecidingTraits;
+        public Sprite Artwork => _spData.Image;
+        public ITraitDecisionEffects DecisionEffects { get; private set; }
         public bool Evaluated { get; private set; } = false;
 
         
         protected IUIStoryPoint UISP;
-        private StoryPointData _spData;
+        private IStoryPointData _spData;
         private IBoardNeuronsController _neuronsController;
 
         #region UnityMethods
@@ -78,10 +80,10 @@ namespace StoryPoints {
 
         #endregion
 
-        public void InitData(StoryPointData spData) {
+        public void InitData(IStoryPointData spData) {
             // set data
             _spData = spData;
-            TurnsToEvaluation = spData.turnsToEvaluation;
+            TurnsToEvaluation = spData.TurnsToEvaluation;
             
             UISP.InitSPUI();
             // notify

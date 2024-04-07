@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Core.Utils;
-using Types.StoryPoint;
+using StoryPoints.Types;
 using Types.Trait;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -82,16 +82,16 @@ namespace StoryPoints.SPProviders {
 
         protected virtual TraitDecisionEffects GetTraitDecisionEffects(IReadOnlyDictionary<string, object> entry) {
             var deciderEffects = new TraitDecisionEffects {
-                Decision = (string) entry[((CSVHeaderWithActions) Header).Actions],
-                OutcomeID = (int) entry[Header.OutcomeID],
-                Outcome = (string) entry[Header.Outcomes],
-                BoardEffect = new Dictionary<ETrait, int>()
+                decision = (string) entry[((CSVHeaderWithActions) Header).Actions],
+                outcomeID = (int) entry[Header.OutcomeID],
+                outcome = (string) entry[Header.Outcomes],
+                boardEffect = new Dictionary<ETrait, int>()
             };
             EnumUtil.GetValues<ETrait>()
                 .ToList()
                 .ForEach(t =>
-                    deciderEffects.BoardEffect.Add(t, Random.Range(-1, 2)));
-            deciderEffects.DecidingTrait = EnumUtil.GetValues<ETrait>()
+                    deciderEffects.boardEffect.Add(t, Random.Range(-1, 2)));
+            deciderEffects.decidingTrait = EnumUtil.GetValues<ETrait>()
                 .First(t => t.ToString().Equals(entry[Header.DecidingTraits]));
             return deciderEffects;
         }

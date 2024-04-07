@@ -6,6 +6,7 @@ using Core.EventSystem;
 using DG.Tweening;
 using Events.SP;
 using Events.UI;
+using StoryPoints.Types;
 using Types.StoryPoint;
 using Types.UI;
 using UnityEngine;
