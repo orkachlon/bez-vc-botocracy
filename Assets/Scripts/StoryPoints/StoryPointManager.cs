@@ -5,9 +5,7 @@ using Core.EventSystem;
 using Core.EventSystem.EventBus;
 using Core.Utils;
 using Events.Board;
-using Events.EventBindings;
 using Events.SP;
-using StoryPoints.Types;
 using Types.StoryPoint;
 using UnityEngine;
 
@@ -60,7 +58,7 @@ namespace StoryPoints {
             if (CurrentStory == null || CurrentStory.Evaluated) {
                 await NextStoryPoint();
             }
-            storyEventManager.Raise(StoryEvents.OnStoryTurn, EventArgs.Empty);
+            EventBus<OnStoryTurn>.Raise(new OnStoryTurn());
         }
 
         protected virtual async Task NextStoryPoint() {
@@ -90,7 +88,7 @@ namespace StoryPoints {
 
         protected virtual void DispatchNoMoreSPs() {
             MLogger.LogEditor("No more story points in queue!");
-            storyEventManager.Raise(StoryEvents.OnNoMoreStoryPoints, EventArgs.Empty);
+            //storyEventManager.Raise(StoryEvents.OnNoMoreStoryPoints, EventArgs.Empty);
             EventBus<OnNoMoreStoryPoints>.Raise(new OnNoMoreStoryPoints());
         }
     }

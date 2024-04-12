@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.EventSystem;
+using Core.EventSystem.EventBus;
 using Core.Utils;
 using Events.Board;
 using Events.General;
@@ -88,6 +89,7 @@ namespace StoryPoints {
             UISP.InitSPUI();
             // notify
             storyEventManager.Raise(StoryEvents.OnInitStory, new StoryEventArgs(this));
+            EventBus<OnInitStory>.Raise(new OnInitStory() { story = this });
         }
 
         public async Task AwaitInitAnimation() {

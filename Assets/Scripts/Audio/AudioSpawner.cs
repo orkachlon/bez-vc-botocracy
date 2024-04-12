@@ -1,24 +1,14 @@
 ﻿using System.Collections;
 using Core.Tools.Pooling;
 using Core.Utils;
+using Core.Utils.Singleton;
 using Types.Audio;
 using UnityEngine;
 
 namespace Audio {
-    public class AudioSpawner : MonoBehaviour {
+    public class AudioSpawner : MSingleton<AudioSpawner> {
 
         [Header("Defaults"), SerializeField] private MGenericAudioSource defaultAudioSourcePrefab;
-
-        public static AudioSpawner Instance { get; private set; }
-
-        private void Awake() {
-            if (Instance != null && Instance != this) {
-                Destroy(gameObject);
-            }
-            else {
-                Instance = this;
-            }
-        }
 
         public static void PoolSound(AudioClip clip) {
             var source = MObjectPooler.Instance.GetPoolable(Instance.defaultAudioSourcePrefab);

@@ -2,7 +2,6 @@
 using Core.EventSystem;
 using Core.EventSystem.EventBus;
 using Events.Board;
-using Events.EventBindings;
 using Events.General;
 using Events.Neuron;
 using Events.SP;
@@ -19,38 +18,38 @@ namespace Main.Managers {
         [SerializeField] protected SEventManager storyEventManager;
         [SerializeField] protected SEventManager boardEventManager;
 
-        private EventBinding<OnNoMoreStoryPoints> noMoreStoryPointsEB;
-        
+        private EventBinding<OnNoMoreStoryPoints> onNoMoreStoryPointsEB;
+        protected EventBinding<OnStoryTurn> onStoryTurnEB;
+
         protected virtual void OnEnable() {
             // game state loop:
             // initGrid > playerTurn > eventTurn( > evaluation > outcome) > statTurn > playerTurn ...
             gmEventManager.Register(GameManagerEvents.OnGameLoopStart, PlayerTurn);
             boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, StoryTurn);
-            storyEventManager.Register(StoryEvents.OnStoryTurn, PlayerTurn);
+            onStoryTurnEB = new EventBinding<OnStoryTurn>(PlayerTurn);
+            EventBus<OnStoryTurn>.Register(onStoryTurnEB);
             
             // end of game
             boardEventManager.Register(ExternalBoardEvents.OnBoardFull, LoseBoardFull);
             boardEventManager.Register(ExternalBoardEvents.OnTraitOutOfTiles, LostTraitNoTiles);
             boardEventManager.Register(ExternalBoardEvents.OnAllTraitsOutOfTiles, LostFromSP);
             neuronEventManager.Register(NeuronEvents.OnNoMoreNeurons, LoseNoNeurons);
-            //storyEventManager.Register(StoryEvents.OnNoMoreStoryPoints, Win);
 
-            noMoreStoryPointsEB = new EventBinding<OnNoMoreStoryPoints>(Win);
-            EventBus<OnNoMoreStoryPoints>.Register(noMoreStoryPointsEB);
+            onNoMoreStoryPointsEB = new EventBinding<OnNoMoreStoryPoints>(Win);
+            EventBus<OnNoMoreStoryPoints>.Register(onNoMoreStoryPointsEB);
         }
 
         protected virtual void OnDisable() {
             gmEventManager.Unregister(GameManagerEvents.OnGameLoopStart, PlayerTurn);
             boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, StoryTurn);
-            storyEventManager.Unregister(StoryEvents.OnStoryTurn, PlayerTurn);
+            EventBus<OnStoryTurn>.Unregister(onStoryTurnEB);
             
             boardEventManager.Unregister(ExternalBoardEvents.OnBoardFull, LoseBoardFull);
             boardEventManager.Unregister(ExternalBoardEvents.OnTraitOutOfTiles, LostTraitNoTiles);
             boardEventManager.Unregister(ExternalBoardEvents.OnAllTraitsOutOfTiles, LostFromSP);
             neuronEventManager.Unregister(NeuronEvents.OnNoMoreNeurons, LoseNoNeurons);
-            //storyEventManager.Unregister(StoryEvents.OnNoMoreStoryPoints, Win);
 
-            EventBus<OnNoMoreStoryPoints>.Unregister(noMoreStoryPointsEB);
+            EventBus<OnNoMoreStoryPoints>.Unregister(onNoMoreStoryPointsEB);
         }
 
         #region EventHandlers
@@ -108,6 +107,13 @@ namespace Main.Managers {
                 return;
             }
             ChangeState(EGameState.PlayerTurn, customArgs);
+        }
+
+        protected void PlayerTurn() {
+            if (_currentState is EGameState.Win or EGameState.Lose) {
+                return;
+            }
+            ChangeState(EGameState.PlayerTurn);
         }
 
         protected void StoryTurn(EventArgs customArgs) {

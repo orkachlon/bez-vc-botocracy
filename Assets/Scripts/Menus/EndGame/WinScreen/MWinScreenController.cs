@@ -5,7 +5,6 @@ using Events.General;
 using TMPro;
 using Types.GameState;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Menus.EndGame.WinScreen {

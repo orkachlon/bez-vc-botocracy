@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace Core.Utils.Events {
-    internal class EventBusUtil {
+    public static class EventBusUtil {
         public static IReadOnlyList<Type> EventTypes { get; set; }
         public static IReadOnlyList<Type> EventBusTypes { get; set; }
 
@@ -60,6 +60,7 @@ namespace Core.Utils.Events {
                 clearMethod?.Invoke(null, null);
             }
         }
+
         private static List<Type> InitializeAllBuses() {
             List<Type> eventBusTypes = new();
 

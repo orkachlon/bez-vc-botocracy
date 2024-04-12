@@ -1,4 +1,6 @@
-﻿using Events.Board;
+﻿using Core.EventSystem.EventBus;
+using Core.Types.EventChannels;
+using Events.Board;
 using Events.General;
 using Events.SP;
 using Main.Managers;
@@ -8,16 +10,22 @@ using UnityEngine;
 namespace Assets.Scripts.Tutorial.Managers {
     public class TutorialGameManager : GameManager {
 
+        [SerializeField] private SSPEventChannel _spEventChannel;
+
         protected override void OnEnable() {
             gmEventManager.Register(GameManagerEvents.OnGameLoopStart, PlayerTurn);
             boardEventManager.Register(ExternalBoardEvents.OnAllNeuronsDone, StoryTurn);
-            storyEventManager.Register(StoryEvents.OnStoryTurn, PlayerTurn);
+            //storyEventManager.Register(StoryEvents.OnStoryTurn, PlayerTurn);
+            onStoryTurnEB = new EventBinding<OnStoryTurn>(PlayerTurn);
+            EventBus<OnStoryTurn>.Register(onStoryTurnEB);
+            //_spEventChannel.Register()
         }
 
         protected override void OnDisable() {
             gmEventManager.Unregister(GameManagerEvents.OnGameLoopStart, PlayerTurn);
             boardEventManager.Unregister(ExternalBoardEvents.OnAllNeuronsDone, StoryTurn);
-            storyEventManager.Unregister(StoryEvents.OnStoryTurn, PlayerTurn);
+            //storyEventManager.Unregister(StoryEvents.OnStoryTurn, PlayerTurn);
+            EventBus<OnStoryTurn>.Unregister(onStoryTurnEB);
         }
     }
 }
